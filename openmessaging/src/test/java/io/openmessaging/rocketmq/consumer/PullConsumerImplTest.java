@@ -27,17 +27,18 @@ import io.openmessaging.rocketmq.domain.NonStandardKeys;
 import java.lang.reflect.Field;
 import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class PullConsumerImplTest {
     private PullConsumer consumer;
     private String queueName = "HELLO_QUEUE";
@@ -46,7 +47,7 @@ public class PullConsumerImplTest {
     private DefaultMQPullConsumer rocketmqPullConsumer;
     private LocalMessageCache localMessageCache = null;
 
-    @Before
+    @BeforeEach
     public void init() throws NoSuchFieldException, IllegalAccessException {
         final MessagingAccessPoint messagingAccessPoint = OMS
             .getMessagingAccessPoint("oms:rocketmq://IP1:9876,IP2:9876/namespace");
@@ -82,17 +83,17 @@ public class PullConsumerImplTest {
         when(localMessageCache.poll()).thenReturn(consumedMsg);
 
         Message message = consumer.receive();
-        assertThat(message.sysHeaders().getString(Message.BuiltinKeys.MESSAGE_ID)).isEqualTo("NewMsgId");
-        assertThat(((BytesMessage) message).getBody(byte[].class)).isEqualTo(testBody);
+        Assertions.assertEquals(message.sysHeaders().getString(Message.BuiltinKeys.MESSAGE_ID),"NewMsgId");
+        Assertions.assertEquals(((BytesMessage) message).getBody(byte[].class),testBody);
     }
 
     @Test
     public void testPoll_WithTimeout() {
         //There is a default timeout value, @see ClientConfig#omsOperationTimeout.
         Message message = consumer.receive();
-        assertThat(message).isNull();
+        Assertions.assertNull(message);
 
         message = consumer.receive(OMS.newKeyValue().put(Message.BuiltinKeys.TIMEOUT, 100));
-        assertThat(message).isNull();
+        Assertions.assertNull(message);
     }
 }

@@ -20,14 +20,14 @@ package org.apache.rocketmq.namesrv.routeinfo;
 import org.apache.rocketmq.common.namesrv.NamesrvConfig;
 import org.apache.rocketmq.namesrv.NamesrvController;
 import org.apache.rocketmq.remoting.netty.NettyServerConfig;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class BrokerHousekeepingServiceTest {
     private static BrokerHousekeepingService brokerHousekeepingService;
 
-    @BeforeClass
+    @BeforeEach
     public static void setup() {
         NamesrvController namesrvController = new NamesrvController(
             new NamesrvConfig(),
@@ -36,7 +36,7 @@ public class BrokerHousekeepingServiceTest {
         brokerHousekeepingService = new BrokerHousekeepingService(namesrvController);
     }
 
-    @AfterClass
+    @AfterEach
     public static void terminate() {
 
     }

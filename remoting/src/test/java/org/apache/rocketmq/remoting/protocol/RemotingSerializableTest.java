@@ -18,9 +18,10 @@ package org.apache.rocketmq.remoting.protocol;
 
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class RemotingSerializableTest {
     @Test
@@ -30,7 +31,7 @@ public class RemotingSerializableTest {
         byte[] bytes = RemotingSerializable.encode(sample);
         Sample decodedSample = RemotingSerializable.decode(bytes, Sample.class);
 
-        assertThat(decodedSample).isEqualTo(sample);
+        Assertions.assertEquals(decodedSample,sample);
     }
 
     @Test
@@ -49,7 +50,7 @@ public class RemotingSerializableTest {
 
         String string = serializable.toJson();
 
-        assertThat(string).isEqualTo("{\"stringList\":[\"a\",\"o\",\"e\",\"i\",\"u\",\"v\"]}");
+        Assertions.assertEquals(string,"{\"stringList\":[\"a\",\"o\",\"e\",\"i\",\"u\",\"v\"]}");
     }
 
     @Test
@@ -68,7 +69,7 @@ public class RemotingSerializableTest {
 
         String prettyString = serializable.toJson(true);
 
-        assertThat(prettyString).isEqualTo("{\n" +
+        Assertions.assertEquals(prettyString,"{\n" +
             "\t\"stringList\":[\n" +
             "\t\t\"a\",\n" +
             "\t\t\"o\",\n" +

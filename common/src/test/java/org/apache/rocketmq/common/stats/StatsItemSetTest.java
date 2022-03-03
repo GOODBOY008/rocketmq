@@ -26,10 +26,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAdder;
 
 import org.apache.rocketmq.common.ThreadFactoryImpl;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
 
 public class StatsItemSetTest {
 
@@ -38,12 +38,12 @@ public class StatsItemSetTest {
 
     @Test
     public void test_getAndCreateStatsItem_multiThread() throws InterruptedException {
-        assertEquals(20L, test_unit().longValue());
+        Assertions.assertEquals(20L, test_unit().longValue());
     }
 
     @Test
     public void test_getAndCreateMomentStatsItem_multiThread() throws InterruptedException {
-        assertEquals(10, test_unit_moment().longValue());
+        Assertions.assertEquals(10, test_unit_moment().longValue());
     }
 
     @Test
@@ -74,12 +74,12 @@ public class StatsItemSetTest {
             statsItemSet.getStatsItem(tpsStatKey).samplingInMinutes();
             statsItemSet.getStatsItem(tpsStatKey).samplingInHour();
 
-            assertEquals(20L, statsItemSet.getStatsDataInMinute(tpsStatKey).getSum());
-            assertEquals(20L, statsItemSet.getStatsDataInHour(tpsStatKey).getSum());
-            assertEquals(20L, statsItemSet.getStatsDataInDay(tpsStatKey).getSum());
-            assertEquals(10L, statsItemSet.getStatsDataInDay(tpsStatKey).getTimes());
-            assertEquals(10L, statsItemSet.getStatsDataInHour(tpsStatKey).getTimes());
-            assertEquals(10L, statsItemSet.getStatsDataInDay(tpsStatKey).getTimes());
+            Assertions.assertEquals(20L, statsItemSet.getStatsDataInMinute(tpsStatKey).getSum());
+            Assertions.assertEquals(20L, statsItemSet.getStatsDataInHour(tpsStatKey).getSum());
+            Assertions.assertEquals(20L, statsItemSet.getStatsDataInDay(tpsStatKey).getSum());
+            Assertions.assertEquals(10L, statsItemSet.getStatsDataInDay(tpsStatKey).getTimes());
+            Assertions.assertEquals(10L, statsItemSet.getStatsDataInHour(tpsStatKey).getTimes());
+            Assertions.assertEquals(10L, statsItemSet.getStatsDataInDay(tpsStatKey).getTimes());
         }
 
         // simulate schedule task execution , rt stat
@@ -88,12 +88,12 @@ public class StatsItemSetTest {
             statsItemSet.getStatsItem(rtStatKey).samplingInMinutes();
             statsItemSet.getStatsItem(rtStatKey).samplingInHour();
 
-            assertEquals(20L, statsItemSet.getStatsDataInMinute(rtStatKey).getSum());
-            assertEquals(20L, statsItemSet.getStatsDataInHour(rtStatKey).getSum());
-            assertEquals(20L, statsItemSet.getStatsDataInDay(rtStatKey).getSum());
-            assertEquals(10L, statsItemSet.getStatsDataInDay(rtStatKey).getTimes());
-            assertEquals(10L, statsItemSet.getStatsDataInHour(rtStatKey).getTimes());
-            assertEquals(10L, statsItemSet.getStatsDataInDay(rtStatKey).getTimes());
+            Assertions.assertEquals(20L, statsItemSet.getStatsDataInMinute(rtStatKey).getSum());
+            Assertions.assertEquals(20L, statsItemSet.getStatsDataInHour(rtStatKey).getSum());
+            Assertions.assertEquals(20L, statsItemSet.getStatsDataInDay(rtStatKey).getSum());
+            Assertions.assertEquals(10L, statsItemSet.getStatsDataInDay(rtStatKey).getTimes());
+            Assertions.assertEquals(10L, statsItemSet.getStatsDataInHour(rtStatKey).getTimes());
+            Assertions.assertEquals(10L, statsItemSet.getStatsDataInDay(rtStatKey).getTimes());
         }
     }
 
@@ -139,7 +139,7 @@ public class StatsItemSetTest {
         return statsItemSet.getAndCreateStatsItem("test").getValue();
     }
 
-    @After
+    @AfterEach
     public void shutdown() {
         executor.shutdown();
     }

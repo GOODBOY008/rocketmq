@@ -23,19 +23,19 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.Assertions.within;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
 
 public class UtilAllTest {
 
     @Test
     public void testCurrentStackTrace() {
         String currentStackTrace = UtilAll.currentStackTrace();
-        assertThat(currentStackTrace).contains("UtilAll.currentStackTrace");
-        assertThat(currentStackTrace).contains("UtilAllTest.testCurrentStackTrace(");
+        Assertions.assertEquals(currentStackTrace).contains("UtilAll.currentStackTrace");
+        Assertions.assertEquals(currentStackTrace).contains("UtilAllTest.testCurrentStackTrace(");
     }
 
     @Test
@@ -47,10 +47,10 @@ public class UtilAllTest {
         properties.setProperty("demoOK", "true");
         properties.setProperty("demoName", "TestDemo");
         MixAll.properties2Object(properties, demoConfig);
-        assertThat(demoConfig.getDemoLength()).isEqualTo(456);
-        assertThat(demoConfig.getDemoWidth()).isEqualTo(123);
-        assertThat(demoConfig.isDemoOK()).isTrue();
-        assertThat(demoConfig.getDemoName()).isEqualTo("TestDemo");
+        Assertions.assertEquals(demoConfig.getDemoLength(),456);
+        Assertions.assertEquals(demoConfig.getDemoWidth(),123);
+        Assertions.assertTrue(demoConfig.isDemoOK());
+        Assertions.assertEquals(demoConfig.getDemoName(),"TestDemo");
     }
 
     @Test
@@ -61,10 +61,10 @@ public class UtilAllTest {
         demoConfig.setDemoName("TestDemo");
         demoConfig.setDemoOK(true);
         Properties properties = MixAll.object2Properties(demoConfig);
-        assertThat(properties.getProperty("demoLength")).isEqualTo("123");
-        assertThat(properties.getProperty("demoWidth")).isEqualTo("456");
-        assertThat(properties.getProperty("demoOK")).isEqualTo("true");
-        assertThat(properties.getProperty("demoName")).isEqualTo("TestDemo");
+        Assertions.assertEquals(properties.getProperty("demoLength"),"123");
+        Assertions.assertEquals(properties.getProperty("demoWidth"),"456");
+        Assertions.assertEquals(properties.getProperty("demoOK"),"true");
+        Assertions.assertEquals(properties.getProperty("demoName"),"TestDemo");
     }
 
     @Test
@@ -77,49 +77,49 @@ public class UtilAllTest {
         p2.setProperty("a", "1");
         p2.setProperty("b", "2");
 
-        assertThat(MixAll.isPropertiesEqual(p1, p2)).isTrue();
+        Assertions.assertTrue(MixAll.isPropertiesEqual(p1, p2));
     }
 
     @Test
     public void testGetPid() {
-        assertThat(UtilAll.getPid()).isGreaterThan(0);
+        Assertions.assertEquals(UtilAll.getPid()).isGreaterThan(0);
     }
 
     @Test
     public void testGetDiskPartitionSpaceUsedPercent() {
         String tmpDir = System.getProperty("java.io.tmpdir");
 
-        assertThat(UtilAll.getDiskPartitionSpaceUsedPercent(null)).isCloseTo(-1, within(0.000001));
-        assertThat(UtilAll.getDiskPartitionSpaceUsedPercent("")).isCloseTo(-1, within(0.000001));
-        assertThat(UtilAll.getDiskPartitionSpaceUsedPercent("nonExistingPath")).isCloseTo(-1, within(0.000001));
-        assertThat(UtilAll.getDiskPartitionSpaceUsedPercent(tmpDir)).isNotCloseTo(-1, within(0.000001));
+        Assertions.assertEquals(UtilAll.getDiskPartitionSpaceUsedPercent(null)).isCloseTo(-1, within(0.000001));
+        Assertions.assertEquals(UtilAll.getDiskPartitionSpaceUsedPercent("")).isCloseTo(-1, within(0.000001));
+        Assertions.assertEquals(UtilAll.getDiskPartitionSpaceUsedPercent("nonExistingPath")).isCloseTo(-1, within(0.000001));
+        Assertions.assertEquals(UtilAll.getDiskPartitionSpaceUsedPercent(tmpDir)).isNotCloseTo(-1, within(0.000001));
     }
 
     @Test
     public void testIsBlank() {
-        assertThat(UtilAll.isBlank("Hello ")).isFalse();
-        assertThat(UtilAll.isBlank(" Hello")).isFalse();
-        assertThat(UtilAll.isBlank("He llo")).isFalse();
-        assertThat(UtilAll.isBlank("  ")).isTrue();
-        assertThat(UtilAll.isBlank("Hello")).isFalse();
+        Assertions.assertFalse(UtilAll.isBlank("Hello "));
+        Assertions.assertFalse(UtilAll.isBlank(" Hello"));
+        Assertions.assertFalse(UtilAll.isBlank("He llo"));
+        Assertions.assertTrue(UtilAll.isBlank("  "));
+        Assertions.assertFalse(UtilAll.isBlank("Hello"));
     }
 
     @Test
     public void testIPv6Check() throws UnknownHostException {
         InetAddress nonInternal = InetAddress.getByName("2408:4004:0180:8100:3FAA:1DDE:2B3F:898A");
         InetAddress internal = InetAddress.getByName("FE80:0000:0000:0000:0000:0000:0000:FFFF");
-        assertThat(UtilAll.isInternalV6IP(nonInternal)).isFalse();
-        assertThat(UtilAll.isInternalV6IP(internal)).isTrue();
-        assertThat(UtilAll.ipToIPv6Str(nonInternal.getAddress()).toUpperCase()).isEqualTo("2408:4004:0180:8100:3FAA:1DDE:2B3F:898A");
+        Assertions.assertFalse(UtilAll.isInternalV6IP(nonInternal));
+        Assertions.assertTrue(UtilAll.isInternalV6IP(internal));
+        Assertions.assertEquals(UtilAll.ipToIPv6Str(nonInternal.getAddress()).toUpperCase(),"2408:4004:0180:8100:3FAA:1DDE:2B3F:898A");
     }
 
     @Test
     public void testJoin() {
         List<String> list = Arrays.asList("groupA=DENY", "groupB=PUB|SUB", "groupC=SUB");
         String comma = ",";
-        assertEquals("groupA=DENY,groupB=PUB|SUB,groupC=SUB", UtilAll.join(list, comma));
-        assertEquals(null, UtilAll.join(null, comma));
-        assertEquals("", UtilAll.join(Collections.emptyList(), comma));
+        Assertions.assertEquals("groupA=DENY,groupB=PUB|SUB,groupC=SUB", UtilAll.join(list, comma));
+        Assertions.assertEquals(null, UtilAll.join(null, comma));
+        Assertions.assertEquals("", UtilAll.join(Collections.emptyList(), comma));
     }
 
     static class DemoConfig {

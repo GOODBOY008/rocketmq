@@ -18,7 +18,7 @@ package org.apache.rocketmq.client.consumer.rebalance;
 
 import junit.framework.TestCase;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class AllocateMessageQueueAveragelyTest extends TestCase {
             List<MessageQueue> result = new AllocateMessageQueueAveragely().allocate("", consumerIdList.get(i), messageQueueList, consumerIdList);
             results[i] = result.size();
         }
-        Assert.assertArrayEquals(new int[]{3, 3, 2, 2}, results);
+        Assertions.assertArrayEquals(new int[]{3, 3, 2, 2}, results);
     }
 
     private List<String> createConsumerIdList(int size) {

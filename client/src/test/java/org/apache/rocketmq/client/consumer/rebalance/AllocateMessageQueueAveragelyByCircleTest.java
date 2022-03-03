@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class AllocateMessageQueueAveragelyByCircleTest extends TestCase {
 
@@ -31,7 +31,7 @@ public class AllocateMessageQueueAveragelyByCircleTest extends TestCase {
         List<MessageQueue> messageQueueList = createMessageQueueList(10);
         // the consumerId not in cidAll
         List<MessageQueue> allocateQueues = new AllocateMessageQueueAveragelyByCircle().allocate("", "CID_PREFIX", messageQueueList, consumerIdList);
-        Assert.assertEquals(0, allocateQueues.size());
+        Assertions.assertEquals(0, allocateQueues.size());
 
         Map<String, int[]> consumerAllocateQueue = new HashMap<String, int[]>(consumerIdList.size());
         for (String consumerId : consumerIdList) {
@@ -42,10 +42,10 @@ public class AllocateMessageQueueAveragelyByCircleTest extends TestCase {
             }
             consumerAllocateQueue.put(consumerId, queueIds);
         }
-        Assert.assertArrayEquals(new int[] {0, 4, 8}, consumerAllocateQueue.get("CID_PREFIX0"));
-        Assert.assertArrayEquals(new int[] {1, 5, 9}, consumerAllocateQueue.get("CID_PREFIX1"));
-        Assert.assertArrayEquals(new int[] {2, 6}, consumerAllocateQueue.get("CID_PREFIX2"));
-        Assert.assertArrayEquals(new int[] {3, 7}, consumerAllocateQueue.get("CID_PREFIX3"));
+        Assertions.assertArrayEquals(new int[] {0, 4, 8}, consumerAllocateQueue.get("CID_PREFIX0"));
+        Assertions.assertArrayEquals(new int[] {1, 5, 9}, consumerAllocateQueue.get("CID_PREFIX1"));
+        Assertions.assertArrayEquals(new int[] {2, 6}, consumerAllocateQueue.get("CID_PREFIX2"));
+        Assertions.assertArrayEquals(new int[] {3, 7}, consumerAllocateQueue.get("CID_PREFIX3"));
     }
 
     private List<String> createConsumerIdList(int size) {

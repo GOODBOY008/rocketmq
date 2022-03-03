@@ -20,7 +20,7 @@ import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageDecoder;
 import org.apache.rocketmq.common.message.MessageExtBatch;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -167,7 +167,7 @@ public class StoreTestBase {
         UtilAll.deleteFile(file);
     }
 
-    @After
+    @AfterEach
     public void clear() {
         for (String baseDir : baseDirs) {
             deleteFile(baseDir);

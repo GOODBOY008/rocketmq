@@ -29,10 +29,11 @@ import org.apache.rocketmq.test.client.rmq.RMQTransactionalProducer;
 import org.apache.rocketmq.test.factory.MQMessageFactory;
 import org.apache.rocketmq.test.listener.rmq.concurrent.RMQNormalListener;
 import org.apache.rocketmq.test.util.MQWait;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import static com.google.common.truth.Truth.assertThat;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,7 +44,7 @@ public class TransactionalMsgIT extends BaseConf {
     private RMQNormalConsumer consumer = null;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("use topic: %s;", topic));
@@ -51,7 +52,7 @@ public class TransactionalMsgIT extends BaseConf {
         consumer = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -65,7 +66,7 @@ public class TransactionalMsgIT extends BaseConf {
             producer.send(msgs.get(i), getTransactionHandle(i));
         }
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(), consumer.getListener());
-        assertThat(recvAll).isEqualTo(true);
+        Assertions.assertTrue(recvAll);
     }
 
     static Pair<Boolean, LocalTransactionState> getTransactionHandle(int msgIndex) {

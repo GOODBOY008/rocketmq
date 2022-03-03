@@ -23,22 +23,22 @@ import org.apache.rocketmq.test.client.rmq.RMQNormalProducer;
 import org.apache.rocketmq.test.factory.MQMessageFactory;
 import org.apache.rocketmq.test.listener.rmq.concurrent.RMQNormalListener;
 import org.apache.rocketmq.test.util.MQWait;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class MulConsumerMulTopicIT extends BaseConf {
     private RMQNormalProducer producer = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         producer = getProducer(nsAddr, null);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -56,11 +56,11 @@ public class MulConsumerMulTopicIT extends BaseConf {
 
         producer.send(MQMessageFactory.getMsg(topic1, msgSize));
         producer.send(MQMessageFactory.getMsg(topic2, msgSize));
-        Assert.assertEquals("Not all sent succeeded", msgSize * 2, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all sent succeeded", msgSize * 2, producer.getAllUndupMsgBody().size());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
             consumer1.getListener(), consumer2.getListener());
-        assertThat(recvAll).isEqualTo(true);
+        Assertions.assertEquals(recvAll,true);
     }
 
     @Test
@@ -77,11 +77,11 @@ public class MulConsumerMulTopicIT extends BaseConf {
 
         producer.send(MQMessageFactory.getMsg(topic1, msgSize));
         producer.send(MQMessageFactory.getMsg(topic2, msgSize, tag));
-        Assert.assertEquals("Not all sent succeeded", msgSize * 2, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all sent succeeded", msgSize * 2, producer.getAllUndupMsgBody().size());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
             consumer1.getListener(), consumer2.getListener());
-        assertThat(recvAll).isEqualTo(true);
+        Assertions.assertEquals(recvAll,true);
     }
 
     @Test
@@ -103,6 +103,6 @@ public class MulConsumerMulTopicIT extends BaseConf {
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
             consumer1.getListener(), consumer2.getListener());
-        assertThat(recvAll).isEqualTo(true);
+        Assertions.assertEquals(recvAll,true);
     }
 }

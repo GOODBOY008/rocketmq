@@ -35,7 +35,7 @@ import org.apache.rocketmq.store.config.FlushDiskType;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.config.StorePathConfigHelper;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class MessageStoreTestBase extends StoreTestBase {
 
@@ -90,7 +90,7 @@ public class MessageStoreTestBase extends StoreTestBase {
                 }
             }
         }
-        Assert.assertTrue(defaultMessageStore.load());
+        Assertions.assertTrue(defaultMessageStore.load());
         defaultMessageStore.start();
         return defaultMessageStore;
     }
@@ -114,7 +114,7 @@ public class MessageStoreTestBase extends StoreTestBase {
             String fileName = StorePathConfigHelper.getAbortFile(storeConfig.getStorePathRootDir());
             makeSureFileExists(fileName);
         }
-        Assert.assertTrue(defaultMessageStore.load());
+        Assertions.assertTrue(defaultMessageStore.load());
         defaultMessageStore.start();
         return defaultMessageStore;
     }
@@ -125,18 +125,18 @@ public class MessageStoreTestBase extends StoreTestBase {
             msgInner.setTopic(topic);
             msgInner.setQueueId(queueId);
             PutMessageResult putMessageResult = messageStore.putMessage(msgInner);
-            Assert.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
-            Assert.assertEquals(beginLogicsOffset + i, putMessageResult.getAppendMessageResult().getLogicsOffset());
+            Assertions.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
+            Assertions.assertEquals(beginLogicsOffset + i, putMessageResult.getAppendMessageResult().getLogicsOffset());
         }
     }
 
     protected void doGetMessages(MessageStore messageStore, String topic, int queueId, int num, long beginLogicsOffset) {
         for (int i = 0; i < num; i++) {
             GetMessageResult getMessageResult =  messageStore.getMessage("group", topic, queueId, beginLogicsOffset + i, 3, null);
-            Assert.assertNotNull(getMessageResult);
-            Assert.assertTrue(!getMessageResult.getMessageBufferList().isEmpty());
+            Assertions.assertNotNull(getMessageResult);
+            Assertions.assertTrue(!getMessageResult.getMessageBufferList().isEmpty());
             MessageExt messageExt = MessageDecoder.decode(getMessageResult.getMessageBufferList().get(0));
-            Assert.assertEquals(beginLogicsOffset + i, messageExt.getQueueOffset());
+            Assertions.assertEquals(beginLogicsOffset + i, messageExt.getQueueOffset());
             getMessageResult.release();
         }
     }

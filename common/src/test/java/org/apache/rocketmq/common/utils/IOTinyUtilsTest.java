@@ -20,11 +20,11 @@ package org.apache.rocketmq.common.utils;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
-import static org.junit.Assert.*;
+import static org.junit.Assertions.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.lang.reflect.Method;
@@ -34,7 +34,7 @@ public class IOTinyUtilsTest {
 
     private String testRootDir = System.getProperty("user.home") + File.separator + "iotinyutilstest";
 
-    @Before
+    @BeforeEach
     public void init() {
         File dir = new File(testRootDir);
         if (dir.exists()) {
@@ -44,7 +44,7 @@ public class IOTinyUtilsTest {
         dir.mkdirs();
     }
 
-    @After
+    @AfterEach
     public void destory() {
         File file = new File(testRootDir);
         UtilAll.deleteFile(file);
@@ -57,16 +57,16 @@ public class IOTinyUtilsTest {
         InputStream is = new ByteArrayInputStream(b);
 
         String str = IOTinyUtils.toString(is, null);
-        assertEquals("testToString", str);
+        Assertions.assertEquals("testToString", str);
 
         is = new ByteArrayInputStream(b);
         str = IOTinyUtils.toString(is, RemotingHelper.DEFAULT_CHARSET);
-        assertEquals("testToString", str);
+        Assertions.assertEquals("testToString", str);
 
         is = new ByteArrayInputStream(b);
         Reader isr = new InputStreamReader(is, RemotingHelper.DEFAULT_CHARSET);
         str = IOTinyUtils.toString(isr);
-        assertEquals("testToString", str);
+        Assertions.assertEquals("testToString", str);
     }
 
 
@@ -77,7 +77,7 @@ public class IOTinyUtilsTest {
         Writer writer = new CharArrayWriter();
 
         long count = IOTinyUtils.copy(reader, writer);
-        assertEquals(arr.length, count);
+        Assertions.assertEquals(arr.length, count);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class IOTinyUtilsTest {
         StringReader reader = new StringReader(sb.toString());
         List<String> lines = IOTinyUtils.readLines(reader);
 
-        assertEquals(10, lines.size());
+        Assertions.assertEquals(10, lines.size());
     }
 
     @Test
@@ -105,17 +105,17 @@ public class IOTinyUtilsTest {
         method.setAccessible(true);
         Object bReader = method.invoke(IOTinyUtils.class, reader);
 
-        assertTrue(bReader instanceof BufferedReader);
+        Assertions.assertTrue(bReader instanceof BufferedReader);
     }
 
     @Test
     public void testWriteStringToFile() throws Exception {
         File file = new File(testRootDir, "testWriteStringToFile");
-        assertTrue(!file.exists());
+        Assertions.assertTrue(!file.exists());
 
         IOTinyUtils.writeStringToFile(file, "testWriteStringToFile", RemotingHelper.DEFAULT_CHARSET);
 
-        assertTrue(file.exists());
+        Assertions.assertTrue(file.exists());
     }
 
     @Test
@@ -125,12 +125,12 @@ public class IOTinyUtilsTest {
         }
 
         File dir = new File(testRootDir);
-        assertTrue(dir.exists() && dir.isDirectory());
-        assertTrue(dir.listFiles().length > 0);
+        Assertions.assertTrue(dir.exists() && dir.isDirectory());
+        Assertions.assertTrue(dir.listFiles().length > 0);
 
         IOTinyUtils.cleanDirectory(new File(testRootDir));
 
-        assertTrue(dir.listFiles().length == 0);
+        Assertions.assertTrue(dir.listFiles().length == 0);
     }
 
     @Test
@@ -140,12 +140,12 @@ public class IOTinyUtilsTest {
         }
 
         File dir = new File(testRootDir);
-        assertTrue(dir.exists() && dir.isDirectory());
-        assertTrue(dir.listFiles().length > 0);
+        Assertions.assertTrue(dir.exists() && dir.isDirectory());
+        Assertions.assertTrue(dir.listFiles().length > 0);
 
         IOTinyUtils.delete(new File(testRootDir));
 
-        assertTrue(!dir.exists());
+        Assertions.assertTrue(!dir.exists());
     }
 
     @Test
@@ -158,6 +158,6 @@ public class IOTinyUtilsTest {
         IOTinyUtils.copyFile(source.getCanonicalPath(), target);
 
         File dest = new File(target);
-        assertTrue(dest.exists());
+        Assertions.assertTrue(dest.exists());
     }
 }

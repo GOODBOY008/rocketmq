@@ -26,9 +26,9 @@ import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.index.IndexFile;
 import org.apache.rocketmq.store.index.IndexService;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -43,8 +43,8 @@ import java.util.UUID;
 
 import static org.apache.rocketmq.common.message.MessageDecoder.CHARSET_UTF8;
 import static org.apache.rocketmq.store.ConsumeQueue.CQ_STORE_UNIT_SIZE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Test case for DefaultMessageStore.CleanCommitLogService and DefaultMessageStore.CleanConsumeQueueService
@@ -66,7 +66,7 @@ public class DefaultMessageStoreCleanFilesTest {
     private int mappedFileSize = 128;
     private int fileReservedTime = 1;
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         storeHost = new InetSocketAddress(InetAddress.getLocalHost(), 8123);
         bornHost = new InetSocketAddress(InetAddress.getByName("127.0.0.1"), 0);
@@ -83,12 +83,12 @@ public class DefaultMessageStoreCleanFilesTest {
         // build and put 55 messages, exactly one message per CommitLog file.
         buildAndPutMessagesToMessageStore(msgCount);
         MappedFileQueue commitLogQueue = getMappedFileQueueCommitLog();
-        assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
         int fileCountConsumeQueue = getFileCountConsumeQueue();
         MappedFileQueue consumeQueue = getMappedFileQueueConsumeQueue();
-        assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
         cleanCommitLogService.isSpaceFull();
-        assertEquals(1 << 4, messageStore.getRunningFlags().getFlagBits() & (1 << 4));
+        Assertions.assertEquals(1 << 4, messageStore.getRunningFlags().getFlagBits() & (1 << 4));
         messageStore.shutdown();
         messageStore.destroy();
 
@@ -109,7 +109,7 @@ public class DefaultMessageStoreCleanFilesTest {
         }
         config.setStorePathCommitLog(storePathBuilder.toString());
         String[] paths = config.getStorePathCommitLog().trim().split(MessageStoreConfig.MULTI_PATH_SPLITTER);
-        assertEquals(3, paths.length);
+        Assertions.assertEquals(3, paths.length);
         initMessageStore(config, diskSpaceCleanForciblyRatio);
 
 
@@ -117,13 +117,13 @@ public class DefaultMessageStoreCleanFilesTest {
         // build and put 55 messages, exactly one message per CommitLog file.
         buildAndPutMessagesToMessageStore(msgCount);
         MappedFileQueue commitLogQueue = getMappedFileQueueCommitLog();
-        assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
         int fileCountConsumeQueue = getFileCountConsumeQueue();
         MappedFileQueue consumeQueue = getMappedFileQueueConsumeQueue();
-        assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
         cleanCommitLogService.isSpaceFull();
 
-        assertEquals(1 << 4, messageStore.getRunningFlags().getFlagBits() & (1 << 4));
+        Assertions.assertEquals(1 << 4, messageStore.getRunningFlags().getFlagBits() & (1 << 4));
         messageStore.shutdown();
         messageStore.destroy();
 
@@ -141,7 +141,7 @@ public class DefaultMessageStoreCleanFilesTest {
         messageStore.getRunningFlags().getAndMakeDiskFull();
 
         cleanCommitLogService.isSpaceFull();
-        assertEquals(0, messageStore.getRunningFlags().getFlagBits() & (1 << 4));
+        Assertions.assertEquals(0, messageStore.getRunningFlags().getFlagBits() & (1 << 4));
     }
 
     @Test
@@ -160,14 +160,14 @@ public class DefaultMessageStoreCleanFilesTest {
         // Thread.sleep(1000 * 60 + 100);
 
         MappedFileQueue commitLogQueue = getMappedFileQueueCommitLog();
-        assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
 
         int fileCountConsumeQueue = getFileCountConsumeQueue();
         MappedFileQueue consumeQueue = getMappedFileQueueConsumeQueue();
-        assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
 
         int fileCountIndexFile = getFileCountIndexFile();
-        assertEquals(fileCountIndexFile, getIndexFileList().size());
+        Assertions.assertEquals(fileCountIndexFile, getIndexFileList().size());
 
         int expireFileCount = 15;
         expireFiles(commitLogQueue, expireFileCount);
@@ -178,15 +178,15 @@ public class DefaultMessageStoreCleanFilesTest {
             cleanConsumeQueueService.run();
 
             int expectDeletedCount = fileCount >= 10 ? a * 10 : ((a - 1) * 10 + fileCount);
-            assertEquals(fileCountCommitLog - expectDeletedCount, commitLogQueue.getMappedFiles().size());
+            Assertions.assertEquals(fileCountCommitLog - expectDeletedCount, commitLogQueue.getMappedFiles().size());
 
             int msgCountPerFile = getMsgCountPerConsumeQueueMappedFile();
             int expectDeleteCountConsumeQueue = (int) Math.floor((double) expectDeletedCount / msgCountPerFile);
-            assertEquals(fileCountConsumeQueue - expectDeleteCountConsumeQueue, consumeQueue.getMappedFiles().size());
+            Assertions.assertEquals(fileCountConsumeQueue - expectDeleteCountConsumeQueue, consumeQueue.getMappedFiles().size());
 
             int msgCountPerIndexFile = getMsgCountPerIndexFile();
             int expectDeleteCountIndexFile = (int) Math.floor((double) expectDeletedCount / msgCountPerIndexFile);
-            assertEquals(fileCountIndexFile - expectDeleteCountIndexFile, getIndexFileList().size());
+            Assertions.assertEquals(fileCountIndexFile - expectDeleteCountIndexFile, getIndexFileList().size());
         }
     }
 
@@ -206,14 +206,14 @@ public class DefaultMessageStoreCleanFilesTest {
         // Thread.sleep(1000 * 60 + 100);
 
         MappedFileQueue commitLogQueue = getMappedFileQueueCommitLog();
-        assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
 
         int fileCountConsumeQueue = getFileCountConsumeQueue();
         MappedFileQueue consumeQueue = getMappedFileQueueConsumeQueue();
-        assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
 
         int fileCountIndexFile = getFileCountIndexFile();
-        assertEquals(fileCountIndexFile, getIndexFileList().size());
+        Assertions.assertEquals(fileCountIndexFile, getIndexFileList().size());
 
         int expireFileCount = 15;
         expireFiles(commitLogQueue, expireFileCount);
@@ -224,15 +224,15 @@ public class DefaultMessageStoreCleanFilesTest {
             cleanConsumeQueueService.run();
 
             int expectDeletedCount = fileCount >= 10 ? a * 10 : ((a - 1) * 10 + fileCount);
-            assertEquals(fileCountCommitLog - expectDeletedCount, commitLogQueue.getMappedFiles().size());
+            Assertions.assertEquals(fileCountCommitLog - expectDeletedCount, commitLogQueue.getMappedFiles().size());
 
             int msgCountPerFile = getMsgCountPerConsumeQueueMappedFile();
             int expectDeleteCountConsumeQueue = (int) Math.floor((double) expectDeletedCount / msgCountPerFile);
-            assertEquals(fileCountConsumeQueue - expectDeleteCountConsumeQueue, consumeQueue.getMappedFiles().size());
+            Assertions.assertEquals(fileCountConsumeQueue - expectDeleteCountConsumeQueue, consumeQueue.getMappedFiles().size());
 
             int msgCountPerIndexFile = getMsgCountPerIndexFile();
             int expectDeleteCountIndexFile = (int) Math.floor((double) expectDeletedCount / msgCountPerIndexFile);
-            assertEquals(fileCountIndexFile - expectDeleteCountIndexFile, getIndexFileList().size());
+            Assertions.assertEquals(fileCountIndexFile - expectDeleteCountIndexFile, getIndexFileList().size());
         }
     }
 
@@ -252,14 +252,14 @@ public class DefaultMessageStoreCleanFilesTest {
         // Thread.sleep(1000 * 60 + 100);
 
         MappedFileQueue commitLogQueue = getMappedFileQueueCommitLog();
-        assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
 
         int fileCountConsumeQueue = getFileCountConsumeQueue();
         MappedFileQueue consumeQueue = getMappedFileQueueConsumeQueue();
-        assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
 
         int fileCountIndexFile = getFileCountIndexFile();
-        assertEquals(fileCountIndexFile, getIndexFileList().size());
+        Assertions.assertEquals(fileCountIndexFile, getIndexFileList().size());
 
         // In this case, there is no need to expire the files.
         // int expireFileCount = 15;
@@ -272,15 +272,15 @@ public class DefaultMessageStoreCleanFilesTest {
             cleanCommitLogService.run();
             cleanConsumeQueueService.run();
 
-            assertEquals(fileCountCommitLog - 10 * a, commitLogQueue.getMappedFiles().size());
+            Assertions.assertEquals(fileCountCommitLog - 10 * a, commitLogQueue.getMappedFiles().size());
 
             int msgCountPerFile = getMsgCountPerConsumeQueueMappedFile();
             int expectDeleteCountConsumeQueue = (int) Math.floor((double) (a * 10) / msgCountPerFile);
-            assertEquals(fileCountConsumeQueue - expectDeleteCountConsumeQueue, consumeQueue.getMappedFiles().size());
+            Assertions.assertEquals(fileCountConsumeQueue - expectDeleteCountConsumeQueue, consumeQueue.getMappedFiles().size());
 
             int msgCountPerIndexFile = getMsgCountPerIndexFile();
             int expectDeleteCountIndexFile = (int) Math.floor((double) (a * 10) / msgCountPerIndexFile);
-            assertEquals(fileCountIndexFile - expectDeleteCountIndexFile, getIndexFileList().size());
+            Assertions.assertEquals(fileCountIndexFile - expectDeleteCountIndexFile, getIndexFileList().size());
         }
     }
 
@@ -302,14 +302,14 @@ public class DefaultMessageStoreCleanFilesTest {
         // Thread.sleep(1000 * 60 + 100);
 
         MappedFileQueue commitLogQueue = getMappedFileQueueCommitLog();
-        assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountCommitLog, commitLogQueue.getMappedFiles().size());
 
         int fileCountConsumeQueue = getFileCountConsumeQueue();
         MappedFileQueue consumeQueue = getMappedFileQueueConsumeQueue();
-        assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
+        Assertions.assertEquals(fileCountConsumeQueue, consumeQueue.getMappedFiles().size());
 
         int fileCountIndexFile = getFileCountIndexFile();
-        assertEquals(fileCountIndexFile, getIndexFileList().size());
+        Assertions.assertEquals(fileCountIndexFile, getIndexFileList().size());
 
         int expireFileCount = 15;
         expireFiles(commitLogQueue, expireFileCount);
@@ -320,15 +320,15 @@ public class DefaultMessageStoreCleanFilesTest {
             cleanConsumeQueueService.run();
 
             int expectDeletedCount = fileCount >= 10 ? a * 10 : ((a - 1) * 10 + fileCount);
-            assertEquals(fileCountCommitLog - expectDeletedCount, commitLogQueue.getMappedFiles().size());
+            Assertions.assertEquals(fileCountCommitLog - expectDeletedCount, commitLogQueue.getMappedFiles().size());
 
             int msgCountPerFile = getMsgCountPerConsumeQueueMappedFile();
             int expectDeleteCountConsumeQueue = (int) Math.floor((double) expectDeletedCount / msgCountPerFile);
-            assertEquals(fileCountConsumeQueue - expectDeleteCountConsumeQueue, consumeQueue.getMappedFiles().size());
+            Assertions.assertEquals(fileCountConsumeQueue - expectDeleteCountConsumeQueue, consumeQueue.getMappedFiles().size());
 
             int msgCountPerIndexFile = getMsgCountPerIndexFile();
             int expectDeleteCountIndexFile = (int) Math.floor((double) (a * 10) / msgCountPerIndexFile);
-            assertEquals(fileCountIndexFile - expectDeleteCountIndexFile, getIndexFileList().size());
+            Assertions.assertEquals(fileCountIndexFile - expectDeleteCountIndexFile, getIndexFileList().size());
         }
     }
 
@@ -436,7 +436,7 @@ public class DefaultMessageStoreCleanFilesTest {
             msg.setBornHost(bornHost);
             msg.setPropertiesString(MessageDecoder.messageProperties2String(msg.getProperties()));
             PutMessageResult result = messageStore.putMessage(msg);
-            assertTrue(result != null && result.isOk());
+            Assertions.assertTrue(result != null && result.isOk());
         }
 
         StoreTestUtil.waitCommitLogReput(messageStore);
@@ -450,7 +450,7 @@ public class DefaultMessageStoreCleanFilesTest {
             int reservedTime = fileReservedTime * 60 * 60 * 1000;
             if (i < expireCount) {
                 boolean modified = mappedFile.getFile().setLastModified(System.currentTimeMillis() - reservedTime * 2);
-                assertTrue(modified);
+                Assertions.assertTrue(modified);
             }
         }
     }
@@ -491,7 +491,7 @@ public class DefaultMessageStoreCleanFilesTest {
         cleanCommitLogService = getCleanCommitLogService(diskSpaceCleanForciblyRatio);
         cleanConsumeQueueService = getCleanConsumeQueueService();
 
-        assertTrue(messageStore.load());
+        Assertions.assertTrue(messageStore.load());
         messageStore.start();
     }
 
@@ -502,7 +502,7 @@ public class DefaultMessageStoreCleanFilesTest {
         }
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         messageStore.shutdown();
         messageStore.destroy();

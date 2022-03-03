@@ -18,12 +18,13 @@
 package org.apache.rocketmq.common.filter;
 
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class FilterAPITest {
     private String topic = "FooBar";
@@ -34,14 +35,14 @@ public class FilterAPITest {
     public void testBuildSubscriptionData() throws Exception {
         SubscriptionData subscriptionData =
                 FilterAPI.buildSubscriptionData(topic, subString);
-        assertThat(subscriptionData.getTopic()).isEqualTo(topic);
-        assertThat(subscriptionData.getSubString()).isEqualTo(subString);
+        Assertions.assertEquals(subscriptionData.getTopic(),topic);
+        Assertions.assertEquals(subscriptionData.getSubString(),subString);
         String[] tags = subString.split("\\|\\|");
         Set<String> tagSet = new HashSet<String>();
         for (String tag : tags) {
             tagSet.add(tag.trim());
         }
-        assertThat(subscriptionData.getTagsSet()).isEqualTo(tagSet);
+        Assertions.assertEquals(subscriptionData.getTagsSet(),tagSet);
     }
 
     @Test
@@ -51,16 +52,16 @@ public class FilterAPITest {
                     "TOPIC", "A || B", ExpressionType.TAG
             );
 
-            assertThat(subscriptionData).isNotNull();
-            assertThat(subscriptionData.getTopic()).isEqualTo("TOPIC");
-            assertThat(subscriptionData.getSubString()).isEqualTo("A || B");
-            assertThat(ExpressionType.isTagType(subscriptionData.getExpressionType())).isTrue();
+            Assertions.assertNotNull(subscriptionData);
+            Assertions.assertEquals(subscriptionData.getTopic(),"TOPIC");
+            Assertions.assertEquals(subscriptionData.getSubString(),"A || B");
+            Assertions.assertTrue(ExpressionType.isTagType(subscriptionData.getExpressionType()));
 
-            assertThat(subscriptionData.getTagsSet()).isNotNull();
-            assertThat(subscriptionData.getTagsSet()).containsExactly("A", "B");
+            Assertions.assertNotNull(subscriptionData.getTagsSet());
+            Assertions.assertEquals(subscriptionData.getTagsSet()).containsExactly("A", "B");
         } catch (Exception e) {
             e.printStackTrace();
-            assertThat(Boolean.FALSE).isTrue();
+            Assertions.assertTrue(Boolean.FALSE);
         }
     }
 
@@ -71,17 +72,17 @@ public class FilterAPITest {
                     "TOPIC", "a is not null", ExpressionType.SQL92
             );
 
-            assertThat(subscriptionData).isNotNull();
-            assertThat(subscriptionData.getTopic()).isEqualTo("TOPIC");
-            assertThat(subscriptionData.getExpressionType()).isEqualTo(ExpressionType.SQL92);
+            Assertions.assertNotNull(subscriptionData);
+            Assertions.assertEquals(subscriptionData.getTopic(),"TOPIC");
+            Assertions.assertEquals(subscriptionData.getExpressionType(),ExpressionType.SQL92);
         } catch (Exception e) {
             e.printStackTrace();
-            assertThat(Boolean.FALSE).isTrue();
+            Assertions.assertTrue(Boolean.FALSE);
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testBuildSQLWithNullSubString() throws Exception {
-        FilterAPI.build("TOPIC", null, ExpressionType.SQL92);
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,()-> FilterAPI.build("TOPIC", null, ExpressionType.SQL92));
     }
 }

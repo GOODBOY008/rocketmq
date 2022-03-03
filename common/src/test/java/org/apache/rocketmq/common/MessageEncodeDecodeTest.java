@@ -22,9 +22,9 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageDecoder;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
 
 public class MessageEncodeDecodeTest {
 
@@ -39,9 +39,9 @@ public class MessageEncodeDecodeTest {
         buffer.flip();
         Message newMessage = MessageDecoder.decodeMessage(buffer);
 
-        assertTrue(message.getFlag() == newMessage.getFlag());
-        assertTrue(newMessage.getProperty("key").equals(newMessage.getProperty("key")));
-        assertTrue(Arrays.equals(newMessage.getBody(), message.getBody()));
+        Assertions.assertTrue(message.getFlag() == newMessage.getFlag());
+        Assertions.assertTrue(newMessage.getProperty("key").equals(newMessage.getProperty("key")));
+        Assertions.assertTrue(Arrays.equals(newMessage.getBody(), message.getBody()));
     }
 
     @Test
@@ -61,14 +61,14 @@ public class MessageEncodeDecodeTest {
 
         List<Message> newMsgs = MessageDecoder.decodeMessages(buffer);
 
-        assertTrue(newMsgs.size() == messages.size());
+        Assertions.assertTrue(newMsgs.size() == messages.size());
 
         for (int i = 0; i < newMsgs.size(); i++) {
             Message message = messages.get(i);
             Message newMessage = newMsgs.get(i);
-            assertTrue(message.getFlag() == newMessage.getFlag());
-            assertTrue(newMessage.getProperty("key").equals(newMessage.getProperty("key")));
-            assertTrue(Arrays.equals(newMessage.getBody(), message.getBody()));
+            Assertions.assertTrue(message.getFlag() == newMessage.getFlag());
+            Assertions.assertTrue(newMessage.getProperty("key").equals(newMessage.getProperty("key")));
+            Assertions.assertTrue(Arrays.equals(newMessage.getBody(), message.getBody()));
 
         }
     }

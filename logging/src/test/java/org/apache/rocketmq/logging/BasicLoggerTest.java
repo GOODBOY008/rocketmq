@@ -25,8 +25,8 @@ import java.io.InputStreamReader;
 import org.apache.rocketmq.logging.inner.Level;
 import org.apache.rocketmq.logging.inner.Logger;
 import org.apache.rocketmq.logging.inner.LoggingEvent;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public class BasicLoggerTest {
 
@@ -36,7 +36,7 @@ public class BasicLoggerTest {
 
     protected String loggingDir = System.getProperty("user.home") + "/logs/rocketmq-test";
 
-    @Before
+    @BeforeEach
     public void createLoggingEvent() {
         loggingEvent = new LoggingEvent(Logger.class.getName(), logger, Level.INFO,
             "junit test error", new RuntimeException("createLogging error"));
@@ -56,7 +56,7 @@ public class BasicLoggerTest {
         return stringBuilder.toString();
     }
 
-    @After
+    @AfterEach
     public void clean() {
         File file = new File(loggingDir);
         if (file.exists()) {

@@ -55,9 +55,9 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.apache.rocketmq.remoting.protocol.LanguageCode;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExtImpl;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.rocketmq.common.protocol.heartbeat.ConsumeType.CONSUME_ACTIVELY;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -77,7 +77,7 @@ public class MonitorServiceTest {
     private static DefaultMQPushConsumer defaultMQPushConsumer;
     private static MonitorService monitorService;
 
-    @BeforeClass
+    @BeforeEach
     public static void init() throws NoSuchFieldException, IllegalAccessException, RemotingException, MQClientException, InterruptedException, MQBrokerException {
         monitorConfig = new MonitorConfig();
         monitorListener = new DefaultMonitorListener();
@@ -165,7 +165,7 @@ public class MonitorServiceTest {
         when(mQClientAPIImpl.getConsumerRunningInfo(anyString(), anyString(), anyString(), anyBoolean(), anyLong())).thenReturn(consumerRunningInfo);
     }
 
-    @AfterClass
+    @AfterEach
     public static void terminate() {
     }
 

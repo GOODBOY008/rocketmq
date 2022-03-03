@@ -24,9 +24,10 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.store.*;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -43,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 import static org.apache.rocketmq.store.stats.BrokerStatsManager.BROKER_PUT_NUMS;
 import static org.apache.rocketmq.store.stats.BrokerStatsManager.TOPIC_PUT_NUMS;
 import static org.apache.rocketmq.store.stats.BrokerStatsManager.TOPIC_PUT_SIZE;
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 
 public class ScheduleMessageServiceTest {
@@ -90,7 +91,7 @@ public class ScheduleMessageServiceTest {
     }
 
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         messageStoreConfig = new MessageStoreConfig();
         messageStoreConfig.setMessageDelayLevel(testMessageDelayLevel);
@@ -106,7 +107,7 @@ public class ScheduleMessageServiceTest {
         BrokerStatsManager manager = new BrokerStatsManager(brokerConfig.getBrokerClusterName(), brokerConfig.isEnableDetailStat());
         messageStore = new DefaultMessageStore(messageStoreConfig, manager, new MyMessageArrivingListener(), new BrokerConfig());
 
-        assertThat(messageStore.load()).isTrue();
+        Assertions.assertTrue(messageStore.load());
 
         messageStore.start();
         scheduleMessageService = messageStore.getScheduleMessageService();
@@ -115,29 +116,29 @@ public class ScheduleMessageServiceTest {
 
     @Test
     public void deliverDelayedMessageTimerTaskTest() throws Exception {
-        assertThat(messageStore.getMessageStoreConfig().isEnableScheduleMessageStats()).isTrue();
+        Assertions.assertTrue(messageStore.getMessageStoreConfig().isEnableScheduleMessageStats());
 
-        assertThat(messageStore.getBrokerStatsManager().getStatsItem(TOPIC_PUT_NUMS, topic)).isNull();
+        Assertions.assertNull(messageStore.getBrokerStatsManager().getStatsItem(TOPIC_PUT_NUMS, topic));
 
         MessageExtBrokerInner msg = buildMessage();
         int realQueueId = msg.getQueueId();
         // set delayLevel,and send delay message
         msg.setDelayTimeLevel(delayLevel);
         PutMessageResult result = messageStore.putMessage(msg);
-        assertThat(result.isOk()).isTrue();
+        Assertions.assertTrue(result.isOk());
 
         // make sure consumerQueue offset = commitLog offset
         StoreTestUtil.waitCommitLogReput(messageStore);
 
         // consumer message
         int delayQueueId = ScheduleMessageService.delayLevel2QueueId(delayLevel);
-        assertThat(delayQueueId).isEqualTo(delayLevel - 1);
+        Assertions.assertEquals(delayQueueId,delayLevel - 1);
 
         Long offset = result.getAppendMessageResult().getLogicsOffset();
 
         // now, no message in queue,must wait > delayTime
         GetMessageResult messageResult = getMessage(realQueueId, offset);
-        assertThat(messageResult.getStatus()).isEqualTo(GetMessageStatus.NO_MESSAGE_IN_QUEUE);
+        Assertions.assertEquals(messageResult.getStatus(),GetMessageStatus.NO_MESSAGE_IN_QUEUE);
 
         // timer run maybe delay, then consumer message again
         // and wait offsetTable
@@ -146,12 +147,12 @@ public class ScheduleMessageServiceTest {
 
         messageResult = getMessage(realQueueId, offset);
         // now,found the message
-        assertThat(messageResult.getStatus()).isEqualTo(GetMessageStatus.FOUND);
+        Assertions.assertEquals(messageResult.getStatus(),GetMessageStatus.FOUND);
 
         // get the stats change
-        assertThat(messageStore.getBrokerStatsManager().getStatsItem(BROKER_PUT_NUMS, brokerConfig.getBrokerClusterName()).getValue().sum()).isEqualTo(1);
-        assertThat(messageStore.getBrokerStatsManager().getStatsItem(TOPIC_PUT_NUMS, topic).getValue().sum()).isEqualTo(1L);
-        assertThat(messageStore.getBrokerStatsManager().getStatsItem(TOPIC_PUT_SIZE, topic).getValue().sum()).isEqualTo(messageResult.getBufferTotalSize());
+        Assertions.assertEquals(messageStore.getBrokerStatsManager().getStatsItem(BROKER_PUT_NUMS, brokerConfig.getBrokerClusterName()).getValue().sum(),1);
+        Assertions.assertEquals(messageStore.getBrokerStatsManager().getStatsItem(TOPIC_PUT_NUMS, topic).getValue().sum(),1L);
+        Assertions.assertEquals(messageStore.getBrokerStatsManager().getStatsItem(TOPIC_PUT_SIZE, topic).getValue().sum(),messageResult.getBufferTotalSize());
 
         // get the message body
         ByteBuffer byteBuffer = ByteBuffer.allocate(messageResult.getBufferTotalSize());
@@ -164,7 +165,7 @@ public class ScheduleMessageServiceTest {
         byteBuffer = ByteBuffer.wrap(byteBuffer.array());
         List<MessageExt> msgList = MessageDecoder.decodes(byteBuffer);
         String retryMsg = new String(msgList.get(0).getBody());
-        assertThat(sendMessage).isEqualTo(retryMsg);
+        Assertions.assertEquals(sendMessage,retryMsg);
 
         //  method will wait 10s,so I run it by myself
         scheduleMessageService.persist();
@@ -181,11 +182,11 @@ public class ScheduleMessageServiceTest {
     public void otherTest() {
         // the method no use ,why need ?
         int queueId = ScheduleMessageService.queueId2DelayLevel(delayLevel);
-        assertThat(queueId).isEqualTo(delayLevel + 1);
+        Assertions.assertEquals(queueId,delayLevel + 1);
 
         // error delayLevelTest
         Long time = scheduleMessageService.computeDeliverTimestamp(999, 0);
-        assertThat(time).isEqualTo(1000);
+        Assertions.assertEquals(time,1000);
 
         // just decode
         scheduleMessageService.decode(new DelayOffsetSerializeWrapper().toJson());
@@ -199,7 +200,7 @@ public class ScheduleMessageServiceTest {
     }
 
 
-    @After
+    @AfterEach
     public void shutdown() throws InterruptedException {
         messageStore.shutdown();
         messageStore.destroy();

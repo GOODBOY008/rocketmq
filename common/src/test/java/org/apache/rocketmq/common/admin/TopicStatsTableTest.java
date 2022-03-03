@@ -18,9 +18,9 @@ package org.apache.rocketmq.common.admin;
 
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +42,7 @@ public class TopicStatsTableTest {
 
     private static final long MIN_OFFSET = CURRENT_TIME_MILLIS - 100;
 
-    @Before
+    @BeforeEach
     public void buildTopicStatsTable() {
         HashMap<MessageQueue, TopicOffset> offsetTableMap = new HashMap<MessageQueue, TopicOffset>();
 
@@ -77,13 +77,13 @@ public class TopicStatsTableTest {
         MessageQueue savedMessageQueue = savedTopicStatsTableMap.getKey();
         TopicOffset savedTopicOffset = savedTopicStatsTableMap.getValue();
 
-        Assert.assertTrue(savedMessageQueue.getTopic().equals(TEST_TOPIC));
-        Assert.assertTrue(savedMessageQueue.getBrokerName().equals(TEST_BROKER));
-        Assert.assertTrue(savedMessageQueue.getQueueId() == QUEUE_ID);
+        Assertions.assertTrue(savedMessageQueue.getTopic().equals(TEST_TOPIC));
+        Assertions.assertTrue(savedMessageQueue.getBrokerName().equals(TEST_BROKER));
+        Assertions.assertTrue(savedMessageQueue.getQueueId() == QUEUE_ID);
 
-        Assert.assertTrue(savedTopicOffset.getLastUpdateTimestamp() == CURRENT_TIME_MILLIS);
-        Assert.assertTrue(savedTopicOffset.getMaxOffset() == MAX_OFFSET);
-        Assert.assertTrue(savedTopicOffset.getMinOffset() == MIN_OFFSET);
+        Assertions.assertTrue(savedTopicOffset.getLastUpdateTimestamp() == CURRENT_TIME_MILLIS);
+        Assertions.assertTrue(savedTopicOffset.getMaxOffset() == MAX_OFFSET);
+        Assertions.assertTrue(savedTopicOffset.getMinOffset() == MIN_OFFSET);
     }
 
 }

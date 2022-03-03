@@ -18,8 +18,8 @@
 package org.apache.rocketmq.logging.inner;
 
 import org.apache.rocketmq.logging.BasicLoggerTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -41,10 +41,10 @@ public class AppenderTest extends BasicLoggerTest {
 
         LoggingBuilder.ConsoleAppender consoleAppender1 = (LoggingBuilder.ConsoleAppender) consoleAppender;
         String target = consoleAppender1.getTarget();
-        Assert.assertTrue(target.equals(LoggingBuilder.SYSTEM_OUT));
+        Assertions.assertTrue(target.equals(LoggingBuilder.SYSTEM_OUT));
 
         Layout layout = consoleAppender.getLayout();
-        Assert.assertTrue(layout instanceof LoggingBuilder.DefaultLayout);
+        Assertions.assertTrue(layout instanceof LoggingBuilder.DefaultLayout);
 
         Logger consoleLogger = Logger.getLogger("ConsoleLogger");
         consoleLogger.setAdditivity(false);
@@ -62,10 +62,10 @@ public class AppenderTest extends BasicLoggerTest {
 
         String result = new String(byteArrayOutputStream.toByteArray());
 
-        Assert.assertTrue(result.contains("info"));
-        Assert.assertTrue(result.contains("RuntimeException"));
-        Assert.assertTrue(!result.contains("debug"));
-        Assert.assertTrue(result.contains("AppenderTest"));
+        Assertions.assertTrue(result.contains("info"));
+        Assertions.assertTrue(result.contains("RuntimeException"));
+        Assertions.assertTrue(!result.contains("debug"));
+        Assertions.assertTrue(result.contains("AppenderTest"));
     }
 
     @Test
@@ -93,9 +93,9 @@ public class AppenderTest extends BasicLoggerTest {
 
         System.out.println(content);
 
-        Assert.assertTrue(content.contains("info"));
-        Assert.assertTrue(content.contains("RuntimeException"));
-        Assert.assertTrue(!content.contains("debug"));
+        Assertions.assertTrue(content.contains("info"));
+        Assertions.assertTrue(content.contains("RuntimeException"));
+        Assertions.assertTrue(!content.contains("debug"));
     }
 
 
@@ -105,17 +105,17 @@ public class AppenderTest extends BasicLoggerTest {
         Appender appender = LoggingBuilder.newAppenderBuilder().withAsync(false, 1024)
             .withConsoleAppender(LoggingBuilder.SYSTEM_OUT)
             .withLayout(LoggingBuilder.newLayoutBuilder().withDefaultLayout().build()).build();
-        Assert.assertTrue(appender instanceof LoggingBuilder.AsyncAppender);
+        Assertions.assertTrue(appender instanceof LoggingBuilder.AsyncAppender);
         LoggingBuilder.AsyncAppender asyncAppender = (LoggingBuilder.AsyncAppender) appender;
-        Assert.assertTrue(!asyncAppender.getBlocking());
-        Assert.assertTrue(asyncAppender.getBufferSize() > 0);
+        Assertions.assertTrue(!asyncAppender.getBlocking());
+        Assertions.assertTrue(asyncAppender.getBufferSize() > 0);
     }
 
     @Test
     public void testWriteAppender() {
         LoggingBuilder.WriterAppender writerAppender = new LoggingBuilder.WriterAppender();
         writerAppender.setImmediateFlush(true);
-        Assert.assertTrue(writerAppender.getImmediateFlush());
+        Assertions.assertTrue(writerAppender.getImmediateFlush());
     }
 
     @Test
@@ -125,9 +125,9 @@ public class AppenderTest extends BasicLoggerTest {
         fileAppender.setBufferSize(1024);
         int bufferSize = fileAppender.getBufferSize();
         boolean bufferedIO = fileAppender.getBufferedIO();
-        Assert.assertTrue(!bufferedIO);
-        Assert.assertTrue(bufferSize > 0);
-        Assert.assertTrue(fileAppender.getAppend());
+        Assertions.assertTrue(!bufferedIO);
+        Assertions.assertTrue(bufferSize > 0);
+        Assertions.assertTrue(fileAppender.getAppend());
 
         LoggingBuilder.RollingFileAppender rollingFileAppender = new LoggingBuilder.RollingFileAppender();
         rollingFileAppender.setImmediateFlush(true);
@@ -139,8 +139,8 @@ public class AppenderTest extends BasicLoggerTest {
 
         rollingFileAppender.activateOptions();
 
-        Assert.assertTrue(rollingFileAppender.getMaximumFileSize() > 0);
-        Assert.assertTrue(rollingFileAppender.getMaxBackupIndex() == 10);
+        Assertions.assertTrue(rollingFileAppender.getMaximumFileSize() > 0);
+        Assertions.assertTrue(rollingFileAppender.getMaxBackupIndex() == 10);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class AppenderTest extends BasicLoggerTest {
         dailyRollingFileAppender.setAppend(true);
         dailyRollingFileAppender.setDatePattern("'.'yyyy-mm-dd");
         String datePattern = dailyRollingFileAppender.getDatePattern();
-        Assert.assertTrue(datePattern != null);
+        Assertions.assertTrue(datePattern != null);
         dailyRollingFileAppender.activateOptions();
     }
 

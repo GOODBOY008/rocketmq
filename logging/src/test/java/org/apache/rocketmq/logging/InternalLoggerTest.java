@@ -24,8 +24,8 @@ import org.apache.rocketmq.logging.inner.Level;
 import org.apache.rocketmq.logging.inner.Logger;
 import org.apache.rocketmq.logging.inner.LoggingBuilder;
 import org.apache.rocketmq.logging.inner.SysLogger;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class InternalLoggerTest {
 
@@ -61,8 +61,8 @@ public class InternalLoggerTest {
         consoleAppender.close();
 
         String result = new String(byteArrayOutputStream.toByteArray());
-        Assert.assertTrue(result.contains("consoleLogger1"));
-        Assert.assertTrue(result.contains("testInternalLogger"));
+        Assertions.assertTrue(result.contains("consoleLogger1"));
+        Assertions.assertTrue(result.contains("testInternalLogger"));
     }
 
 }

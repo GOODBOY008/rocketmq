@@ -25,23 +25,24 @@ import org.apache.rocketmq.test.base.BaseConf;
 import org.apache.rocketmq.test.factory.MessageFactory;
 import org.apache.rocketmq.test.factory.ProducerFactory;
 import org.apache.rocketmq.test.util.RandomUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class ChinaPropIT extends BaseConf {
     private static DefaultMQProducer producer = null;
     private static String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         producer = ProducerFactory.getRMQProducer(nsAddr);
         topic = initTopic();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         producer.shutdown();
     }
@@ -49,11 +50,13 @@ public class ChinaPropIT extends BaseConf {
     /**
      * @since version3.4.6
      */
-    @Test(expected = org.apache.rocketmq.client.exception.MQBrokerException.class)
+    @Test
     public void testSend20kChinaPropMsg() throws Exception {
-        Message msg = MessageFactory.getRandomMessage(topic);
-        msg.putUserProperty("key", RandomUtils.getCheseWord(32 * 1024 + 1));
-        producer.send(msg);
+        Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQBrokerException.class,()->{
+            Message msg = MessageFactory.getRandomMessage(topic);
+            msg.putUserProperty("key", RandomUtils.getCheseWord(32 * 1024 + 1));
+            producer.send(msg);
+        });
     }
 
     /**
@@ -69,6 +72,6 @@ public class ChinaPropIT extends BaseConf {
             sendResult = producer.send(msg);
         } catch (Exception e) {
         }
-        assertThat(sendResult.getSendStatus()).isEqualTo(SendStatus.SEND_OK);
+        Assertions.assertEquals(sendResult.getSendStatus(),SendStatus.SEND_OK);
     }
 }

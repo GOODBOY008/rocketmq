@@ -21,10 +21,11 @@ import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.apache.rocketmq.common.UtilAll;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class MappedFileQueueTest {
     @Test
@@ -36,8 +37,8 @@ public class MappedFileQueueTest {
 
         for (int i = 0; i < 1024; i++) {
             MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
-            assertThat(mappedFile).isNotNull();
-            assertThat(mappedFile.appendMessage(fixedMsg.getBytes())).isTrue();
+            Assertions.assertNotNull(mappedFile);
+            Assertions.assertTrue(mappedFile.appendMessage(fixedMsg.getBytes()));
         }
 
         mappedFileQueue.shutdown(1000);
@@ -54,42 +55,42 @@ public class MappedFileQueueTest {
 
         for (int i = 0; i < 1024; i++) {
             MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
-            assertThat(mappedFile).isNotNull();
-            assertThat(mappedFile.appendMessage(fixedMsg.getBytes())).isTrue();
+            Assertions.assertNotNull(mappedFile);
+            Assertions.assertTrue(mappedFile.appendMessage(fixedMsg.getBytes()));
         }
 
-        assertThat(mappedFileQueue.getMappedMemorySize()).isEqualTo(fixedMsg.getBytes().length * 1024);
+        Assertions.assertEquals(mappedFileQueue.getMappedMemorySize(),fixedMsg.getBytes().length * 1024);
 
         MappedFile mappedFile = mappedFileQueue.findMappedFileByOffset(0);
-        assertThat(mappedFile).isNotNull();
-        assertThat(mappedFile.getFileFromOffset()).isEqualTo(0);
+        Assertions.assertNotNull(mappedFile);
+        Assertions.assertEquals(mappedFile.getFileFromOffset(),0);
 
         mappedFile = mappedFileQueue.findMappedFileByOffset(100);
-        assertThat(mappedFile).isNotNull();
-        assertThat(mappedFile.getFileFromOffset()).isEqualTo(0);
+        Assertions.assertNotNull(mappedFile);
+        Assertions.assertEquals(mappedFile.getFileFromOffset(),0);
 
         mappedFile = mappedFileQueue.findMappedFileByOffset(1024);
-        assertThat(mappedFile).isNotNull();
-        assertThat(mappedFile.getFileFromOffset()).isEqualTo(1024);
+        Assertions.assertNotNull(mappedFile);
+        Assertions.assertEquals(mappedFile.getFileFromOffset(),1024);
 
         mappedFile = mappedFileQueue.findMappedFileByOffset(1024 + 100);
-        assertThat(mappedFile).isNotNull();
-        assertThat(mappedFile.getFileFromOffset()).isEqualTo(1024);
+        Assertions.assertNotNull(mappedFile);
+        Assertions.assertEquals(mappedFile.getFileFromOffset(),1024);
 
         mappedFile = mappedFileQueue.findMappedFileByOffset(1024 * 2);
-        assertThat(mappedFile).isNotNull();
-        assertThat(mappedFile.getFileFromOffset()).isEqualTo(1024 * 2);
+        Assertions.assertNotNull(mappedFile);
+        Assertions.assertEquals(mappedFile.getFileFromOffset(),1024 * 2);
 
         mappedFile = mappedFileQueue.findMappedFileByOffset(1024 * 2 + 100);
-        assertThat(mappedFile).isNotNull();
-        assertThat(mappedFile.getFileFromOffset()).isEqualTo(1024 * 2);
+        Assertions.assertNotNull(mappedFile);
+        Assertions.assertEquals(mappedFile.getFileFromOffset(),1024 * 2);
 
         // over mapped memory size.
         mappedFile = mappedFileQueue.findMappedFileByOffset(1024 * 4);
-        assertThat(mappedFile).isNull();
+        Assertions.assertEquals(mappedFile);
 
         mappedFile = mappedFileQueue.findMappedFileByOffset(1024 * 4 + 100);
-        assertThat(mappedFile).isNull();
+        Assertions.assertEquals(mappedFile);
 
         mappedFileQueue.shutdown(1000);
         mappedFileQueue.destroy();
@@ -102,16 +103,16 @@ public class MappedFileQueueTest {
 
         //Start from a non-zero offset
         MappedFile mappedFile = mappedFileQueue.getLastMappedFile(1024);
-        assertThat(mappedFile).isNotNull();
+        Assertions.assertNotNull(mappedFile);
 
-        assertThat(mappedFileQueue.findMappedFileByOffset(1025)).isEqualTo(mappedFile);
+        Assertions.assertEquals(mappedFileQueue.findMappedFileByOffset(1025),mappedFile);
 
-        assertThat(mappedFileQueue.findMappedFileByOffset(0)).isNull();
-        assertThat(mappedFileQueue.findMappedFileByOffset(123, false)).isNull();
-        assertThat(mappedFileQueue.findMappedFileByOffset(123, true)).isEqualTo(mappedFile);
+        Assertions.assertNull(mappedFileQueue.findMappedFileByOffset(0));
+        Assertions.assertNull(mappedFileQueue.findMappedFileByOffset(123, false));
+        Assertions.assertEquals(mappedFileQueue.findMappedFileByOffset(123, true),mappedFile);
 
-        assertThat(mappedFileQueue.findMappedFileByOffset(0, false)).isNull();
-        assertThat(mappedFileQueue.findMappedFileByOffset(0, true)).isEqualTo(mappedFile);
+        Assertions.assertNull(mappedFileQueue.findMappedFileByOffset(0, false));
+        Assertions.assertEquals(mappedFileQueue.findMappedFileByOffset(0, true),mappedFile);
 
         mappedFileQueue.shutdown(1000);
         mappedFileQueue.destroy();
@@ -126,27 +127,27 @@ public class MappedFileQueueTest {
 
         for (int i = 0; i < 1024; i++) {
             MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
-            assertThat(mappedFile).isNotNull();
-            assertThat(mappedFile.appendMessage(fixedMsg.getBytes())).isTrue();
+            Assertions.assertNotNull(mappedFile);
+            Assertions.assertTrue(mappedFile.appendMessage(fixedMsg.getBytes()));
         }
 
-        assertThat(mappedFileQueue.flush(0)).isFalse();
-        assertThat(mappedFileQueue.getFlushedWhere()).isEqualTo(1024);
+        Assertions.assertFalse(mappedFileQueue.flush(0));
+        Assertions.assertEquals(mappedFileQueue.getFlushedWhere(),1024);
 
-        assertThat(mappedFileQueue.flush(0)).isFalse();
-        assertThat(mappedFileQueue.getFlushedWhere()).isEqualTo(1024 * 2);
+        Assertions.assertFalse(mappedFileQueue.flush(0));
+        Assertions.assertEquals(mappedFileQueue.getFlushedWhere(),1024 * 2);
 
-        assertThat(mappedFileQueue.flush(0)).isFalse();
-        assertThat(mappedFileQueue.getFlushedWhere()).isEqualTo(1024 * 3);
+        Assertions.assertFalse(mappedFileQueue.flush(0));
+        Assertions.assertEquals(mappedFileQueue.getFlushedWhere(),1024 * 3);
 
-        assertThat(mappedFileQueue.flush(0)).isFalse();
-        assertThat(mappedFileQueue.getFlushedWhere()).isEqualTo(1024 * 4);
+        Assertions.assertFalse(mappedFileQueue.flush(0));
+        Assertions.assertEquals(mappedFileQueue.getFlushedWhere(),1024 * 4);
 
-        assertThat(mappedFileQueue.flush(0)).isFalse();
-        assertThat(mappedFileQueue.getFlushedWhere()).isEqualTo(1024 * 5);
+        Assertions.assertFalse(mappedFileQueue.flush(0));
+        Assertions.assertEquals(mappedFileQueue.getFlushedWhere(),1024 * 5);
 
-        assertThat(mappedFileQueue.flush(0)).isFalse();
-        assertThat(mappedFileQueue.getFlushedWhere()).isEqualTo(1024 * 6);
+        Assertions.assertFalse(mappedFileQueue.flush(0));
+        Assertions.assertEquals(mappedFileQueue.getFlushedWhere(),1024 * 6);
 
         mappedFileQueue.shutdown(1000);
         mappedFileQueue.destroy();
@@ -161,11 +162,11 @@ public class MappedFileQueueTest {
 
         for (int i = 0; i < 1024; i++) {
             MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
-            assertThat(mappedFile).isNotNull();
-            assertThat(mappedFile.appendMessage(fixedMsg.getBytes())).isTrue();
+            Assertions.assertNotNull(mappedFile);
+            Assertions.assertTrue(mappedFile.appendMessage(fixedMsg.getBytes()));
         }
 
-        assertThat(mappedFileQueue.getMappedMemorySize()).isEqualTo(fixedMsg.length() * 1024);
+        Assertions.assertEquals(mappedFileQueue.getMappedMemorySize(),fixedMsg.length() * 1024);
         mappedFileQueue.shutdown(1000);
         mappedFileQueue.destroy();
     }
@@ -177,7 +178,7 @@ public class MappedFileQueueTest {
 
         for (int i = 0; i < 2048; i++) {
             MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
-            assertThat(mappedFile).isNotNull();
+            Assertions.assertNotNull(mappedFile);
             ByteBuffer byteBuffer = ByteBuffer.allocate(ConsumeQueue.CQ_STORE_UNIT_SIZE);
             byteBuffer.putLong(i);
             byte[] padding = new byte[12];
@@ -185,18 +186,18 @@ public class MappedFileQueueTest {
             byteBuffer.put(padding);
             byteBuffer.flip();
 
-            assertThat(mappedFile.appendMessage(byteBuffer.array())).isTrue();
+            Assertions.assertTrue(mappedFile.appendMessage(byteBuffer.array()));
         }
 
         MappedFile first = mappedFileQueue.getFirstMappedFile();
         first.hold();
 
-        assertThat(mappedFileQueue.deleteExpiredFileByOffset(20480, ConsumeQueue.CQ_STORE_UNIT_SIZE)).isEqualTo(0);
+        Assertions.assertEquals(mappedFileQueue.deleteExpiredFileByOffset(20480, ConsumeQueue.CQ_STORE_UNIT_SIZE),0);
         first.release();
 
-        assertThat(mappedFileQueue.deleteExpiredFileByOffset(20480, ConsumeQueue.CQ_STORE_UNIT_SIZE)).isGreaterThan(0);
+        Assertions.assertEquals(mappedFileQueue.deleteExpiredFileByOffset(20480, ConsumeQueue.CQ_STORE_UNIT_SIZE)).isGreaterThan(0);
         first = mappedFileQueue.getFirstMappedFile();
-        assertThat(first.getFileFromOffset()).isGreaterThan(0);
+        Assertions.assertEquals(first.getFileFromOffset()).isGreaterThan(0);
 
         mappedFileQueue.shutdown(1000);
         mappedFileQueue.destroy();
@@ -209,12 +210,12 @@ public class MappedFileQueueTest {
 
         for (int i = 0; i < 100; i++) {
             MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
-            assertThat(mappedFile).isNotNull();
+            Assertions.assertNotNull(mappedFile);
             byte[] bytes = new byte[512];
-            assertThat(mappedFile.appendMessage(bytes)).isTrue();
+            Assertions.assertTrue(mappedFile.appendMessage(bytes));
         }
 
-        assertThat(mappedFileQueue.getMappedFiles().size()).isEqualTo(50);
+        Assertions.assertEquals(mappedFileQueue.getMappedFiles().size(),50);
         long expiredTime =  100 * 1000;
         for (int i = 0; i < mappedFileQueue.getMappedFiles().size(); i++) {
             MappedFile mappedFile = mappedFileQueue.getMappedFiles().get(i);
@@ -226,7 +227,7 @@ public class MappedFileQueueTest {
            }
         }
         mappedFileQueue.deleteExpiredFileByTime(expiredTime, 0, 0, false);
-        assertThat(mappedFileQueue.getMappedFiles().size()).isEqualTo(45);
+        Assertions.assertEquals(mappedFileQueue.getMappedFiles().size(),45);
     }
 
     @Test
@@ -238,16 +239,16 @@ public class MappedFileQueueTest {
             mappedFile.wrotePosition.set(1024);
         }
 
-        assertThat(mappedFileQueue.findMappedFileByOffset(1028).getFileFromOffset()).isEqualTo(1024);
+        Assertions.assertEquals(mappedFileQueue.findMappedFileByOffset(1028).getFileFromOffset(),1024);
 
         // Switch two MappedFiles and verify findMappedFileByOffset method
         MappedFile tmpFile = mappedFileQueue.getMappedFiles().get(1);
         mappedFileQueue.getMappedFiles().set(1, mappedFileQueue.getMappedFiles().get(2));
         mappedFileQueue.getMappedFiles().set(2, tmpFile);
-        assertThat(mappedFileQueue.findMappedFileByOffset(1028).getFileFromOffset()).isEqualTo(1024);
+        Assertions.assertEquals(mappedFileQueue.findMappedFileByOffset(1028).getFileFromOffset(),1024);
     }
 
-    @After
+    @AfterEach
     public void destory() {
         File file = new File("target/unit_test_store");
         UtilAll.deleteFile(file);

@@ -21,8 +21,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.rocketmq.store.CommitLog.GroupCommitRequest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class FlushDiskWatcherTest {
 
@@ -49,10 +49,10 @@ public class FlushDiskWatcherTest {
         }
 
         for (GroupCommitRequest request : requestList) {
-            Assert.assertTrue(request.future().isDone());
-            Assert.assertEquals(request.future().get(), PutMessageStatus.FLUSH_DISK_TIMEOUT);
+            Assertions.assertTrue(request.future().isDone());
+            Assertions.assertEquals(request.future().get(), PutMessageStatus.FLUSH_DISK_TIMEOUT);
         }
-        Assert.assertEquals(flushDiskWatcher.queueSize(), 0);
+        Assertions.assertEquals(flushDiskWatcher.queueSize(), 0);
         flushDiskWatcher.shutdown();
     }
 
@@ -73,10 +73,10 @@ public class FlushDiskWatcherTest {
         }
         Thread.sleep((timeoutMill << 20) / 1000000);
         for (GroupCommitRequest request : requestList) {
-            Assert.assertTrue(request.future().isDone());
-            Assert.assertEquals(request.future().get(), PutMessageStatus.PUT_OK);
+            Assertions.assertTrue(request.future().isDone());
+            Assertions.assertEquals(request.future().get(), PutMessageStatus.PUT_OK);
         }
-        Assert.assertEquals(flushDiskWatcher.queueSize(), 0);
+        Assertions.assertEquals(flushDiskWatcher.queueSize(), 0);
         flushDiskWatcher.shutdown();
     }
 

@@ -31,18 +31,18 @@ import org.apache.rocketmq.client.impl.factory.MQClientInstance;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.common.protocol.header.PullMessageRequestHeader;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -51,7 +51,7 @@ import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultMQPullConsumerTest {
     @Spy
     private MQClientInstance mQClientFactory = MQClientManager.getInstance().getOrCreateMQClientInstance(new ClientConfig());
@@ -62,7 +62,7 @@ public class DefaultMQPullConsumerTest {
     private String topic = "FooBar";
     private String brokerName = "BrokerA";
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         pullConsumer = new DefaultMQPullConsumer(consumerGroup);
         pullConsumer.setNamesrvAddr("127.0.0.1:9876");
@@ -79,14 +79,14 @@ public class DefaultMQPullConsumerTest {
         when(mQClientFactory.findBrokerAddressInSubscribe(anyString(), anyLong(), anyBoolean())).thenReturn(new FindBrokerResult("127.0.0.1:10911", false));
     }
 
-    @After
+    @AfterEach
     public void terminate() {
         pullConsumer.shutdown();
     }
 
     @Test
     public void testStart_OffsetShouldNotNUllAfterStart() {
-        Assert.assertNotNull(pullConsumer.getOffsetStore());
+        Assertions.assertNotNull(pullConsumer.getOffsetStore());
     }
 
     @Test
@@ -101,12 +101,12 @@ public class DefaultMQPullConsumerTest {
 
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 0);
         PullResult pullResult = pullConsumer.pull(messageQueue, "*", 1024, 3);
-        assertThat(pullResult).isNotNull();
-        assertThat(pullResult.getPullStatus()).isEqualTo(PullStatus.FOUND);
-        assertThat(pullResult.getNextBeginOffset()).isEqualTo(1024 + 1);
-        assertThat(pullResult.getMinOffset()).isEqualTo(123);
-        assertThat(pullResult.getMaxOffset()).isEqualTo(2048);
-        assertThat(pullResult.getMsgFoundList()).isEqualTo(new ArrayList<Object>());
+        Assertions.assertNotNull(pullResult);
+        Assertions.assertEquals(pullResult.getPullStatus(),PullStatus.FOUND);
+        Assertions.assertEquals(pullResult.getNextBeginOffset(),1024 + 1);
+        Assertions.assertEquals(pullResult.getMinOffset(),123);
+        Assertions.assertEquals(pullResult.getMaxOffset(),2048);
+        Assertions.assertEquals(pullResult.getMsgFoundList(),new ArrayList<Object>());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class DefaultMQPullConsumerTest {
 
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 0);
         PullResult pullResult = pullConsumer.pull(messageQueue, "*", 1024, 3);
-        assertThat(pullResult.getPullStatus()).isEqualTo(PullStatus.NO_NEW_MSG);
+        Assertions.assertEquals(pullResult.getPullStatus(),PullStatus.NO_NEW_MSG);
     }
 
     @Test
@@ -142,12 +142,12 @@ public class DefaultMQPullConsumerTest {
         pullConsumer.pull(messageQueue, "*", 1024, 3, new PullCallback() {
             @Override
             public void onSuccess(PullResult pullResult) {
-                assertThat(pullResult).isNotNull();
-                assertThat(pullResult.getPullStatus()).isEqualTo(PullStatus.FOUND);
-                assertThat(pullResult.getNextBeginOffset()).isEqualTo(1024 + 1);
-                assertThat(pullResult.getMinOffset()).isEqualTo(123);
-                assertThat(pullResult.getMaxOffset()).isEqualTo(2048);
-                assertThat(pullResult.getMsgFoundList()).isEqualTo(new ArrayList<Object>());
+                Assertions.assertNotNull(pullResult);
+                Assertions.assertEquals(pullResult.getPullStatus(),PullStatus.FOUND);
+                Assertions.assertEquals(pullResult.getNextBeginOffset(),1024 + 1);
+                Assertions.assertEquals(pullResult.getMinOffset(),123);
+                Assertions.assertEquals(pullResult.getMaxOffset(),2048);
+                Assertions.assertEquals(pullResult.getMsgFoundList(),new ArrayList<Object>());
             }
 
             @Override

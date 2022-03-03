@@ -20,9 +20,10 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 import org.apache.rocketmq.srvutil.ServerUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class DeleteTopicSubCommandTest {
     @Test
@@ -32,7 +33,7 @@ public class DeleteTopicSubCommandTest {
         String[] subargs = new String[] {"-t unit-test", "-c default-cluster"};
         final CommandLine commandLine =
             ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
-        assertThat(commandLine.getOptionValue('t').trim()).isEqualTo("unit-test");
-        assertThat(commandLine.getOptionValue("c").trim()).isEqualTo("default-cluster");
+        Assertions.assertEquals(commandLine.getOptionValue('t').trim(),"unit-test");
+        Assertions.assertEquals(commandLine.getOptionValue("c").trim(),"default-cluster");
     }
 }

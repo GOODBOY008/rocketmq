@@ -40,17 +40,17 @@ import org.apache.rocketmq.store.config.FlushDiskType;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.config.StorePathConfigHelper;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
+
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.mock;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultMessageStoreTest {
     private final String StoreMessage = "Once, there was a chance for me!";
     private int QUEUE_TOTAL = 100;
@@ -60,42 +60,44 @@ public class DefaultMessageStoreTest {
     private byte[] MessageBody;
     private MessageStore messageStore;
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         StoreHost = new InetSocketAddress(InetAddress.getLocalHost(), 8123);
         BornHost = new InetSocketAddress(InetAddress.getByName("127.0.0.1"), 0);
 
         messageStore = buildMessageStore();
         boolean load = messageStore.load();
-        assertTrue(load);
+        Assertions.assertTrue(load);
         messageStore.start();
     }
 
-    @Test(expected = OverlappingFileLockException.class)
+    @Test
     public void test_repeat_restart() throws Exception {
-        QUEUE_TOTAL = 1;
-        MessageBody = StoreMessage.getBytes();
+        Assertions.assertThrowsExactly(OverlappingFileLockException.class,()->{
+            QUEUE_TOTAL = 1;
+            MessageBody = StoreMessage.getBytes();
 
-        MessageStoreConfig messageStoreConfig = new MessageStoreConfig();
-        messageStoreConfig.setMappedFileSizeCommitLog(1024 * 8);
-        messageStoreConfig.setMappedFileSizeConsumeQueue(1024 * 4);
-        messageStoreConfig.setMaxHashSlotNum(100);
-        messageStoreConfig.setMaxIndexNum(100 * 10);
-        MessageStore master = new DefaultMessageStore(messageStoreConfig, null, new MyMessageArrivingListener(), new BrokerConfig());
+            MessageStoreConfig messageStoreConfig = new MessageStoreConfig();
+            messageStoreConfig.setMappedFileSizeCommitLog(1024 * 8);
+            messageStoreConfig.setMappedFileSizeConsumeQueue(1024 * 4);
+            messageStoreConfig.setMaxHashSlotNum(100);
+            messageStoreConfig.setMaxIndexNum(100 * 10);
+            MessageStore master = new DefaultMessageStore(messageStoreConfig, null, new MyMessageArrivingListener(), new BrokerConfig());
 
-        boolean load = master.load();
-        assertTrue(load);
+            boolean load = master.load();
+            Assertions.assertTrue(load);
 
-        try {
-            master.start();
-            master.start();
-        } finally {
-            master.shutdown();
-            master.destroy();
-        }
+            try {
+                master.start();
+                master.start();
+            } finally {
+                master.shutdown();
+                master.destroy();
+            }
+        });
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         messageStore.shutdown();
         messageStore.destroy();
@@ -135,7 +137,7 @@ public class DefaultMessageStoreTest {
 
         for (long i = 0; i < totalMsgs; i++) {
             GetMessageResult result = messageStore.getMessage("GROUP_A", "FooBar", 0, i, 1024 * 1024, null);
-            assertThat(result).isNotNull();
+            Assertions.assertNotNull(result);
             result.release();
         }
         verifyThatMasterIsFunctional(totalMsgs, messageStore);
@@ -153,8 +155,8 @@ public class DefaultMessageStoreTest {
         MessageExt messageExt = messageStore.lookMessageByOffset(firstResult.getWroteOffset());
         MessageExt messageExt1 = getDefaultMessageStore().lookMessageByOffset(firstResult.getWroteOffset(), firstResult.getWroteBytes());
 
-        assertThat(new String(messageExt.getBody())).isEqualTo(buildMessageBodyByOffset(StoreMessage, firstOffset));
-        assertThat(new String(messageExt1.getBody())).isEqualTo(buildMessageBodyByOffset(StoreMessage, firstOffset));
+        Assertions.assertEquals(new String(messageExt.getBody()),buildMessageBodyByOffset(StoreMessage, firstOffset));
+        Assertions.assertEquals(new String(messageExt1.getBody()),buildMessageBodyByOffset(StoreMessage, firstOffset));
     }
 
     @Test
@@ -168,7 +170,7 @@ public class DefaultMessageStoreTest {
 
         MessageExt messageExt = getDefaultMessageStore().lookMessageByOffset(lastResult.getWroteOffset(), lastResult.getWroteBytes());
 
-        assertThat(new String(messageExt.getBody())).isEqualTo(buildMessageBodyByOffset(StoreMessage, lastIndex));
+        Assertions.assertEquals(new String(messageExt.getBody()),buildMessageBodyByOffset(StoreMessage, lastIndex));
     }
 
     @Test
@@ -181,7 +183,7 @@ public class DefaultMessageStoreTest {
 
         MessageExt messageExt = getDefaultMessageStore().lookMessageByOffset(lastOffset);
 
-        assertThat(messageExt).isNull();
+        Assertions.assertNull(messageExt);
     }
 
     @Test
@@ -197,8 +199,8 @@ public class DefaultMessageStoreTest {
         for (AppendMessageResult appendMessageResult : appendMessageResults) {
             long offset = messageStore.getOffsetInQueueByTime(topic, queueId, appendMessageResult.getStoreTimestamp());
             SelectMappedBufferResult indexBuffer = consumeQueue.getIndexBuffer(offset);
-            assertThat(indexBuffer.getByteBuffer().getLong()).isEqualTo(appendMessageResult.getWroteOffset());
-            assertThat(indexBuffer.getByteBuffer().getInt()).isEqualTo(appendMessageResult.getWroteBytes());
+            Assertions.assertEquals(indexBuffer.getByteBuffer().getLong(),appendMessageResult.getWroteOffset());
+            Assertions.assertEquals(indexBuffer.getByteBuffer().getInt(),appendMessageResult.getWroteBytes());
             indexBuffer.release();
         }
     }
@@ -219,10 +221,10 @@ public class DefaultMessageStoreTest {
             long offset2 = messageStore.getOffsetInQueueByTime(topic, queueId, appendMessageResult.getStoreTimestamp() - skewing);
             SelectMappedBufferResult indexBuffer = consumeQueue.getIndexBuffer(offset);
             SelectMappedBufferResult indexBuffer2 = consumeQueue.getIndexBuffer(offset2);
-            assertThat(indexBuffer.getByteBuffer().getLong()).isEqualTo(appendMessageResult.getWroteOffset());
-            assertThat(indexBuffer.getByteBuffer().getInt()).isEqualTo(appendMessageResult.getWroteBytes());
-            assertThat(indexBuffer2.getByteBuffer().getLong()).isEqualTo(appendMessageResult.getWroteOffset());
-            assertThat(indexBuffer2.getByteBuffer().getInt()).isEqualTo(appendMessageResult.getWroteBytes());
+            Assertions.assertEquals(indexBuffer.getByteBuffer().getLong(),appendMessageResult.getWroteOffset());
+            Assertions.assertEquals(indexBuffer.getByteBuffer().getInt(),appendMessageResult.getWroteBytes());
+            Assertions.assertEquals(indexBuffer2.getByteBuffer().getLong(),appendMessageResult.getWroteOffset());
+            Assertions.assertEquals(indexBuffer2.getByteBuffer().getInt(),appendMessageResult.getWroteBytes());
             indexBuffer.release();
             indexBuffer2.release();
         }
@@ -244,10 +246,10 @@ public class DefaultMessageStoreTest {
             long offset2 = messageStore.getOffsetInQueueByTime(topic, queueId, appendMessageResult.getStoreTimestamp() - skewing);
             SelectMappedBufferResult indexBuffer = consumeQueue.getIndexBuffer(offset);
             SelectMappedBufferResult indexBuffer2 = consumeQueue.getIndexBuffer(offset2);
-            assertThat(indexBuffer.getByteBuffer().getLong()).isEqualTo(appendMessageResults[totalCount - 1].getWroteOffset());
-            assertThat(indexBuffer.getByteBuffer().getInt()).isEqualTo(appendMessageResults[totalCount - 1].getWroteBytes());
-            assertThat(indexBuffer2.getByteBuffer().getLong()).isEqualTo(appendMessageResults[0].getWroteOffset());
-            assertThat(indexBuffer2.getByteBuffer().getInt()).isEqualTo(appendMessageResults[0].getWroteBytes());
+            Assertions.assertEquals(indexBuffer.getByteBuffer().getLong(),appendMessageResults[totalCount - 1].getWroteOffset());
+            Assertions.assertEquals(indexBuffer.getByteBuffer().getInt(),appendMessageResults[totalCount - 1].getWroteBytes());
+            Assertions.assertEquals(indexBuffer2.getByteBuffer().getLong(),appendMessageResults[0].getWroteOffset());
+            Assertions.assertEquals(indexBuffer2.getByteBuffer().getInt(),appendMessageResults[0].getWroteBytes());
 
             indexBuffer.release();
             indexBuffer2.release();
@@ -267,7 +269,7 @@ public class DefaultMessageStoreTest {
 
         long offset = messageStore.getOffsetInQueueByTime(topic, wrongQueueId, appendMessageResults[0].getStoreTimestamp());
 
-        assertThat(offset).isEqualTo(0);
+        Assertions.assertEquals(offset,0);
     }
 
     @Test
@@ -282,7 +284,7 @@ public class DefaultMessageStoreTest {
 
         long messageStoreTimeStamp = messageStore.getMessageStoreTimeStamp(topic, wrongQueueId, 0);
 
-        assertThat(messageStoreTimeStamp).isEqualTo(-1);
+        Assertions.assertEquals(messageStoreTimeStamp,-1);
     }
 
     @Test
@@ -298,7 +300,7 @@ public class DefaultMessageStoreTest {
 
         long messageStoreTimeStamp = messageStore.getMessageStoreTimeStamp(topic, wrongQueueId, -1);
 
-        assertThat(messageStoreTimeStamp).isEqualTo(-1);
+        Assertions.assertEquals(messageStoreTimeStamp,-1);
     }
 
     @Test
@@ -314,7 +316,7 @@ public class DefaultMessageStoreTest {
         int minOffsetInQueue = (int) consumeQueue.getMinOffsetInQueue();
         for (int i = minOffsetInQueue; i < consumeQueue.getMaxOffsetInQueue(); i++) {
             long messageStoreTimeStamp = messageStore.getMessageStoreTimeStamp(topic, queueId, i);
-            assertThat(messageStoreTimeStamp).isEqualTo(appendMessageResults[i].getStoreTimestamp());
+            Assertions.assertEquals(messageStoreTimeStamp,appendMessageResults[i].getStoreTimestamp());
         }
     }
 
@@ -322,7 +324,7 @@ public class DefaultMessageStoreTest {
     public void testGetStoreTime_ParamIsNull() {
         long storeTime = getStoreTime(null);
 
-        assertThat(storeTime).isEqualTo(-1);
+        Assertions.assertEquals(storeTime,-1);
     }
 
     @Test
@@ -338,7 +340,7 @@ public class DefaultMessageStoreTest {
         for (int i = 0; i < totalCount; i++) {
             SelectMappedBufferResult indexBuffer = consumeQueue.getIndexBuffer(i);
             long storeTime = getStoreTime(indexBuffer);
-            assertThat(storeTime).isEqualTo(appendMessageResults[i].getStoreTimestamp());
+            Assertions.assertEquals(storeTime,appendMessageResults[i].getStoreTimestamp());
             indexBuffer.release();
         }
     }
@@ -357,7 +359,7 @@ public class DefaultMessageStoreTest {
         long storeTime = getStoreTime(result);
         result.release();
 
-        assertThat(storeTime).isEqualTo(-1);
+        Assertions.assertEquals(storeTime,-1);
     }
 
     private DefaultMessageStore getDefaultMessageStore() {
@@ -378,7 +380,7 @@ public class DefaultMessageStoreTest {
             msgInner.setQueueId(queueId);
             PutMessageResult result = messageStore.putMessage(msgInner);
             appendMessageResultArray[i] = result.getAppendMessageResult();
-            assertThat(result.getPutMessageStatus()).isEqualTo(PutMessageStatus.PUT_OK);
+            Assertions.assertEquals(result.getPutMessageStatus(),PutMessageStatus.PUT_OK);
             if (interval) {
                 try {
                     Thread.sleep(10);
@@ -444,14 +446,14 @@ public class DefaultMessageStoreTest {
             msg.setBornHost(new InetSocketAddress(InetAddress.getByName("1050:0000:0000:0000:0005:0600:300c:326b"), 0));
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            assertThat(Boolean.FALSE).isTrue();
+            Assertions.assertTrue(Boolean.FALSE);
         }
 
         try {
             msg.setStoreHost(new InetSocketAddress(InetAddress.getByName("::1"), 0));
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            assertThat(Boolean.FALSE).isTrue();
+            Assertions.assertTrue(Boolean.FALSE);
         }
         return msg;
     }
@@ -473,7 +475,7 @@ public class DefaultMessageStoreTest {
 
         for (long i = 0; i < totalMsgs; i++) {
             GetMessageResult result = master.getMessage("GROUP_A", "FooBar", 0, i, 1024 * 1024, null);
-            assertThat(result).isNotNull();
+            Assertions.assertNotNull(result);
             result.release();
 
         }
@@ -495,15 +497,15 @@ public class DefaultMessageStoreTest {
         StoreTestUtil.waitCommitLogReput((DefaultMessageStore) messageStore);
         String group = "simple";
         GetMessageResult getMessageResult32 = messageStore.getMessage(group, topic, 0, 0, 32, null);
-        assertThat(getMessageResult32.getMessageBufferList().size()).isEqualTo(32);
+        Assertions.assertEquals(getMessageResult32.getMessageBufferList().size(),32);
         getMessageResult32.release();
 
         GetMessageResult getMessageResult20 = messageStore.getMessage(group, topic, 0, 0, 20, null);
-        assertThat(getMessageResult20.getMessageBufferList().size()).isEqualTo(20);
+        Assertions.assertEquals(getMessageResult20.getMessageBufferList().size(),20);
 
         getMessageResult20.release();
         GetMessageResult getMessageResult45 = messageStore.getMessage(group, topic, 0, 0, 10, null);
-        assertThat(getMessageResult45.getMessageBufferList().size()).isEqualTo(10);
+        Assertions.assertEquals(getMessageResult45.getMessageBufferList().size(),10);
         getMessageResult45.release();
 
     }
@@ -529,10 +531,10 @@ public class DefaultMessageStoreTest {
         messageStore.shutdown();
         messageStore = buildMessageStore();
         boolean load = messageStore.load();
-        assertTrue(load);
+        Assertions.assertTrue(load);
         messageStore.start();
-        assertTrue(maxPhyOffset == messageStore.getMaxPhyOffset());
-        assertTrue(maxCqOffset == messageStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertTrue(maxPhyOffset == messageStore.getMaxPhyOffset());
+        Assertions.assertTrue(maxCqOffset == messageStore.getMaxOffsetInQueue(topic, 0));
 
         //2.damage commitlog and reboot normal
         for (int i = 0; i < 100; i++) {
@@ -559,10 +561,10 @@ public class DefaultMessageStoreTest {
         //reboot
         messageStore = buildMessageStore();
         load = messageStore.load();
-        assertTrue(load);
+        Assertions.assertTrue(load);
         messageStore.start();
-        assertTrue(secondLastPhyOffset == messageStore.getMaxPhyOffset());
-        assertTrue(secondLastCqOffset == messageStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertTrue(secondLastPhyOffset == messageStore.getMaxPhyOffset());
+        Assertions.assertTrue(secondLastCqOffset == messageStore.getMaxOffsetInQueue(topic, 0));
 
         //3.damage commitlog and reboot abnormal
         for (int i = 0; i < 100; i++) {
@@ -592,10 +594,10 @@ public class DefaultMessageStoreTest {
 
         messageStore = buildMessageStore();
         load = messageStore.load();
-        assertTrue(load);
+        Assertions.assertTrue(load);
         messageStore.start();
-        assertTrue(secondLastPhyOffset == messageStore.getMaxPhyOffset());
-        assertTrue(secondLastCqOffset == messageStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertTrue(secondLastPhyOffset == messageStore.getMaxPhyOffset());
+        Assertions.assertTrue(secondLastCqOffset == messageStore.getMaxOffsetInQueue(topic, 0));
 
         //message write again
         for (int i = 0; i < 100; i++) {
@@ -609,8 +611,8 @@ public class DefaultMessageStoreTest {
     @Test
     public void testStorePathOK() {
         if (messageStore instanceof DefaultMessageStore) {
-            assertTrue(fileExists(((DefaultMessageStore) messageStore).getStorePathPhysic()));
-            assertTrue(fileExists(((DefaultMessageStore) messageStore).getStorePathLogic()));
+            Assertions.assertTrue(fileExists(((DefaultMessageStore) messageStore).getStorePathPhysic()));
+            Assertions.assertTrue(fileExists(((DefaultMessageStore) messageStore).getStorePathLogic()));
         }
     }
 

@@ -28,15 +28,15 @@ import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.apache.rocketmq.store.MessageExtBrokerInner;
 import org.apache.rocketmq.store.MessageStore;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultTransactionalMessageCheckListenerTest {
 
     private DefaultTransactionalMessageCheckListener listener;
@@ -48,7 +48,7 @@ public class DefaultTransactionalMessageCheckListenerTest {
         new NettyServerConfig(),
         new NettyClientConfig(), new MessageStoreConfig());
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         listener = new DefaultTransactionalMessageCheckListener();
         listener.setBrokerController(brokerController);
@@ -56,7 +56,7 @@ public class DefaultTransactionalMessageCheckListenerTest {
 
     }
 
-    @After
+    @AfterEach
     public void destroy() {
 //        brokerController.shutdown();
     }

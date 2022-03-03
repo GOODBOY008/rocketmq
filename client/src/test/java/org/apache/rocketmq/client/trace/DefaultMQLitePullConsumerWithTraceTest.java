@@ -51,10 +51,10 @@ import org.apache.rocketmq.common.protocol.route.QueueData;
 import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 import org.apache.rocketmq.common.topic.TopicValidator;
 import org.apache.rocketmq.remoting.RPCHook;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
@@ -71,7 +71,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -81,7 +81,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultMQLitePullConsumerWithTraceTest {
 
     @Spy
@@ -104,7 +104,7 @@ public class DefaultMQLitePullConsumerWithTraceTest {
 
     private String customerTraceTopic = "rmq_trace_topic_12345";
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         Field field = MQClientInstance.class.getDeclaredField("rebalanceService");
         field.setAccessible(true);
@@ -123,8 +123,8 @@ public class DefaultMQLitePullConsumerWithTraceTest {
             litePullConsumerImpl.updateTopicSubscribeInfo(topic, messageQueueSet);
             litePullConsumer.setPollTimeoutMillis(20 * 1000);
             List<MessageExt> result = litePullConsumer.poll();
-            assertThat(result.get(0).getTopic()).isEqualTo(topic);
-            assertThat(result.get(0).getBody()).isEqualTo(new byte[] {'a'});
+            Assertions.assertEquals(result.get(0).getTopic(),topic);
+            Assertions.assertEquals(result.get(0).getBody(),new byte[] {'a'});
         } finally {
             litePullConsumer.shutdown();
         }
@@ -139,8 +139,8 @@ public class DefaultMQLitePullConsumerWithTraceTest {
             litePullConsumerImpl.updateTopicSubscribeInfo(topic, messageQueueSet);
             litePullConsumer.setPollTimeoutMillis(20 * 1000);
             List<MessageExt> result = litePullConsumer.poll();
-            assertThat(result.get(0).getTopic()).isEqualTo(topic);
-            assertThat(result.get(0).getBody()).isEqualTo(new byte[] {'a'});
+            Assertions.assertEquals(result.get(0).getTopic(),topic);
+            Assertions.assertEquals(result.get(0).getBody(),new byte[] {'a'});
         } finally {
             litePullConsumer.shutdown();
         }
@@ -153,7 +153,7 @@ public class DefaultMQLitePullConsumerWithTraceTest {
         consumer.setEnableMsgTrace(true);
         consumer.start();
         AsyncTraceDispatcher asyncTraceDispatcher = (AsyncTraceDispatcher) consumer.getTraceDispatcher();
-        Assert.assertTrue(asyncTraceDispatcher.getTraceProducer().isUseTLS());
+        Assertions.assertTrue(asyncTraceDispatcher.getTraceProducer().isUseTLS());
     }
 
     private DefaultLitePullConsumer createLitePullConsumerWithDefaultTraceTopic() throws Exception {

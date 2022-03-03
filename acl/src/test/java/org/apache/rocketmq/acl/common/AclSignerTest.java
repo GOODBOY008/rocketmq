@@ -16,13 +16,14 @@
  */
 package org.apache.rocketmq.acl.common;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AclSignerTest {
 
-    @Test(expected = Exception.class)
+    @Test
     public void calSignatureExceptionTest(){
-        AclSigner.calSignature(new byte[]{},"");
+        Assertions.assertThrowsExactly(Exception.class,()-> AclSigner.calSignature(new byte[]{},""));
     }
 
     @Test

@@ -34,8 +34,8 @@ import org.apache.rocketmq.test.base.BaseConf;
 import org.apache.rocketmq.test.base.IntegrationTestBase;
 import org.apache.rocketmq.test.factory.ConsumerFactory;
 import org.apache.rocketmq.test.factory.ProducerFactory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.rocketmq.test.base.IntegrationTestBase.nextPort;
 import static sun.util.locale.BaseLocale.SEP;
@@ -76,7 +76,7 @@ public class DLedgerProduceAndConsumeIT {
         BrokerController brokerController = IntegrationTestBase.createAndStartBroker(storeConfig, brokerConfig);
         Thread.sleep(3000);
 
-        Assert.assertEquals(BrokerRole.SYNC_MASTER, storeConfig.getBrokerRole());
+        Assertions.assertEquals(BrokerRole.SYNC_MASTER, storeConfig.getBrokerRole());
 
 
         String topic = UUID.randomUUID().toString();
@@ -90,27 +90,27 @@ public class DLedgerProduceAndConsumeIT {
             message.setTopic(topic);
             message.setBody(("Hello" + i).getBytes());
             SendResult sendResult = producer.send(message);
-            Assert.assertEquals(SendStatus.SEND_OK, sendResult.getSendStatus());
-            Assert.assertEquals(0, sendResult.getMessageQueue().getQueueId());
-            Assert.assertEquals(brokerName, sendResult.getMessageQueue().getBrokerName());
-            Assert.assertEquals(i, sendResult.getQueueOffset());
-            Assert.assertNotNull(sendResult.getMsgId());
-            Assert.assertNotNull(sendResult.getOffsetMsgId());
+            Assertions.assertEquals(SendStatus.SEND_OK, sendResult.getSendStatus());
+            Assertions.assertEquals(0, sendResult.getMessageQueue().getQueueId());
+            Assertions.assertEquals(brokerName, sendResult.getMessageQueue().getBrokerName());
+            Assertions.assertEquals(i, sendResult.getQueueOffset());
+            Assertions.assertNotNull(sendResult.getMsgId());
+            Assertions.assertNotNull(sendResult.getOffsetMsgId());
         }
 
         Thread.sleep(500);
-        Assert.assertEquals(0, brokerController.getMessageStore().getMinOffsetInQueue(topic, 0));
-        Assert.assertEquals(10, brokerController.getMessageStore().getMaxOffsetInQueue(topic, 0));
+        Assertions.assertEquals(0, brokerController.getMessageStore().getMinOffsetInQueue(topic, 0));
+        Assertions.assertEquals(10, brokerController.getMessageStore().getMaxOffsetInQueue(topic, 0));
 
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 0);
         PullResult pullResult= consumer.pull(messageQueue, "*", 0, 32);
-        Assert.assertEquals(PullStatus.FOUND, pullResult.getPullStatus());
-        Assert.assertEquals(10, pullResult.getMsgFoundList().size());
+        Assertions.assertEquals(PullStatus.FOUND, pullResult.getPullStatus());
+        Assertions.assertEquals(10, pullResult.getMsgFoundList().size());
 
         for (int i = 0; i < 10; i++) {
             MessageExt messageExt = pullResult.getMsgFoundList().get(i);
-            Assert.assertEquals(i, messageExt.getQueueOffset());
-            Assert.assertArrayEquals(("Hello" + i).getBytes(), messageExt.getBody());
+            Assertions.assertEquals(i, messageExt.getQueueOffset());
+            Assertions.assertArrayEquals(("Hello" + i).getBytes(), messageExt.getBody());
         }
 
         producer.shutdown();

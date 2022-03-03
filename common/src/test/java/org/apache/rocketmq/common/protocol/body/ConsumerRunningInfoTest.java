@@ -21,8 +21,8 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.common.protocol.heartbeat.ConsumeType;
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Properties;
 import java.util.TreeMap;
@@ -30,7 +30,7 @@ import java.util.TreeSet;
 
 import static org.apache.rocketmq.common.protocol.heartbeat.ConsumeType.CONSUME_ACTIVELY;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ConsumerRunningInfoTest {
 
@@ -40,7 +40,7 @@ public class ConsumerRunningInfoTest {
 
     private MessageQueue messageQueue;
 
-    @Before
+    @BeforeEach
     public void init() {
         consumerRunningInfo = new ConsumerRunningInfo();
         consumerRunningInfo.setJstack("test");
@@ -72,36 +72,36 @@ public class ConsumerRunningInfoTest {
         String toJson = RemotingSerializable.toJson(consumerRunningInfo, true);
         ConsumerRunningInfo fromJson = RemotingSerializable.fromJson(toJson, ConsumerRunningInfo.class);
 
-        assertThat(fromJson.getJstack()).isEqualTo("test");
-        assertThat(fromJson.getProperties().get(ConsumerRunningInfo.PROP_CONSUME_TYPE)).isEqualTo(ConsumeType.CONSUME_ACTIVELY.name());
+        Assertions.assertEquals(fromJson.getJstack(),"test");
+        Assertions.assertEquals(fromJson.getProperties().get(ConsumerRunningInfo.PROP_CONSUME_TYPE),ConsumeType.CONSUME_ACTIVELY.name());
 
         ConsumeStatus consumeStatus = fromJson.getStatusTable().get("topicA");
-        assertThat(consumeStatus).isExactlyInstanceOf(ConsumeStatus.class);
+        Assertions.assertEquals(consumeStatus).isExactlyInstanceOf(ConsumeStatus.class);
 
         SubscriptionData subscription = fromJson.getSubscriptionSet().first();
-        assertThat(subscription).isExactlyInstanceOf(SubscriptionData.class);
+        Assertions.assertEquals(subscription).isExactlyInstanceOf(SubscriptionData.class);
 
         ProcessQueueInfo processQueueInfo = fromJson.getMqTable().get(messageQueue);
-        assertThat(processQueueInfo).isExactlyInstanceOf(ProcessQueueInfo.class);
+        Assertions.assertEquals(processQueueInfo).isExactlyInstanceOf(ProcessQueueInfo.class);
     }
 
     @Test
     public void testAnalyzeRebalance(){
         boolean result = ConsumerRunningInfo.analyzeRebalance(criTable);
-        assertThat(result).isTrue();
+        Assertions.assertTrue(result);
     }
 
     @Test
     public void testAnalyzeProcessQueue(){
         String result = ConsumerRunningInfo.analyzeProcessQueue("client_id", consumerRunningInfo);
-        assertThat(result).isEmpty();
+        Assertions.assertEquals(result).isEmpty();
 
     }
 
     @Test
     public void testAnalyzeSubscription(){
         boolean result = ConsumerRunningInfo.analyzeSubscription(criTable);
-        assertThat(result).isTrue();
+        Assertions.assertTrue(result);
     }
 
 

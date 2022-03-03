@@ -28,10 +28,11 @@ import org.apache.rocketmq.srvutil.ServerUtil;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExtImpl;
 import org.apache.rocketmq.tools.command.SubCommandException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.mock;
 
@@ -41,7 +42,7 @@ public class SkipAccumulationCommandTest {
     private static MQClientInstance mqClientInstance = MQClientManager.getInstance().getOrCreateMQClientInstance(new ClientConfig());
     private static MQClientAPIImpl mQClientAPIImpl;
 
-    @BeforeClass
+    @BeforeEach
     public static void init() throws Exception {
         mQClientAPIImpl = mock(MQClientAPIImpl.class);
         defaultMQAdminExt = new DefaultMQAdminExt();
@@ -58,12 +59,12 @@ public class SkipAccumulationCommandTest {
         field.set(defaultMQAdminExt, defaultMQAdminExtImpl);
     }
 
-    @AfterClass
+    @AfterEach
     public static void terminate() {
         defaultMQAdminExt.shutdown();
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void testExecute() throws SubCommandException {
         System.setProperty("rocketmq.namesrv.addr", "127.0.0.1:9876");

@@ -19,9 +19,9 @@ package org.apache.rocketmq.common.protocol;
 
 import org.apache.rocketmq.common.protocol.body.ConsumeStatus;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.Assertions.within;
 
 public class ConsumeStatusTest {
@@ -34,9 +34,9 @@ public class ConsumeStatusTest {
         cs.setPullTPS(1000);
         String json = RemotingSerializable.toJson(cs, true);
         ConsumeStatus fromJson = RemotingSerializable.fromJson(json, ConsumeStatus.class);
-        assertThat(fromJson.getPullRT()).isCloseTo(cs.getPullRT(), within(0.0001));
-        assertThat(fromJson.getPullTPS()).isCloseTo(cs.getPullTPS(), within(0.0001));
-        assertThat(fromJson.getConsumeFailedTPS()).isCloseTo(cs.getConsumeFailedTPS(), within(0.0001));
+        Assertions.assertEquals(fromJson.getPullRT()).isCloseTo(cs.getPullRT(), within(0.0001));
+        Assertions.assertEquals(fromJson.getPullTPS()).isCloseTo(cs.getPullTPS(), within(0.0001));
+        Assertions.assertEquals(fromJson.getConsumeFailedTPS()).isCloseTo(cs.getConsumeFailedTPS(), within(0.0001));
     }
 
 }

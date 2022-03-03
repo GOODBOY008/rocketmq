@@ -18,8 +18,8 @@
 package org.apache.rocketmq.logging.inner;
 
 import org.apache.rocketmq.logging.BasicLoggerTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,7 +41,7 @@ public class LoggingBuilderTest extends BasicLoggerTest {
         String result = new String(byteArrayOutputStream.toByteArray());
         System.setOut(out);
 
-        Assert.assertTrue(result.contains(loggingEvent.getMessage().toString()));
+        Assertions.assertTrue(result.contains(loggingEvent.getMessage().toString()));
 
     }
 
@@ -57,7 +57,7 @@ public class LoggingBuilderTest extends BasicLoggerTest {
         rollingFileAppender.close();
 
         File file = new File(logFile);
-        Assert.assertTrue(file.length() > 0);
+        Assertions.assertTrue(file.length() > 0);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class LoggingBuilderTest extends BasicLoggerTest {
                 cc += 1;
             }
         }
-        Assert.assertTrue(cc >= 2);
+        Assertions.assertTrue(cc >= 2);
     }
 
     //@Test
@@ -108,6 +108,6 @@ public class LoggingBuilderTest extends BasicLoggerTest {
                 return name.startsWith("daily-rolling--222.log");
             }
         });
-        Assert.assertTrue(list.length > 0);
+        Assertions.assertTrue(list.length > 0);
     }
 }

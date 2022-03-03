@@ -33,8 +33,8 @@ import org.apache.rocketmq.remoting.netty.NettyDecoder;
 import org.apache.rocketmq.remoting.netty.NettyEncoder;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.apache.rocketmq.remoting.protocol.RemotingSysResponseCode;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -47,12 +47,12 @@ public abstract class ServerResponseMocker {
 
     private final NioEventLoopGroup eventLoopGroup = new NioEventLoopGroup();
 
-    @Before
+    @BeforeEach
     public void before() {
         start();
     }
 
-    @After
+    @AfterEach
     public void shutdown() {
         if (eventLoopGroup.isShutdown()) {
             return;

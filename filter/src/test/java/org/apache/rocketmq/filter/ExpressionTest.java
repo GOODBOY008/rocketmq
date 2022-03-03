@@ -24,12 +24,13 @@ import org.apache.rocketmq.filter.expression.Expression;
 import org.apache.rocketmq.filter.expression.MQFilterException;
 import org.apache.rocketmq.filter.expression.PropertyExpression;
 import org.apache.rocketmq.filter.parser.SelectorParser;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ExpressionTest {
 
@@ -72,78 +73,80 @@ public class ExpressionTest {
         eval(expression, context, Boolean.TRUE);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testEvaluate_stringCompare() throws Exception {
-        Expression expression = genExp("a between up and low");
+        Assertions.assertThrowsExactly(RuntimeException.class,()->{
+            Expression expression = genExp("a between up and low");
 
-        EvaluationContext context = genContext(
-            KeyValue.c("a", "3.14")
-        );
-
-        eval(expression, context, Boolean.FALSE);
-
-        {
-            context = genContext(
-                KeyValue.c("a", "3.14"),
-                KeyValue.c("up", "up"),
-                KeyValue.c("low", "low")
+            EvaluationContext context = genContext(
+                KeyValue.c("a", "3.14")
             );
 
             eval(expression, context, Boolean.FALSE);
-        }
 
-        {
-            expression = genExp("key is not null and key between 0 and 100");
+            {
+                context = genContext(
+                    KeyValue.c("a", "3.14"),
+                    KeyValue.c("up", "up"),
+                    KeyValue.c("low", "low")
+                );
 
-            context = genContext(
-                KeyValue.c("key", "con")
-            );
+                eval(expression, context, Boolean.FALSE);
+            }
 
-            eval(expression, context, Boolean.FALSE);
-        }
+            {
+                expression = genExp("key is not null and key between 0 and 100");
 
-        {
-            expression = genExp("a between 0 and 100");
+                context = genContext(
+                    KeyValue.c("key", "con")
+                );
 
-            context = genContext(
-                KeyValue.c("a", "abc")
-            );
+                eval(expression, context, Boolean.FALSE);
+            }
 
-            eval(expression, context, Boolean.FALSE);
-        }
+            {
+                expression = genExp("a between 0 and 100");
 
-        {
-            expression = genExp("a=b");
+                context = genContext(
+                    KeyValue.c("a", "abc")
+                );
 
-            context = genContext(
-                KeyValue.c("a", "3.14"),
-                KeyValue.c("b", "3.14")
-            );
+                eval(expression, context, Boolean.FALSE);
+            }
 
-            eval(expression, context, Boolean.TRUE);
-        }
+            {
+                expression = genExp("a=b");
 
-        {
-            expression = genExp("a<>b");
+                context = genContext(
+                    KeyValue.c("a", "3.14"),
+                    KeyValue.c("b", "3.14")
+                );
 
-            context = genContext(
-                KeyValue.c("a", "3.14"),
-                KeyValue.c("b", "3.14")
-            );
+                eval(expression, context, Boolean.TRUE);
+            }
 
-            eval(expression, context, Boolean.FALSE);
-        }
+            {
+                expression = genExp("a<>b");
 
-        {
-            expression = genExp("a<>b");
+                context = genContext(
+                    KeyValue.c("a", "3.14"),
+                    KeyValue.c("b", "3.14")
+                );
 
-            context = genContext(
-                KeyValue.c("a", "3.14"),
-                KeyValue.c("b", "3.141")
-            );
+                eval(expression, context, Boolean.FALSE);
+            }
 
-            eval(expression, context, Boolean.TRUE);
-        }
+            {
+                expression = genExp("a<>b");
+
+                context = genContext(
+                    KeyValue.c("a", "3.14"),
+                    KeyValue.c("b", "3.141")
+                );
+
+                eval(expression, context, Boolean.TRUE);
+            }
+        });
     }
 
     @Test
@@ -526,9 +529,9 @@ public class ExpressionTest {
     protected void eval(Expression expression, EvaluationContext context, Boolean result) throws Exception {
         Object ret = expression.evaluate(context);
         if (ret == null || !(ret instanceof Boolean)) {
-            assertThat(result).isFalse();
+            Assertions.assertFalse(result);
         } else {
-            assertThat(result).isEqualTo(ret);
+            Assertions.assertEquals(result,ret);
         }
     }
 
@@ -551,10 +554,10 @@ public class ExpressionTest {
         try {
             expression = SelectorParser.parse(exp);
 
-            assertThat(expression).isNotNull();
+            Assertions.assertNotNull(expression);
         } catch (MQFilterException e) {
             e.printStackTrace();
-            assertThat(Boolean.FALSE).isTrue();
+            Assertions.assertTrue(Boolean.FALSE);
         }
 
         return expression;

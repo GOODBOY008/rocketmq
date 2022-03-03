@@ -24,25 +24,25 @@ import org.apache.rocketmq.store.config.FlushDiskType;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.config.StorePathConfigHelper;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultMessageStoreShutDownTest {
     private DefaultMessageStore messageStore;
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         DefaultMessageStore store = buildMessageStore();
         boolean load = store.load();
-        assertTrue(load);
+        Assertions.assertTrue(load);
         store.start();
         messageStore = spy(store);
         when(messageStore.dispatchBehindBytes()).thenReturn(100L);
@@ -51,12 +51,12 @@ public class DefaultMessageStoreShutDownTest {
     @Test
     public void testDispatchBehindWhenShutdown() {
         messageStore.shutdown();
-        assertTrue(!messageStore.shutDownNormal);
+        Assertions.assertTrue(!messageStore.shutDownNormal);
         File file = new File(StorePathConfigHelper.getAbortFile(messageStore.getMessageStoreConfig().getStorePathRootDir()));
-        assertTrue(file.exists());
+        Assertions.assertTrue(file.exists());
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         messageStore.destroy();
         File file = new File(messageStore.getMessageStoreConfig().getStorePathRootDir());

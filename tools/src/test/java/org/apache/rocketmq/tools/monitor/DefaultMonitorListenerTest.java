@@ -25,15 +25,15 @@ import org.apache.rocketmq.common.protocol.body.ConsumerRunningInfo;
 import org.apache.rocketmq.common.protocol.body.ProcessQueueInfo;
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
 import org.apache.rocketmq.common.protocol.topic.OffsetMovedEvent;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.mock;
 
 public class DefaultMonitorListenerTest {
     private DefaultMonitorListener defaultMonitorListener;
 
-    @Before
+    @BeforeEach
     public void init() {
         defaultMonitorListener = mock(DefaultMonitorListener.class);
     }

@@ -20,36 +20,37 @@ package org.apache.rocketmq.common.protocol.heartbeat;
 import org.apache.rocketmq.common.filter.ExpressionType;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
 import org.assertj.core.util.Sets;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class SubscriptionDataTest {
 
     @Test
     public void testConstructor1() {
         SubscriptionData subscriptionData = new SubscriptionData();
-        assertThat(subscriptionData.getTopic()).isNull();
-        assertThat(subscriptionData.getSubString()).isNull();
-        assertThat(subscriptionData.getSubVersion()).isLessThanOrEqualTo(System.currentTimeMillis());
-        assertThat(subscriptionData.getExpressionType()).isEqualTo(ExpressionType.TAG);
-        assertThat(subscriptionData.getFilterClassSource()).isNull();
-        assertThat(subscriptionData.getCodeSet()).isEmpty();
-        assertThat(subscriptionData.getTagsSet()).isEmpty();
-        assertThat(subscriptionData.isClassFilterMode()).isFalse();
+        Assertions.assertNull(subscriptionData.getTopic());
+        Assertions.assertNull(subscriptionData.getSubString());
+        Assertions.assertEquals(subscriptionData.getSubVersion()).isLessThanOrEqualTo(System.currentTimeMillis());
+        Assertions.assertEquals(subscriptionData.getExpressionType(),ExpressionType.TAG);
+        Assertions.assertNull(subscriptionData.getFilterClassSource());
+        Assertions.assertEquals(subscriptionData.getCodeSet()).isEmpty();
+        Assertions.assertEquals(subscriptionData.getTagsSet()).isEmpty();
+        Assertions.assertFalse(subscriptionData.isClassFilterMode());
     }
 
     @Test
     public void testConstructor2() {
         SubscriptionData subscriptionData = new SubscriptionData("TOPICA", "*");
-        assertThat(subscriptionData.getTopic()).isEqualTo("TOPICA");
-        assertThat(subscriptionData.getSubString()).isEqualTo("*");
-        assertThat(subscriptionData.getSubVersion()).isLessThanOrEqualTo(System.currentTimeMillis());
-        assertThat(subscriptionData.getExpressionType()).isEqualTo(ExpressionType.TAG);
-        assertThat(subscriptionData.getFilterClassSource()).isNull();
-        assertThat(subscriptionData.getCodeSet()).isEmpty();
-        assertThat(subscriptionData.getTagsSet()).isEmpty();
-        assertThat(subscriptionData.isClassFilterMode()).isFalse();
+        Assertions.assertEquals(subscriptionData.getTopic(),"TOPICA");
+        Assertions.assertEquals(subscriptionData.getSubString(),"*");
+        Assertions.assertEquals(subscriptionData.getSubVersion()).isLessThanOrEqualTo(System.currentTimeMillis());
+        Assertions.assertEquals(subscriptionData.getExpressionType(),ExpressionType.TAG);
+        Assertions.assertNull(subscriptionData.getFilterClassSource());
+        Assertions.assertEquals(subscriptionData.getCodeSet()).isEmpty();
+        Assertions.assertEquals(subscriptionData.getTagsSet()).isEmpty();
+        Assertions.assertFalse(subscriptionData.isClassFilterMode());
     }
 
 
@@ -58,7 +59,7 @@ public class SubscriptionDataTest {
         SubscriptionData subscriptionData = new SubscriptionData("TOPICA", "*");
         subscriptionData.setCodeSet(Sets.newLinkedHashSet(1, 2, 3));
         subscriptionData.setTagsSet(Sets.newLinkedHashSet("TAGA", "TAGB", "TAG3"));
-        assertThat(subscriptionData.hashCode()).isNotEqualTo(System.identityHashCode(subscriptionData));
+        Assertions.assertNotEquals(subscriptionData.hashCode(),System.identityHashCode(subscriptionData));
     }
 
     @Test
@@ -69,10 +70,10 @@ public class SubscriptionDataTest {
         subscriptionData.setTagsSet(Sets.newLinkedHashSet("TAGA", "TAGB", "TAG3"));
         String json = RemotingSerializable.toJson(subscriptionData, true);
         SubscriptionData fromJson = RemotingSerializable.fromJson(json, SubscriptionData.class);
-        assertThat(subscriptionData).isEqualTo(fromJson);
-        assertThat(subscriptionData).isEqualByComparingTo(fromJson);
-        assertThat(subscriptionData.getFilterClassSource()).isEqualTo("TestFilterClassSource");
-        assertThat(fromJson.getFilterClassSource()).isNull();
+        Assertions.assertEquals(subscriptionData,fromJson);
+        Assertions.assertEquals(subscriptionData).isEqualByComparingTo(fromJson);
+        Assertions.assertEquals(subscriptionData.getFilterClassSource(),"TestFilterClassSource");
+        Assertions.assertNull(fromJson.getFilterClassSource());
     }
 
 
@@ -80,6 +81,6 @@ public class SubscriptionDataTest {
     public void testCompareTo() {
         SubscriptionData subscriptionData = new SubscriptionData("TOPICA", "*");
         SubscriptionData subscriptionData1 = new SubscriptionData("TOPICBA", "*");
-        assertThat(subscriptionData.compareTo(subscriptionData1)).isEqualTo("TOPICA@*".compareTo("TOPICB@*"));
+        Assertions.assertEquals(subscriptionData.compareTo(subscriptionData1),"TOPICA@*".compareTo("TOPICB@*"));
     }
 }

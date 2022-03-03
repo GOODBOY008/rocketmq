@@ -20,36 +20,37 @@ import io.openmessaging.Future;
 import io.openmessaging.FutureListener;
 import io.openmessaging.Promise;
 import io.openmessaging.exception.OMSRuntimeException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 
 public class DefaultPromiseTest {
     private Promise<String> promise;
 
-    @Before
+    @BeforeEach
     public void init() {
         promise = new DefaultPromise<>();
     }
 
     @Test
     public void testIsCancelled() throws Exception {
-        assertThat(promise.isCancelled()).isEqualTo(false);
+        Assertions.assertEquals(promise.isCancelled(),false);
     }
 
     @Test
     public void testIsDone() throws Exception {
-        assertThat(promise.isDone()).isEqualTo(false);
+        Assertions.assertEquals(promise.isDone(),false);
         promise.set("Done");
-        assertThat(promise.isDone()).isEqualTo(true);
+        Assertions.assertEquals(promise.isDone(),true);
     }
 
     @Test
     public void testGet() throws Exception {
         promise.set("Done");
-        assertThat(promise.get()).isEqualTo("Done");
+        Assertions.assertEquals(promise.get(),"Done");
     }
 
     @Test
@@ -58,7 +59,7 @@ public class DefaultPromiseTest {
             promise.get(100);
             failBecauseExceptionWasNotThrown(OMSRuntimeException.class);
         } catch (OMSRuntimeException e) {
-            assertThat(e).hasMessageContaining("Get request result is timeout or interrupted");
+            Assertions.assertEquals(e).hasMessageContaining("Get request result is timeout or interrupted");
         }
     }
 
@@ -67,7 +68,7 @@ public class DefaultPromiseTest {
         promise.addListener(new FutureListener<String>() {
             @Override
             public void operationComplete(Future<String> future) {
-                assertThat(promise.get()).isEqualTo("Done");
+                Assertions.assertEquals(promise.get(),"Done");
 
             }
         });
@@ -80,7 +81,7 @@ public class DefaultPromiseTest {
         promise.addListener(new FutureListener<String>() {
             @Override
             public void operationComplete(Future<String> future) {
-                assertThat(future.get()).isEqualTo("Done");
+                Assertions.assertEquals(future.get(),"Done");
             }
         });
     }
@@ -92,7 +93,7 @@ public class DefaultPromiseTest {
         promise.addListener(new FutureListener<String>() {
             @Override
             public void operationComplete(Future<String> future) {
-                assertThat(promise.getThrowable()).isEqualTo(exception);
+                Assertions.assertEquals(promise.getThrowable(),exception);
             }
         });
     }
@@ -103,7 +104,7 @@ public class DefaultPromiseTest {
         promise.addListener(new FutureListener<String>() {
             @Override
             public void operationComplete(Future<String> future) {
-                assertThat(promise.getThrowable()).isEqualTo(exception);
+                Assertions.assertEquals(promise.getThrowable(),exception);
             }
         });
         promise.setFailure(exception);
@@ -111,10 +112,10 @@ public class DefaultPromiseTest {
 
     @Test
     public void getThrowable() throws Exception {
-        assertThat(promise.getThrowable()).isNull();
+        Assertions.assertNull(promise.getThrowable());
         Throwable exception = new OMSRuntimeException("-1", "Test Error");
         promise.setFailure(exception);
-        assertThat(promise.getThrowable()).isEqualTo(exception);
+        Assertions.assertEquals(promise.getThrowable(),exception);
     }
 
 }

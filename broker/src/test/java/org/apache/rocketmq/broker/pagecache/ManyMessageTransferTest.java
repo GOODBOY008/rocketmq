@@ -19,8 +19,8 @@ package org.apache.rocketmq.broker.pagecache;
 
 import java.nio.ByteBuffer;
 import org.apache.rocketmq.store.GetMessageResult;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ManyMessageTransferTest {
 
@@ -38,7 +38,7 @@ public class ManyMessageTransferTest {
         byteBuffer.putInt(20);
         GetMessageResult getMessageResult = new GetMessageResult();
         ManyMessageTransfer manyMessageTransfer = new ManyMessageTransfer(byteBuffer,getMessageResult);
-        Assert.assertEquals(manyMessageTransfer.position(),4);
+        Assertions.assertEquals(manyMessageTransfer.position(),4);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class ManyMessageTransferTest {
         GetMessageResult getMessageResult = new GetMessageResult();
         ManyMessageTransfer manyMessageTransfer = new ManyMessageTransfer(byteBuffer,getMessageResult);
 
-        Assert.assertEquals(manyMessageTransfer.count(),20);
+        Assertions.assertEquals(manyMessageTransfer.count(),20);
 
     }
 

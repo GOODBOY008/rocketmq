@@ -37,22 +37,22 @@ import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.apache.rocketmq.store.MessageStore;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class BrokerOuterAPITest {
     @Mock
     private ChannelHandlerContext handlerContext;
@@ -92,8 +92,8 @@ public class BrokerOuterAPITest {
         when(nettyRemotingClient.getNameServerAddressList()).thenReturn(Lists.asList(nameserver1, nameserver2, new String[] {nameserver3}));
         when(nettyRemotingClient.invokeSync(anyString(), any(RemotingCommand.class), anyLong())).thenReturn(response);
         List<Boolean> booleanList = brokerOuterAPI.needRegister(clusterName, brokerAddr, brokerName, brokerId, topicConfigSerializeWrapper, timeOut);
-        assertTrue(booleanList.size() > 0);
-        assertEquals(false, booleanList.contains(Boolean.FALSE));
+        Assertions.assertTrue(booleanList.size() > 0);
+        Assertions.assertEquals(false, booleanList.contains(Boolean.FALSE));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class BrokerOuterAPITest {
             }
         });
         List<Boolean> booleanList = brokerOuterAPI.needRegister(clusterName, brokerAddr, brokerName, brokerId, topicConfigSerializeWrapper, timeOut);
-        assertEquals(2, booleanList.size());
+        Assertions.assertEquals(2, booleanList.size());
         boolean success = Iterables.any(booleanList,
             new Predicate<Boolean>() {
                 public boolean apply(Boolean input) {
@@ -128,7 +128,7 @@ public class BrokerOuterAPITest {
                 }
             });
 
-        assertEquals(true, success);
+        Assertions.assertEquals(true, success);
 
     }
 
@@ -148,7 +148,7 @@ public class BrokerOuterAPITest {
         when(nettyRemotingClient.invokeSync(anyString(), any(RemotingCommand.class), anyLong())).thenReturn(response);
         List<RegisterBrokerResult> registerBrokerResultList = brokerOuterAPI.registerBrokerAll(clusterName, brokerAddr, brokerName, brokerId, "hasServerAddr", topicConfigSerializeWrapper, Lists.<String>newArrayList(), false, timeOut, true);
 
-        assertTrue(registerBrokerResultList.size() > 0);
+        Assertions.assertTrue(registerBrokerResultList.size() > 0);
     }
 
     @Test
@@ -179,7 +179,7 @@ public class BrokerOuterAPITest {
         });
         List<RegisterBrokerResult> registerBrokerResultList = brokerOuterAPI.registerBrokerAll(clusterName, brokerAddr, brokerName, brokerId, "hasServerAddr", topicConfigSerializeWrapper, Lists.<String>newArrayList(), false, timeOut, true);
 
-        assertEquals(2, registerBrokerResultList.size());
+        Assertions.assertEquals(2, registerBrokerResultList.size());
     }
 
     private RemotingCommand buildResponse(Boolean changed) {

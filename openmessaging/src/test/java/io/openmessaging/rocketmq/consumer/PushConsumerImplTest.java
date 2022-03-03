@@ -29,23 +29,24 @@ import java.util.Collections;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class PushConsumerImplTest {
     private PushConsumer consumer;
 
     @Mock
     private DefaultMQPushConsumer rocketmqPushConsumer;
 
-    @Before
+    @BeforeEach
     public void init() throws NoSuchFieldException, IllegalAccessException {
         final MessagingAccessPoint messagingAccessPoint = OMS
             .getMessagingAccessPoint("oms:rocketmq://IP1:9876,IP2:9876/namespace");
@@ -74,8 +75,8 @@ public class PushConsumerImplTest {
         consumer.attachQueue("HELLO_QUEUE", new MessageListener() {
             @Override
             public void onReceived(Message message, Context context) {
-                assertThat(message.sysHeaders().getString(Message.BuiltinKeys.MESSAGE_ID)).isEqualTo("NewMsgId");
-                assertThat(((BytesMessage) message).getBody(byte[].class)).isEqualTo(testBody);
+                Assertions.assertEquals(message.sysHeaders().getString(Message.BuiltinKeys.MESSAGE_ID),"NewMsgId");
+                Assertions.assertEquals(((BytesMessage) message).getBody(byte[].class),testBody);
                 context.ack();
             }
         });

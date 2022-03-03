@@ -20,8 +20,8 @@ package org.apache.rocketmq.broker;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Properties;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class BrokerStartupTest {
 
@@ -36,6 +36,6 @@ public class BrokerStartupTest {
         method.setAccessible(true);
         System.setProperty("rocketmq.namesrv.domain", "value");
         method.invoke(null, properties);
-        Assert.assertEquals("value", System.getProperty("rocketmq.namesrv.domain"));
+        Assertions.assertEquals("value", System.getProperty("rocketmq.namesrv.domain"));
     }
 }

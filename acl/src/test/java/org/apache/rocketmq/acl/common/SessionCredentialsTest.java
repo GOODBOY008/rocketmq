@@ -16,8 +16,8 @@
  */
 package org.apache.rocketmq.acl.common;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Properties;
 
@@ -28,7 +28,7 @@ public class SessionCredentialsTest {
         SessionCredentials sessionCredentials=new SessionCredentials("RocketMQ","12345678");
         sessionCredentials.setSecurityToken("abcd");
         SessionCredentials other=new SessionCredentials("RocketMQ","12345678","abcd");
-        Assert.assertTrue(sessionCredentials.equals(other));
+        Assertions.assertTrue(sessionCredentials.equals(other));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class SessionCredentialsTest {
         properties.setProperty(SessionCredentials.SECRET_KEY,"12345678");
         properties.setProperty(SessionCredentials.SECURITY_TOKEN,"abcd");
         sessionCredentials.updateContent(properties);
-        Assert.assertEquals(sessionCredentials.hashCode(),353652211);
+        Assertions.assertEquals(sessionCredentials.hashCode(),353652211);
     }
 
     @Test
@@ -68,10 +68,10 @@ public class SessionCredentialsTest {
         properties2.setProperty(SessionCredentials.SECURITY_TOKEN,"abcd");
         sessionCredential2.updateContent(properties2);
 
-        Assert.assertTrue(sessionCredential2.equals(sessionCredential1));
+        Assertions.assertTrue(sessionCredential2.equals(sessionCredential1));
         sessionCredential2.setSecretKey("1234567899");
         sessionCredential2.setSignature("1234567899");
-        Assert.assertFalse(sessionCredential2.equals(sessionCredential1));
+        Assertions.assertFalse(sessionCredential2.equals(sessionCredential1));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class SessionCredentialsTest {
         properties1.setProperty(SessionCredentials.SECURITY_TOKEN,"abcd");
         sessionCredential1.updateContent(properties1);
 
-        Assert.assertEquals(sessionCredential1.toString(),
+        Assertions.assertEquals(sessionCredential1.toString(),
             "SessionCredentials [accessKey=RocketMQ, secretKey=12345678, signature=null, SecurityToken=abcd]");
     }
 

@@ -23,84 +23,84 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.rocketmq.acl.plain.PlainAccessResource;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class PermissionTest {
 
     @Test
     public void fromStringGetPermissionTest() {
         byte perm = Permission.parsePermFromString("PUB");
-        Assert.assertEquals(perm, Permission.PUB);
+        Assertions.assertEquals(perm, Permission.PUB);
 
         perm = Permission.parsePermFromString("SUB");
-        Assert.assertEquals(perm, Permission.SUB);
+        Assertions.assertEquals(perm, Permission.SUB);
 
         perm = Permission.parsePermFromString("PUB|SUB");
-        Assert.assertEquals(perm, Permission.PUB|Permission.SUB);
+        Assertions.assertEquals(perm, Permission.PUB|Permission.SUB);
 
         perm = Permission.parsePermFromString("SUB|PUB");
-        Assert.assertEquals(perm, Permission.PUB|Permission.SUB);
+        Assertions.assertEquals(perm, Permission.PUB|Permission.SUB);
 
         perm = Permission.parsePermFromString("DENY");
-        Assert.assertEquals(perm, Permission.DENY);
+        Assertions.assertEquals(perm, Permission.DENY);
 
         perm = Permission.parsePermFromString("1");
-        Assert.assertEquals(perm, Permission.DENY);
+        Assertions.assertEquals(perm, Permission.DENY);
 
         perm = Permission.parsePermFromString(null);
-        Assert.assertEquals(perm, Permission.DENY);
+        Assertions.assertEquals(perm, Permission.DENY);
 
     }
 
     @Test
     public void checkPermissionTest() {
         boolean boo = Permission.checkPermission(Permission.DENY, Permission.DENY);
-        Assert.assertFalse(boo);
+        Assertions.assertFalse(boo);
 
         boo = Permission.checkPermission(Permission.PUB, Permission.PUB);
-        Assert.assertTrue(boo);
+        Assertions.assertTrue(boo);
 
         boo = Permission.checkPermission(Permission.SUB, Permission.SUB);
-        Assert.assertTrue(boo);
+        Assertions.assertTrue(boo);
 
         boo = Permission.checkPermission(Permission.PUB, (byte) (Permission.PUB|Permission.SUB));
-        Assert.assertTrue(boo);
+        Assertions.assertTrue(boo);
 
         boo = Permission.checkPermission(Permission.SUB, (byte) (Permission.PUB|Permission.SUB));
-        Assert.assertTrue(boo);
+        Assertions.assertTrue(boo);
 
         boo = Permission.checkPermission(Permission.ANY, (byte) (Permission.PUB|Permission.SUB));
-        Assert.assertTrue(boo);
+        Assertions.assertTrue(boo);
 
         boo = Permission.checkPermission(Permission.ANY, Permission.SUB);
-        Assert.assertTrue(boo);
+        Assertions.assertTrue(boo);
 
         boo = Permission.checkPermission(Permission.ANY, Permission.PUB);
-        Assert.assertTrue(boo);
+        Assertions.assertTrue(boo);
 
         boo = Permission.checkPermission(Permission.DENY, Permission.ANY);
-        Assert.assertFalse(boo);
+        Assertions.assertFalse(boo);
 
         boo = Permission.checkPermission(Permission.DENY, Permission.PUB);
-        Assert.assertFalse(boo);
+        Assertions.assertFalse(boo);
 
         boo = Permission.checkPermission(Permission.DENY, Permission.SUB);
-        Assert.assertFalse(boo);
+        Assertions.assertFalse(boo);
 
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void setTopicPermTest() {
         PlainAccessResource plainAccessResource = new PlainAccessResource();
         Map<String, Byte> resourcePermMap = plainAccessResource.getResourcePermMap();
 
         Permission.parseResourcePerms(plainAccessResource, false, null);
-        Assert.assertNull(resourcePermMap);
+        Assertions.assertNull(resourcePermMap);
 
         List<String> groups = new ArrayList<>();
         Permission.parseResourcePerms(plainAccessResource, false, groups);
-        Assert.assertNull(resourcePermMap);
+        Assertions.assertNull(resourcePermMap);
 
         groups.add("groupA=DENY");
         groups.add("groupB=PUB|SUB");
@@ -109,13 +109,13 @@ public class PermissionTest {
         resourcePermMap = plainAccessResource.getResourcePermMap();
 
         byte perm = resourcePermMap.get(PlainAccessResource.getRetryTopic("groupA"));
-        Assert.assertEquals(perm, Permission.DENY);
+        Assertions.assertEquals(perm, Permission.DENY);
 
         perm = resourcePermMap.get(PlainAccessResource.getRetryTopic("groupB"));
-        Assert.assertEquals(perm,Permission.PUB|Permission.SUB);
+        Assertions.assertEquals(perm,Permission.PUB|Permission.SUB);
 
         perm = resourcePermMap.get(PlainAccessResource.getRetryTopic("groupC"));
-        Assert.assertEquals(perm, Permission.PUB);
+        Assertions.assertEquals(perm, Permission.PUB);
 
         List<String> topics = new ArrayList<>();
         topics.add("topicA=DENY");
@@ -125,13 +125,13 @@ public class PermissionTest {
         Permission.parseResourcePerms(plainAccessResource, true, topics);
 
         perm = resourcePermMap.get("topicA");
-        Assert.assertEquals(perm, Permission.DENY);
+        Assertions.assertEquals(perm, Permission.DENY);
 
         perm = resourcePermMap.get("topicB");
-        Assert.assertEquals(perm, Permission.PUB|Permission.SUB);
+        Assertions.assertEquals(perm, Permission.PUB|Permission.SUB);
 
         perm = resourcePermMap.get("topicC");
-        Assert.assertEquals(perm, Permission.PUB);
+        Assertions.assertEquals(perm, Permission.PUB);
 
         List<String> erron = new ArrayList<>();
         erron.add("");
@@ -150,7 +150,7 @@ public class PermissionTest {
         for (int i = 0; i < 400; i++) {
             boolean boo = Permission.needAdminPerm(i);
             if (boo) {
-                Assert.assertTrue(code.contains(i));
+                Assertions.assertTrue(code.contains(i));
             }
         }
     }
@@ -159,12 +159,12 @@ public class PermissionTest {
     public void AclExceptionTest(){
         AclException aclException = new AclException("CAL_SIGNATURE_FAILED",10015);
         AclException aclExceptionWithMessage = new AclException("CAL_SIGNATURE_FAILED",10015,"CAL_SIGNATURE_FAILED Exception");
-        Assert.assertEquals(aclException.getCode(),10015);
-        Assert.assertEquals(aclExceptionWithMessage.getStatus(),"CAL_SIGNATURE_FAILED");
+        Assertions.assertEquals(aclException.getCode(),10015);
+        Assertions.assertEquals(aclExceptionWithMessage.getStatus(),"CAL_SIGNATURE_FAILED");
         aclException.setCode(10016);
-        Assert.assertEquals(aclException.getCode(),10016);
+        Assertions.assertEquals(aclException.getCode(),10016);
         aclException.setStatus("netaddress examine scope Exception netaddress");
-        Assert.assertEquals(aclException.getStatus(),"netaddress examine scope Exception netaddress");
+        Assertions.assertEquals(aclException.getStatus(),"netaddress examine scope Exception netaddress");
     }
 
     @Test
@@ -175,18 +175,18 @@ public class PermissionTest {
         Permission.checkResourcePerms(Arrays.asList("topicA=PUB", "topicB=SUB", "topicC=PUB|SUB"));
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void checkResourcePermsExceptionTest1() {
-        Permission.checkResourcePerms(Arrays.asList("topicA"));
+        Assertions.assertThrowsExactly(AclException.class,()->Permission.checkResourcePerms(Arrays.asList("topicA")));
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void checkResourcePermsExceptionTest2() {
-        Permission.checkResourcePerms(Arrays.asList("topicA="));
+        Assertions.assertThrowsExactly(AclException.class,()->Permission.checkResourcePerms(Arrays.asList("topicA=")));
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void checkResourcePermsExceptionTest3() {
-        Permission.checkResourcePerms(Arrays.asList("topicA=DENY1"));
+        Assertions.assertThrowsExactly(AclException.class,()->Permission.checkResourcePerms(Arrays.asList("topicA=DENY1")));
     }
 }

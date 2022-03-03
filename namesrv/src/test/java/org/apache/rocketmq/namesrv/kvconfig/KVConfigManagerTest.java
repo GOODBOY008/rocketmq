@@ -18,16 +18,16 @@ package org.apache.rocketmq.namesrv.kvconfig;
 
 import org.apache.rocketmq.common.namesrv.NamesrvUtil;
 import org.apache.rocketmq.namesrv.NameServerInstanceTest;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class KVConfigManagerTest extends NameServerInstanceTest {
     private KVConfigManager kvConfigManager;
 
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
         kvConfigManager = new KVConfigManager(nameSrvController);
     }
@@ -36,18 +36,18 @@ public class KVConfigManagerTest extends NameServerInstanceTest {
     public void testPutKVConfig() {
         kvConfigManager.putKVConfig(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG, "UnitTest", "test");
         byte[] kvConfig = kvConfigManager.getKVListByNamespace(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG);
-        assertThat(kvConfig).isNotNull();
+        Assertions.assertNotNull(kvConfig);
         String value = kvConfigManager.getKVConfig(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG, "UnitTest");
-        assertThat(value).isEqualTo("test");
+        Assertions.assertEquals(value,"test");
     }
 
     @Test
     public void testDeleteKVConfig() {
         kvConfigManager.deleteKVConfig(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG, "UnitTest");
         byte[] kvConfig = kvConfigManager.getKVListByNamespace(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG);
-        assertThat(kvConfig).isNull();
-        Assert.assertTrue(kvConfig == null);
+        Assertions.assertNull(kvConfig);
+        Assertions.assertTrue(kvConfig == null);
         String value = kvConfigManager.getKVConfig(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG, "UnitTest");
-        assertThat(value).isNull();
+        Assertions.assertNull(value);
     }
 }

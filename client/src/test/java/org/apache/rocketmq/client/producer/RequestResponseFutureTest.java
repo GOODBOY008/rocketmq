@@ -20,9 +20,9 @@ package org.apache.rocketmq.client.producer;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.rocketmq.common.message.Message;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class RequestResponseFutureTest {
 
@@ -39,7 +39,7 @@ public class RequestResponseFutureTest {
         });
         future.setSendRequestOk(true);
         future.executeRequestCallback();
-        assertThat(cc.get()).isEqualTo(1);
+        Assertions.assertEquals(cc.get(),1);
     }
 
 }

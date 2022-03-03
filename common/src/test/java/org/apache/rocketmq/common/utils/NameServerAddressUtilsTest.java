@@ -17,9 +17,9 @@
 
 package org.apache.rocketmq.common.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class NameServerAddressUtilsTest {
 
@@ -31,29 +31,29 @@ public class NameServerAddressUtilsTest {
 
     @Test
     public void testValidateInstanceEndpoint() {
-        assertThat(NameServerAddressUtils.validateInstanceEndpoint(endpoint1)).isEqualTo(false);
-        assertThat(NameServerAddressUtils.validateInstanceEndpoint(endpoint2)).isEqualTo(false);
-        assertThat(NameServerAddressUtils.validateInstanceEndpoint(endpoint3)).isEqualTo(true);
-        assertThat(NameServerAddressUtils.validateInstanceEndpoint(endpoint4)).isEqualTo(true);
+        Assertions.assertEquals(NameServerAddressUtils.validateInstanceEndpoint(endpoint1),false);
+        Assertions.assertEquals(NameServerAddressUtils.validateInstanceEndpoint(endpoint2),false);
+        Assertions.assertEquals(NameServerAddressUtils.validateInstanceEndpoint(endpoint3),true);
+        Assertions.assertEquals(NameServerAddressUtils.validateInstanceEndpoint(endpoint4),true);
     }
 
     @Test
     public void testParseInstanceIdFromEndpoint() {
-        assertThat(NameServerAddressUtils.parseInstanceIdFromEndpoint(endpoint3)).isEqualTo(
+        Assertions.assertEquals(NameServerAddressUtils.parseInstanceIdFromEndpoint(endpoint3),
             "MQ_INST_123456789_BXXUzaee");
-        assertThat(NameServerAddressUtils.parseInstanceIdFromEndpoint(endpoint4)).isEqualTo(
+        Assertions.assertEquals(NameServerAddressUtils.parseInstanceIdFromEndpoint(endpoint4),
             "MQ_INST_123456789_BXXUzaee");
     }
 
     @Test
     public void testGetNameSrvAddrFromNamesrvEndpoint() {
-        assertThat(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint1))
+        Assertions.assertEquals(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint1))
             .isEqualTo("127.0.0.1:9876");
-        assertThat(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint2))
+        Assertions.assertEquals(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint2))
             .isEqualTo("127.0.0.1:9876");
-        assertThat(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint3))
+        Assertions.assertEquals(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint3))
             .isEqualTo("MQ_INST_123456789_BXXUzaee.xxx:80");
-        assertThat(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint4))
+        Assertions.assertEquals(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint4))
             .isEqualTo("MQ_INST_123456789_BXXUzaee.xxx:80");
     }
 }

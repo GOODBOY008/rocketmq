@@ -30,11 +30,11 @@ import org.apache.rocketmq.common.subscription.SubscriptionGroupConfig;
 import org.apache.rocketmq.remoting.netty.NettyClientConfig;
 import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class LmqConsumerOffsetManagerTest {
 
@@ -53,7 +53,7 @@ public class LmqConsumerOffsetManagerTest {
         topicConfig.setTopicName(lmqTopicName);
         lmqTopicConfigManager.updateTopicConfig(topicConfig);
         TopicConfig topicConfig1 = lmqTopicConfigManager.selectTopicConfig(lmqTopicName);
-        assertThat(topicConfig1.getTopicName()).isEqualTo(topicConfig.getTopicName());
+        Assertions.assertEquals(topicConfig1.getTopicName(),topicConfig.getTopicName());
 
         String lmqGroupName = "%LMQ%GID_test";
         SubscriptionGroupConfig subscriptionGroupConfig = new SubscriptionGroupConfig();
@@ -61,19 +61,19 @@ public class LmqConsumerOffsetManagerTest {
         lmqSubscriptionGroupManager.updateSubscriptionGroupConfig(subscriptionGroupConfig);
         SubscriptionGroupConfig subscriptionGroupConfig1 = lmqSubscriptionGroupManager.findSubscriptionGroupConfig(
             lmqGroupName);
-        assertThat(subscriptionGroupConfig1.getGroupName()).isEqualTo(subscriptionGroupConfig.getGroupName());
+        Assertions.assertEquals(subscriptionGroupConfig1.getGroupName(),subscriptionGroupConfig.getGroupName());
 
         lmqConsumerOffsetManager.commitOffset("127.0.0.1", lmqGroupName, lmqTopicName, 0, 10L);
         Map<Integer, Long> integerLongMap = lmqConsumerOffsetManager.queryOffset(lmqGroupName, lmqTopicName);
-        assertThat(integerLongMap.get(0)).isEqualTo(10L);
+        Assertions.assertEquals(integerLongMap.get(0),10L);
         long offset = lmqConsumerOffsetManager.queryOffset(lmqGroupName, lmqTopicName, 0);
-        assertThat(offset).isEqualTo(10L);
+        Assertions.assertEquals(offset,10L);
 
         long offset1 = lmqConsumerOffsetManager.queryOffset(lmqGroupName, lmqTopicName + "test", 0);
-        assertThat(offset1).isEqualTo(-1L);
+        Assertions.assertEquals(offset1,-1L);
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         UtilAll.deleteFile(new File(new MessageStoreConfig().getStorePathRootDir()));
     }

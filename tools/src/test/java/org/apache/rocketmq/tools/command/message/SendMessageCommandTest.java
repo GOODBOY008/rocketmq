@@ -30,10 +30,10 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.apache.rocketmq.srvutil.ServerUtil;
 import org.apache.rocketmq.tools.command.SubCommandException;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -47,7 +47,7 @@ public class SendMessageCommandTest {
 
     private static SendMessageCommand sendMessageCommand = new SendMessageCommand();
 
-    @BeforeClass
+    @BeforeEach
     public static void init() throws MQClientException, RemotingException, InterruptedException, MQBrokerException, NoSuchFieldException, IllegalAccessException {
 
         DefaultMQProducer defaultMQProducer = mock(DefaultMQProducer.class);
@@ -66,7 +66,7 @@ public class SendMessageCommandTest {
         producerField.set(sendMessageCommand, defaultMQProducer);
     }
 
-    @AfterClass
+    @AfterEach
     public static void terminate() {
     }
 
@@ -85,6 +85,6 @@ public class SendMessageCommandTest {
         sendMessageCommand.execute(commandLine, options, null);
         System.setOut(out);
         String s = new String(bos.toByteArray());
-        Assert.assertTrue(s.contains("SEND_OK"));
+        Assertions.assertTrue(s.contains("SEND_OK"));
     }
 }

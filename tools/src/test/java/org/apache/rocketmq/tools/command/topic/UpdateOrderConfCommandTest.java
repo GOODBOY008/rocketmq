@@ -20,9 +20,10 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 import org.apache.rocketmq.srvutil.ServerUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class UpdateOrderConfCommandTest {
     @Test
@@ -32,8 +33,8 @@ public class UpdateOrderConfCommandTest {
         String[] subargs = new String[] {"-t unit-test", "-v default-broker:8", "-m post"};
         final CommandLine commandLine =
             ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
-        assertThat(commandLine.getOptionValue('t').trim()).isEqualTo("unit-test");
-        assertThat(commandLine.getOptionValue('v').trim()).isEqualTo("default-broker:8");
-        assertThat(commandLine.getOptionValue('m').trim()).isEqualTo("post");
+        Assertions.assertEquals(commandLine.getOptionValue('t').trim(),"unit-test");
+        Assertions.assertEquals(commandLine.getOptionValue('v').trim(),"default-broker:8");
+        Assertions.assertEquals(commandLine.getOptionValue('m').trim(),"post");
     }
 }

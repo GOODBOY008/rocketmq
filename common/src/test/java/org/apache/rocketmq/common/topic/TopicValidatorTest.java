@@ -19,9 +19,10 @@ package org.apache.rocketmq.common.topic;
 import org.apache.rocketmq.common.protocol.ResponseCode;
 import org.apache.rocketmq.common.topic.TopicValidator;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class TopicValidatorTest {
 
@@ -30,21 +31,21 @@ public class TopicValidatorTest {
         RemotingCommand response = RemotingCommand.createResponseCommand(-1, "");
 
         Boolean res = TopicValidator.validateTopic("", response);
-        assertThat(res).isFalse();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
-        assertThat(response.getRemark()).contains("The specified topic is blank");
+        Assertions.assertFalse(res);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SYSTEM_ERROR);
+        Assertions.assertEquals(response.getRemark()).contains("The specified topic is blank");
 
         clearResponse(response);
         res = TopicValidator.validateTopic("../TopicTest", response);
-        assertThat(res).isFalse();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
-        assertThat(response.getRemark()).contains("The specified topic contains illegal characters");
+        Assertions.assertFalse(res);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SYSTEM_ERROR);
+        Assertions.assertEquals(response.getRemark()).contains("The specified topic contains illegal characters");
 
         clearResponse(response);
         res = TopicValidator.validateTopic(generateString(128), response);
-        assertThat(res).isFalse();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
-        assertThat(response.getRemark()).contains("The specified topic is longer than topic max length.");
+        Assertions.assertFalse(res);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SYSTEM_ERROR);
+        Assertions.assertEquals(response.getRemark()).contains("The specified topic is longer than topic max length.");
     }
 
     @Test
@@ -52,16 +53,16 @@ public class TopicValidatorTest {
         RemotingCommand response = RemotingCommand.createResponseCommand(-1, "");
 
         Boolean res = TopicValidator.validateTopic("TestTopic", response);
-        assertThat(res).isTrue();
-        assertThat(response.getCode()).isEqualTo(-1);
-        assertThat(response.getRemark()).isEmpty();
+        Assertions.assertTrue(res);
+        Assertions.assertEquals(response.getCode(),-1);
+        Assertions.assertEquals(response.getRemark()).isEmpty();
     }
 
     @Test
     public void testAddSystemTopic() {
         String topic = "SYSTEM_TOPIC_TEST";
         TopicValidator.addSystemTopic(topic);
-        assertThat(TopicValidator.getSystemTopicSet()).contains(topic);
+        Assertions.assertEquals(TopicValidator.getSystemTopicSet()).contains(topic);
     }
 
     @Test
@@ -69,16 +70,16 @@ public class TopicValidatorTest {
         boolean res;
         for (String topic : TopicValidator.getSystemTopicSet()) {
             res = TopicValidator.isSystemTopic(topic);
-            assertThat(res).isTrue();
+            Assertions.assertTrue(res);
         }
 
         String topic = TopicValidator.SYSTEM_TOPIC_PREFIX + "_test";
         res = TopicValidator.isSystemTopic(topic);
-        assertThat(res).isTrue();
+        Assertions.assertTrue(res);
 
         topic = "test_not_system_topic";
         res = TopicValidator.isSystemTopic(topic);
-        assertThat(res).isFalse();
+        Assertions.assertFalse(res);
     }
 
     @Test
@@ -87,14 +88,14 @@ public class TopicValidatorTest {
         boolean res;
         for (String topic : TopicValidator.getSystemTopicSet()) {
             res = TopicValidator.isSystemTopic(topic, response);
-            assertThat(res).isTrue();
-            assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
-            assertThat(response.getRemark()).isEqualTo("The topic[" + topic + "] is conflict with system topic.");
+            Assertions.assertTrue(res);
+            Assertions.assertEquals(response.getCode(),ResponseCode.SYSTEM_ERROR);
+            Assertions.assertEquals(response.getRemark(),"The topic[" + topic + "] is conflict with system topic.");
         }
 
         String topic = "test_not_system_topic";
         res = TopicValidator.isSystemTopic(topic, response);
-        assertThat(res).isFalse();
+        Assertions.assertFalse(res);
     }
 
     @Test
@@ -102,12 +103,12 @@ public class TopicValidatorTest {
         boolean res;
         for (String topic : TopicValidator.getNotAllowedSendTopicSet()) {
             res = TopicValidator.isNotAllowedSendTopic(topic);
-            assertThat(res).isTrue();
+            Assertions.assertTrue(res);
         }
 
         String topic = "test_allowed_send_topic";
         res = TopicValidator.isNotAllowedSendTopic(topic);
-        assertThat(res).isFalse();
+        Assertions.assertFalse(res);
     }
 
     @Test
@@ -117,14 +118,14 @@ public class TopicValidatorTest {
         boolean res;
         for (String topic : TopicValidator.getNotAllowedSendTopicSet()) {
             res = TopicValidator.isNotAllowedSendTopic(topic, response);
-            assertThat(res).isTrue();
-            assertThat(response.getCode()).isEqualTo(ResponseCode.NO_PERMISSION);
-            assertThat(response.getRemark()).isEqualTo("Sending message to topic[" + topic + "] is forbidden.");
+            Assertions.assertTrue(res);
+            Assertions.assertEquals(response.getCode(),ResponseCode.NO_PERMISSION);
+            Assertions.assertEquals(response.getRemark(),"Sending message to topic[" + topic + "] is forbidden.");
         }
 
         String topic = "test_allowed_send_topic";
         res = TopicValidator.isNotAllowedSendTopic(topic, response);
-        assertThat(res).isFalse();
+        Assertions.assertFalse(res);
     }
 
     private static void clearResponse(RemotingCommand response) {

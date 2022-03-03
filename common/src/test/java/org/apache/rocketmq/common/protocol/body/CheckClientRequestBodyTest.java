@@ -19,9 +19,9 @@ package org.apache.rocketmq.common.protocol.body;
 
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class CheckClientRequestBodyTest {
 
@@ -36,8 +36,8 @@ public class CheckClientRequestBodyTest {
         checkClientRequestBody.setSubscriptionData(subscriptionData);
         String json = RemotingSerializable.toJson(checkClientRequestBody, true);
         CheckClientRequestBody fromJson = RemotingSerializable.fromJson(json, CheckClientRequestBody.class);
-        assertThat(fromJson.getClientId()).isEqualTo(expectedClientId);
-        assertThat(fromJson.getGroup()).isEqualTo(expectedGroup);
-        assertThat(fromJson.getSubscriptionData()).isEqualTo(subscriptionData);
+        Assertions.assertEquals(fromJson.getClientId(),expectedClientId);
+        Assertions.assertEquals(fromJson.getGroup(),expectedGroup);
+        Assertions.assertEquals(fromJson.getSubscriptionData(),subscriptionData);
     }
 }

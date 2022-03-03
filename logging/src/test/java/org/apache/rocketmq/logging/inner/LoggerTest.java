@@ -21,10 +21,10 @@ import org.apache.rocketmq.logging.BasicLoggerTest;
 import org.apache.rocketmq.logging.InnerLoggerFactory;
 import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.logging.InternalLoggerFactory;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,7 +33,7 @@ import java.io.PrintStream;
 public class LoggerTest extends BasicLoggerTest {
 
 
-    @Before
+    @BeforeEach
     public void init() {
         InternalLoggerFactory.setCurrentLoggerType(InnerLoggerFactory.LOGGER_INNER);
     }
@@ -68,13 +68,13 @@ public class LoggerTest extends BasicLoggerTest {
 
         System.out.println(result);
 
-        Assert.assertTrue(result.contains("info"));
-        Assert.assertTrue(result.contains("RuntimeException"));
-        Assert.assertTrue(result.contains("WATERMARK"));
-        Assert.assertTrue(result.contains("consumer"));
-        Assert.assertTrue(result.contains("broudcast"));
-        Assert.assertTrue(result.contains("simple test"));
-        Assert.assertTrue(!result.contains("debug"));
+        Assertions.assertTrue(result.contains("info"));
+        Assertions.assertTrue(result.contains("RuntimeException"));
+        Assertions.assertTrue(result.contains("WATERMARK"));
+        Assertions.assertTrue(result.contains("consumer"));
+        Assertions.assertTrue(result.contains("broudcast"));
+        Assertions.assertTrue(result.contains("simple test"));
+        Assertions.assertTrue(!result.contains("debug"));
     }
 
     @Test
@@ -103,12 +103,12 @@ public class LoggerTest extends BasicLoggerTest {
 
         System.out.println(content);
 
-        Assert.assertTrue(content.contains("info"));
-        Assert.assertTrue(content.contains("RuntimeException"));
-        Assert.assertTrue(!content.contains("debug"));
+        Assertions.assertTrue(content.contains("info"));
+        Assertions.assertTrue(content.contains("RuntimeException"));
+        Assertions.assertTrue(!content.contains("debug"));
     }
 
-    @After
+    @AfterEach
     public void close() {
         InternalLoggerFactory.setCurrentLoggerType(null);
     }

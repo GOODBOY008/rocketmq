@@ -16,6 +16,7 @@
  */
 package org.apache.rocketmq.namesrv.processor;
 
+import com.beust.jcommander.internal.Maps;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import java.lang.reflect.Field;
@@ -43,10 +44,11 @@ import org.apache.rocketmq.remoting.exception.RemotingCommandException;
 import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.assertj.core.util.Maps;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -63,7 +65,7 @@ public class DefaultRequestProcessorTest {
 
     private InternalLogger logger;
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         namesrvConfig = new NamesrvConfig();
         nettyServerConfig = new NettyServerConfig();
@@ -93,11 +95,10 @@ public class DefaultRequestProcessorTest {
 
         RemotingCommand response = defaultRequestProcessor.processRequest(null, request);
 
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
-        assertThat(response.getRemark()).isNull();
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
+        Assertions.assertNull(response.getRemark());
 
-        assertThat(namesrvController.getKvConfigManager().getKVConfig("namespace", "key"))
-            .isEqualTo("value");
+        Assertions.assertEquals(namesrvController.getKvConfigManager().getKVConfig("namespace", "key"),"value");
     }
 
     @Test
@@ -112,13 +113,13 @@ public class DefaultRequestProcessorTest {
 
         RemotingCommand response = defaultRequestProcessor.processRequest(null, request);
 
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
-        assertThat(response.getRemark()).isNull();
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
+        Assertions.assertNull(response.getRemark());
 
         GetKVConfigResponseHeader responseHeader = (GetKVConfigResponseHeader) response
             .readCustomHeader();
 
-        assertThat(responseHeader.getValue()).isEqualTo("value");
+        Assertions.assertEquals(responseHeader.getValue(),"value");
     }
 
     @Test
@@ -131,13 +132,13 @@ public class DefaultRequestProcessorTest {
 
         RemotingCommand response = defaultRequestProcessor.processRequest(null, request);
 
-        assertThat(response.getCode()).isEqualTo(ResponseCode.QUERY_NOT_FOUND);
-        assertThat(response.getRemark()).isEqualTo("No config item, Namespace: namespace Key: key");
+        Assertions.assertEquals(response.getCode(),ResponseCode.QUERY_NOT_FOUND);
+        Assertions.assertEquals(response.getRemark(),"No config item, Namespace: namespace Key: key");
 
         GetKVConfigResponseHeader responseHeader = (GetKVConfigResponseHeader) response
             .readCustomHeader();
 
-        assertThat(responseHeader.getValue()).isNull();
+        Assertions.assertNull(responseHeader.getValue());
     }
 
     @Test
@@ -152,11 +153,11 @@ public class DefaultRequestProcessorTest {
 
         RemotingCommand response = defaultRequestProcessor.processRequest(null, request);
 
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
-        assertThat(response.getRemark()).isNull();
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
+        Assertions.assertNull(response.getRemark());
 
-        assertThat(namesrvController.getKvConfigManager().getKVConfig("namespace", "key"))
-            .isNull();
+        Assertions.assertNull(namesrvController.getKvConfigManager().getKVConfig("namespace", "key"))
+            ;
     }
 
     @Test
@@ -169,8 +170,8 @@ public class DefaultRequestProcessorTest {
 
         RemotingCommand response = defaultRequestProcessor.processRequest(ctx, request);
 
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
-        assertThat(response.getRemark()).isNull();
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
+        Assertions.assertNull(response.getRemark());
 
         RouteInfoManager routes = namesrvController.getRouteInfoManager();
         Field brokerAddrTable = RouteInfoManager.class.getDeclaredField("brokerAddrTable");
@@ -180,7 +181,7 @@ public class DefaultRequestProcessorTest {
         broker.setBrokerName("broker");
         broker.setBrokerAddrs((HashMap) Maps.newHashMap(new Long(2333), "10.10.1.1"));
 
-        assertThat((Map) brokerAddrTable.get(routes))
+        Assertions.assertEquals((Map) brokerAddrTable.get(routes))
             .contains(new HashMap.SimpleEntry("broker", broker));
     }
 
@@ -197,8 +198,8 @@ public class DefaultRequestProcessorTest {
 
         RemotingCommand response = defaultRequestProcessor.processRequest(ctx, request);
 
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
-        assertThat(response.getRemark()).isNull();
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
+        Assertions.assertNull(response.getRemark());
 
         RouteInfoManager routes = namesrvController.getRouteInfoManager();
         Field brokerAddrTable = RouteInfoManager.class.getDeclaredField("brokerAddrTable");
@@ -208,7 +209,7 @@ public class DefaultRequestProcessorTest {
         broker.setBrokerName("broker");
         broker.setBrokerAddrs((HashMap) Maps.newHashMap(new Long(2333), "10.10.1.1"));
 
-        assertThat((Map) brokerAddrTable.get(routes))
+        Assertions.assertEquals((Map) brokerAddrTable.get(routes))
             .contains(new HashMap.SimpleEntry("broker", broker));
     }
 
@@ -225,14 +226,14 @@ public class DefaultRequestProcessorTest {
         RemotingCommand unregRequest = genSampleRegisterCmd(false);
         RemotingCommand unregResponse = defaultRequestProcessor.processRequest(ctx, unregRequest);
 
-        assertThat(unregResponse.getCode()).isEqualTo(ResponseCode.SUCCESS);
-        assertThat(unregResponse.getRemark()).isNull();
+        Assertions.assertEquals(unregResponse.getCode(),ResponseCode.SUCCESS);
+        Assertions.assertNull(unregResponse.getRemark());
 
         RouteInfoManager routes = namesrvController.getRouteInfoManager();
         Field brokerAddrTable = RouteInfoManager.class.getDeclaredField("brokerAddrTable");
         brokerAddrTable.setAccessible(true);
 
-        assertThat((Map) brokerAddrTable.get(routes)).isNotEmpty();
+        Assertions.assertEquals((Map) brokerAddrTable.get(routes)).isNotEmpty();
     }
 
     @Test
@@ -241,10 +242,10 @@ public class DefaultRequestProcessorTest {
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_ROUTEINFO_BY_TOPIC);
         RemotingCommand remotingCommandSuccess = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommandSuccess.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommandSuccess.getCode(),ResponseCode.SUCCESS);
         request.getExtFields().put("topic", "test");
         RemotingCommand remotingCommandNoTopicRouteInfo = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommandNoTopicRouteInfo.getCode()).isEqualTo(ResponseCode.TOPIC_NOT_EXIST);
+        Assertions.assertEquals(remotingCommandNoTopicRouteInfo.getCode(),ResponseCode.TOPIC_NOT_EXIST);
     }
 
     @Test
@@ -253,7 +254,7 @@ public class DefaultRequestProcessorTest {
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_BROKER_CLUSTER_INFO);
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -262,7 +263,7 @@ public class DefaultRequestProcessorTest {
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.WIPE_WRITE_PERM_OF_BROKER);
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -271,7 +272,7 @@ public class DefaultRequestProcessorTest {
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_ALL_TOPIC_LIST_FROM_NAMESERVER);
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -280,7 +281,7 @@ public class DefaultRequestProcessorTest {
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.DELETE_TOPIC_IN_NAMESRV);
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -290,10 +291,10 @@ public class DefaultRequestProcessorTest {
         RemotingCommand request = getRemotingCommand(RequestCode.GET_KVLIST_BY_NAMESPACE);
         request.addExtField("namespace", "default-namespace-1");
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.QUERY_NOT_FOUND);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.QUERY_NOT_FOUND);
         namesrvController.getKvConfigManager().putKVConfig("default-namespace-1", "key", "value");
         RemotingCommand remotingCommandSuccess = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommandSuccess.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommandSuccess.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -303,7 +304,7 @@ public class DefaultRequestProcessorTest {
         RemotingCommand request = getRemotingCommand(RequestCode.GET_TOPICS_BY_CLUSTER);
         request.addExtField("cluster", "default-cluster");
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -313,7 +314,7 @@ public class DefaultRequestProcessorTest {
         RemotingCommand request = getRemotingCommand(RequestCode.GET_SYSTEM_TOPIC_LIST_FROM_NS);
         request.addExtField("cluster", "default-cluster");
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -323,7 +324,7 @@ public class DefaultRequestProcessorTest {
         RemotingCommand request = getRemotingCommand(RequestCode.GET_UNIT_TOPIC_LIST);
         request.addExtField("cluster", "default-cluster");
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -333,7 +334,7 @@ public class DefaultRequestProcessorTest {
         RemotingCommand request = getRemotingCommand(RequestCode.GET_HAS_UNIT_SUB_TOPIC_LIST);
         request.addExtField("cluster", "default-cluster");
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -343,7 +344,7 @@ public class DefaultRequestProcessorTest {
         RemotingCommand request = getRemotingCommand(RequestCode.GET_HAS_UNIT_SUB_UNUNIT_TOPIC_LIST);
         request.addExtField("cluster", "default-cluster");
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -356,7 +357,7 @@ public class DefaultRequestProcessorTest {
         propertiesMap.put("key", "value");
         request.setBody(propertiesMap.toString().getBytes());
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -366,7 +367,7 @@ public class DefaultRequestProcessorTest {
         RemotingCommand request = getRemotingCommand(RequestCode.GET_NAMESRV_CONFIG);
         request.addExtField("cluster", "default-cluster");
         RemotingCommand remotingCommand = defaultRequestProcessor.processRequest(ctx, request);
-        assertThat(remotingCommand.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(remotingCommand.getCode(),ResponseCode.SUCCESS);
     }
 
     private RemotingCommand getRemotingCommand(int code) {

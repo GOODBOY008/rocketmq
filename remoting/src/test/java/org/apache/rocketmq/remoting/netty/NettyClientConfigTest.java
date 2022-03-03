@@ -17,13 +17,13 @@
 
 package org.apache.rocketmq.remoting.netty;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
+
+@ExtendWith(MockitoJUnitRunner.class)
 public class NettyClientConfigTest {
 
   @Test
@@ -52,13 +52,13 @@ public class NettyClientConfigTest {
         Boolean.parseBoolean(System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_CLIENT_CLOSE_SOCKET_IF_TIMEOUT, "true"));
 
     NettyClientConfig changedConfig = new NettyClientConfig();
-    assertThat(changedConfig.getClientWorkerThreads()).isEqualTo(1);
-    assertThat(changedConfig.getClientOnewaySemaphoreValue()).isEqualTo(65535);
-    assertThat(changedConfig.getClientAsyncSemaphoreValue()).isEqualTo(65535);
-    assertThat(changedConfig.getConnectTimeoutMillis()).isEqualTo(2000);
-    assertThat(changedConfig.getClientChannelMaxIdleTimeSeconds()).isEqualTo(60);
-    assertThat(changedConfig.getClientSocketSndBufSize()).isEqualTo(16383);
-    assertThat(changedConfig.getClientSocketRcvBufSize()).isEqualTo(16384);
-    assertThat(changedConfig.isClientCloseSocketIfTimeout()).isEqualTo(false);
+    Assertions.assertEquals(changedConfig.getClientWorkerThreads(),1);
+    Assertions.assertEquals(changedConfig.getClientOnewaySemaphoreValue(),65535);
+    Assertions.assertEquals(changedConfig.getClientAsyncSemaphoreValue(),65535);
+    Assertions.assertEquals(changedConfig.getConnectTimeoutMillis(),2000);
+    Assertions.assertEquals(changedConfig.getClientChannelMaxIdleTimeSeconds(),60);
+    Assertions.assertEquals(changedConfig.getClientSocketSndBufSize(),16383);
+    Assertions.assertEquals(changedConfig.getClientSocketRcvBufSize(),16384);
+    Assertions.assertEquals(changedConfig.isClientCloseSocketIfTimeout(),false);
   }
 }

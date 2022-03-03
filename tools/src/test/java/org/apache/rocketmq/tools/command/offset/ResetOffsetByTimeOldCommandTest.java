@@ -20,9 +20,9 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 import org.apache.rocketmq.srvutil.ServerUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ResetOffsetByTimeOldCommandTest {
     @Test
@@ -32,8 +32,8 @@ public class ResetOffsetByTimeOldCommandTest {
         String[] subargs = new String[] {"-g default-group", "-t unit-test", "-s 1412131213231", "-f false"};
         final CommandLine commandLine =
             ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
-        assertThat(commandLine.getOptionValue('g').trim()).isEqualTo("default-group");
-        assertThat(commandLine.getOptionValue('t').trim()).isEqualTo("unit-test");
-        assertThat(commandLine.getOptionValue('s').trim()).isEqualTo("1412131213231");
+        Assertions.assertEquals(commandLine.getOptionValue('g').trim(),"default-group");
+        Assertions.assertEquals(commandLine.getOptionValue('t').trim(),"unit-test");
+        Assertions.assertEquals(commandLine.getOptionValue('s').trim(),"1412131213231");
     }
 }

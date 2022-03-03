@@ -29,9 +29,9 @@ import org.apache.rocketmq.acl.common.AclException;
 import org.apache.rocketmq.acl.common.AclUtils;
 import org.apache.rocketmq.acl.common.Permission;
 import org.apache.rocketmq.common.PlainAccessConfig;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PlainPermissionManagerTest {
 
@@ -44,7 +44,7 @@ public class PlainPermissionManagerTest {
     PlainAccessConfig plainAccessConfig = new PlainAccessConfig();
     Set<Integer> adminCode = new HashSet<>();
 
-    @Before
+    @BeforeEach
     public void init() throws NoSuchFieldException, SecurityException, IOException {
         // UPDATE_AND_CREATE_TOPIC
         adminCode.add(17);
@@ -96,16 +96,16 @@ public class PlainPermissionManagerTest {
         plainAccess.setAccessKey("RocketMQ");
         plainAccess.setSecretKey("12345678");
         plainAccessResource = plainPermissionManager.buildPlainAccessResource(plainAccess);
-        Assert.assertEquals(plainAccessResource.getAccessKey(), "RocketMQ");
-        Assert.assertEquals(plainAccessResource.getSecretKey(), "12345678");
+        Assertions.assertEquals(plainAccessResource.getAccessKey(), "RocketMQ");
+        Assertions.assertEquals(plainAccessResource.getSecretKey(), "12345678");
 
         plainAccess.setWhiteRemoteAddress("127.0.0.1");
         plainAccessResource = plainPermissionManager.buildPlainAccessResource(plainAccess);
-        Assert.assertEquals(plainAccessResource.getWhiteRemoteAddress(), "127.0.0.1");
+        Assertions.assertEquals(plainAccessResource.getWhiteRemoteAddress(), "127.0.0.1");
 
         plainAccess.setAdmin(true);
         plainAccessResource = plainPermissionManager.buildPlainAccessResource(plainAccess);
-        Assert.assertEquals(plainAccessResource.isAdmin(), true);
+        Assertions.assertEquals(plainAccessResource.isAdmin(), true);
 
         List<String> groups = new ArrayList<String>();
         groups.add("groupA=DENY");
@@ -114,11 +114,11 @@ public class PlainPermissionManagerTest {
         plainAccess.setGroupPerms(groups);
         plainAccessResource = plainPermissionManager.buildPlainAccessResource(plainAccess);
         Map<String, Byte> resourcePermMap = plainAccessResource.getResourcePermMap();
-        Assert.assertEquals(resourcePermMap.size(), 3);
+        Assertions.assertEquals(resourcePermMap.size(), 3);
 
-        Assert.assertEquals(resourcePermMap.get(PlainAccessResource.getRetryTopic("groupA")).byteValue(), Permission.DENY);
-        Assert.assertEquals(resourcePermMap.get(PlainAccessResource.getRetryTopic("groupB")).byteValue(), Permission.PUB | Permission.SUB);
-        Assert.assertEquals(resourcePermMap.get(PlainAccessResource.getRetryTopic("groupC")).byteValue(), Permission.PUB);
+        Assertions.assertEquals(resourcePermMap.get(PlainAccessResource.getRetryTopic("groupA")).byteValue(), Permission.DENY);
+        Assertions.assertEquals(resourcePermMap.get(PlainAccessResource.getRetryTopic("groupB")).byteValue(), Permission.PUB | Permission.SUB);
+        Assertions.assertEquals(resourcePermMap.get(PlainAccessResource.getRetryTopic("groupC")).byteValue(), Permission.PUB);
 
         List<String> topics = new ArrayList<String>();
         topics.add("topicA=DENY");
@@ -127,18 +127,20 @@ public class PlainPermissionManagerTest {
         plainAccess.setTopicPerms(topics);
         plainAccessResource = plainPermissionManager.buildPlainAccessResource(plainAccess);
         resourcePermMap = plainAccessResource.getResourcePermMap();
-        Assert.assertEquals(resourcePermMap.size(), 6);
+        Assertions.assertEquals(resourcePermMap.size(), 6);
 
-        Assert.assertEquals(resourcePermMap.get("topicA").byteValue(), Permission.DENY);
-        Assert.assertEquals(resourcePermMap.get("topicB").byteValue(), Permission.PUB | Permission.SUB);
-        Assert.assertEquals(resourcePermMap.get("topicC").byteValue(), Permission.PUB);
+        Assertions.assertEquals(resourcePermMap.get("topicA").byteValue(), Permission.DENY);
+        Assertions.assertEquals(resourcePermMap.get("topicB").byteValue(), Permission.PUB | Permission.SUB);
+        Assertions.assertEquals(resourcePermMap.get("topicC").byteValue(), Permission.PUB);
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void checkPermAdmin() {
+        Assertions.assertThrowsExactly(AclException.class,()-> {
         PlainAccessResource plainAccessResource = new PlainAccessResource();
         plainAccessResource.setRequestCode(17);
         plainPermissionManager.checkPerm(plainAccessResource, PUBPlainAccessResource);
+        });
     }
 
     @Test
@@ -158,36 +160,45 @@ public class PlainPermissionManagerTest {
 
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void checkErrorPermDefaultValueNotMatch() {
-
-        plainAccessResource = new PlainAccessResource();
-        plainAccessResource.addResourceAndPerm("topicF", Permission.PUB);
-        plainPermissionManager.checkPerm(plainAccessResource, SUBPlainAccessResource);
+        Assertions.assertThrowsExactly(AclException.class,()-> {
+            plainAccessResource = new PlainAccessResource();
+            plainAccessResource.addResourceAndPerm("topicF", Permission.PUB);
+            plainPermissionManager.checkPerm(plainAccessResource, SUBPlainAccessResource);
+        });
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void accountNullTest() {
-        plainAccessConfig.setAccessKey(null);
-        plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
+        Assertions.assertThrowsExactly(AclException.class,()-> {
+            plainAccessConfig.setAccessKey(null);
+            plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
+        });
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void accountThanTest() {
-        plainAccessConfig.setAccessKey("123");
-        plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
+        Assertions.assertThrowsExactly(AclException.class,()->{
+            plainAccessConfig.setAccessKey("123");
+            plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
+        });
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void passWordtNullTest() {
-        plainAccessConfig.setAccessKey(null);
-        plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
+        Assertions.assertThrowsExactly(AclException.class,()->{
+            plainAccessConfig.setAccessKey(null);
+            plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
+        });
     }
 
-    @Test(expected = AclException.class)
+    @Test
     public void passWordThanTest() {
-        plainAccessConfig.setSecretKey("123");
-        plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
+        Assertions.assertThrowsExactly(AclException.class,()->{
+            plainAccessConfig.setSecretKey("123");
+            plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
+        });
     }
 
 
@@ -196,11 +207,11 @@ public class PlainPermissionManagerTest {
     public void cleanAuthenticationInfoTest() throws IllegalAccessException {
         // PlainPermissionManager.addPlainAccessResource(plainAccessResource);
         Map<String, Map<String, PlainAccessResource>> plainAccessResourceMap = (Map<String, Map<String, PlainAccessResource>>) FieldUtils.readDeclaredField(plainPermissionManager, "aclPlainAccessResourceMap", true);
-        Assert.assertFalse(plainAccessResourceMap.isEmpty());
+        Assertions.assertFalse(plainAccessResourceMap.isEmpty());
 
         plainPermissionManager.clearPermissionInfo();
         plainAccessResourceMap = (Map<String, Map<String, PlainAccessResource>>) FieldUtils.readDeclaredField(plainPermissionManager, "aclPlainAccessResourceMap", true);
-        Assert.assertTrue(plainAccessResourceMap.isEmpty());
+        Assertions.assertTrue(plainAccessResourceMap.isEmpty());
         // RemoveDataVersionFromYamlFile("src/test/resources/conf/plain_acl.yml");
     }
 
@@ -208,7 +219,7 @@ public class PlainPermissionManagerTest {
     public void isWatchStartTest() {
 
         PlainPermissionManager plainPermissionManager = new PlainPermissionManager();
-        Assert.assertTrue(plainPermissionManager.isWatchStart());
+        Assertions.assertTrue(plainPermissionManager.isWatchStart());
         // RemoveDataVersionFromYamlFile("src/test/resources/conf/plain_acl.yml");
     }
 
@@ -233,16 +244,16 @@ public class PlainPermissionManagerTest {
         Thread.sleep(1000);
 
         PlainPermissionManager plainPermissionManager = new PlainPermissionManager();
-        Assert.assertTrue(plainPermissionManager.isWatchStart());
+        Assertions.assertTrue(plainPermissionManager.isWatchStart());
 
         Map<String, String> accessKeyTable = (Map<String, String>) FieldUtils.readDeclaredField(plainPermissionManager, "accessKeyTable", true);
         String aclFileName = accessKeyTable.get("watchrocketmqx");
         {
             Map<String, Map<String, PlainAccessResource>> plainAccessResourceMap = (Map<String, Map<String, PlainAccessResource>>) FieldUtils.readDeclaredField(plainPermissionManager, "aclPlainAccessResourceMap", true);
             PlainAccessResource accessResource = plainAccessResourceMap.get(aclFileName).get("watchrocketmqx");
-            Assert.assertNotNull(accessResource);
-            Assert.assertEquals(accessResource.getSecretKey(), "12345678");
-            Assert.assertTrue(accessResource.isAdmin());
+            Assertions.assertNotNull(accessResource);
+            Assertions.assertEquals(accessResource.getSecretKey(), "12345678");
+            Assertions.assertTrue(accessResource.isAdmin());
 
         }
 
@@ -260,9 +271,9 @@ public class PlainPermissionManagerTest {
         {
             Map<String, Map<String, PlainAccessResource>> plainAccessResourceMap = (Map<String, Map<String, PlainAccessResource>>) FieldUtils.readDeclaredField(plainPermissionManager, "aclPlainAccessResourceMap", true);
             PlainAccessResource accessResource = plainAccessResourceMap.get(aclFileName).get("watchrocketmq1y");
-            Assert.assertNotNull(accessResource);
-            Assert.assertEquals(accessResource.getSecretKey(), "88888888");
-            Assert.assertFalse(accessResource.isAdmin());
+            Assertions.assertNotNull(accessResource);
+            Assertions.assertEquals(accessResource.getSecretKey(), "88888888");
+            Assertions.assertFalse(accessResource.isAdmin());
 
         }
         transport.delete();

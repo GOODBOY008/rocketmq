@@ -20,8 +20,8 @@ package org.apache.rocketmq.broker.pagecache;
 import java.nio.ByteBuffer;
 import org.apache.rocketmq.store.MappedFile;
 import org.apache.rocketmq.store.SelectMappedBufferResult;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class OneMessageTransferTest {
 
@@ -39,7 +39,7 @@ public class OneMessageTransferTest {
         byteBuffer.putInt(20);
         SelectMappedBufferResult selectMappedBufferResult = new SelectMappedBufferResult(0,byteBuffer,20,new MappedFile());
         OneMessageTransfer manyMessageTransfer = new OneMessageTransfer(byteBuffer,selectMappedBufferResult);
-        Assert.assertEquals(manyMessageTransfer.count(),40);
+        Assertions.assertEquals(manyMessageTransfer.count(),40);
     }
 
     @Test
@@ -48,6 +48,6 @@ public class OneMessageTransferTest {
         byteBuffer.putInt(20);
         SelectMappedBufferResult selectMappedBufferResult = new SelectMappedBufferResult(0,byteBuffer,20,new MappedFile());
         OneMessageTransfer manyMessageTransfer = new OneMessageTransfer(byteBuffer,selectMappedBufferResult);
-        Assert.assertEquals(manyMessageTransfer.position(),8);
+        Assertions.assertEquals(manyMessageTransfer.position(),8);
     }
 }

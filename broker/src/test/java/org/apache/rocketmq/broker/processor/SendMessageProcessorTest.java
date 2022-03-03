@@ -43,9 +43,10 @@ import org.apache.rocketmq.store.MessageStore;
 import org.apache.rocketmq.store.PutMessageResult;
 import org.apache.rocketmq.store.PutMessageStatus;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
@@ -58,14 +59,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class SendMessageProcessorTest {
     private SendMessageProcessor sendMessageProcessor;
     @Mock
@@ -81,7 +82,7 @@ public class SendMessageProcessorTest {
     private String topic = "FooBar";
     private String group = "FooBarGroup";
 
-    @Before
+    @BeforeEach
     public void init() {
         brokerController.setMessageStore(messageStore);
         when(messageStore.now()).thenReturn(System.currentTimeMillis());
@@ -127,9 +128,9 @@ public class SendMessageProcessorTest {
         sendMessageProcessor.registerSendMessageHook(sendMessageHookList);
         assertPutResult(ResponseCode.SUCCESS);
         System.out.println(sendMessageContext[0]);
-        assertThat(sendMessageContext[0]).isNotNull();
-        assertThat(sendMessageContext[0].getTopic()).isEqualTo(topic);
-        assertThat(sendMessageContext[0].getProducerGroup()).isEqualTo(group);
+        Assertions.assertNotNull(sendMessageContext[0]);
+        Assertions.assertEquals(sendMessageContext[0].getTopic(),topic);
+        Assertions.assertEquals(sendMessageContext[0].getProducerGroup(),group);
     }
 
     @Test
@@ -196,8 +197,8 @@ public class SendMessageProcessorTest {
 
         sendMessageProcessor = new SendMessageProcessor(brokerController);
         final RemotingCommand response = sendMessageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -216,10 +217,10 @@ public class SendMessageProcessorTest {
         }).when(handlerContext).writeAndFlush(any(Object.class));
         RemotingCommand responseToReturn = sendMessageProcessor.processRequest(handlerContext, request);
         if (responseToReturn != null) {
-            assertThat(response[0]).isNull();
+            Assertions.assertNull(response[0]);
             response[0] = responseToReturn;
         }
-        assertThat(response[0].getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response[0].getCode(),ResponseCode.SUCCESS);
 
     }
     private RemotingCommand createSendTransactionMsgCommand(int requestCode) {
@@ -284,10 +285,10 @@ public class SendMessageProcessorTest {
         }).when(handlerContext).writeAndFlush(any(Object.class));
         RemotingCommand responseToReturn = sendMessageProcessor.processRequest(handlerContext, request);
         if (responseToReturn != null) {
-            assertThat(response[0]).isNull();
+            Assertions.assertNull(response[0]);
             response[0] = responseToReturn;
         }
-        assertThat(response[0].getCode()).isEqualTo(responseCode);
-        assertThat(response[0].getOpaque()).isEqualTo(request.getOpaque());
+        Assertions.assertEquals(response[0].getCode(),responseCode);
+        Assertions.assertEquals(response[0].getOpaque(),request.getOpaque());
     }
 }

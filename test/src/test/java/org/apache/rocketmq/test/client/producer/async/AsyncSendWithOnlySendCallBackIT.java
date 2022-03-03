@@ -24,25 +24,25 @@ import org.apache.rocketmq.test.client.rmq.RMQAsyncSendProducer;
 import org.apache.rocketmq.test.client.rmq.RMQNormalConsumer;
 import org.apache.rocketmq.test.listener.rmq.concurrent.RMQNormalListener;
 import org.apache.rocketmq.test.util.VerifyUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class AsyncSendWithOnlySendCallBackIT extends BaseConf {
     private static Logger logger = Logger.getLogger(TagMessageWith1ConsumerIT.class);
     private RMQAsyncSendProducer producer = null;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("user topic[%s]!", topic));
         producer = getAsyncProducer(nsAddr, topic);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -53,10 +53,10 @@ public class AsyncSendWithOnlySendCallBackIT extends BaseConf {
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
         producer.asyncSend(msgSize);
         producer.waitForResponse(10 * 1000);
-        assertThat(producer.getSuccessMsgCount()).isEqualTo(msgSize);
+        Assertions.assertEquals(producer.getSuccessMsgCount(),msgSize);
 
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(producer.getAllMsgBody());
     }

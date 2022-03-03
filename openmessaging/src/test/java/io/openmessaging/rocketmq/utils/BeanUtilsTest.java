@@ -20,9 +20,9 @@ import io.openmessaging.KeyValue;
 import io.openmessaging.OMS;
 import io.openmessaging.rocketmq.config.ClientConfig;
 import io.openmessaging.rocketmq.domain.NonStandardKeys;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class BeanUtilsTest {
     private KeyValue properties = OMS.newKeyValue();
@@ -65,7 +65,7 @@ public class BeanUtilsTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void init() {
         properties.put(NonStandardKeys.MAX_REDELIVERY_TIMES, 120);
         properties.put(CustomizedConfig.STRING_TEST, "kaka");
@@ -81,12 +81,12 @@ public class BeanUtilsTest {
         CustomizedConfig config = BeanUtils.populate(properties, CustomizedConfig.class);
 
         //RemotingConfig config = BeanUtils.populate(properties, RemotingConfig.class);
-        Assert.assertEquals(config.getRmqMaxRedeliveryTimes(), 120);
-        Assert.assertEquals(config.getStringTest(), "kaka");
-        Assert.assertEquals(config.getRmqConsumerGroup(), "Default_Consumer_Group");
-        Assert.assertEquals(config.getRmqMessageConsumeTimeout(), 101);
-        Assert.assertEquals(config.getLongTest(), 1234567890L);
-        Assert.assertEquals(config.getDoubleTest(), 10.234, 0.000001);
+        Assertions.assertEquals(config.getRmqMaxRedeliveryTimes(), 120);
+        Assertions.assertEquals(config.getStringTest(), "kaka");
+        Assertions.assertEquals(config.getRmqConsumerGroup(), "Default_Consumer_Group");
+        Assertions.assertEquals(config.getRmqMessageConsumeTimeout(), 101);
+        Assertions.assertEquals(config.getLongTest(), 1234567890L);
+        Assertions.assertEquals(config.getDoubleTest(), 10.234, 0.000001);
     }
 
     @Test
@@ -94,17 +94,17 @@ public class BeanUtilsTest {
         CustomizedConfig config = new CustomizedConfig();
         config.setConsumerId("NewConsumerId");
 
-        Assert.assertEquals(config.getConsumerId(), "NewConsumerId");
+        Assertions.assertEquals(config.getConsumerId(), "NewConsumerId");
 
         config = BeanUtils.populate(properties, config);
 
         //RemotingConfig config = BeanUtils.populate(properties, RemotingConfig.class);
-        Assert.assertEquals(config.getRmqMaxRedeliveryTimes(), 120);
-        Assert.assertEquals(config.getStringTest(), "kaka");
-        Assert.assertEquals(config.getRmqConsumerGroup(), "Default_Consumer_Group");
-        Assert.assertEquals(config.getRmqMessageConsumeTimeout(), 101);
-        Assert.assertEquals(config.getLongTest(), 1234567890L);
-        Assert.assertEquals(config.getDoubleTest(), 10.234, 0.000001);
+        Assertions.assertEquals(config.getRmqMaxRedeliveryTimes(), 120);
+        Assertions.assertEquals(config.getStringTest(), "kaka");
+        Assertions.assertEquals(config.getRmqConsumerGroup(), "Default_Consumer_Group");
+        Assertions.assertEquals(config.getRmqMessageConsumeTimeout(), 101);
+        Assertions.assertEquals(config.getLongTest(), 1234567890L);
+        Assertions.assertEquals(config.getDoubleTest(), 10.234, 0.000001);
     }
 
 }

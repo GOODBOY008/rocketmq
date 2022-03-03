@@ -29,11 +29,12 @@ import org.apache.rocketmq.remoting.netty.NettyClientConfig;
 import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.apache.rocketmq.remoting.netty.RequestTask;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.After;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+
 
 public class BrokerControllerTest {
 
@@ -44,12 +45,12 @@ public class BrokerControllerTest {
             new NettyServerConfig(),
             new NettyClientConfig(),
             new MessageStoreConfig());
-        assertThat(brokerController.initialize());
+        Assertions.assertTrue(brokerController.initialize());
         brokerController.start();
         brokerController.shutdown();
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         UtilAll.deleteFile(new File(new MessageStoreConfig().getStorePathRootDir()));
     }
@@ -78,6 +79,6 @@ public class BrokerControllerTest {
 
         long headSlowTimeMills = 100;
         TimeUnit.MILLISECONDS.sleep(headSlowTimeMills);
-        assertThat(brokerController.headSlowTimeMills(queue)).isGreaterThanOrEqualTo(headSlowTimeMills);
+        Assertions.assertEquals(brokerController.headSlowTimeMills(queue)).isGreaterThanOrEqualTo(headSlowTimeMills);
     }
 }

@@ -22,9 +22,10 @@ import org.apache.rocketmq.filter.expression.EmptyEvaluationContext;
 import org.apache.rocketmq.filter.expression.EvaluationContext;
 import org.apache.rocketmq.filter.expression.Expression;
 import org.apache.rocketmq.filter.expression.MQFilterException;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class FilterSpiTest {
 
@@ -57,27 +58,27 @@ public class FilterSpiTest {
             expr = FilterFactory.INSTANCE.get("Nothing").compile("abc");
         } catch (MQFilterException e) {
             e.printStackTrace();
-            assertThat(Boolean.FALSE).isTrue();
+            Assertions.assertTrue(Boolean.FALSE);
         }
 
-        assertThat(expr).isNotNull();
+        Assertions.assertNotNull(expr);
 
         try {
-            assertThat((Boolean) expr.evaluate(new EmptyEvaluationContext())).isTrue();
+            Assertions.assertTrue((Boolean) expr.evaluate(new EmptyEvaluationContext()));
         } catch (Exception e) {
             e.printStackTrace();
-            assertThat(Boolean.FALSE).isTrue();
+            Assertions.assertTrue(Boolean.FALSE);
         }
     }
 
     @Test
     public void testGet() {
         try {
-            assertThat((Boolean) FilterFactory.INSTANCE.get(ExpressionType.SQL92).compile("a is not null and a > 0")
-                .evaluate(new EmptyEvaluationContext())).isFalse();
+            Assertions.assertFalse((Boolean) FilterFactory.INSTANCE.get(ExpressionType.SQL92).compile("a is not null and a > 0")
+                .evaluate(new EmptyEvaluationContext()));
         } catch (Exception e) {
             e.printStackTrace();
-            assertThat(Boolean.FALSE).isTrue();
+            Assertions.assertTrue(Boolean.FALSE);
         }
     }
 }

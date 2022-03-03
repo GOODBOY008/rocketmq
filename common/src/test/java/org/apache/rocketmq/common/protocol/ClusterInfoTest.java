@@ -22,9 +22,9 @@ import org.apache.rocketmq.common.protocol.body.ClusterInfo;
 import org.apache.rocketmq.common.protocol.route.BrokerData;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
 
-import static org.junit.Assert.*;
+import static org.junit.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,13 +40,13 @@ public class ClusterInfoTest {
 
         assertNotNull(json);
         assertNotNull(json.getClusterAddrTable());
-        assertTrue(json.getClusterAddrTable().containsKey("DEFAULT_CLUSTER"));
-        assertTrue(json.getClusterAddrTable().get("DEFAULT_CLUSTER").contains("master"));
+        Assertions.assertTrue(json.getClusterAddrTable().containsKey("DEFAULT_CLUSTER"));
+        Assertions.assertTrue(json.getClusterAddrTable().get("DEFAULT_CLUSTER").contains("master"));
         assertNotNull(json.getBrokerAddrTable());
-        assertTrue(json.getBrokerAddrTable().containsKey("master"));
-        assertEquals(json.getBrokerAddrTable().get("master").getBrokerName(), "master");
-        assertEquals(json.getBrokerAddrTable().get("master").getCluster(), "DEFAULT_CLUSTER");
-        assertEquals(json.getBrokerAddrTable().get("master").getBrokerAddrs().get(MixAll.MASTER_ID), MixAll.getLocalhostByNetworkInterface());
+        Assertions.assertTrue(json.getBrokerAddrTable().containsKey("master"));
+        Assertions.assertEquals(json.getBrokerAddrTable().get("master").getBrokerName(), "master");
+        Assertions.assertEquals(json.getBrokerAddrTable().get("master").getCluster(), "DEFAULT_CLUSTER");
+        Assertions.assertEquals(json.getBrokerAddrTable().get("master").getBrokerAddrs().get(MixAll.MASTER_ID), MixAll.getLocalhostByNetworkInterface());
     }
 
     @Test

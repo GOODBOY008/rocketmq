@@ -23,14 +23,14 @@ import java.io.PrintWriter;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
+
+@ExtendWith(MockitoJUnitRunner.class)
 public class FileWatchServiceTest {
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
@@ -42,14 +42,14 @@ public class FileWatchServiceTest {
         FileWatchService fileWatchService = new FileWatchService(new String[] {file.getAbsolutePath()}, new FileWatchService.Listener() {
             @Override
             public void onChanged(String path) {
-                assertThat(file.getAbsolutePath()).isEqualTo(path);
+                Assertions.assertEquals(file.getAbsolutePath(),path);
                 waitSemaphore.release();
             }
         });
         fileWatchService.start();
         modifyFile(file);
         boolean result = waitSemaphore.tryAcquire(1, 1000, TimeUnit.MILLISECONDS);
-        assertThat(result).isTrue();
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -66,11 +66,11 @@ public class FileWatchServiceTest {
         fileWatchService.start();
         file.delete();
         boolean result = waitSemaphore.tryAcquire(1, 1000, TimeUnit.MILLISECONDS);
-        assertThat(result).isFalse();
+        Assertions.assertFalse(result);
         file.createNewFile();
         modifyFile(file);
         result = waitSemaphore.tryAcquire(1, 2000, TimeUnit.MILLISECONDS);
-        assertThat(result).isTrue();
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -89,14 +89,14 @@ public class FileWatchServiceTest {
         fileWatchService.start();
         fileA.delete();
         boolean result = waitSemaphore.tryAcquire(1, 1000, TimeUnit.MILLISECONDS);
-        assertThat(result).isFalse();
+        Assertions.assertFalse(result);
         modifyFile(fileB);
         result = waitSemaphore.tryAcquire(1, 1000, TimeUnit.MILLISECONDS);
-        assertThat(result).isTrue();
+        Assertions.assertTrue(result);
         fileA.createNewFile();
         modifyFile(fileA);
         result = waitSemaphore.tryAcquire(1, 1000, TimeUnit.MILLISECONDS);
-        assertThat(result).isTrue();
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -109,14 +109,14 @@ public class FileWatchServiceTest {
             new FileWatchService.Listener() {
             @Override
             public void onChanged(String path) {
-                assertThat(path).isEqualTo(fileA.getAbsolutePath());
+                Assertions.assertEquals(path,fileA.getAbsolutePath());
                 waitSemaphore.release();
             }
         });
         fileWatchService.start();
         modifyFile(fileA);
         boolean result = waitSemaphore.tryAcquire(1, 1000, TimeUnit.MILLISECONDS);
-        assertThat(result).isTrue();
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class FileWatchServiceTest {
         modifyFile(fileA);
         modifyFile(fileB);
         boolean result = waitSemaphore.tryAcquire(2, 1000, TimeUnit.MILLISECONDS);
-        assertThat(result).isTrue();
+        Assertions.assertTrue(result);
     }
 
     private static void modifyFile(File file) {

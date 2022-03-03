@@ -18,13 +18,14 @@ package org.apache.rocketmq.remoting.netty;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
+
+@ExtendWith(MockitoJUnitRunner.class)
 public class NettyRemotingClientTest {
     private NettyRemotingClient remotingClient = new NettyRemotingClient(new NettyClientConfig());
 
@@ -33,6 +34,6 @@ public class NettyRemotingClientTest {
         ExecutorService customized = Executors.newCachedThreadPool();
         remotingClient.setCallbackExecutor(customized);
 
-        assertThat(remotingClient.getCallbackExecutor()).isEqualTo(customized);
+        Assertions.assertEquals(remotingClient.getCallbackExecutor(),customized);
     }
 }

@@ -32,16 +32,16 @@ import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -49,7 +49,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class RebalancePushImplTest {
     @Spy
     private DefaultMQPushConsumerImpl defaultMQPushConsumer = new DefaultMQPushConsumerImpl(new DefaultMQPushConsumer("RebalancePushImplTest"), null);
@@ -85,17 +85,17 @@ public class RebalancePushImplTest {
         allocateResultSet.add(new MessageQueue(topic, "BrokerA", 0));
         allocateResultSet.add(new MessageQueue(topic, "BrokerA", 1));
         doRebalanceForcibly(rebalancePush, allocateResultSet);
-        assertThat(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdForQueue()).isEqualTo(1024);
+        Assertions.assertEquals(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdForQueue(),1024);
 
         // Set pullThresholdForTopic
         defaultMQPushConsumer.getDefaultMQPushConsumer().setPullThresholdForTopic(1024);
         doRebalanceForcibly(rebalancePush, allocateResultSet);
-        assertThat(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdForQueue()).isEqualTo(512);
+        Assertions.assertEquals(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdForQueue(),512);
 
         // Change message queue allocate result
         allocateResultSet.add(new MessageQueue(topic, "BrokerA", 2));
         doRebalanceForcibly(rebalancePush, allocateResultSet);
-        assertThat(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdForQueue()).isEqualTo(341);
+        Assertions.assertEquals(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdForQueue(),341);
     }
 
     private void doRebalanceForcibly(RebalancePushImpl rebalancePush, Set<MessageQueue> allocateResultSet) {
@@ -133,17 +133,17 @@ public class RebalancePushImplTest {
         allocateResultSet.add(new MessageQueue(topic, "BrokerA", 0));
         allocateResultSet.add(new MessageQueue(topic, "BrokerA", 1));
         doRebalanceForcibly(rebalancePush, allocateResultSet);
-        assertThat(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdSizeForQueue()).isEqualTo(1024);
+        Assertions.assertEquals(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdSizeForQueue(),1024);
 
         // Set pullThresholdSizeForTopic
         defaultMQPushConsumer.getDefaultMQPushConsumer().setPullThresholdSizeForTopic(1024);
         doRebalanceForcibly(rebalancePush, allocateResultSet);
-        assertThat(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdSizeForQueue()).isEqualTo(512);
+        Assertions.assertEquals(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdSizeForQueue(),512);
 
         // Change message queue allocate result
         allocateResultSet.add(new MessageQueue(topic, "BrokerA", 2));
         doRebalanceForcibly(rebalancePush, allocateResultSet);
-        assertThat(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdSizeForQueue()).isEqualTo(341);
+        Assertions.assertEquals(defaultMQPushConsumer.getDefaultMQPushConsumer().getPullThresholdSizeForQueue(),341);
     }
 
     @Test
@@ -160,26 +160,26 @@ public class RebalancePushImplTest {
         doRebalanceForcibly(rebalancePush, allocateResultSet);
 
         defaultMQPushConsumer.setConsumeMessageService(new ConsumeMessageConcurrentlyService(defaultMQPushConsumer, null));
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForQueue")).isEqualTo("1024");
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForQueue")).isEqualTo("1024");
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForTopic")).isEqualTo("-1");
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForTopic")).isEqualTo("-1");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForQueue"),"1024");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForQueue"),"1024");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForTopic"),"-1");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForTopic"),"-1");
 
         defaultMQPushConsumer.getDefaultMQPushConsumer().setPullThresholdSizeForTopic(1024);
         defaultMQPushConsumer.getDefaultMQPushConsumer().setPullThresholdForTopic(1024);
         doRebalanceForcibly(rebalancePush, allocateResultSet);
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForQueue")).isEqualTo("512");
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForQueue")).isEqualTo("512");
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForTopic")).isEqualTo("1024");
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForTopic")).isEqualTo("1024");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForQueue"),"512");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForQueue"),"512");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForTopic"),"1024");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForTopic"),"1024");
 
         // Change message queue allocate result
         allocateResultSet.add(new MessageQueue(topic, "BrokerA", 2));
         doRebalanceForcibly(rebalancePush, allocateResultSet);
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForQueue")).isEqualTo("341");
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForQueue")).isEqualTo("341");
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForTopic")).isEqualTo("1024");
-        assertThat(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForTopic")).isEqualTo("1024");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForQueue"),"341");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForQueue"),"341");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdSizeForTopic"),"1024");
+        Assertions.assertEquals(defaultMQPushConsumer.consumerRunningInfo().getProperties().get("pullThresholdForTopic"),"1024");
     }
 
     @Test
@@ -191,10 +191,10 @@ public class RebalancePushImplTest {
             consumer.setConsumeFromWhere(where);
 
             when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(0L);
-            assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
+            Assertions.assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
 
             when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-2L);
-            assertEquals(-1, rebalanceImpl.computePullFromWhereWithException(mq));
+            Assertions.assertEquals(-1, rebalanceImpl.computePullFromWhereWithException(mq));
         }
     }
 
@@ -204,16 +204,16 @@ public class RebalancePushImplTest {
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
         when(admin.maxOffset(any(MessageQueue.class))).thenReturn(12345L);
 
-        assertEquals(12345L, rebalanceImpl.computePullFromWhereWithException(mq));
+        Assertions.assertEquals(12345L, rebalanceImpl.computePullFromWhereWithException(mq));
 
-        assertEquals(0L, rebalanceImpl.computePullFromWhereWithException(retryMq));
+        Assertions.assertEquals(0L, rebalanceImpl.computePullFromWhereWithException(retryMq));
     }
 
     @Test
     public void testComputePullFromWhereWithException_eq_minus1_first() throws MQClientException {
         when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-1L);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-        assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
+        Assertions.assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
     }
 
     @Test
@@ -223,9 +223,9 @@ public class RebalancePushImplTest {
         when(admin.searchOffset(any(MessageQueue.class), anyLong())).thenReturn(12345L);
         when(admin.maxOffset(any(MessageQueue.class))).thenReturn(23456L);
 
-        assertEquals(12345L, rebalanceImpl.computePullFromWhereWithException(mq));
+        Assertions.assertEquals(12345L, rebalanceImpl.computePullFromWhereWithException(mq));
 
-        assertEquals(23456L, rebalanceImpl.computePullFromWhereWithException(retryMq));
+        Assertions.assertEquals(23456L, rebalanceImpl.computePullFromWhereWithException(retryMq));
     }
 
 }

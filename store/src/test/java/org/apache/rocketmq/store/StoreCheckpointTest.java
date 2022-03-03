@@ -24,10 +24,11 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.rocketmq.common.UtilAll;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class StoreCheckpointTest {
     @Test
@@ -40,14 +41,14 @@ public class StoreCheckpointTest {
         storeCheckpoint.flush();
 
         long diff = physicMsgTimestamp - storeCheckpoint.getMinTimestamp();
-        assertThat(diff).isEqualTo(3000);
+        Assertions.assertEquals(diff,3000);
         storeCheckpoint.shutdown();
         storeCheckpoint = new StoreCheckpoint("target/checkpoint_test/0000");
-        assertThat(storeCheckpoint.getPhysicMsgTimestamp()).isEqualTo(physicMsgTimestamp);
-        assertThat(storeCheckpoint.getLogicsMsgTimestamp()).isEqualTo(logicsMsgTimestamp);
+        Assertions.assertEquals(storeCheckpoint.getPhysicMsgTimestamp(),physicMsgTimestamp);
+        Assertions.assertEquals(storeCheckpoint.getLogicsMsgTimestamp(),logicsMsgTimestamp);
     }
 
-    @After
+    @AfterEach
     public void destory() {
         File file = new File("target/checkpoint_test");
         UtilAll.deleteFile(file);

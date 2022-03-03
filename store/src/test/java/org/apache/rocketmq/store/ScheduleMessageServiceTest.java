@@ -39,10 +39,10 @@ import org.apache.rocketmq.store.config.FlushDiskType;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.schedule.ScheduleMessageService;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -78,7 +78,7 @@ public class ScheduleMessageServiceTest {
         offsetTable = (ConcurrentMap<Integer, Long>) field.get(scheduleMessageService);
 
         for (Map.Entry<Integer, Long> entry : offsetTable.entrySet()) {
-            assertEquals(entry.getValue(), offsetTable1.get(entry.getKey()));
+            Assertions.assertEquals(entry.getValue(), offsetTable1.get(entry.getKey()));
         }
 
         scheduleMessageService.correctDelayOffset();
@@ -86,7 +86,7 @@ public class ScheduleMessageServiceTest {
         offsetTable = (ConcurrentMap<Integer, Long>) field.get(scheduleMessageService);
 
         for (long offset : offsetTable.values()) {
-            assertEquals(0, offset);
+            Assertions.assertEquals(0, offset);
         }
 
     }
@@ -185,8 +185,8 @@ public class ScheduleMessageServiceTest {
 
         Thread.sleep(1000);
         for (int level = 1; level <= scheduleMessageService.getMaxDelayLevel(); level++) {
-            Assert.assertEquals(0, deliverPendingTable.get(level).size());
-            Assert.assertEquals(msgNum, offsetTable.get(level).longValue());
+            Assertions.assertEquals(0, deliverPendingTable.get(level).size());
+            Assertions.assertEquals(msgNum, offsetTable.get(level).longValue());
         }
 
         scheduleMessageService.shutdown();

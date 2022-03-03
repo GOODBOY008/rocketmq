@@ -18,11 +18,12 @@
 package org.apache.rocketmq.filter;
 
 import org.apache.rocketmq.filter.util.BitsArray;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class BitsArrayTest {
 
@@ -46,15 +47,15 @@ public class BitsArrayTest {
     public void testConstructor() {
         BitsArray bitsArray = BitsArray.create(8);
 
-        assertThat(bitsArray.byteLength() == 1 && bitsArray.bitLength() == 8).isTrue();
+        Assertions.assertTrue(bitsArray.byteLength() == 1 && bitsArray.bitLength() == 8);
 
         bitsArray = BitsArray.create(9);
 
-        assertThat(bitsArray.byteLength() == 2 && bitsArray.bitLength() == 9).isTrue();
+        Assertions.assertTrue(bitsArray.byteLength() == 2 && bitsArray.bitLength() == 9);
 
         bitsArray = BitsArray.create(7);
 
-        assertThat(bitsArray.byteLength() == 1 && bitsArray.bitLength() == 7).isTrue();
+        Assertions.assertTrue(bitsArray.byteLength() == 1 && bitsArray.bitLength() == 7);
     }
 
     @Test
@@ -68,7 +69,7 @@ public class BitsArrayTest {
 
         bitsArray.xor(backUp);
 
-        assertThat(bitsArray.getBit(2)).isTrue();
+        Assertions.assertTrue(bitsArray.getBit(2));
     }
 
     @Test
@@ -79,10 +80,10 @@ public class BitsArrayTest {
 
         if (val) {
             bitsArray.and(2, false);
-            assertThat(!bitsArray.getBit(2)).isTrue();
+            Assertions.assertTrue(!bitsArray.getBit(2));
         } else {
             bitsArray.or(2, true);
-            assertThat(bitsArray.getBit(2)).isTrue();
+            Assertions.assertTrue(bitsArray.getBit(2));
         }
     }
 
@@ -94,7 +95,7 @@ public class BitsArrayTest {
 
         bitsArray.xor(2, !val);
 
-        assertThat(bitsArray.getBit(2)).isTrue();
+        Assertions.assertTrue(bitsArray.getBit(2));
     }
 
     @Test
@@ -106,7 +107,7 @@ public class BitsArrayTest {
 
         bitsArray.xor(backUp);
 
-        assertThat(bitsArray.getBit(2)).isTrue();
+        Assertions.assertTrue(bitsArray.getBit(2));
     }
 
     @Test
@@ -117,7 +118,7 @@ public class BitsArrayTest {
         b1.or(b2);
 
         for (int i = 0; i < b1.bitLength(); i++) {
-            assertThat(b1.getBit(i)).isTrue();
+            Assertions.assertTrue(b1.getBit(i));
         }
     }
 }

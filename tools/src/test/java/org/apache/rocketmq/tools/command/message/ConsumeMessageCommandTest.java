@@ -36,10 +36,10 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.apache.rocketmq.srvutil.ServerUtil;
 import org.apache.rocketmq.tools.command.SubCommandException;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -62,7 +62,7 @@ public class ConsumeMessageCommandTest {
     }
 
 
-    @BeforeClass
+    @BeforeEach
     public static void init() throws MQClientException, RemotingException, MQBrokerException, InterruptedException,
         NoSuchFieldException, IllegalAccessException {
         consumeMessageCommand = new ConsumeMessageCommand();
@@ -81,7 +81,7 @@ public class ConsumeMessageCommandTest {
         producerField.set(consumeMessageCommand, defaultMQPullConsumer);
     }
 
-    @AfterClass
+    @AfterEach
     public static void terminate() {
     }
 
@@ -118,7 +118,7 @@ public class ConsumeMessageCommandTest {
 
         System.setOut(out);
         String s = new String(bos.toByteArray());
-        Assert.assertTrue(s.contains("Consume ok"));
+        Assertions.assertTrue(s.contains("Consume ok"));
     }
 
     @Test
@@ -134,7 +134,7 @@ public class ConsumeMessageCommandTest {
         consumeMessageCommand.execute(commandLine, options, null);
         System.setOut(out);
         String s = new String(bos.toByteArray());
-        Assert.assertTrue(s.contains("Consume ok"));
+        Assertions.assertTrue(s.contains("Consume ok"));
     }
 
     @Test
@@ -156,7 +156,7 @@ public class ConsumeMessageCommandTest {
 
         System.setOut(out);
         String s = new String(bos.toByteArray());
-        Assert.assertTrue(!s.contains("Consume ok"));
+        Assertions.assertTrue(!s.contains("Consume ok"));
     }
 
     @Test
@@ -178,6 +178,6 @@ public class ConsumeMessageCommandTest {
 
         System.setOut(out);
         String s = new String(bos.toByteArray());
-        Assert.assertTrue(!s.contains("Consume ok"));
+        Assertions.assertTrue(!s.contains("Consume ok"));
     }
 }

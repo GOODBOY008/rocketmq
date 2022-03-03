@@ -16,9 +16,9 @@
  */
 package org.apache.rocketmq.client.common;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ThreadLocalIndexTest {
     @Test
@@ -26,14 +26,14 @@ public class ThreadLocalIndexTest {
         ThreadLocalIndex localIndex = new ThreadLocalIndex();
         int initialVal = localIndex.incrementAndGet();
 
-        assertThat(localIndex.incrementAndGet()).isEqualTo(initialVal + 1);
+        Assertions.assertEquals(localIndex.incrementAndGet(),initialVal + 1);
     }
 
     @Test
     public void testIncrementAndGet2() throws Exception {
         ThreadLocalIndex localIndex = new ThreadLocalIndex();
         int initialVal = localIndex.incrementAndGet();
-        assertThat(initialVal >= 0);
+        Assertions.assertEquals(initialVal >= 0);
     }
 
 }

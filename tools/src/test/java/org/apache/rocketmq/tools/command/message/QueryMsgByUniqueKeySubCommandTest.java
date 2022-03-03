@@ -16,6 +16,7 @@
  */
 package org.apache.rocketmq.tools.command.message;
 
+import com.beust.jcommander.internal.Lists;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
@@ -45,9 +46,8 @@ import org.apache.rocketmq.srvutil.ServerUtil;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExtImpl;
 import org.apache.rocketmq.tools.command.SubCommandException;
-import org.assertj.core.util.Lists;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
@@ -68,7 +68,7 @@ public class QueryMsgByUniqueKeySubCommandTest {
     private static MQClientAPIImpl mQClientAPIImpl;
     private static MQAdminImpl mQAdminImpl;
 
-    @Before
+    @BeforeEach
     public void before() throws NoSuchFieldException, IllegalAccessException, InterruptedException, RemotingException, MQClientException, MQBrokerException {
 
         mQClientAPIImpl = mock(MQClientAPIImpl.class);

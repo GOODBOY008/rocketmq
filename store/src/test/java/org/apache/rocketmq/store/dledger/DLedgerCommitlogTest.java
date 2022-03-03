@@ -36,8 +36,8 @@ import org.apache.rocketmq.store.GetMessageStatus;
 import org.apache.rocketmq.store.MessageExtBrokerInner;
 import org.apache.rocketmq.store.PutMessageResult;
 import org.apache.rocketmq.store.PutMessageStatus;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DLedgerCommitlogTest extends MessageStoreTestBase {
 
@@ -57,10 +57,10 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
             Thread.sleep(2000);
             doPutMessages(messageStore, topic, 0, 2000, 0);
             Thread.sleep(100);
-            Assert.assertEquals(24, mmapFileList.getMappedFiles().size());
-            Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-            Assert.assertEquals(2000, messageStore.getMaxOffsetInQueue(topic, 0));
-            Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+            Assertions.assertEquals(24, mmapFileList.getMappedFiles().size());
+            Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+            Assertions.assertEquals(2000, messageStore.getMaxOffsetInQueue(topic, 0));
+            Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
             doGetMessages(messageStore, topic, 0, 2000, 0);
             messageStore.shutdown();
         }
@@ -73,10 +73,10 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
             DLedgerMmapFileStore dLedgerMmapFileStore = (DLedgerMmapFileStore) dLedgerServer.getdLedgerStore();
             MmapFileList mmapFileList = dLedgerMmapFileStore.getDataFileList();
             Thread.sleep(1000);
-            Assert.assertEquals(20, mmapFileList.getMappedFiles().size());
-            Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-            Assert.assertEquals(1700, messageStore.getMaxOffsetInQueue(topic, 0));
-            Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+            Assertions.assertEquals(20, mmapFileList.getMappedFiles().size());
+            Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+            Assertions.assertEquals(1700, messageStore.getMaxOffsetInQueue(topic, 0));
+            Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
             doGetMessages(messageStore, topic, 0, 1700, 0);
             messageStore.shutdown();
         }
@@ -88,10 +88,10 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
             DLedgerMmapFileStore dLedgerMmapFileStore = (DLedgerMmapFileStore) dLedgerServer.getdLedgerStore();
             MmapFileList mmapFileList = dLedgerMmapFileStore.getDataFileList();
             Thread.sleep(1000);
-            Assert.assertEquals(0, mmapFileList.getMappedFiles().size());
-            Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-            Assert.assertEquals(0, messageStore.getMaxOffsetInQueue(topic, 0));
-            Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+            Assertions.assertEquals(0, mmapFileList.getMappedFiles().size());
+            Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+            Assertions.assertEquals(0, messageStore.getMaxOffsetInQueue(topic, 0));
+            Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
             messageStore.shutdown();
         }
     }
@@ -108,9 +108,9 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
             Thread.sleep(1000);
             doPutMessages(messageStore, topic, 0, 1000, 0);
             Thread.sleep(100);
-            Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-            Assert.assertEquals(1000, messageStore.getMaxOffsetInQueue(topic, 0));
-            Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+            Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+            Assertions.assertEquals(1000, messageStore.getMaxOffsetInQueue(topic, 0));
+            Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
             doGetMessages(messageStore, topic, 0, 1000, 0);
             messageStore.shutdown();
         }
@@ -118,9 +118,9 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
         {
             //normal recover
             DefaultMessageStore messageStore = createDledgerMessageStore(base, group, "n0", peers, null, false, 0);
-            Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-            Assert.assertEquals(1000, messageStore.getMaxOffsetInQueue(topic, 0));
-            Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+            Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+            Assertions.assertEquals(1000, messageStore.getMaxOffsetInQueue(topic, 0));
+            Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
             doGetMessages(messageStore, topic, 0, 1000, 0);
             messageStore.shutdown();
         }
@@ -128,9 +128,9 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
         {
             //abnormal recover
             DefaultMessageStore messageStore = createDledgerMessageStore(base, group, "n0", peers, null, true, 0);
-            Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-            Assert.assertEquals(1000, messageStore.getMaxOffsetInQueue(topic, 0));
-            Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+            Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+            Assertions.assertEquals(1000, messageStore.getMaxOffsetInQueue(topic, 0));
+            Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
             doGetMessages(messageStore, topic, 0, 1000, 0);
             messageStore.shutdown();
         }
@@ -154,25 +154,25 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
             msgInner.setQueueId(0);
             PutMessageResult putMessageResult = messageStore.putMessage(msgInner);
             results.add(putMessageResult);
-            Assert.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
-            Assert.assertEquals(i, putMessageResult.getAppendMessageResult().getLogicsOffset());
+            Assertions.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
+            Assertions.assertEquals(i, putMessageResult.getAppendMessageResult().getLogicsOffset());
         }
         Thread.sleep(100);
-        Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-        Assert.assertEquals(10, messageStore.getMaxOffsetInQueue(topic, 0));
-        Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+        Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+        Assertions.assertEquals(10, messageStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
         GetMessageResult getMessageResult = messageStore.getMessage("group", topic, 0, 0, 32, null);
-        Assert.assertEquals(GetMessageStatus.FOUND, getMessageResult.getStatus());
+        Assertions.assertEquals(GetMessageStatus.FOUND, getMessageResult.getStatus());
 
-        Assert.assertEquals(10, getMessageResult.getMessageBufferList().size());
-        Assert.assertEquals(10, getMessageResult.getMessageMapedList().size());
+        Assertions.assertEquals(10, getMessageResult.getMessageBufferList().size());
+        Assertions.assertEquals(10, getMessageResult.getMessageMapedList().size());
 
         for (int i = 0; i < results.size(); i++) {
             ByteBuffer buffer = getMessageResult.getMessageBufferList().get(i);
             MessageExt messageExt = MessageDecoder.decode(buffer);
-            Assert.assertEquals(i, messageExt.getQueueOffset());
-            Assert.assertEquals(results.get(i).getAppendMessageResult().getMsgId(), messageExt.getMsgId());
-            Assert.assertEquals(results.get(i).getAppendMessageResult().getWroteOffset(), messageExt.getCommitLogOffset());
+            Assertions.assertEquals(i, messageExt.getQueueOffset());
+            Assertions.assertEquals(results.get(i).getAppendMessageResult().getMsgId(), messageExt.getMsgId());
+            Assertions.assertEquals(results.get(i).getAppendMessageResult().getWroteOffset(), messageExt.getCommitLogOffset());
         }
         messageStore.destroy();
         messageStore.shutdown();
@@ -197,26 +197,26 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
             messageExtBatch.setQueueId(0);
             PutMessageResult putMessageResult = messageStore.putMessages(messageExtBatch);
             results.add(putMessageResult);
-            Assert.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
-            Assert.assertEquals(i * batchMessageSize, putMessageResult.getAppendMessageResult().getLogicsOffset());
+            Assertions.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
+            Assertions.assertEquals(i * batchMessageSize, putMessageResult.getAppendMessageResult().getLogicsOffset());
         }
         Thread.sleep(100);
-        Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-        Assert.assertEquals(repeat * batchMessageSize, messageStore.getMaxOffsetInQueue(topic, 0));
-        Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+        Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+        Assertions.assertEquals(repeat * batchMessageSize, messageStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
         GetMessageResult getMessageResult = messageStore.getMessage("group", topic, 0, 0, 100, null);
-        Assert.assertEquals(GetMessageStatus.FOUND, getMessageResult.getStatus());
+        Assertions.assertEquals(GetMessageStatus.FOUND, getMessageResult.getStatus());
 
-        Assert.assertEquals(repeat * batchMessageSize > 32 ? 32 : repeat * batchMessageSize, getMessageResult.getMessageBufferList().size());
-        Assert.assertEquals(repeat * batchMessageSize > 32 ? 32 : repeat * batchMessageSize, getMessageResult.getMessageMapedList().size());
-        Assert.assertEquals(repeat * batchMessageSize, getMessageResult.getMaxOffset());
+        Assertions.assertEquals(repeat * batchMessageSize > 32 ? 32 : repeat * batchMessageSize, getMessageResult.getMessageBufferList().size());
+        Assertions.assertEquals(repeat * batchMessageSize > 32 ? 32 : repeat * batchMessageSize, getMessageResult.getMessageMapedList().size());
+        Assertions.assertEquals(repeat * batchMessageSize, getMessageResult.getMaxOffset());
 
         for (int i = 0; i < results.size(); i++) {
             ByteBuffer buffer = getMessageResult.getMessageBufferList().get(i * batchMessageSize);
             MessageExt messageExt = MessageDecoder.decode(buffer);
-            Assert.assertEquals(i * batchMessageSize, messageExt.getQueueOffset());
-            Assert.assertEquals(results.get(i).getAppendMessageResult().getMsgId().split(",").length, batchMessageSize);
-            Assert.assertEquals(results.get(i).getAppendMessageResult().getWroteOffset(), messageExt.getCommitLogOffset());
+            Assertions.assertEquals(i * batchMessageSize, messageExt.getQueueOffset());
+            Assertions.assertEquals(results.get(i).getAppendMessageResult().getMsgId().split(",").length, batchMessageSize);
+            Assertions.assertEquals(results.get(i).getAppendMessageResult().getWroteOffset(), messageExt.getCommitLogOffset());
         }
         messageStore.destroy();
         messageStore.shutdown();
@@ -240,25 +240,25 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
             CompletableFuture<PutMessageResult> futureResult = messageStore.asyncPutMessage(msgInner);
             PutMessageResult putMessageResult = futureResult.get(3000, TimeUnit.MILLISECONDS);
             results.add(putMessageResult);
-            Assert.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
-            Assert.assertEquals(i, putMessageResult.getAppendMessageResult().getLogicsOffset());
+            Assertions.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
+            Assertions.assertEquals(i, putMessageResult.getAppendMessageResult().getLogicsOffset());
         }
         Thread.sleep(100);
-        Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-        Assert.assertEquals(10, messageStore.getMaxOffsetInQueue(topic, 0));
-        Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+        Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+        Assertions.assertEquals(10, messageStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
         GetMessageResult getMessageResult = messageStore.getMessage("group", topic, 0, 0, 32, null);
-        Assert.assertEquals(GetMessageStatus.FOUND, getMessageResult.getStatus());
+        Assertions.assertEquals(GetMessageStatus.FOUND, getMessageResult.getStatus());
 
-        Assert.assertEquals(10, getMessageResult.getMessageBufferList().size());
-        Assert.assertEquals(10, getMessageResult.getMessageMapedList().size());
+        Assertions.assertEquals(10, getMessageResult.getMessageBufferList().size());
+        Assertions.assertEquals(10, getMessageResult.getMessageMapedList().size());
 
         for (int i = 0; i < results.size(); i++) {
             ByteBuffer buffer = getMessageResult.getMessageBufferList().get(i);
             MessageExt messageExt = MessageDecoder.decode(buffer);
-            Assert.assertEquals(i, messageExt.getQueueOffset());
-            Assert.assertEquals(results.get(i).getAppendMessageResult().getMsgId(), messageExt.getMsgId());
-            Assert.assertEquals(results.get(i).getAppendMessageResult().getWroteOffset(), messageExt.getCommitLogOffset());
+            Assertions.assertEquals(i, messageExt.getQueueOffset());
+            Assertions.assertEquals(results.get(i).getAppendMessageResult().getMsgId(), messageExt.getMsgId());
+            Assertions.assertEquals(results.get(i).getAppendMessageResult().getWroteOffset(), messageExt.getCommitLogOffset());
         }
         messageStore.destroy();
         messageStore.shutdown();
@@ -285,26 +285,26 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
             CompletableFuture<PutMessageResult> futureResult = messageStore.asyncPutMessages(messageExtBatch);
             PutMessageResult putMessageResult = futureResult.get(3000, TimeUnit.MILLISECONDS);
             results.add(putMessageResult);
-            Assert.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
-            Assert.assertEquals(i * batchMessageSize, putMessageResult.getAppendMessageResult().getLogicsOffset());
+            Assertions.assertEquals(PutMessageStatus.PUT_OK, putMessageResult.getPutMessageStatus());
+            Assertions.assertEquals(i * batchMessageSize, putMessageResult.getAppendMessageResult().getLogicsOffset());
         }
         Thread.sleep(100);
-        Assert.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
-        Assert.assertEquals(repeat * batchMessageSize, messageStore.getMaxOffsetInQueue(topic, 0));
-        Assert.assertEquals(0, messageStore.dispatchBehindBytes());
+        Assertions.assertEquals(0, messageStore.getMinOffsetInQueue(topic, 0));
+        Assertions.assertEquals(repeat * batchMessageSize, messageStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertEquals(0, messageStore.dispatchBehindBytes());
         GetMessageResult getMessageResult = messageStore.getMessage("group", topic, 0, 0, 32, null);
-        Assert.assertEquals(GetMessageStatus.FOUND, getMessageResult.getStatus());
+        Assertions.assertEquals(GetMessageStatus.FOUND, getMessageResult.getStatus());
 
-        Assert.assertEquals(repeat * batchMessageSize > 32 ? 32 : repeat * batchMessageSize, getMessageResult.getMessageBufferList().size());
-        Assert.assertEquals(repeat * batchMessageSize > 32 ? 32 : repeat * batchMessageSize, getMessageResult.getMessageMapedList().size());
-        Assert.assertEquals(repeat * batchMessageSize, getMessageResult.getMaxOffset());
+        Assertions.assertEquals(repeat * batchMessageSize > 32 ? 32 : repeat * batchMessageSize, getMessageResult.getMessageBufferList().size());
+        Assertions.assertEquals(repeat * batchMessageSize > 32 ? 32 : repeat * batchMessageSize, getMessageResult.getMessageMapedList().size());
+        Assertions.assertEquals(repeat * batchMessageSize, getMessageResult.getMaxOffset());
 
         for (int i = 0; i < results.size(); i++) {
             ByteBuffer buffer = getMessageResult.getMessageBufferList().get(i * batchMessageSize);
             MessageExt messageExt = MessageDecoder.decode(buffer);
-            Assert.assertEquals(i * batchMessageSize, messageExt.getQueueOffset());
-            Assert.assertEquals(results.get(i).getAppendMessageResult().getMsgId().split(",").length, batchMessageSize);
-            Assert.assertEquals(results.get(i).getAppendMessageResult().getWroteOffset(), messageExt.getCommitLogOffset());
+            Assertions.assertEquals(i * batchMessageSize, messageExt.getQueueOffset());
+            Assertions.assertEquals(results.get(i).getAppendMessageResult().getMsgId().split(",").length, batchMessageSize);
+            Assertions.assertEquals(results.get(i).getAppendMessageResult().getWroteOffset(), messageExt.getCommitLogOffset());
         }
         messageStore.destroy();
         messageStore.shutdown();
@@ -321,20 +321,20 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
         msgInner.setTopic(topic);
         msgInner.setQueueId(0);
         PutMessageResult putMessageResult = leaderStore.putMessage(msgInner);
-        Assert.assertEquals(PutMessageStatus.OS_PAGECACHE_BUSY, putMessageResult.getPutMessageStatus());
+        Assertions.assertEquals(PutMessageStatus.OS_PAGECACHE_BUSY, putMessageResult.getPutMessageStatus());
 
         Thread.sleep(1000);
 
-        Assert.assertEquals(0, leaderStore.getCommitLog().getMaxOffset());
-        Assert.assertEquals(0, leaderStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertEquals(0, leaderStore.getCommitLog().getMaxOffset());
+        Assertions.assertEquals(0, leaderStore.getMaxOffsetInQueue(topic, 0));
 
 
         DefaultMessageStore followerStore = createDledgerMessageStore(createBaseDir(), group, "n1", peers, "n0", false, 0);
         Thread.sleep(2000);
 
-        Assert.assertEquals(1, leaderStore.getMaxOffsetInQueue(topic, 0));
-        Assert.assertEquals(1, followerStore.getMaxOffsetInQueue(topic, 0));
-        Assert.assertTrue(leaderStore.getCommitLog().getMaxOffset() > 0);
+        Assertions.assertEquals(1, leaderStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertEquals(1, followerStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertTrue(leaderStore.getCommitLog().getMaxOffset() > 0);
 
 
         leaderStore.destroy();
@@ -355,20 +355,20 @@ public class DLedgerCommitlogTest extends MessageStoreTestBase {
         msgInner.setTopic(topic);
         msgInner.setQueueId(0);
         PutMessageResult putMessageResult = leaderStore.putMessage(msgInner);
-        Assert.assertEquals(PutMessageStatus.OS_PAGECACHE_BUSY, putMessageResult.getPutMessageStatus());
+        Assertions.assertEquals(PutMessageStatus.OS_PAGECACHE_BUSY, putMessageResult.getPutMessageStatus());
 
         Thread.sleep(1000);
 
-        Assert.assertEquals(0, leaderStore.getCommitLog().getMaxOffset());
-        Assert.assertEquals(0, leaderStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertEquals(0, leaderStore.getCommitLog().getMaxOffset());
+        Assertions.assertEquals(0, leaderStore.getMaxOffsetInQueue(topic, 0));
 
 
         DefaultMessageStore followerStore = createDledgerMessageStore(createBaseDir(), group, "n1", peers, "n0", false, 0);
         Thread.sleep(2000);
 
-        Assert.assertEquals(1, leaderStore.getMaxOffsetInQueue(topic, 0));
-        Assert.assertEquals(1, followerStore.getMaxOffsetInQueue(topic, 0));
-        Assert.assertTrue(leaderStore.getCommitLog().getMaxOffset() > 0);
+        Assertions.assertEquals(1, leaderStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertEquals(1, followerStore.getMaxOffsetInQueue(topic, 0));
+        Assertions.assertTrue(leaderStore.getCommitLog().getMaxOffset() > 0);
 
 
         leaderStore.destroy();

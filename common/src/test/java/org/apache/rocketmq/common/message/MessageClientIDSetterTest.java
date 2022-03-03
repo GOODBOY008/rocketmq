@@ -18,9 +18,9 @@
 package org.apache.rocketmq.common.message;
 
 import org.apache.rocketmq.common.UtilAll;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 import java.nio.charset.StandardCharsets;
 
@@ -31,7 +31,7 @@ public class MessageClientIDSetterTest {
         long t = System.currentTimeMillis();
         String uniqID = MessageClientIDSetter.createUniqID();
         long t2 = MessageClientIDSetter.getNearlyTimeFromID(uniqID).getTime();
-        assertThat(t2 - t < 20);
+        Assertions.assertEquals(t2 - t < 20);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class MessageClientIDSetterTest {
         String idHex2 = uniqID2.substring(uniqID2.length() - 4);
         int s1 = Integer.parseInt(idHex, 16);
         int s2 = Integer.parseInt(idHex2, 16);
-        assertThat(s1 == s2 - 1);
+        Assertions.assertEquals(s1 == s2 - 1);
     }
 
 
@@ -54,7 +54,7 @@ public class MessageClientIDSetterTest {
         String uniqID = MessageClientIDSetter.createUniqID();
         String ipStrFromID = MessageClientIDSetter.getIPStrFromID(uniqID);
 
-        assertThat(ipStr).isEqualTo(ipStrFromID);
+        Assertions.assertEquals(ipStr,ipStrFromID);
     }
 
 
@@ -66,6 +66,6 @@ public class MessageClientIDSetterTest {
         String uniqID = MessageClientIDSetter.createUniqID();
         short pidFromID = (short) MessageClientIDSetter.getPidFromID(uniqID);
 
-        assertThat(pid).isEqualTo(pidFromID);
+        Assertions.assertEquals(pid,pidFromID);
     }
 }

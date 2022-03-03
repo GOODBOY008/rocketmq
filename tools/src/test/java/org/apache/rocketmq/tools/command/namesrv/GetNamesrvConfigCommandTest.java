@@ -22,9 +22,9 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.rocketmq.srvutil.ServerUtil;
 import org.apache.rocketmq.tools.command.server.NameServerMocker;
 import org.apache.rocketmq.tools.command.server.ServerResponseMocker;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GetNamesrvConfigCommandTest {
 
@@ -36,13 +36,13 @@ public class GetNamesrvConfigCommandTest {
 
     private ServerResponseMocker nameServerMocker;
 
-    @Before
+    @BeforeEach
     public void before() {
         brokerMocker = startOneBroker();
         nameServerMocker = NameServerMocker.startByDefaultConf(NAME_SERVER_PORT, BROKER_PORT);
     }
 
-    @After
+    @AfterEach
     public void after() {
         brokerMocker.shutdown();
         nameServerMocker.shutdown();

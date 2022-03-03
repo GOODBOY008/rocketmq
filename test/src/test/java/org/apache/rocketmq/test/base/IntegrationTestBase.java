@@ -35,7 +35,7 @@ import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.test.util.MQAdmin;
 import org.apache.rocketmq.test.util.TestUtils;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class IntegrationTestBase {
     public static InternalLogger logger = InternalLoggerFactory.getLogger(IntegrationTestBase.class);
@@ -113,7 +113,7 @@ public class IntegrationTestBase {
         nameServerNettyServerConfig.setListenPort(nextPort());
         NamesrvController namesrvController = new NamesrvController(namesrvConfig, nameServerNettyServerConfig);
         try {
-            Assert.assertTrue(namesrvController.initialize());
+            Assertions.assertTrue(namesrvController.initialize());
             logger.info("Name Server Start:{}", nameServerNettyServerConfig.getListenPort());
             namesrvController.start();
         } catch (Exception e) {
@@ -149,7 +149,7 @@ public class IntegrationTestBase {
         storeConfig.setHaListenPort(nextPort());
         BrokerController brokerController = new BrokerController(brokerConfig, nettyServerConfig, nettyClientConfig, storeConfig);
         try {
-            Assert.assertTrue(brokerController.initialize());
+            Assertions.assertTrue(brokerController.initialize());
             logger.info("Broker Start name:{} addr:{}", brokerConfig.getBrokerName(), brokerController.getBrokerAddr());
             brokerController.start();
         } catch (Throwable t) {
@@ -169,7 +169,7 @@ public class IntegrationTestBase {
             if (createResult) {
                 break;
             } else if (System.currentTimeMillis() - startTime > topicCreateTime) {
-                Assert.fail(String.format("topic[%s] is created failed after:%d ms", topic,
+                Assertions.fail(String.format("topic[%s] is created failed after:%d ms", topic,
                     System.currentTimeMillis() - startTime));
                 break;
             } else {

@@ -19,15 +19,15 @@ package org.apache.rocketmq.client.trace;
 
 import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.common.message.MessageType;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class TraceDataEncoderTest {
 
@@ -35,7 +35,7 @@ public class TraceDataEncoderTest {
 
     private long time;
 
-    @Before
+    @BeforeEach
     public void init() {
         time = System.currentTimeMillis();
         traceData = new StringBuilder()
@@ -59,8 +59,8 @@ public class TraceDataEncoderTest {
     @Test
     public void testDecoderFromTraceDataString() {
         List<TraceContext> contexts = TraceDataEncoder.decoderFromTraceDataString(traceData);
-        Assert.assertEquals(contexts.size(), 1);
-        Assert.assertEquals(contexts.get(0).getTraceType(), TraceType.Pub);
+        Assertions.assertEquals(contexts.size(), 1);
+        Assertions.assertEquals(contexts.get(0).getTraceType(), TraceType.Pub);
     }
 
     @Test
@@ -87,8 +87,8 @@ public class TraceDataEncoderTest {
         context.setTraceBeans(traceBeans);
         TraceTransferBean traceTransferBean = TraceDataEncoder.encoderFromContextBean(context);
 
-        Assert.assertEquals(traceTransferBean.getTransData(), traceData);
-        Assert.assertEquals(traceTransferBean.getTransKey().size(), 2);
+        Assertions.assertEquals(traceTransferBean.getTransData(), traceData);
+        Assertions.assertEquals(traceTransferBean.getTransKey().size(), 2);
     }
 
     @Test
@@ -113,24 +113,24 @@ public class TraceDataEncoderTest {
         context.setTraceBeans(traceBeans);
         TraceTransferBean traceTransferBean = TraceDataEncoder.encoderFromContextBean(context);
 
-        Assert.assertEquals(traceTransferBean.getTransKey().size(), 2);
+        Assertions.assertEquals(traceTransferBean.getTransKey().size(), 2);
         String traceData = traceTransferBean.getTransData();
         TraceContext contextAfter = TraceDataEncoder.decoderFromTraceDataString(traceData).get(0);
-        Assert.assertEquals(context.getTraceType(), contextAfter.getTraceType());
-        Assert.assertEquals(context.getTimeStamp(), contextAfter.getTimeStamp());
-        Assert.assertEquals(context.getGroupName(), contextAfter.getGroupName());
+        Assertions.assertEquals(context.getTraceType(), contextAfter.getTraceType());
+        Assertions.assertEquals(context.getTimeStamp(), contextAfter.getTimeStamp());
+        Assertions.assertEquals(context.getGroupName(), contextAfter.getGroupName());
         TraceBean before = context.getTraceBeans().get(0);
         TraceBean after = contextAfter.getTraceBeans().get(0);
-        Assert.assertEquals(before.getTopic(), after.getTopic());
-        Assert.assertEquals(before.getMsgId(), after.getMsgId());
-        Assert.assertEquals(before.getTags(), after.getTags());
-        Assert.assertEquals(before.getKeys(), after.getKeys());
-        Assert.assertEquals(before.getStoreHost(), after.getStoreHost());
-        Assert.assertEquals(before.getMsgType(), after.getMsgType());
-        Assert.assertEquals(before.getClientHost(), after.getClientHost());
-        Assert.assertEquals(before.getTransactionId(), after.getTransactionId());
-        Assert.assertEquals(before.getTransactionState(), after.getTransactionState());
-        Assert.assertEquals(before.isFromTransactionCheck(), after.isFromTransactionCheck());
+        Assertions.assertEquals(before.getTopic(), after.getTopic());
+        Assertions.assertEquals(before.getMsgId(), after.getMsgId());
+        Assertions.assertEquals(before.getTags(), after.getTags());
+        Assertions.assertEquals(before.getKeys(), after.getKeys());
+        Assertions.assertEquals(before.getStoreHost(), after.getStoreHost());
+        Assertions.assertEquals(before.getMsgType(), after.getMsgType());
+        Assertions.assertEquals(before.getClientHost(), after.getClientHost());
+        Assertions.assertEquals(before.getTransactionId(), after.getTransactionId());
+        Assertions.assertEquals(before.getTransactionState(), after.getTransactionState());
+        Assertions.assertEquals(before.isFromTransactionCheck(), after.isFromTransactionCheck());
     }
 
     @Test
@@ -156,9 +156,9 @@ public class TraceDataEncoderTest {
 
         TraceTransferBean traceTransferBean = TraceDataEncoder.encoderFromContextBean(pubContext);
         String transData = traceTransferBean.getTransData();
-        Assert.assertNotNull(transData);
+        Assertions.assertNotNull(transData);
         String[] items = transData.split(String.valueOf(TraceConstants.CONTENT_SPLITOR));
-        Assert.assertEquals(14, items.length);
+        Assertions.assertEquals(14, items.length);
 
     }
 
@@ -179,9 +179,9 @@ public class TraceDataEncoderTest {
 
         TraceTransferBean traceTransferBean = TraceDataEncoder.encoderFromContextBean(subBeforeContext);
         String transData = traceTransferBean.getTransData();
-        Assert.assertNotNull(transData);
+        Assertions.assertNotNull(transData);
         String[] items = transData.split(String.valueOf(TraceConstants.CONTENT_SPLITOR));
-        Assert.assertEquals(8, items.length);
+        Assertions.assertEquals(8, items.length);
 
     }
 
@@ -203,9 +203,9 @@ public class TraceDataEncoderTest {
 
         TraceTransferBean traceTransferBean = TraceDataEncoder.encoderFromContextBean(subAfterContext);
         String transData = traceTransferBean.getTransData();
-        Assert.assertNotNull(transData);
+        Assertions.assertNotNull(transData);
         String[] items = transData.split(String.valueOf(TraceConstants.CONTENT_SPLITOR));
-        Assert.assertEquals(9, items.length);
+        Assertions.assertEquals(9, items.length);
 
     }
 
@@ -232,9 +232,9 @@ public class TraceDataEncoderTest {
 
         TraceTransferBean traceTransferBean = TraceDataEncoder.encoderFromContextBean(endTrxContext);
         String transData = traceTransferBean.getTransData();
-        Assert.assertNotNull(transData);
+        Assertions.assertNotNull(transData);
         String[] items = transData.split(String.valueOf(TraceConstants.CONTENT_SPLITOR));
-        Assert.assertEquals(13, items.length);
+        Assertions.assertEquals(13, items.length);
 
     }
 
@@ -262,7 +262,7 @@ public class TraceDataEncoderTest {
         TraceTransferBean traceTransferBean = TraceDataEncoder.encoderFromContextBean(endTrxContext);
 
         Set<String> keys = traceTransferBean.getTransKey();
-        assertThat(keys).contains("Keys");
-        assertThat(keys).contains("Keys2");
+        Assertions.assertEquals(keys).contains("Keys");
+        Assertions.assertEquals(keys).contains("Keys2");
     }
 }

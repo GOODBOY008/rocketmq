@@ -20,16 +20,17 @@ import java.util.concurrent.Semaphore;
 import org.apache.rocketmq.remoting.InvokeCallback;
 import org.apache.rocketmq.remoting.common.SemaphoreReleaseOnlyOnce;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNull;
+
+import static org.junit.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class NettyRemotingAbstractTest {
     @Spy
     private NettyRemotingAbstract remotingAbstract = new NettyRemotingClient(new NettyClientConfig());
@@ -40,7 +41,7 @@ public class NettyRemotingAbstractTest {
         ResponseFuture responseFuture = new ResponseFuture(null,1, 3000, new InvokeCallback() {
             @Override
             public void operationComplete(final ResponseFuture responseFuture) {
-                assertThat(semaphore.availablePermits()).isEqualTo(0);
+                Assertions.assertEquals(semaphore.availablePermits(),0);
             }
         }, new SemaphoreReleaseOnlyOnce(semaphore));
 
@@ -52,7 +53,7 @@ public class NettyRemotingAbstractTest {
 
         // Acquire the release permit after call back
         semaphore.acquire(1);
-        assertThat(semaphore.availablePermits()).isEqualTo(0);
+        Assertions.assertEquals(semaphore.availablePermits(),0);
     }
 
     @Test
@@ -67,7 +68,7 @@ public class NettyRemotingAbstractTest {
         response.setOpaque(1);
         remotingAbstract.processResponseCommand(null, response);
 
-        assertThat(semaphore.availablePermits()).isEqualTo(1);
+        Assertions.assertEquals(semaphore.availablePermits(),1);
     }
 
     @Test
@@ -76,7 +77,7 @@ public class NettyRemotingAbstractTest {
         ResponseFuture responseFuture = new ResponseFuture(null,1, 3000, new InvokeCallback() {
             @Override
             public void operationComplete(final ResponseFuture responseFuture) {
-                assertThat(semaphore.availablePermits()).isEqualTo(0);
+                Assertions.assertEquals(semaphore.availablePermits(),0);
             }
         }, new SemaphoreReleaseOnlyOnce(semaphore));
 
@@ -89,7 +90,7 @@ public class NettyRemotingAbstractTest {
 
         // Acquire the release permit after call back finished in current thread
         semaphore.acquire(1);
-        assertThat(semaphore.availablePermits()).isEqualTo(0);
+        Assertions.assertEquals(semaphore.availablePermits(),0);
     }
 
     @Test
@@ -103,6 +104,6 @@ public class NettyRemotingAbstractTest {
         }, null);
         remotingAbstract.responseTable.putIfAbsent(dummyId, responseFuture);
         remotingAbstract.scanResponseTable();
-        assertNull(remotingAbstract.responseTable.get(dummyId));
+        Assertions.assertNull(remotingAbstract.responseTable.get(dummyId));
     }
 }

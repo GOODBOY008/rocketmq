@@ -25,9 +25,9 @@ import org.apache.rocketmq.client.impl.factory.MQClientInstance;
 import org.apache.rocketmq.common.MixAll;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
@@ -59,10 +59,10 @@ public class RebalanceLitePullImplTest {
             consumer.setConsumeFromWhere(where);
 
             when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(0L);
-            assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
+            Assertions.assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
 
             when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-2L);
-            assertEquals(-1, rebalanceImpl.computePullFromWhereWithException(mq));
+            Assertions.assertEquals(-1, rebalanceImpl.computePullFromWhereWithException(mq));
         }
     }
 
@@ -72,16 +72,16 @@ public class RebalanceLitePullImplTest {
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
         when(admin.maxOffset(any(MessageQueue.class))).thenReturn(12345L);
 
-        assertEquals(12345L, rebalanceImpl.computePullFromWhereWithException(mq));
+        Assertions.assertEquals(12345L, rebalanceImpl.computePullFromWhereWithException(mq));
 
-        assertEquals(0L, rebalanceImpl.computePullFromWhereWithException(retryMq));
+        Assertions.assertEquals(0L, rebalanceImpl.computePullFromWhereWithException(retryMq));
     }
 
     @Test
     public void testComputePullFromWhereWithException_eq_minus1_first() throws MQClientException {
         when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-1L);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-        assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
+        Assertions.assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
     }
 
     @Test
@@ -91,9 +91,9 @@ public class RebalanceLitePullImplTest {
         when(admin.searchOffset(any(MessageQueue.class), anyLong())).thenReturn(12345L);
         when(admin.maxOffset(any(MessageQueue.class))).thenReturn(23456L);
 
-        assertEquals(12345L, rebalanceImpl.computePullFromWhereWithException(mq));
+        Assertions.assertEquals(12345L, rebalanceImpl.computePullFromWhereWithException(mq));
 
-        assertEquals(23456L, rebalanceImpl.computePullFromWhereWithException(retryMq));
+        Assertions.assertEquals(23456L, rebalanceImpl.computePullFromWhereWithException(retryMq));
     }
 
 

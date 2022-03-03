@@ -18,15 +18,16 @@ package org.apache.rocketmq.namesrv.kvconfig;
 
 import java.util.HashMap;
 import org.apache.rocketmq.common.namesrv.NamesrvUtil;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class KVConfigSerializeWrapperTest {
     private KVConfigSerializeWrapper kvConfigSerializeWrapper;
 
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
         kvConfigSerializeWrapper = new KVConfigSerializeWrapper();
     }
@@ -41,13 +42,13 @@ public class KVConfigSerializeWrapperTest {
         result.put(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG, kvs);
         kvConfigSerializeWrapper.setConfigTable(result);
         byte[] serializeByte = KVConfigSerializeWrapper.encode(kvConfigSerializeWrapper);
-        assertThat(serializeByte).isNotNull();
+        Assertions.assertNotNull(serializeByte);
 
         KVConfigSerializeWrapper deserializeObject = KVConfigSerializeWrapper.decode(serializeByte, KVConfigSerializeWrapper.class);
-        assertThat(deserializeObject.getConfigTable()).containsKey(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG);
-        assertThat(deserializeObject.getConfigTable().get(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG).get("broker-name")).isEqualTo("default-broker");
-        assertThat(deserializeObject.getConfigTable().get(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG).get("topic-name")).isEqualTo("default-topic");
-        assertThat(deserializeObject.getConfigTable().get(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG).get("cid")).isEqualTo("default-consumer-name");
+        Assertions.assertEquals(deserializeObject.getConfigTable()).containsKey(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG);
+        Assertions.assertEquals(deserializeObject.getConfigTable().get(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG).get("broker-name"),"default-broker");
+        Assertions.assertEquals(deserializeObject.getConfigTable().get(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG).get("topic-name"),"default-topic");
+        Assertions.assertEquals(deserializeObject.getConfigTable().get(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG).get("cid"),"default-consumer-name");
     }
 
 }

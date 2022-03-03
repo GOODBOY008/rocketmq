@@ -21,26 +21,26 @@ import org.apache.log4j.Logger;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.test.base.BaseConf;
 import org.apache.rocketmq.test.client.rmq.RMQNormalProducer;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class QueryMsgByIdExceptionIT extends BaseConf {
     private static Logger logger = Logger.getLogger(QueryMsgByKeyIT.class);
     private static RMQNormalProducer producer = null;
     private static String topic = null;
 
-    @BeforeClass
+    @BeforeEach
     public static void setUp() {
         topic = initTopic();
         logger.info(String.format("use topic: %s;", topic));
         producer = getProducer(nsAddr, topic);
     }
 
-    @AfterClass
+    @AfterEach
     public static void tearDown() {
         shutdown();
     }
@@ -51,7 +51,7 @@ public class QueryMsgByIdExceptionIT extends BaseConf {
         int msgSize = 20;
         String errorMsgId = "errorMsgId";
         producer.send(msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
 
         MessageExt queryMsg = null;
         try {
@@ -59,7 +59,7 @@ public class QueryMsgByIdExceptionIT extends BaseConf {
         } catch (Exception e) {
         }
 
-        assertThat(queryMsg).isNull();
+        Assertions.assertNull(queryMsg);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class QueryMsgByIdExceptionIT extends BaseConf {
         int msgSize = 20;
         String errorMsgId = null;
         producer.send(msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
 
         MessageExt queryMsg = null;
         try {
@@ -76,6 +76,6 @@ public class QueryMsgByIdExceptionIT extends BaseConf {
         } catch (Exception e) {
         }
 
-        assertThat(queryMsg).isNull();
+        Assertions.assertNull(queryMsg);
     }
 }

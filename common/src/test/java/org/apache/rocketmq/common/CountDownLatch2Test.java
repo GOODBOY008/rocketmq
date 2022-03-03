@@ -17,16 +17,16 @@
 
 package org.apache.rocketmq.common;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Assertions;
+import static org.junit.Assertions.assertFalse;
+import static org.junit.Assertions.assertThat;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * CountDownLatch2 Unit Test
@@ -46,7 +46,7 @@ public class CountDownLatch2Test {
         try {
             CountDownLatch2 latch = new CountDownLatch2(count);
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is("count < 0"));
+            Assertions.assertEquals(e.getMessage(), is("count < 0"));
         }
     }
 
@@ -59,8 +59,8 @@ public class CountDownLatch2Test {
     public void testConstructor() {
         int count = 10;
         CountDownLatch2 latch = new CountDownLatch2(count);
-        assertEquals("Expected equal", count, latch.getCount());
-        assertThat("Expected contain", latch.toString(), containsString("[Count = " + count + "]"));
+        Assertions.assertEquals("Expected equal", count, latch.getCount());
+        Assertions.assertEquals("Expected contain", latch.toString(), containsString("[Count = " + count + "]"));
     }
 
     /**
@@ -77,7 +77,7 @@ public class CountDownLatch2Test {
 
         latch.countDown();
         boolean await2 = latch.await(10, TimeUnit.MILLISECONDS);
-        assertTrue("Expected true", await2);
+        Assertions.assertTrue("Expected true", await2);
     }
 
 
@@ -90,12 +90,12 @@ public class CountDownLatch2Test {
     public void testCountDownAndGetCount() throws InterruptedException {
         int count = 2;
         CountDownLatch2 latch = new CountDownLatch2(count);
-        assertEquals("Expected equal", count, latch.getCount());
+        Assertions.assertEquals("Expected equal", count, latch.getCount());
         latch.countDown();
-        assertEquals("Expected equal", count - 1, latch.getCount());
+        Assertions.assertEquals("Expected equal", count - 1, latch.getCount());
         latch.countDown();
         latch.await();
-        assertEquals("Expected equal", 0, latch.getCount());
+        Assertions.assertEquals("Expected equal", 0, latch.getCount());
     }
 
 
@@ -109,15 +109,15 @@ public class CountDownLatch2Test {
         int count = 2;
         CountDownLatch2 latch = new CountDownLatch2(count);
         latch.countDown();
-        assertEquals("Expected equal", count - 1, latch.getCount());
+        Assertions.assertEquals("Expected equal", count - 1, latch.getCount());
         latch.reset();
-        assertEquals("Expected equal", count, latch.getCount());
+        Assertions.assertEquals("Expected equal", count, latch.getCount());
         latch.countDown();
         latch.countDown();
         latch.await();
-        assertEquals("Expected equal", 0, latch.getCount());
+        Assertions.assertEquals("Expected equal", 0, latch.getCount());
         // coverage Sync#tryReleaseShared, c==0
         latch.countDown();
-        assertEquals("Expected equal", 0, latch.getCount());
+        Assertions.assertEquals("Expected equal", 0, latch.getCount());
     }
 }

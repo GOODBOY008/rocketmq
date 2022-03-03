@@ -29,12 +29,12 @@ import org.apache.rocketmq.remoting.exception.RemotingTooMuchRequestException;
 import org.apache.rocketmq.remoting.netty.*;
 import org.apache.rocketmq.remoting.protocol.LanguageCode;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
+
+import org.junit.jupiter.api.Assertions;
 
 public class RemotingServerTest {
     private static RemotingServer remotingServer;
@@ -71,13 +71,13 @@ public class RemotingServerTest {
         return client;
     }
 
-    @BeforeClass
+    @BeforeEach
     public static void setup() throws InterruptedException {
         remotingServer = createRemotingServer();
         remotingClient = createRemotingClient();
     }
 
-    @AfterClass
+    @AfterEach
     public static void destroy() {
         remotingClient.shutdown();
         remotingServer.shutdown();
@@ -91,9 +91,9 @@ public class RemotingServerTest {
         requestHeader.setMessageTitle("Welcome");
         RemotingCommand request = RemotingCommand.createRequestCommand(0, requestHeader);
         RemotingCommand response = remotingClient.invokeSync("localhost:8888", request, 1000 * 3);
-        assertTrue(response != null);
-        assertThat(response.getLanguage()).isEqualTo(LanguageCode.JAVA);
-        assertThat(response.getExtFields()).hasSize(2);
+        Assertions.assertTrue(response != null);
+        Assertions.assertEquals(response.getLanguage(),LanguageCode.JAVA);
+        Assertions.assertEquals(response.getExtFields()).hasSize(2);
 
     }
 
@@ -117,9 +117,9 @@ public class RemotingServerTest {
             @Override
             public void operationComplete(ResponseFuture responseFuture) {
                 latch.countDown();
-                assertTrue(responseFuture != null);
-                assertThat(responseFuture.getResponseCommand().getLanguage()).isEqualTo(LanguageCode.JAVA);
-                assertThat(responseFuture.getResponseCommand().getExtFields()).hasSize(2);
+                Assertions.assertTrue(responseFuture != null);
+                Assertions.assertEquals(responseFuture.getResponseCommand().getLanguage(),LanguageCode.JAVA);
+                Assertions.assertEquals(responseFuture.getResponseCommand().getExtFields()).hasSize(2);
             }
         });
         latch.await();

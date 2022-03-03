@@ -22,17 +22,18 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import org.apache.rocketmq.remoting.protocol.LanguageCode;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class ProducerManagerTest {
     private ProducerManager producerManager;
     private String group = "FooBar";
@@ -41,7 +42,7 @@ public class ProducerManagerTest {
     @Mock
     private Channel channel;
 
-    @Before
+    @BeforeEach
     public void init() {
         producerManager = new ProducerManager();
         clientInfo = new ClientChannelInfo(channel, "clientId", LanguageCode.JAVA, 0);
@@ -50,26 +51,26 @@ public class ProducerManagerTest {
     @Test
     public void scanNotActiveChannel() throws Exception {
         producerManager.registerProducer(group, clientInfo);
-        assertThat(producerManager.getGroupChannelTable().get(group).get(channel)).isNotNull();
-        assertThat(producerManager.findChannel("clientId")).isNotNull();
+        Assertions.assertNotNull((producerManager.getGroupChannelTable().get(group).get(channel)));
+        Assertions.assertNotNull(producerManager.findChannel("clientId"));
         Field field = ProducerManager.class.getDeclaredField("CHANNEL_EXPIRED_TIMEOUT");
         field.setAccessible(true);
         long CHANNEL_EXPIRED_TIMEOUT = field.getLong(producerManager);
         clientInfo.setLastUpdateTimestamp(System.currentTimeMillis() - CHANNEL_EXPIRED_TIMEOUT - 10);
         when(channel.close()).thenReturn(mock(ChannelFuture.class));
         producerManager.scanNotActiveChannel();
-        assertThat(producerManager.getGroupChannelTable().get(group).get(channel)).isNull();
-        assertThat(producerManager.findChannel("clientId")).isNull();
+        Assertions.assertNull(producerManager.getGroupChannelTable().get(group).get(channel));
+        Assertions.assertNull(producerManager.findChannel("clientId"));
     }
 
     @Test
     public void doChannelCloseEvent() throws Exception {
         producerManager.registerProducer(group, clientInfo);
-        assertThat(producerManager.getGroupChannelTable().get(group).get(channel)).isNotNull();
-        assertThat(producerManager.findChannel("clientId")).isNotNull();
+        Assertions.assertNotNull(producerManager.getGroupChannelTable().get(group).get(channel));
+        Assertions.assertNotNull(producerManager.findChannel("clientId"));
         producerManager.doChannelCloseEvent("127.0.0.1", channel);
-        assertThat(producerManager.getGroupChannelTable().get(group).get(channel)).isNull();
-        assertThat(producerManager.findChannel("clientId")).isNull();
+        Assertions.assertNull(producerManager.getGroupChannelTable().get(group).get(channel));
+        Assertions.assertNull(producerManager.findChannel("clientId"));
     }
 
     @Test
@@ -77,26 +78,26 @@ public class ProducerManagerTest {
         producerManager.registerProducer(group, clientInfo);
         Map<Channel, ClientChannelInfo> channelMap = producerManager.getGroupChannelTable().get(group);
         Channel channel1 = producerManager.findChannel("clientId");
-        assertThat(channelMap).isNotNull();
-        assertThat(channel1).isNotNull();
-        assertThat(channelMap.get(channel)).isEqualTo(clientInfo);
-        assertThat(channel1).isEqualTo(channel);
+        Assertions.assertNotNull(channelMap);
+        Assertions.assertNotNull(channel1);
+        Assertions.assertEquals(channelMap.get(channel),clientInfo);
+        Assertions.assertEquals(channel1,channel);
     }
 
     @Test
     public void unregisterProducer() throws Exception {
         producerManager.registerProducer(group, clientInfo);
         Map<Channel, ClientChannelInfo> channelMap = producerManager.getGroupChannelTable().get(group);
-        assertThat(channelMap).isNotNull();
-        assertThat(channelMap.get(channel)).isEqualTo(clientInfo);
+        Assertions.assertNotNull(channelMap);
+        Assertions.assertEquals(channelMap.get(channel),clientInfo);
         Channel channel1 = producerManager.findChannel("clientId");
-        assertThat(channel1).isNotNull();
-        assertThat(channel1).isEqualTo(channel);
+        Assertions.assertNotNull(channel1);
+        Assertions.assertEquals(channel1,channel);
         producerManager.unregisterProducer(group, clientInfo);
         channelMap = producerManager.getGroupChannelTable().get(group);
         channel1 = producerManager.findChannel("clientId");
-        assertThat(channelMap).isNull();
-        assertThat(channel1).isNull();
+        Assertions.assertNull(channelMap);
+        Assertions.assertNull(channel1);
 
     }
 
@@ -106,7 +107,7 @@ public class ProducerManagerTest {
         Map<Channel, ClientChannelInfo> oldMap = producerManager.getGroupChannelTable().get(group);
         
         producerManager.unregisterProducer(group, clientInfo);
-        assertThat(oldMap.size()).isEqualTo(0);
+        Assertions.assertEquals(oldMap.size(),0);
     }
 
     @Test
@@ -116,15 +117,15 @@ public class ProducerManagerTest {
         when(channel.isActive()).thenReturn(true);
         when(channel.isWritable()).thenReturn(true);
         Channel c = producerManager.getAvailableChannel(group);
-        assertThat(c).isSameAs(channel);
+        Assertions.assertEquals(c).isSameAs(channel);
 
         when(channel.isWritable()).thenReturn(false);
         c = producerManager.getAvailableChannel(group);
-        assertThat(c).isSameAs(channel);
+        Assertions.assertEquals(c).isSameAs(channel);
 
         when(channel.isActive()).thenReturn(false);
         c = producerManager.getAvailableChannel(group);
-        assertThat(c).isNull();
+        Assertions.assertNull(c);
     }
 
 }

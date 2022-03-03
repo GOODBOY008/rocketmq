@@ -26,26 +26,26 @@ import org.apache.rocketmq.test.base.BaseConf;
 import org.apache.rocketmq.test.client.rmq.RMQNormalProducer;
 import org.apache.rocketmq.test.factory.MQMessageFactory;
 import org.apache.rocketmq.test.util.TestUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class QueryMsgByKeyIT extends BaseConf {
     private static Logger logger = Logger.getLogger(QueryMsgByKeyIT.class);
     private RMQNormalProducer producer = null;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("use topic: %s;", topic));
         producer = getProducer(nsAddr, topic);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         shutdown();
     }
@@ -57,7 +57,7 @@ public class QueryMsgByKeyIT extends BaseConf {
         long begin = System.currentTimeMillis();
         List<Object> msgs = MQMessageFactory.getKeyMsg(topic, key, msgSize);
         producer.send(msgs);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
 
         List<MessageExt> queryMsgs = null;
         try {
@@ -67,8 +67,8 @@ public class QueryMsgByKeyIT extends BaseConf {
         } catch (Exception e) {
         }
 
-        assertThat(queryMsgs).isNotNull();
-        assertThat(queryMsgs.size()).isEqualTo(msgSize);
+        Assertions.assertNotNull(queryMsgs);
+        Assertions.assertEquals(queryMsgs.size(),msgSize);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class QueryMsgByKeyIT extends BaseConf {
         long begin = System.currentTimeMillis();
         List<Object> msgs = MQMessageFactory.getKeyMsg(topic, key, msgSize);
         producer.send(msgs);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
 
         List<MessageExt> queryMsgs = null;
         try {
@@ -100,34 +100,36 @@ public class QueryMsgByKeyIT extends BaseConf {
         } catch (Exception e) {
         }
 
-        assertThat(queryMsgs).isNotNull();
-        assertThat(queryMsgs.size()).isEqualTo(max);
+        Assertions.assertNotNull(queryMsgs);
+        Assertions.assertEquals(queryMsgs.size(),max);
     }
 
 
-    @Test(expected = MQClientException.class)
+    @Test
     public void testQueryMsgWithSameHash1() throws Exception {
-        int msgSize = 1;
-        String topicA = "AaTopic";
-        String keyA = "Aa";
-        String topicB = "BBTopic";
-        String keyB = "BB";
+        Assertions.assertThrowsExactly(MQClientException.class,()->{
+            int msgSize = 1;
+            String topicA = "AaTopic";
+            String keyA = "Aa";
+            String topicB = "BBTopic";
+            String keyB = "BB";
 
-        initTopicWithName(topicA);
-        initTopicWithName(topicB);
+            initTopicWithName(topicA);
+            initTopicWithName(topicB);
 
-        RMQNormalProducer producerA = getProducer(nsAddr, topicA);
-        RMQNormalProducer producerB = getProducer(nsAddr, topicB);
+            RMQNormalProducer producerA = getProducer(nsAddr, topicA);
+            RMQNormalProducer producerB = getProducer(nsAddr, topicB);
 
-        List<Object> msgA = MQMessageFactory.getKeyMsg(topicA, keyA, msgSize);
-        List<Object> msgB = MQMessageFactory.getKeyMsg(topicB, keyB, msgSize);
+            List<Object> msgA = MQMessageFactory.getKeyMsg(topicA, keyA, msgSize);
+            List<Object> msgB = MQMessageFactory.getKeyMsg(topicB, keyB, msgSize);
 
-        producerA.send(msgA);
-        producerB.send(msgB);
+            producerA.send(msgA);
+            producerB.send(msgB);
 
-        long begin = System.currentTimeMillis() - 500000;
-        long end = System.currentTimeMillis() + 500000;
-        producerA.getProducer().queryMessage(topicA, keyB, msgSize * 10, begin, end).getMessageList();
+            long begin = System.currentTimeMillis() - 500000;
+            long end = System.currentTimeMillis() + 500000;
+            producerA.getProducer().queryMessage(topicA, keyB, msgSize * 10, begin, end).getMessageList();
+        });
     }
 
 
@@ -155,7 +157,7 @@ public class QueryMsgByKeyIT extends BaseConf {
         long end = System.currentTimeMillis() + 500000;
         List<MessageExt> list = producerA.getProducer().queryMessage(topicA, keyA, msgSize * 10, begin, end).getMessageList();
 
-        assertThat(list).isNotNull();
-        assertThat(list.size()).isEqualTo(1);
+        Assertions.assertNotNull(list);
+        Assertions.assertEquals(list.size(),1);
     }
 }

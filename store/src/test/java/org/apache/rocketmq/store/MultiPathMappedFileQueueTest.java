@@ -17,12 +17,13 @@
 
 package org.apache.rocketmq.store;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 public class MultiPathMappedFileQueueTest {
@@ -39,10 +40,10 @@ public class MultiPathMappedFileQueueTest {
         String[] storePaths = config.getStorePathCommitLog().trim().split(MessageStoreConfig.MULTI_PATH_SPLITTER);
         for (int i = 0; i < 1024; i++) {
             MappedFile mappedFile = mappedFileQueue.getLastMappedFile(fixedMsg.length * i);
-            assertThat(mappedFile).isNotNull();
-            assertThat(mappedFile.appendMessage(fixedMsg)).isTrue();
+            Assertions.assertNotNull(mappedFile);
+            Assertions.assertTrue(mappedFile.appendMessage(fixedMsg));
             int idx = i % storePaths.length;
-            assertThat(mappedFile.getFileName().startsWith(storePaths[idx])).isTrue();
+            Assertions.assertTrue(mappedFile.getFileName().startsWith(storePaths[idx]));
         }
         mappedFileQueue.shutdown(1000);
         mappedFileQueue.destroy();
@@ -61,10 +62,10 @@ public class MultiPathMappedFileQueueTest {
             String[] storePaths = config.getStorePathCommitLog().trim().split(MessageStoreConfig.MULTI_PATH_SPLITTER);
             for (int i = 0; i < 1024; i++) {
                 MappedFile mappedFile = mappedFileQueue.getLastMappedFile(fixedMsg.length * i);
-                assertThat(mappedFile).isNotNull();
-                assertThat(mappedFile.appendMessage(fixedMsg)).isTrue();
+                Assertions.assertNotNull(mappedFile);
+                Assertions.assertTrue(mappedFile.appendMessage(fixedMsg));
                 int idx = i % storePaths.length;
-                assertThat(mappedFile.getFileName().startsWith(storePaths[idx])).isTrue();
+                Assertions.assertTrue(mappedFile.getFileName().startsWith(storePaths[idx]));
             }
             mappedFileQueue.shutdown(1000);
         }
@@ -78,9 +79,9 @@ public class MultiPathMappedFileQueueTest {
 
         mappedFileQueue.load();
 
-        assertThat(mappedFileQueue.mappedFiles.size()).isEqualTo(1024);
+        Assertions.assertEquals(mappedFileQueue.mappedFiles.size(),1024);
         for (int i = 0; i < 1024; i++) {
-            assertThat(mappedFileQueue.mappedFiles.get(i).getFile().getName())
+            Assertions.assertEquals(mappedFileQueue.mappedFiles.get(i).getFile().getName())
                     .isEqualTo(UtilAll.offset2FileName(1024 * i));
         }
         mappedFileQueue.destroy();
@@ -99,10 +100,10 @@ public class MultiPathMappedFileQueueTest {
         String[] storePaths = config.getStorePathCommitLog().trim().split(MessageStoreConfig.MULTI_PATH_SPLITTER);
         for (int i = 0; i < 1024; i++) {
             MappedFile mappedFile = mappedFileQueue.getLastMappedFile(fixedMsg.length * i);
-            assertThat(mappedFile).isNotNull();
-            assertThat(mappedFile.appendMessage(fixedMsg)).isTrue();
+            Assertions.assertNotNull(mappedFile);
+            Assertions.assertTrue(mappedFile.appendMessage(fixedMsg));
             int idx = i % storePaths.length;
-            assertThat(mappedFile.getFileName().startsWith(storePaths[idx])).isTrue();
+            Assertions.assertTrue(mappedFile.getFileName().startsWith(storePaths[idx]));
 
             if (i == 500) {
                 config.setStorePathCommitLog("target/unit_test_store/a/" + MessageStoreConfig.MULTI_PATH_SPLITTER
@@ -125,28 +126,28 @@ public class MultiPathMappedFileQueueTest {
                 + "target/unit_test_store/c/");
         MappedFileQueue mappedFileQueue = new MultiPathMappedFileQueue(config, 1024, null, () -> fullStorePath);
         String[] storePaths = config.getStorePathCommitLog().trim().split(MessageStoreConfig.MULTI_PATH_SPLITTER);
-        assertThat(storePaths.length).isEqualTo(3);
+        Assertions.assertEquals(storePaths.length,3);
 
         MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
-        assertThat(mappedFile).isNotNull();
-        assertThat(mappedFile.appendMessage(fixedMsg)).isTrue();
-        assertThat(mappedFile.getFileName().startsWith(storePaths[0])).isTrue();
+        Assertions.assertNotNull(mappedFile);
+        Assertions.assertTrue(mappedFile.appendMessage(fixedMsg));
+        Assertions.assertTrue(mappedFile.getFileName().startsWith(storePaths[0]));
 
         mappedFile = mappedFileQueue.getLastMappedFile(fixedMsg.length);
-        assertThat(mappedFile.getFileName().startsWith(storePaths[1])).isTrue();
-        assertThat(mappedFile.appendMessage(fixedMsg)).isTrue();
+        Assertions.assertTrue(mappedFile.getFileName().startsWith(storePaths[1]));
+        Assertions.assertTrue(mappedFile.appendMessage(fixedMsg));
         mappedFile = mappedFileQueue.getLastMappedFile(fixedMsg.length * 2);
-        assertThat(mappedFile.appendMessage(fixedMsg)).isTrue();
-        assertThat(mappedFile.getFileName().startsWith(storePaths[2])).isTrue();
+        Assertions.assertTrue(mappedFile.appendMessage(fixedMsg));
+        Assertions.assertTrue(mappedFile.getFileName().startsWith(storePaths[2]));
 
         fullStorePath.add("target/unit_test_store/b/");
         mappedFile = mappedFileQueue.getLastMappedFile(fixedMsg.length * 3);
-        assertThat(mappedFile.appendMessage(fixedMsg)).isTrue();
-        assertThat(mappedFile.getFileName().startsWith(storePaths[2])).isTrue();
+        Assertions.assertTrue(mappedFile.appendMessage(fixedMsg));
+        Assertions.assertTrue(mappedFile.getFileName().startsWith(storePaths[2]));
 
         mappedFile = mappedFileQueue.getLastMappedFile(fixedMsg.length * 4);
-        assertThat(mappedFile.appendMessage(fixedMsg)).isTrue();
-        assertThat(mappedFile.getFileName().startsWith(storePaths[0])).isTrue();
+        Assertions.assertTrue(mappedFile.appendMessage(fixedMsg));
+        Assertions.assertTrue(mappedFile.getFileName().startsWith(storePaths[0]));
 
         mappedFileQueue.shutdown(1000);
         mappedFileQueue.destroy();

@@ -29,23 +29,23 @@ import org.apache.rocketmq.test.base.BaseConf;
 import org.apache.rocketmq.test.client.consumer.tag.TagMessageWith1ConsumerIT;
 import org.apache.rocketmq.test.factory.ProducerFactory;
 import org.apache.rocketmq.test.util.RandomUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class BatchSendIT extends BaseConf {
     private static Logger logger = Logger.getLogger(TagMessageWith1ConsumerIT.class);
     private String topic = null;
     private Random random = new Random();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("user topic[%s]!", topic));
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -60,12 +60,12 @@ public class BatchSendIT extends BaseConf {
 
         DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
         SendResult sendResult = producer.send(messageList);
-        Assert.assertEquals(SendStatus.SEND_OK, sendResult.getSendStatus());
+        Assertions.assertEquals(SendStatus.SEND_OK, sendResult.getSendStatus());
 
         String[] offsetIds = sendResult.getOffsetMsgId().split(",");
         String[] msgIds = sendResult.getMsgId().split(",");
-        Assert.assertEquals(messageList.size(), offsetIds.length);
-        Assert.assertEquals(messageList.size(), msgIds.length);
+        Assertions.assertEquals(messageList.size(), offsetIds.length);
+        Assertions.assertEquals(messageList.size(), msgIds.length);
 
         Thread.sleep(2000);
 
@@ -92,12 +92,12 @@ public class BatchSendIT extends BaseConf {
 
         DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
         SendResult sendResult = producer.send(messageList);
-        Assert.assertEquals(SendStatus.SEND_OK, sendResult.getSendStatus());
+        Assertions.assertEquals(SendStatus.SEND_OK, sendResult.getSendStatus());
 
         String[] offsetIds = sendResult.getOffsetMsgId().split(",");
         String[] msgIds = sendResult.getMsgId().split(",");
-        Assert.assertEquals(messageList.size(), offsetIds.length);
-        Assert.assertEquals(messageList.size(), msgIds.length);
+        Assertions.assertEquals(messageList.size(), offsetIds.length);
+        Assertions.assertEquals(messageList.size(), msgIds.length);
 
         Thread.sleep(2000);
 
@@ -107,23 +107,23 @@ public class BatchSendIT extends BaseConf {
         System.out.println(messageByOffset);
         System.out.println(messageByMsgId);
 
-        Assert.assertEquals(message.getTopic(), messageByMsgId.getTopic());
-        Assert.assertEquals(message.getTopic(), messageByOffset.getTopic());
+        Assertions.assertEquals(message.getTopic(), messageByMsgId.getTopic());
+        Assertions.assertEquals(message.getTopic(), messageByOffset.getTopic());
 
-        Assert.assertEquals(message.getKeys(), messageByOffset.getKeys());
-        Assert.assertEquals(message.getKeys(), messageByMsgId.getKeys());
+        Assertions.assertEquals(message.getKeys(), messageByOffset.getKeys());
+        Assertions.assertEquals(message.getKeys(), messageByMsgId.getKeys());
 
-        Assert.assertEquals(message.getTags(), messageByOffset.getTags());
-        Assert.assertEquals(message.getTags(), messageByMsgId.getTags());
+        Assertions.assertEquals(message.getTags(), messageByOffset.getTags());
+        Assertions.assertEquals(message.getTags(), messageByMsgId.getTags());
 
-        Assert.assertEquals(message.isWaitStoreMsgOK(), messageByOffset.isWaitStoreMsgOK());
-        Assert.assertEquals(message.isWaitStoreMsgOK(), messageByMsgId.isWaitStoreMsgOK());
+        Assertions.assertEquals(message.isWaitStoreMsgOK(), messageByOffset.isWaitStoreMsgOK());
+        Assertions.assertEquals(message.isWaitStoreMsgOK(), messageByMsgId.isWaitStoreMsgOK());
 
-        Assert.assertEquals(message.getBuyerId(), messageByOffset.getBuyerId());
-        Assert.assertEquals(message.getBuyerId(), messageByMsgId.getBuyerId());
+        Assertions.assertEquals(message.getBuyerId(), messageByOffset.getBuyerId());
+        Assertions.assertEquals(message.getBuyerId(), messageByMsgId.getBuyerId());
 
-        Assert.assertEquals(message.getFlag(), messageByOffset.getFlag());
-        Assert.assertEquals(message.getFlag(), messageByMsgId.getFlag());
+        Assertions.assertEquals(message.getFlag(), messageByOffset.getFlag());
+        Assertions.assertEquals(message.getFlag(), messageByMsgId.getFlag());
     }
 
 }

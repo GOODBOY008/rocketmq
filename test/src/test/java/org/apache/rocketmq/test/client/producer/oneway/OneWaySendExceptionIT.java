@@ -27,52 +27,59 @@ import org.apache.rocketmq.test.base.BaseConf;
 import org.apache.rocketmq.test.client.consumer.tag.TagMessageWith1ConsumerIT;
 import org.apache.rocketmq.test.factory.ProducerFactory;
 import org.apache.rocketmq.test.util.RandomUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class OneWaySendExceptionIT extends BaseConf {
     private static Logger logger = Logger.getLogger(TagMessageWith1ConsumerIT.class);
     private static boolean sendFail = false;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("user topic[%s]!", topic));
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
 
-    @Test(expected = java.lang.NullPointerException.class)
+    @Test
     public void testSendMQNull() throws Exception {
-        Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
-        DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
-        MessageQueue messageQueue = null;
-        producer.sendOneway(msg, messageQueue);
+        Assertions.assertThrowsExactly(java.lang.NullPointerException.class,()->{
+            Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
+            DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
+            MessageQueue messageQueue = null;
+            producer.sendOneway(msg, messageQueue);
+        });
     }
 
-    @Test(expected = org.apache.rocketmq.client.exception.MQClientException.class)
+    @Test
     public void testSendSelectorNull() throws Exception {
-        Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
-        DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
-        MessageQueueSelector selector = null;
-        producer.sendOneway(msg, selector, 100);
+        Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
+            Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
+            DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
+            MessageQueueSelector selector = null;
+            producer.sendOneway(msg, selector, 100);
+        });
     }
 
-    @Test(expected = org.apache.rocketmq.client.exception.MQClientException.class)
+    @Test
     public void testSelectorThrowsException() throws Exception {
-        Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
-        DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
-        producer.sendOneway(msg, new MessageQueueSelector() {
-            @Override
-            public MessageQueue select(List<MessageQueue> list, Message message, Object o) {
-                String str = null;
-                return list.get(str.length());
-            }
-        }, null);
+        Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
+            Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
+            DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
+            producer.sendOneway(msg, new MessageQueueSelector() {
+                @Override
+                public MessageQueue select(List<MessageQueue> list, Message message, Object o) {
+                    String str = null;
+                    return list.get(str.length());
+                }
+            }, null);
+        });
     }
 }

@@ -24,10 +24,11 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.rocketmq.common.UtilAll;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class MappedFileTest {
     private final String storeMessage = "Once, there was a chance for me!";
@@ -36,23 +37,23 @@ public class MappedFileTest {
     public void testSelectMappedBuffer() throws IOException {
         MappedFile mappedFile = new MappedFile("target/unit_test_store/MappedFileTest/000", 1024 * 64);
         boolean result = mappedFile.appendMessage(storeMessage.getBytes());
-        assertThat(result).isTrue();
+        Assertions.assertTrue(result);
 
         SelectMappedBufferResult selectMappedBufferResult = mappedFile.selectMappedBuffer(0);
         byte[] data = new byte[storeMessage.length()];
         selectMappedBufferResult.getByteBuffer().get(data);
         String readString = new String(data);
 
-        assertThat(readString).isEqualTo(storeMessage);
+        Assertions.assertEquals(readString,storeMessage);
 
         mappedFile.shutdown(1000);
-        assertThat(mappedFile.isAvailable()).isFalse();
+        Assertions.assertFalse(mappedFile.isAvailable());
         selectMappedBufferResult.release();
-        assertThat(mappedFile.isCleanupOver()).isTrue();
-        assertThat(mappedFile.destroy(1000)).isTrue();
+        Assertions.assertTrue(mappedFile.isCleanupOver());
+        Assertions.assertTrue(mappedFile.destroy(1000));
     }
 
-    @After
+    @AfterEach
     public void destory() {
         File file = new File("target/unit_test_store");
         UtilAll.deleteFile(file);

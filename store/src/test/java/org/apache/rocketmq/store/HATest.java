@@ -25,9 +25,9 @@ import org.apache.rocketmq.store.config.BrokerRole;
 import org.apache.rocketmq.store.config.FlushDiskType;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -41,8 +41,8 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+
+import static org.junit.Assertions.*;
 
 /**
  * HATest
@@ -64,7 +64,7 @@ public class HATest {
     private String storePathRootParentDir = System.getProperty("user.home") + File.separator +
             UUID.randomUUID().toString().replace("-", "");
     private String storePathRootDir = storePathRootParentDir + File.separator + "store";
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         StoreHost = new InetSocketAddress(InetAddress.getLocalHost(), 8123);
         BornHost = new InetSocketAddress(InetAddress.getByName("127.0.0.1"), 0);
@@ -84,8 +84,8 @@ public class HATest {
         boolean load = messageStore.load();
         boolean slaveLoad = slaveMessageStore.load();
         slaveMessageStore.updateHaMasterAddress("127.0.0.1:10912");
-        assertTrue(load);
-        assertTrue(slaveLoad);
+        Assertions.assertTrue(load);
+        Assertions.assertTrue(slaveLoad);
         messageStore.start();
         slaveMessageStore.start();
         Thread.sleep(6000L);//because the haClient will wait 5s after the first connectMaster failed,sleep 6s
@@ -116,8 +116,8 @@ public class HATest {
 
         for (long i = 0; i < totalMsgs; i++) {
             GetMessageResult result = slaveMessageStore.getMessage("GROUP_A", "FooBar", 0, i, 1024 * 1024, null);
-            assertThat(result).isNotNull();
-            assertTrue(GetMessageStatus.FOUND.equals(result.getStatus()));
+            Assertions.assertNotNull(result);
+            Assertions.assertTrue(GetMessageStatus.FOUND.equals(result.getStatus()));
             result.release();
         }
     }
@@ -131,15 +131,15 @@ public class HATest {
             MessageExtBrokerInner msg = buildMessage();
             CompletableFuture<PutMessageResult> putResultFuture = messageStore.asyncPutMessage(msg);
             PutMessageResult result = putResultFuture.get();
-            assertEquals(PutMessageStatus.PUT_OK, result.getPutMessageStatus());
+            Assertions.assertEquals(PutMessageStatus.PUT_OK, result.getPutMessageStatus());
             //message has been replicated to slave's commitLog, but maybe not dispatch to ConsumeQueue yet
             //so direct read from commitLog by physical offset
             MessageExt slaveMsg = slaveMessageStore.lookMessageByOffset(result.getAppendMessageResult().getWroteOffset());
             assertNotNull(slaveMsg);
-            assertTrue(Arrays.equals(msg.getBody(), slaveMsg.getBody()));
-            assertEquals(msg.getTopic(), slaveMsg.getTopic());
-            assertEquals(msg.getTags(), slaveMsg.getTags());
-            assertEquals(msg.getKeys(), slaveMsg.getKeys());
+            Assertions.assertTrue(Arrays.equals(msg.getBody(), slaveMsg.getBody()));
+            Assertions.assertEquals(msg.getTopic(), slaveMsg.getTopic());
+            Assertions.assertEquals(msg.getTags(), slaveMsg.getTags());
+            Assertions.assertEquals(msg.getKeys(), slaveMsg.getKeys());
         }
 
         //shutdown slave, putMessage should return FLUSH_SLAVE_TIMEOUT
@@ -149,11 +149,11 @@ public class HATest {
         for (long i = 0; i < totalMsgs; i++) {
             CompletableFuture<PutMessageResult> putResultFuture = messageStore.asyncPutMessage(buildMessage());
             PutMessageResult result = putResultFuture.get();
-            assertEquals(PutMessageStatus.SLAVE_NOT_AVAILABLE, result.getPutMessageStatus());
+            Assertions.assertEquals(PutMessageStatus.SLAVE_NOT_AVAILABLE, result.getPutMessageStatus());
         }
     }
 
-    @After
+    @AfterEach
     public void destroy() throws Exception{
         Thread.sleep(5000L);
         slaveMessageStore.shutdown();

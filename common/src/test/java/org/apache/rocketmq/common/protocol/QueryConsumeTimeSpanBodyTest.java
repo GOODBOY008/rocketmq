@@ -22,14 +22,15 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.common.protocol.body.QueryConsumeTimeSpanBody;
 import org.apache.rocketmq.common.protocol.body.QueueTimeSpan;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class QueryConsumeTimeSpanBodyTest {
 
@@ -39,11 +40,11 @@ public class QueryConsumeTimeSpanBodyTest {
         List<QueueTimeSpan> firstQueueTimeSpans = newUniqueConsumeTimeSpanSet();
         List<QueueTimeSpan> secondQueueTimeSpans = newUniqueConsumeTimeSpanSet();
         queryConsumeTimeSpanBody.setConsumeTimeSpanSet(firstQueueTimeSpans);
-        assertThat(queryConsumeTimeSpanBody.getConsumeTimeSpanSet()).isEqualTo(firstQueueTimeSpans);
-        assertThat(queryConsumeTimeSpanBody.getConsumeTimeSpanSet()).isNotEqualTo(secondQueueTimeSpans);
+        Assertions.assertEquals(queryConsumeTimeSpanBody.getConsumeTimeSpanSet(),firstQueueTimeSpans);
+        Assertions.assertNotEquals(queryConsumeTimeSpanBody.getConsumeTimeSpanSet(),secondQueueTimeSpans);
         queryConsumeTimeSpanBody.setConsumeTimeSpanSet(secondQueueTimeSpans);
-        assertThat(queryConsumeTimeSpanBody.getConsumeTimeSpanSet()).isEqualTo(secondQueueTimeSpans);
-        assertThat(queryConsumeTimeSpanBody.getConsumeTimeSpanSet()).isNotEqualTo(firstQueueTimeSpans);
+        Assertions.assertEquals(queryConsumeTimeSpanBody.getConsumeTimeSpanSet(),secondQueueTimeSpans);
+        Assertions.assertNotEquals(queryConsumeTimeSpanBody.getConsumeTimeSpanSet(),firstQueueTimeSpans);
     }
 
     @Test
@@ -61,10 +62,10 @@ public class QueryConsumeTimeSpanBodyTest {
         qctsb.setConsumeTimeSpanSet(queueTimeSpans);
         String json = RemotingSerializable.toJson(qctsb, true);
         QueryConsumeTimeSpanBody fromJson = RemotingSerializable.fromJson(json, QueryConsumeTimeSpanBody.class);
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getMaxTimeStamp()).isEqualTo(1550825790000l);
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getMinTimeStamp()).isEqualTo(1550825710000l);
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getDelayTime()).isEqualTo(5000l);
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getMessageQueue()).isEqualTo(messageQueue);
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getMaxTimeStamp(),1550825790000l);
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getMinTimeStamp(),1550825710000l);
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getDelayTime(),5000l);
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getMessageQueue(),messageQueue);
     }
 
     @Test
@@ -74,13 +75,13 @@ public class QueryConsumeTimeSpanBodyTest {
         origin.setConsumeTimeSpanSet(queueTimeSpans);
         String json = origin.toJson(true);
         QueryConsumeTimeSpanBody fromJson = RemotingSerializable.fromJson(json, QueryConsumeTimeSpanBody.class);
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getMinTimeStamp()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMinTimeStamp());
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getMaxTimeStamp()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMaxTimeStamp());
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getConsumeTimeStamp()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getConsumeTimeStamp());
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getDelayTime()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getDelayTime());
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getMessageQueue().getBrokerName()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getBrokerName());
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getMessageQueue().getTopic()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getTopic());
-        assertThat(fromJson.getConsumeTimeSpanSet().get(0).getMessageQueue().getQueueId()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getQueueId());
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getMinTimeStamp(),origin.getConsumeTimeSpanSet().get(0).getMinTimeStamp());
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getMaxTimeStamp(),origin.getConsumeTimeSpanSet().get(0).getMaxTimeStamp());
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getConsumeTimeStamp(),origin.getConsumeTimeSpanSet().get(0).getConsumeTimeStamp());
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getDelayTime(),origin.getConsumeTimeSpanSet().get(0).getDelayTime());
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getMessageQueue().getBrokerName(),origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getBrokerName());
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getMessageQueue().getTopic(),origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getTopic());
+        Assertions.assertEquals(fromJson.getConsumeTimeSpanSet().get(0).getMessageQueue().getQueueId(),origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getQueueId());
     }
 
     @Test
@@ -90,13 +91,13 @@ public class QueryConsumeTimeSpanBodyTest {
         origin.setConsumeTimeSpanSet(queueTimeSpans);
         byte[] data = origin.encode();
         QueryConsumeTimeSpanBody fromData = RemotingSerializable.decode(data, QueryConsumeTimeSpanBody.class);
-        assertThat(fromData.getConsumeTimeSpanSet().get(0).getMinTimeStamp()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMinTimeStamp());
-        assertThat(fromData.getConsumeTimeSpanSet().get(0).getMaxTimeStamp()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMaxTimeStamp());
-        assertThat(fromData.getConsumeTimeSpanSet().get(0).getConsumeTimeStamp()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getConsumeTimeStamp());
-        assertThat(fromData.getConsumeTimeSpanSet().get(0).getDelayTime()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getDelayTime());
-        assertThat(fromData.getConsumeTimeSpanSet().get(0).getMessageQueue().getBrokerName()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getBrokerName());
-        assertThat(fromData.getConsumeTimeSpanSet().get(0).getMessageQueue().getTopic()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getTopic());
-        assertThat(fromData.getConsumeTimeSpanSet().get(0).getMessageQueue().getQueueId()).isEqualTo(origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getQueueId());
+        Assertions.assertEquals(fromData.getConsumeTimeSpanSet().get(0).getMinTimeStamp(),origin.getConsumeTimeSpanSet().get(0).getMinTimeStamp());
+        Assertions.assertEquals(fromData.getConsumeTimeSpanSet().get(0).getMaxTimeStamp(),origin.getConsumeTimeSpanSet().get(0).getMaxTimeStamp());
+        Assertions.assertEquals(fromData.getConsumeTimeSpanSet().get(0).getConsumeTimeStamp(),origin.getConsumeTimeSpanSet().get(0).getConsumeTimeStamp());
+        Assertions.assertEquals(fromData.getConsumeTimeSpanSet().get(0).getDelayTime(),origin.getConsumeTimeSpanSet().get(0).getDelayTime());
+        Assertions.assertEquals(fromData.getConsumeTimeSpanSet().get(0).getMessageQueue().getBrokerName(),origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getBrokerName());
+        Assertions.assertEquals(fromData.getConsumeTimeSpanSet().get(0).getMessageQueue().getTopic(),origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getTopic());
+        Assertions.assertEquals(fromData.getConsumeTimeSpanSet().get(0).getMessageQueue().getQueueId(),origin.getConsumeTimeSpanSet().get(0).getMessageQueue().getQueueId());
     }
 
     private List<QueueTimeSpan> newUniqueConsumeTimeSpanSet() {

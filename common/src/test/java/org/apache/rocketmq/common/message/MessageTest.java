@@ -16,46 +16,56 @@
  */
 package org.apache.rocketmq.common.message;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import static org.apache.rocketmq.common.message.MessageConst.PROPERTY_TRACE_SWITCH;
-import static org.junit.Assert.*;
+import static org.junit.Assertions.*;
 
 public class MessageTest {
-    @Test(expected = RuntimeException.class)
+    @Test
     public void putUserPropertyWithRuntimeException() throws Exception {
-        Message m = new Message();
+        Assertions.assertThrowsExactly(RuntimeException.class,()->{
+            Message m = new Message();
 
-        m.putUserProperty(PROPERTY_TRACE_SWITCH, "");
+            m.putUserProperty(PROPERTY_TRACE_SWITCH, "");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void putUserNullValuePropertyWithException() throws Exception {
-        Message m = new Message();
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
+            Message m = new Message();
 
-        m.putUserProperty("prop1", null);
+            m.putUserProperty("prop1", null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void putUserEmptyValuePropertyWithException() throws Exception {
-        Message m = new Message();
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
+            Message m = new Message();
 
-        m.putUserProperty("prop1", "   ");
+            m.putUserProperty("prop1", "   ");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void putUserNullNamePropertyWithException() throws Exception {
-        Message m = new Message();
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
+            Message m = new Message();
 
-        m.putUserProperty(null, "val1");
+            m.putUserProperty(null, "val1");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void putUserEmptyNamePropertyWithException() throws Exception {
-        Message m = new Message();
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
+            Message m = new Message();
 
-        m.putUserProperty("   ", "val1");
+            m.putUserProperty("   ", "val1");
+        });
     }
 
     @Test
@@ -63,6 +73,6 @@ public class MessageTest {
         Message m = new Message();
 
         m.putUserProperty("prop1", "val1");
-        Assert.assertEquals("val1", m.getUserProperty("prop1"));
+        Assertions.assertEquals("val1", m.getUserProperty("prop1"));
     }
 }

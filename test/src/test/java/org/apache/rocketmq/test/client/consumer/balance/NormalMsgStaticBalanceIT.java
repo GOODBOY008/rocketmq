@@ -25,26 +25,26 @@ import org.apache.rocketmq.test.listener.rmq.concurrent.RMQNormalListener;
 import org.apache.rocketmq.test.util.MQWait;
 import org.apache.rocketmq.test.util.TestUtils;
 import org.apache.rocketmq.test.util.VerifyUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class NormalMsgStaticBalanceIT extends BaseConf {
     private static Logger logger = Logger.getLogger(NormalMsgStaticBalanceIT.class);
     private RMQNormalProducer producer = null;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("use topic: %s !", topic));
         producer = getProducer(nsAddr, topic);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -58,18 +58,18 @@ public class NormalMsgStaticBalanceIT extends BaseConf {
         TestUtils.waitForSeconds(waitTime);
 
         producer.send(msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
             consumer1.getListener(), consumer2.getListener());
-        assertThat(recvAll).isEqualTo(true);
+        Assertions.assertEquals(recvAll,true);
 
         boolean balance = VerifyUtils.verifyBalance(msgSize,
             VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
                 consumer1.getListener().getAllUndupMsgBody()).size(),
             VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
                 consumer2.getListener().getAllUndupMsgBody()).size());
-        assertThat(balance).isEqualTo(true);
+        Assertions.assertEquals(balance,true);
     }
 
     @Test
@@ -85,12 +85,12 @@ public class NormalMsgStaticBalanceIT extends BaseConf {
         TestUtils.waitForSeconds(waitTime);
 
         producer.send(msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
 
         boolean recvAll = MQWait.waitConsumeAll(consumeTime, producer.getAllMsgBody(),
             consumer1.getListener(), consumer2.getListener(), consumer3.getListener(),
             consumer4.getListener());
-        assertThat(recvAll).isEqualTo(true);
+        Assertions.assertEquals(recvAll,true);
 
         boolean balance = VerifyUtils
             .verifyBalance(msgSize,
@@ -104,6 +104,6 @@ public class NormalMsgStaticBalanceIT extends BaseConf {
                     consumer3.getListener().getAllUndupMsgBody()).size(),
                 VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
                     consumer4.getListener().getAllUndupMsgBody()).size());
-        assertThat(balance).isEqualTo(true);
+        Assertions.assertEquals(balance,true);
     }
 }

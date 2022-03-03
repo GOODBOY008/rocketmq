@@ -35,11 +35,12 @@ import org.apache.rocketmq.remoting.exception.RemotingSendRequestException;
 import org.apache.rocketmq.remoting.exception.RemotingTimeoutException;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExtImpl;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -51,7 +52,7 @@ public class CommandUtilTest {
     private MQClientInstance mqClientInstance = MQClientManager.getInstance().getOrCreateMQClientInstance(new ClientConfig());
     private MQClientAPIImpl mQClientAPIImpl;
 
-    @Before
+    @BeforeEach
     public void setup() throws MQClientException, NoSuchFieldException, IllegalAccessException, InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
         defaultMQAdminExt = mock(DefaultMQAdminExt.class);
         MQClientAPIImpl mQClientAPIImpl = mock(MQClientAPIImpl.class);
@@ -85,27 +86,27 @@ public class CommandUtilTest {
         when(mQClientAPIImpl.cleanExpiredConsumeQueue(anyString(), anyLong())).thenReturn(true);
     }
 
-    @After
+    @AfterEach
     public void shutdown() throws Exception {
     }
 
     @Test
     public void testFetchMasterAndSlaveDistinguish() throws InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
         Map<String, List<String>> result = CommandUtil.fetchMasterAndSlaveDistinguish(defaultMQAdminExtImpl, "default-cluster");
-        assertThat(result.get(null).get(0)).isEqualTo("127.0.0.1:10911");
+        Assertions.assertEquals(result.get(null).get(0),"127.0.0.1:10911");
     }
 
     @Test
     public void testFetchMasterAddrByClusterName() throws InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
         Set<String> result = CommandUtil.fetchMasterAddrByClusterName(defaultMQAdminExtImpl, "default-cluster");
-        assertThat(result.size()).isEqualTo(0);
+        Assertions.assertEquals(result.size(),0);
     }
 
     @Test
     public void testFetchBrokerNameByClusterName() throws Exception {
         Set<String> result = CommandUtil.fetchBrokerNameByClusterName(defaultMQAdminExtImpl, "default-cluster");
-        assertThat(result.contains("default-broker")).isTrue();
-        assertThat(result.contains("default-broker-one")).isTrue();
-        assertThat(result.size()).isEqualTo(2);
+        Assertions.assertTrue(result.contains("default-broker"));
+        Assertions.assertTrue(result.contains("default-broker-one"));
+        Assertions.assertEquals(result.size(),2);
     }
 }

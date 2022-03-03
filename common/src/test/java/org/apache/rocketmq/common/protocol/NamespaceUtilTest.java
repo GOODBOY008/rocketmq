@@ -18,8 +18,8 @@
 package org.apache.rocketmq.common.protocol;
 
 import org.apache.rocketmq.common.MixAll;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author MQDevelopers
@@ -43,51 +43,51 @@ public class NamespaceUtilTest {
     @Test
     public void testWithoutNamespace() {
         String topic = NamespaceUtil.withoutNamespace(TOPIC_WITH_NAMESPACE, INSTANCE_ID);
-        Assert.assertEquals(topic, TOPIC);
+        Assertions.assertEquals(topic, TOPIC);
         String topic1 = NamespaceUtil.withoutNamespace(TOPIC_WITH_NAMESPACE);
-        Assert.assertEquals(topic1, TOPIC);
+        Assertions.assertEquals(topic1, TOPIC);
         String groupId = NamespaceUtil.withoutNamespace(GROUP_ID_WITH_NAMESPACE, INSTANCE_ID);
-        Assert.assertEquals(groupId, GROUP_ID);
+        Assertions.assertEquals(groupId, GROUP_ID);
         String groupId1 = NamespaceUtil.withoutNamespace(GROUP_ID_WITH_NAMESPACE);
-        Assert.assertEquals(groupId1, GROUP_ID);
+        Assertions.assertEquals(groupId1, GROUP_ID);
         String consumerId = NamespaceUtil.withoutNamespace(RETRY_TOPIC_WITH_NAMESPACE, INSTANCE_ID);
-        Assert.assertEquals(consumerId, RETRY_TOPIC);
+        Assertions.assertEquals(consumerId, RETRY_TOPIC);
         String consumerId1 = NamespaceUtil.withoutNamespace(RETRY_TOPIC_WITH_NAMESPACE);
-        Assert.assertEquals(consumerId1, RETRY_TOPIC);
+        Assertions.assertEquals(consumerId1, RETRY_TOPIC);
         String consumerId2 = NamespaceUtil.withoutNamespace(RETRY_TOPIC_WITH_NAMESPACE, INSTANCE_ID_WRONG);
-        Assert.assertEquals(consumerId2, RETRY_TOPIC_WITH_NAMESPACE);
-        Assert.assertNotEquals(consumerId2, RETRY_TOPIC);
+        Assertions.assertEquals(consumerId2, RETRY_TOPIC_WITH_NAMESPACE);
+        Assertions.assertNotEquals(consumerId2, RETRY_TOPIC);
     }
 
     @Test
     public void testWrapNamespace() {
         String topic1 = NamespaceUtil.wrapNamespace(INSTANCE_ID, TOPIC);
-        Assert.assertEquals(topic1, TOPIC_WITH_NAMESPACE);
+        Assertions.assertEquals(topic1, TOPIC_WITH_NAMESPACE);
         String topicWithNamespaceAgain = NamespaceUtil.wrapNamespace(INSTANCE_ID, topic1);
-        Assert.assertEquals(topicWithNamespaceAgain, TOPIC_WITH_NAMESPACE);
+        Assertions.assertEquals(topicWithNamespaceAgain, TOPIC_WITH_NAMESPACE);
         //Wrap retry topic
         String retryTopicWithNamespace = NamespaceUtil.wrapNamespace(INSTANCE_ID, RETRY_TOPIC);
-        Assert.assertEquals(retryTopicWithNamespace, RETRY_TOPIC_WITH_NAMESPACE);
+        Assertions.assertEquals(retryTopicWithNamespace, RETRY_TOPIC_WITH_NAMESPACE);
         String retryTopicWithNamespaceAgain = NamespaceUtil.wrapNamespace(INSTANCE_ID, retryTopicWithNamespace);
-        Assert.assertEquals(retryTopicWithNamespaceAgain, retryTopicWithNamespace);
+        Assertions.assertEquals(retryTopicWithNamespaceAgain, retryTopicWithNamespace);
         //Wrap DLQ topic
         String dlqTopicWithNamespace = NamespaceUtil.wrapNamespace(INSTANCE_ID, DLQ_TOPIC);
-        Assert.assertEquals(dlqTopicWithNamespace, DLQ_TOPIC_WITH_NAMESPACE);
+        Assertions.assertEquals(dlqTopicWithNamespace, DLQ_TOPIC_WITH_NAMESPACE);
         String dlqTopicWithNamespaceAgain = NamespaceUtil.wrapNamespace(INSTANCE_ID, dlqTopicWithNamespace);
-        Assert.assertEquals(dlqTopicWithNamespaceAgain, dlqTopicWithNamespace);
-        Assert.assertEquals(dlqTopicWithNamespaceAgain, DLQ_TOPIC_WITH_NAMESPACE );
+        Assertions.assertEquals(dlqTopicWithNamespaceAgain, dlqTopicWithNamespace);
+        Assertions.assertEquals(dlqTopicWithNamespaceAgain, DLQ_TOPIC_WITH_NAMESPACE );
         //test system topic
         String systemTopic = NamespaceUtil.wrapNamespace(INSTANCE_ID, SYSTEM_TOPIC);
-        Assert.assertEquals(systemTopic, SYSTEM_TOPIC);
+        Assertions.assertEquals(systemTopic, SYSTEM_TOPIC);
     }
 
     @Test
     public void testGetNamespaceFromResource(){
         String namespaceExpectBlank = NamespaceUtil.getNamespaceFromResource(TOPIC);
-        Assert.assertEquals(namespaceExpectBlank, NamespaceUtil.STRING_BLANK);
+        Assertions.assertEquals(namespaceExpectBlank, NamespaceUtil.STRING_BLANK);
         String namespace =  NamespaceUtil.getNamespaceFromResource(TOPIC_WITH_NAMESPACE);
-        Assert.assertEquals(namespace, INSTANCE_ID);
+        Assertions.assertEquals(namespace, INSTANCE_ID);
         String namespaceFromRetryTopic = NamespaceUtil.getNamespaceFromResource(RETRY_TOPIC_WITH_NAMESPACE);
-        Assert.assertEquals(namespaceFromRetryTopic, INSTANCE_ID);
+        Assertions.assertEquals(namespaceFromRetryTopic, INSTANCE_ID);
     }
 }

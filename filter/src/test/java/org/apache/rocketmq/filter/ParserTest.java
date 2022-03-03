@@ -20,11 +20,12 @@ package org.apache.rocketmq.filter;
 import org.apache.rocketmq.filter.expression.Expression;
 import org.apache.rocketmq.filter.expression.MQFilterException;
 import org.apache.rocketmq.filter.parser.SelectorParser;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ParserTest {
 
@@ -50,10 +51,10 @@ public class ParserTest {
 
             try {
                 Expression expression = SelectorParser.parse(expr);
-                assertThat(expression).isNotNull();
+                Assertions.assertNotNull(expression);
             } catch (MQFilterException e) {
                 e.printStackTrace();
-                assertThat(Boolean.FALSE).isTrue();
+                Assertions.assertTrue(Boolean.FALSE);
             }
 
         }
@@ -64,7 +65,7 @@ public class ParserTest {
         try {
             SelectorParser.parse(invalidExpression);
 
-            assertThat(Boolean.TRUE).isFalse();
+            Assertions.assertFalse(Boolean.TRUE);
         } catch (MQFilterException e) {
         }
     }
@@ -76,7 +77,7 @@ public class ParserTest {
 
             SelectorParser.parse("a > " + str);
 
-            assertThat(Boolean.TRUE).isFalse();
+            Assertions.assertFalse(Boolean.TRUE);
         } catch (Exception e) {
         }
     }
@@ -98,7 +99,7 @@ public class ParserTest {
 
             SelectorParser.parse("a > " + str);
 
-            assertThat(Boolean.TRUE).isFalse();
+            Assertions.assertFalse(Boolean.TRUE);
         } catch (Exception e) {
         }
     }
@@ -108,7 +109,7 @@ public class ParserTest {
         try {
             SelectorParser.parse(illegalBetween);
 
-            assertThat(Boolean.TRUE).isFalse();
+            Assertions.assertFalse(Boolean.TRUE);
         } catch (Exception e) {
         }
     }
@@ -122,11 +123,11 @@ public class ParserTest {
 
             Expression expr3 = SelectorParser.parse(orExpression);
 
-            assertThat(expr1).isEqualTo(expr2);
-            assertThat(expr1).isNotEqualTo(expr3);
+            Assertions.assertEquals(expr1,expr2);
+            Assertions.assertNotEquals(expr1,expr3);
         } catch (MQFilterException e) {
             e.printStackTrace();
-            assertThat(Boolean.TRUE).isFalse();
+            Assertions.assertFalse(Boolean.TRUE);
         }
     }
 }

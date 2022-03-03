@@ -31,9 +31,10 @@ import org.apache.rocketmq.common.message.MessageConst;
 import org.apache.rocketmq.common.message.MessageDecoder;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ConsumeQueueTest {
 
@@ -140,7 +141,7 @@ public class ConsumeQueueTest {
             }
             , brokerConfig);
 
-        assertThat(master.load()).isTrue();
+        Assertions.assertTrue(master.load());
 
         master.start();
 
@@ -168,7 +169,7 @@ public class ConsumeQueueTest {
             }
             , brokerConfig);
 
-        assertThat(master.load()).isTrue();
+        Assertions.assertTrue(master.load());
 
         master.start();
 
@@ -247,21 +248,21 @@ public class ConsumeQueueTest {
             ConsumeQueue cq = messageStore.getConsumeQueueTable().get(topic).get(queueId);
             Method method = cq.getClass().getDeclaredMethod("putMessagePositionInfo", long.class, int.class, long.class, long.class);
 
-            assertThat(method).isNotNull();
+            Assertions.assertNotNull(method);
 
             method.setAccessible(true);
 
             SelectMappedBufferResult result = messageStore.getCommitLog().getData(0);
-            assertThat(result != null).isTrue();
+            Assertions.assertTrue(result != null);
 
             DispatchRequest dispatchRequest = messageStore.getCommitLog().checkMessageAndReturnSize(result.getByteBuffer(), false, false);
 
-            assertThat(cq).isNotNull();
+            Assertions.assertNotNull(cq);
 
             Object dispatchResult = method.invoke(cq, dispatchRequest.getCommitLogOffset(),
                 dispatchRequest.getMsgSize(), dispatchRequest.getTagsCode(), dispatchRequest.getConsumeQueueOffset());
 
-            assertThat(Boolean.parseBoolean(dispatchResult.toString())).isTrue();
+            Assertions.assertTrue(Boolean.parseBoolean(dispatchResult.toString()));
 
         } finally {
             if (messageStore != null) {
@@ -290,16 +291,16 @@ public class ConsumeQueueTest {
             ConsumeQueue cq = messageStore.getConsumeQueueTable().get(topic).get(queueId);
             Method method = cq.getClass().getDeclaredMethod("putMessagePositionInfoWrapper", DispatchRequest.class, boolean.class);
 
-            assertThat(method).isNotNull();
+            Assertions.assertNotNull(method);
 
             method.setAccessible(true);
 
             SelectMappedBufferResult result = messageStore.getCommitLog().getData(0);
-            assertThat(result != null).isTrue();
+            Assertions.assertTrue(result != null);
 
             DispatchRequest dispatchRequest = messageStore.getCommitLog().checkMessageAndReturnSize(result.getByteBuffer(), false, false);
 
-            assertThat(cq).isNotNull();
+            Assertions.assertNotNull(cq);
 
             Object dispatchResult = method.invoke(cq,  dispatchRequest, true);
 
@@ -307,9 +308,9 @@ public class ConsumeQueueTest {
 
             ConsumeQueue lmqCq2 = messageStore.getConsumeQueueTable().get("%LMQ%456").get(0);
 
-            assertThat(lmqCq1).isNotNull();
+            Assertions.assertNotNull(lmqCq1);
 
-            assertThat(lmqCq2).isNotNull();
+            Assertions.assertNotNull(lmqCq2);
 
         } finally {
             if (messageStore != null) {
@@ -341,11 +342,11 @@ public class ConsumeQueueTest {
 
             ConsumeQueue lmqCq2 = messageStore.getConsumeQueueTable().get("%LMQ%456").get(0);
 
-            assertThat(cq).isNotNull();
+            Assertions.assertNotNull(cq);
 
-            assertThat(lmqCq1).isNotNull();
+            Assertions.assertNotNull(lmqCq1);
 
-            assertThat(lmqCq2).isNotNull();
+            Assertions.assertNotNull(lmqCq2);
 
         } finally {
             if (messageStore != null) {
@@ -363,7 +364,7 @@ public class ConsumeQueueTest {
             master = gen();
         } catch (Exception e) {
             e.printStackTrace();
-            assertThat(Boolean.FALSE).isTrue();
+            Assertions.assertTrue(Boolean.FALSE);
         }
 
         master.getDispatcherList().addFirst(new CommitLogDispatcher() {
@@ -382,23 +383,23 @@ public class ConsumeQueueTest {
                 Thread.sleep(3000L);//wait ConsumeQueue create success.
             } catch (Exception e) {
                 e.printStackTrace();
-                assertThat(Boolean.FALSE).isTrue();
+                Assertions.assertTrue(Boolean.FALSE);
             }
 
             ConsumeQueue cq = master.getConsumeQueueTable().get(topic).get(queueId);
 
-            assertThat(cq).isNotNull();
+            Assertions.assertNotNull(cq);
 
             long index = 0;
 
             while (index < cq.getMaxOffsetInQueue()) {
                 SelectMappedBufferResult bufferResult = cq.getIndexBuffer(index);
 
-                assertThat(bufferResult).isNotNull();
+                Assertions.assertNotNull(bufferResult);
 
                 ByteBuffer buffer = bufferResult.getByteBuffer();
 
-                assertThat(buffer).isNotNull();
+                Assertions.assertNotNull(buffer);
                 try {
                     ConsumeQueueExt.CqExtUnit cqExtUnit = new ConsumeQueueExt.CqExtUnit();
                     for (int i = 0; i < bufferResult.getSize(); i += ConsumeQueue.CQ_STORE_UNIT_SIZE) {
@@ -406,17 +407,17 @@ public class ConsumeQueueTest {
                         int size = buffer.getInt();
                         long tagsCode = buffer.getLong();
 
-                        assertThat(phyOffset).isGreaterThanOrEqualTo(0);
-                        assertThat(size).isGreaterThan(0);
-                        assertThat(tagsCode).isLessThan(0);
+                        Assertions.assertEquals(phyOffset).isGreaterThanOrEqualTo(0);
+                        Assertions.assertEquals(size).isGreaterThan(0);
+                        Assertions.assertEquals(tagsCode).isLessThan(0);
 
                         boolean ret = cq.getExt(tagsCode, cqExtUnit);
 
-                        assertThat(ret).isTrue();
-                        assertThat(cqExtUnit).isNotNull();
-                        assertThat(cqExtUnit.getSize()).isGreaterThan((short) 0);
-                        assertThat(cqExtUnit.getMsgStoreTime()).isGreaterThan(0);
-                        assertThat(cqExtUnit.getTagsCode()).isGreaterThan(0);
+                        Assertions.assertTrue(ret);
+                        Assertions.assertNotNull(cqExtUnit);
+                        Assertions.assertEquals(cqExtUnit.getSize()).isGreaterThan((short) 0);
+                        Assertions.assertEquals(cqExtUnit.getMsgStoreTime()).isGreaterThan(0);
+                        Assertions.assertEquals(cqExtUnit.getTagsCode()).isGreaterThan(0);
                     }
 
                 } finally {

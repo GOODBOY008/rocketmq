@@ -29,13 +29,14 @@ import org.apache.rocketmq.remoting.netty.NettyRemotingServer;
 import org.apache.rocketmq.remoting.netty.TlsHelper;
 import org.apache.rocketmq.remoting.protocol.LanguageCode;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestName;
-import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.apache.rocketmq.remoting.netty.TlsSystemConfig.TLS_CLIENT_AUTHSERVER;
@@ -63,11 +64,9 @@ import static org.apache.rocketmq.remoting.netty.TlsSystemConfig.tlsServerKeyPat
 import static org.apache.rocketmq.remoting.netty.TlsSystemConfig.tlsServerNeedClientAuth;
 import static org.apache.rocketmq.remoting.netty.TlsSystemConfig.tlsServerTrustCertPath;
 import static org.apache.rocketmq.remoting.netty.TlsSystemConfig.tlsTestModeEnable;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
-import static org.junit.Assert.assertTrue;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class TlsTest {
     private RemotingServer remotingServer;
     private RemotingClient remotingClient;
@@ -78,7 +77,7 @@ public class TlsTest {
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
-    @Before
+    @BeforeEach
     public void setUp() throws InterruptedException {
         tlsMode = TlsMode.ENFORCING;
         tlsTestModeEnable = false;
@@ -144,7 +143,7 @@ public class TlsTest {
         remotingClient = RemotingServerTest.createRemotingClient(clientConfig);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         remotingClient.shutdown();
         remotingServer.shutdown();
@@ -276,17 +275,17 @@ public class TlsTest {
         writeStringToFile(file.getAbsolutePath(), sb.toString());
         TlsHelper.buildSslContext(false);
 
-        assertThat(tlsServerNeedClientAuth).isEqualTo("require");
-        assertThat(tlsServerKeyPath).isEqualTo("/server.key");
-        assertThat(tlsServerCertPath).isEqualTo("/server.pem");
-        assertThat(tlsServerKeyPassword).isEqualTo("2345");
-        assertThat(tlsServerAuthClient).isEqualTo(true);
-        assertThat(tlsServerTrustCertPath).isEqualTo("/ca.pem");
-        assertThat(tlsClientKeyPath).isEqualTo("/client.key");
-        assertThat(tlsClientKeyPassword).isEqualTo("1234");
-        assertThat(tlsClientCertPath).isEqualTo("/client.pem");
-        assertThat(tlsClientAuthServer).isEqualTo(false);
-        assertThat(tlsClientTrustCertPath).isEqualTo("/ca.pem");
+        Assertions.assertEquals(tlsServerNeedClientAuth,"require");
+        Assertions.assertEquals(tlsServerKeyPath,"/server.key");
+        Assertions.assertEquals(tlsServerCertPath,"/server.pem");
+        Assertions.assertEquals(tlsServerKeyPassword,"2345");
+        Assertions.assertEquals(tlsServerAuthClient,true);
+        Assertions.assertEquals(tlsServerTrustCertPath,"/ca.pem");
+        Assertions.assertEquals(tlsClientKeyPath,"/client.key");
+        Assertions.assertEquals(tlsClientKeyPassword,"1234");
+        Assertions.assertEquals(tlsClientCertPath,"/client.pem");
+        Assertions.assertEquals(tlsClientAuthServer,false);
+        Assertions.assertEquals(tlsClientTrustCertPath,"/ca.pem");
 
         tlsConfigFile = "/notFound";
     }
@@ -318,9 +317,9 @@ public class TlsTest {
 
     private void requestThenAssertResponse(RemotingClient remotingClient) throws Exception {
         RemotingCommand response = remotingClient.invokeSync("localhost:8888", createRequest(), 1000 * 3);
-        assertTrue(response != null);
-        assertThat(response.getLanguage()).isEqualTo(LanguageCode.JAVA);
-        assertThat(response.getExtFields()).hasSize(2);
-        assertThat(response.getExtFields().get("messageTitle")).isEqualTo("Welcome");
+        Assertions.assertTrue(response != null);
+        Assertions.assertEquals(response.getLanguage(),LanguageCode.JAVA);
+        Assertions.assertEquals(response.getExtFields()).hasSize(2);
+        Assertions.assertEquals(response.getExtFields().get("messageTitle"),"Welcome");
     }
 }

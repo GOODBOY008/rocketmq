@@ -19,12 +19,13 @@ package org.apache.rocketmq.common.protocol.body;
 
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class QueryConsumeQueueResponseBodyTest {
 
@@ -54,17 +55,17 @@ public class QueryConsumeQueueResponseBodyTest {
         System.out.println(json);
         //test ConsumeQueue
         ConsumeQueueData jsonData = fromJson.getQueueData().get(0);
-        assertThat(jsonData.getMsg()).isEqualTo("this is default msg");
-        assertThat(jsonData.getPhysicSize()).isEqualTo(1);
-        assertThat(jsonData.getBitMap()).isEqualTo("defaultBitMap");
-        assertThat(jsonData.getTagsCode()).isEqualTo(1L);
-        assertThat(jsonData.getPhysicSize()).isEqualTo(1);
+        Assertions.assertEquals(jsonData.getMsg(),"this is default msg");
+        Assertions.assertEquals(jsonData.getPhysicSize(),1);
+        Assertions.assertEquals(jsonData.getBitMap(),"defaultBitMap");
+        Assertions.assertEquals(jsonData.getTagsCode(),1L);
+        Assertions.assertEquals(jsonData.getPhysicSize(),1);
 
         //test QueryConsumeQueueResponseBody
-        assertThat(fromJson.getFilterData()).isEqualTo("default filter data");
-        assertThat(fromJson.getMaxQueueIndex()).isEqualTo(100L);
-        assertThat(fromJson.getMinQueueIndex()).isEqualTo(1L);
-        assertThat(fromJson.getSubscriptionData()).isEqualTo(subscriptionData);
+        Assertions.assertEquals(fromJson.getFilterData(),"default filter data");
+        Assertions.assertEquals(fromJson.getMaxQueueIndex(),100L);
+        Assertions.assertEquals(fromJson.getMinQueueIndex(),1L);
+        Assertions.assertEquals(fromJson.getSubscriptionData(),subscriptionData);
 
     }
 }

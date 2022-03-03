@@ -40,9 +40,10 @@ import org.apache.rocketmq.remoting.exception.RemotingTimeoutException;
 import org.apache.rocketmq.remoting.netty.NettyClientConfig;
 import org.apache.rocketmq.remoting.netty.ResponseFuture;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
@@ -51,7 +52,7 @@ import org.mockito.stubbing.Answer;
 
 import java.lang.reflect.Field;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -60,7 +61,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class MQClientAPIImplTest {
     private MQClientAPIImpl mqClientAPI = new MQClientAPIImpl(new NettyClientConfig(), null, null, new ClientConfig());
     @Mock
@@ -74,7 +75,7 @@ public class MQClientAPIImplTest {
     private static String topic = "FooBar";
     private Message msg = new Message("FooBar", new byte[] {});
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         Field field = MQClientAPIImpl.class.getDeclaredField("remotingClient");
         field.setAccessible(true);
@@ -86,7 +87,7 @@ public class MQClientAPIImplTest {
         doNothing().when(remotingClient).invokeOneway(anyString(), any(RemotingCommand.class), anyLong());
         SendResult sendResult = mqClientAPI.sendMessage(brokerAddr, brokerName, msg, new SendMessageRequestHeader(),
             3 * 1000, CommunicationMode.ONEWAY, new SendMessageContext(), defaultMQProducerImpl);
-        assertThat(sendResult).isNull();
+        Assertions.assertNull(sendResult);
     }
 
     @Test
@@ -97,7 +98,7 @@ public class MQClientAPIImplTest {
                 3 * 1000, CommunicationMode.ONEWAY, new SendMessageContext(), defaultMQProducerImpl);
             failBecauseExceptionWasNotThrown(RemotingException.class);
         } catch (RemotingException e) {
-            assertThat(e).hasMessage("Remoting Exception in Test");
+            Assertions.assertEquals(e).hasMessage("Remoting Exception in Test");
         }
 
         doThrow(new InterruptedException("Interrupted Exception in Test")).when(remotingClient).invokeOneway(anyString(), any(RemotingCommand.class), anyLong());
@@ -106,7 +107,7 @@ public class MQClientAPIImplTest {
                 3 * 1000, CommunicationMode.ONEWAY, new SendMessageContext(), defaultMQProducerImpl);
             failBecauseExceptionWasNotThrown(InterruptedException.class);
         } catch (InterruptedException e) {
-            assertThat(e).hasMessage("Interrupted Exception in Test");
+            Assertions.assertEquals(e).hasMessage("Interrupted Exception in Test");
         }
     }
 
@@ -125,10 +126,10 @@ public class MQClientAPIImplTest {
         SendResult sendResult = mqClientAPI.sendMessage(brokerAddr, brokerName, msg, requestHeader,
             3 * 1000, CommunicationMode.SYNC, new SendMessageContext(), defaultMQProducerImpl);
 
-        assertThat(sendResult.getSendStatus()).isEqualTo(SendStatus.SEND_OK);
-        assertThat(sendResult.getOffsetMsgId()).isEqualTo("123");
-        assertThat(sendResult.getQueueOffset()).isEqualTo(123L);
-        assertThat(sendResult.getMessageQueue().getQueueId()).isEqualTo(1);
+        Assertions.assertEquals(sendResult.getSendStatus(),SendStatus.SEND_OK);
+        Assertions.assertEquals(sendResult.getOffsetMsgId(),"123");
+        Assertions.assertEquals(sendResult.getQueueOffset(),123L);
+        Assertions.assertEquals(sendResult.getMessageQueue().getQueueId(),1);
     }
 
     @Test
@@ -152,7 +153,7 @@ public class MQClientAPIImplTest {
                 3 * 1000, CommunicationMode.SYNC, new SendMessageContext(), defaultMQProducerImpl);
             failBecauseExceptionWasNotThrown(MQBrokerException.class);
         } catch (MQBrokerException e) {
-            assertThat(e).hasMessageContaining("Broker is broken.");
+            Assertions.assertEquals(e).hasMessageContaining("Broker is broken.");
         }
     }
 
@@ -161,7 +162,7 @@ public class MQClientAPIImplTest {
         doNothing().when(remotingClient).invokeAsync(anyString(), any(RemotingCommand.class), anyLong(), any(InvokeCallback.class));
         SendResult sendResult = mqClientAPI.sendMessage(brokerAddr, brokerName, msg, new SendMessageRequestHeader(),
             3 * 1000, CommunicationMode.ASYNC, new SendMessageContext(), defaultMQProducerImpl);
-        assertThat(sendResult).isNull();
+        Assertions.assertNull(sendResult);
 
         doAnswer(new Answer() {
             @Override
@@ -180,10 +181,10 @@ public class MQClientAPIImplTest {
             new SendCallback() {
                 @Override
                 public void onSuccess(SendResult sendResult) {
-                    assertThat(sendResult.getSendStatus()).isEqualTo(SendStatus.SEND_OK);
-                    assertThat(sendResult.getOffsetMsgId()).isEqualTo("123");
-                    assertThat(sendResult.getQueueOffset()).isEqualTo(123L);
-                    assertThat(sendResult.getMessageQueue().getQueueId()).isEqualTo(1);
+                    Assertions.assertEquals(sendResult.getSendStatus(),SendStatus.SEND_OK);
+                    Assertions.assertEquals(sendResult.getOffsetMsgId(),"123");
+                    Assertions.assertEquals(sendResult.getQueueOffset(),123L);
+                    Assertions.assertEquals(sendResult.getMessageQueue().getQueueId(),1);
                 }
 
                 @Override
@@ -206,7 +207,7 @@ public class MQClientAPIImplTest {
                     }
                     @Override
                     public void onException(Throwable e) {
-                        assertThat(e).hasMessage("Remoting Exception in Test");
+                        Assertions.assertEquals(e).hasMessage("Remoting Exception in Test");
                     }
                 }, null, null, 0, sendMessageContext, defaultMQProducerImpl);
 
@@ -219,7 +220,7 @@ public class MQClientAPIImplTest {
                     }
                     @Override
                     public void onException(Throwable e) {
-                        assertThat(e).hasMessage("Interrupted Exception in Test");
+                        Assertions.assertEquals(e).hasMessage("Interrupted Exception in Test");
                     }
                 }, null, null, 0, sendMessageContext, defaultMQProducerImpl);
     }
@@ -259,8 +260,8 @@ public class MQClientAPIImplTest {
         try {
             mqClientAPI.createPlainAccessConfig(brokerAddr, config, 3 * 1000);
         } catch (MQClientException ex) {
-            assertThat(ex.getResponseCode()).isEqualTo(209);
-            assertThat(ex.getErrorMessage()).isEqualTo("corresponding to accessConfig has been updated failed");
+            Assertions.assertEquals(ex.getResponseCode(),209);
+            Assertions.assertEquals(ex.getErrorMessage(),"corresponding to accessConfig has been updated failed");
         }
     }
 
@@ -297,8 +298,8 @@ public class MQClientAPIImplTest {
         try {
             mqClientAPI.deleteAccessConfig(brokerAddr, "11111", 3 * 1000);
         } catch (MQClientException ex) {
-            assertThat(ex.getResponseCode()).isEqualTo(210);
-            assertThat(ex.getErrorMessage()).isEqualTo("corresponding to accessConfig has been deleted failed");
+            Assertions.assertEquals(ex.getResponseCode(),210);
+            Assertions.assertEquals(ex.getErrorMessage(),"corresponding to accessConfig has been deleted failed");
         }
     }
 
@@ -317,7 +318,7 @@ public class MQClientAPIImplTest {
         }).when(remotingClient).invokeSync(anyString(), any(RemotingCommand.class), anyLong());
 
         boolean result = mqClientAPI.resumeCheckHalfMessage(brokerAddr, "test", 3000);
-        assertThat(result).isEqualTo(false);
+        Assertions.assertEquals(result,false);
     }
 
     @Test
@@ -332,7 +333,7 @@ public class MQClientAPIImplTest {
 
         boolean result = mqClientAPI.resumeCheckHalfMessage(brokerAddr, "test", 3000);
 
-        assertThat(result).isEqualTo(true);
+        Assertions.assertEquals(result,true);
     }
 
     @Test
@@ -355,10 +356,10 @@ public class MQClientAPIImplTest {
             new SendCallback() {
                 @Override
                 public void onSuccess(SendResult sendResult) {
-                    assertThat(sendResult.getSendStatus()).isEqualTo(SendStatus.SEND_OK);
-                    assertThat(sendResult.getOffsetMsgId()).isEqualTo("123");
-                    assertThat(sendResult.getQueueOffset()).isEqualTo(123L);
-                    assertThat(sendResult.getMessageQueue().getQueueId()).isEqualTo(1);
+                    Assertions.assertEquals(sendResult.getSendStatus(),SendStatus.SEND_OK);
+                    Assertions.assertEquals(sendResult.getOffsetMsgId(),"123");
+                    Assertions.assertEquals(sendResult.getQueueOffset(),123L);
+                    Assertions.assertEquals(sendResult.getMessageQueue().getQueueId(),1);
                 }
 
                 @Override
@@ -474,6 +475,6 @@ public class MQClientAPIImplTest {
         }).when(remotingClient).invokeSync(anyString(), any(RemotingCommand.class), anyLong());
 
         int topicCnt = mqClientAPI.addWritePermOfBroker("127.0.0.1", "default-broker", 1000);
-        assertThat(topicCnt).isEqualTo(7);
+        Assertions.assertEquals(topicCnt,7);
     }
 }

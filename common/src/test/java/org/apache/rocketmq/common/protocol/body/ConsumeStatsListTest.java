@@ -19,14 +19,15 @@ package org.apache.rocketmq.common.protocol.body;
 
 import org.apache.rocketmq.common.admin.ConsumeStats;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ConsumeStatsListTest {
 
@@ -50,13 +51,13 @@ public class ConsumeStatsListTest {
         String toJson = RemotingSerializable.toJson(consumeStatsList, true);
         ConsumeStatsList fromJson = RemotingSerializable.fromJson(toJson, ConsumeStatsList.class);
 
-        assertThat(fromJson.getBrokerAddr()).isEqualTo(brokerAddr);
-        assertThat(fromJson.getTotalDiff()).isEqualTo(totalDiff);
+        Assertions.assertEquals(fromJson.getBrokerAddr(),brokerAddr);
+        Assertions.assertEquals(fromJson.getTotalDiff(),totalDiff);
 
         List<Map<String, List<ConsumeStats>>> fromJsonConsumeStatsList = fromJson.getConsumeStatsList();
-        assertThat(fromJsonConsumeStatsList).isInstanceOf(List.class);
+        Assertions.assertEquals(fromJsonConsumeStatsList).isInstanceOf(List.class);
 
         ConsumeStats fromJsonConsumeStats = fromJsonConsumeStatsList.get(0).get("subscriptionGroupName").get(0);
-        assertThat(fromJsonConsumeStats).isExactlyInstanceOf(ConsumeStats.class);
+        Assertions.assertEquals(fromJsonConsumeStats).isExactlyInstanceOf(ConsumeStats.class);
     }
 }

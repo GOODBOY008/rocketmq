@@ -26,12 +26,12 @@ import org.apache.rocketmq.test.client.rmq.RMQNormalProducer;
 import org.apache.rocketmq.test.listener.rmq.concurrent.RMQNormalListener;
 import org.apache.rocketmq.test.util.TestUtils;
 import org.apache.rocketmq.test.util.VerifyUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class QueryMsgByIdIT extends BaseConf {
     private static Logger logger = Logger.getLogger(QueryMsgByIdIT.class);
@@ -39,7 +39,7 @@ public class QueryMsgByIdIT extends BaseConf {
     private RMQNormalConsumer consumer = null;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("use topic: %s;", topic));
@@ -47,7 +47,7 @@ public class QueryMsgByIdIT extends BaseConf {
         consumer = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         shutdown();
     }
@@ -56,9 +56,9 @@ public class QueryMsgByIdIT extends BaseConf {
     public void testQueryMsg() {
         int msgSize = 20;
         producer.send(msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
-        Assert.assertEquals("Not all are consumed", 0, VerifyUtils.verify(producer.getAllMsgBody(),
+        Assertions.assertEquals("Not all are consumed", 0, VerifyUtils.verify(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()));
 
         MessageExt recvMsg = (MessageExt) consumer.getListener().getFirstMsg();
@@ -69,7 +69,7 @@ public class QueryMsgByIdIT extends BaseConf {
         } catch (Exception e) {
         }
 
-        assertThat(queryMsg).isNotNull();
-        assertThat(new String(queryMsg.getBody())).isEqualTo(new String(recvMsg.getBody()));
+        Assertions.assertNotNull(queryMsg);
+        Assertions.assertEquals(new String(queryMsg.getBody()),new String(recvMsg.getBody()));
     }
 }

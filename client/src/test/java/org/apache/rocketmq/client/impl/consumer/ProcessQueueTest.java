@@ -21,13 +21,13 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.protocol.body.ProcessQueueInfo;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
+
+@ExtendWith(MockitoJUnitRunner.class)
 public class ProcessQueueTest {
 
     @Test
@@ -36,15 +36,15 @@ public class ProcessQueueTest {
 
         pq.putMessage(createMessageList());
 
-        assertThat(pq.getMsgCount().get()).isEqualTo(100);
+        Assertions.assertEquals(pq.getMsgCount().get(),100);
 
         pq.takeMessages(10);
         pq.commit();
 
-        assertThat(pq.getMsgCount().get()).isEqualTo(90);
+        Assertions.assertEquals(pq.getMsgCount().get(),90);
 
         pq.removeMessage(Collections.singletonList(pq.getMsgTreeMap().lastEntry().getValue()));
-        assertThat(pq.getMsgCount().get()).isEqualTo(89);
+        Assertions.assertEquals(pq.getMsgCount().get(),89);
     }
 
     @Test
@@ -53,15 +53,15 @@ public class ProcessQueueTest {
 
         pq.putMessage(createMessageList());
 
-        assertThat(pq.getMsgSize().get()).isEqualTo(100 * 123);
+        Assertions.assertEquals(pq.getMsgSize().get(),100 * 123);
 
         pq.takeMessages(10);
         pq.commit();
 
-        assertThat(pq.getMsgSize().get()).isEqualTo(90 * 123);
+        Assertions.assertEquals(pq.getMsgSize().get(),90 * 123);
 
         pq.removeMessage(Collections.singletonList(pq.getMsgTreeMap().lastEntry().getValue()));
-        assertThat(pq.getMsgSize().get()).isEqualTo(89 * 123);
+        Assertions.assertEquals(pq.getMsgSize().get(),89 * 123);
     }
 
     @Test
@@ -72,22 +72,22 @@ public class ProcessQueueTest {
         ProcessQueueInfo processQueueInfo = new ProcessQueueInfo();
         pq.fillProcessQueueInfo(processQueueInfo);
 
-        assertThat(processQueueInfo.getCachedMsgSizeInMiB()).isEqualTo(12);
+        Assertions.assertEquals(processQueueInfo.getCachedMsgSizeInMiB(),12);
 
         pq.takeMessages(10000);
         pq.commit();
         pq.fillProcessQueueInfo(processQueueInfo);
-        assertThat(processQueueInfo.getCachedMsgSizeInMiB()).isEqualTo(10);
+        Assertions.assertEquals(processQueueInfo.getCachedMsgSizeInMiB(),10);
 
         pq.takeMessages(10000);
         pq.commit();
         pq.fillProcessQueueInfo(processQueueInfo);
-        assertThat(processQueueInfo.getCachedMsgSizeInMiB()).isEqualTo(9);
+        Assertions.assertEquals(processQueueInfo.getCachedMsgSizeInMiB(),9);
 
         pq.takeMessages(80000);
         pq.commit();
         pq.fillProcessQueueInfo(processQueueInfo);
-        assertThat(processQueueInfo.getCachedMsgSizeInMiB()).isEqualTo(0);
+        Assertions.assertEquals(processQueueInfo.getCachedMsgSizeInMiB(),0);
     }
 
     private List<MessageExt> createMessageList() {

@@ -19,12 +19,12 @@ package org.apache.rocketmq.common.protocol.body;
 
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ResetOffsetBodyTest {
 
@@ -40,7 +40,7 @@ public class ResetOffsetBodyTest {
         rob.setOffsetTable(offsetMap);
         String json = RemotingSerializable.toJson(rob, true);
         ResetOffsetBody fromJson = RemotingSerializable.fromJson(json, ResetOffsetBody.class);
-        assertThat(fromJson.getOffsetTable().get(queue)).isEqualTo(100L);
-        assertThat(fromJson.getOffsetTable().size()).isEqualTo(1);
+        Assertions.assertEquals(fromJson.getOffsetTable().get(queue),100L);
+        Assertions.assertEquals(fromJson.getOffsetTable().size(),1);
     }
 }

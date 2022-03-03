@@ -25,25 +25,26 @@ import org.apache.rocketmq.test.client.rmq.RMQNormalConsumer;
 import org.apache.rocketmq.test.client.rmq.RMQNormalProducer;
 import org.apache.rocketmq.test.factory.MessageFactory;
 import org.apache.rocketmq.test.listener.rmq.concurrent.RMQNormalListener;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class MessageUserPropIT extends BaseConf {
     private static Logger logger = Logger.getLogger(NormalMsgStaticBalanceIT.class);
     private RMQNormalProducer producer = null;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("use topic: %s !", topic));
         producer = getProducer(nsAddr, topic);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -61,13 +62,13 @@ public class MessageUserPropIT extends BaseConf {
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
 
         producer.send(msg, null);
-        assertThat(producer.getAllMsgBody().size()).isEqualTo(1);
+        Assertions.assertEquals(producer.getAllMsgBody().size(),1);
 
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
         Message sendMsg = (Message) producer.getFirstMsg();
         Message recvMsg = (Message) consumer.getListener().getFirstMsg();
-        assertThat(recvMsg.getUserProperty(msgKey)).isEqualTo(sendMsg.getUserProperty(msgKey));
+        Assertions.assertEquals(recvMsg.getUserProperty(msgKey),sendMsg.getUserProperty(msgKey));
     }
 
     /**
@@ -83,12 +84,12 @@ public class MessageUserPropIT extends BaseConf {
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
 
         producer.send(msg, null);
-        assertThat(producer.getAllMsgBody().size()).isEqualTo(1);
+        Assertions.assertEquals(producer.getAllMsgBody().size(),1);
 
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
         Message sendMsg = (Message) producer.getFirstMsg();
         Message recvMsg = (Message) consumer.getListener().getFirstMsg();
-        assertThat(recvMsg.getUserProperty(msgKey)).isEqualTo(sendMsg.getUserProperty(msgKey));
+        Assertions.assertEquals(recvMsg.getUserProperty(msgKey),sendMsg.getUserProperty(msgKey));
     }
 }

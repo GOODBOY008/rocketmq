@@ -18,9 +18,10 @@
 package org.apache.rocketmq.common.protocol.body;
 
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 
 public class ConsumeMessageDirectlyResultTest {
@@ -41,12 +42,12 @@ public class ConsumeMessageDirectlyResultTest {
 
         String json = RemotingSerializable.toJson(result, true);
         ConsumeMessageDirectlyResult fromJson = RemotingSerializable.fromJson(json, ConsumeMessageDirectlyResult.class);
-        assertThat(fromJson).isNotNull();
+        Assertions.assertNotNull(fromJson);
 
-        assertThat(fromJson.getRemark()).isEqualTo(defaultRemark);
-        assertThat(fromJson.getSpentTimeMills()).isEqualTo(defaultSpentTimeMills);
-        assertThat(fromJson.getConsumeResult()).isEqualTo(defaultCMResult);
-        assertThat(fromJson.isOrder()).isEqualTo(defaultOrder);
+        Assertions.assertEquals(fromJson.getRemark(),defaultRemark);
+        Assertions.assertEquals(fromJson.getSpentTimeMills(),defaultSpentTimeMills);
+        Assertions.assertEquals(fromJson.getConsumeResult(),defaultCMResult);
+        Assertions.assertEquals(fromJson.isOrder(),defaultOrder);
 
     }
 }

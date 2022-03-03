@@ -20,11 +20,12 @@ package org.apache.rocketmq.filter;
 import org.apache.rocketmq.filter.util.BitsArray;
 import org.apache.rocketmq.filter.util.BloomFilter;
 import org.apache.rocketmq.filter.util.BloomFilterData;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class BloomFilterTest {
 
@@ -38,15 +39,15 @@ public class BloomFilterTest {
 
         BloomFilter d = BloomFilter.createByFn(10, 30);
 
-        assertThat(a).isEqualTo(b);
-        assertThat(a).isNotEqualTo(c);
-        assertThat(a).isNotEqualTo(d);
-        assertThat(d).isNotEqualTo(c);
+        Assertions.assertEquals(a,b);
+        Assertions.assertNotEquals(a,c);
+        Assertions.assertNotEquals(a,d);
+        Assertions.assertNotEquals(d,c);
 
-        assertThat(a.hashCode()).isEqualTo(b.hashCode());
-        assertThat(a.hashCode()).isNotEqualTo(c.hashCode());
-        assertThat(a.hashCode()).isNotEqualTo(d.hashCode());
-        assertThat(c.hashCode()).isNotEqualTo(d.hashCode());
+        Assertions.assertEquals(a.hashCode(),b.hashCode());
+        Assertions.assertNotEquals(a.hashCode(),c.hashCode());
+        Assertions.assertNotEquals(a.hashCode(),d.hashCode());
+        Assertions.assertNotEquals(c.hashCode(),d.hashCode());
     }
 
     @Test
@@ -62,7 +63,7 @@ public class BloomFilterTest {
         bloomFilter.hashTo(cid, bits);
 
         for (int bit : bitPos) {
-            assertThat(bits.getBit(bit)).isTrue();
+            Assertions.assertTrue(bits.getBit(bit));
         }
     }
 
@@ -74,15 +75,15 @@ public class BloomFilterTest {
 
         int[] bitPos = bloomFilter.calcBitPositions(cid);
 
-        assertThat(bitPos).isNotNull();
-        assertThat(bitPos.length).isEqualTo(bloomFilter.getK());
+        Assertions.assertNotNull(bitPos);
+        Assertions.assertEquals(bitPos.length,bloomFilter.getK());
 
         int[] bitPos2 = bloomFilter.calcBitPositions(cid);
 
-        assertThat(bitPos2).isNotNull();
-        assertThat(bitPos2.length).isEqualTo(bloomFilter.getK());
+        Assertions.assertNotNull(bitPos2);
+        Assertions.assertEquals(bitPos2.length,bloomFilter.getK());
 
-        assertThat(bitPos).isEqualTo(bitPos2);
+        Assertions.assertEquals(bitPos,bitPos2);
     }
 
     @Test
@@ -96,13 +97,13 @@ public class BloomFilterTest {
 
         bloomFilter.hashTo(cid, bits);
 
-        assertThat(bloomFilter.isHit(cid, bits)).isTrue();
-        assertThat(!bloomFilter.isHit(cid2, bits)).isTrue();
+        Assertions.assertTrue(bloomFilter.isHit(cid, bits));
+        Assertions.assertTrue(!bloomFilter.isHit(cid2, bits));
 
         bloomFilter.hashTo(cid2, bits);
 
-        assertThat(bloomFilter.isHit(cid, bits)).isTrue();
-        assertThat(bloomFilter.isHit(cid2, bits)).isTrue();
+        Assertions.assertTrue(bloomFilter.isHit(cid, bits));
+        Assertions.assertTrue(bloomFilter.isHit(cid2, bits));
     }
 
     @Test
@@ -111,35 +112,35 @@ public class BloomFilterTest {
         BloomFilterData bloomFilterData1 = new BloomFilterData(new int[] {1, 2, 3}, 128);
         BloomFilterData bloomFilterData2 = new BloomFilterData(new int[] {1, 2, 3}, 129);
 
-        assertThat(bloomFilterData).isEqualTo(bloomFilterData1);
-        assertThat(bloomFilterData2).isNotEqualTo(bloomFilterData);
-        assertThat(bloomFilterData2).isNotEqualTo(bloomFilterData1);
+        Assertions.assertEquals(bloomFilterData,bloomFilterData1);
+        Assertions.assertNotEquals(bloomFilterData2,bloomFilterData);
+        Assertions.assertNotEquals(bloomFilterData2,bloomFilterData1);
 
-        assertThat(bloomFilterData.hashCode()).isEqualTo(bloomFilterData1.hashCode());
-        assertThat(bloomFilterData2.hashCode()).isNotEqualTo(bloomFilterData.hashCode());
-        assertThat(bloomFilterData2.hashCode()).isNotEqualTo(bloomFilterData1.hashCode());
+        Assertions.assertEquals(bloomFilterData.hashCode(),bloomFilterData1.hashCode());
+        Assertions.assertNotEquals(bloomFilterData2.hashCode(),bloomFilterData.hashCode());
+        Assertions.assertNotEquals(bloomFilterData2.hashCode(),bloomFilterData1.hashCode());
 
-        assertThat(bloomFilterData.getBitPos()).isEqualTo(bloomFilterData2.getBitPos());
-        assertThat(bloomFilterData.getBitNum()).isEqualTo(bloomFilterData1.getBitNum());
-        assertThat(bloomFilterData.getBitNum()).isNotEqualTo(bloomFilterData2.getBitNum());
+        Assertions.assertEquals(bloomFilterData.getBitPos(),bloomFilterData2.getBitPos());
+        Assertions.assertEquals(bloomFilterData.getBitNum(),bloomFilterData1.getBitNum());
+        Assertions.assertNotEquals(bloomFilterData.getBitNum(),bloomFilterData2.getBitNum());
 
         bloomFilterData2.setBitNum(128);
 
-        assertThat(bloomFilterData).isEqualTo(bloomFilterData2);
+        Assertions.assertEquals(bloomFilterData,bloomFilterData2);
 
         bloomFilterData2.setBitPos(new int[] {1, 2, 3, 4});
 
-        assertThat(bloomFilterData).isNotEqualTo(bloomFilterData2);
+        Assertions.assertNotEquals(bloomFilterData,bloomFilterData2);
 
         BloomFilterData nullData = new BloomFilterData();
 
-        assertThat(nullData.getBitNum()).isEqualTo(0);
-        assertThat(nullData.getBitPos()).isNull();
+        Assertions.assertEquals(nullData.getBitNum(),0);
+        Assertions.assertNull(nullData.getBitPos());
 
         BloomFilter bloomFilter = BloomFilter.createByFn(1, 300);
 
-        assertThat(bloomFilter).isNotNull();
-        assertThat(bloomFilter.isValid(bloomFilterData)).isFalse();
+        Assertions.assertNotNull(bloomFilter);
+        Assertions.assertFalse(bloomFilter.isValid(bloomFilterData));
     }
 
     @Test
@@ -158,7 +159,7 @@ public class BloomFilterTest {
             bloomFilter.hashTo(bitPos, bits);
         }
 
-        assertThat(falseHit).isLessThanOrEqualTo(bloomFilter.getF() * bloomFilter.getN() / 100);
+        Assertions.assertEquals(falseHit).isLessThanOrEqualTo(bloomFilter.getF() * bloomFilter.getN() / 100);
     }
 
     private String randomString(int length) {

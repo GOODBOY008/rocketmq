@@ -16,21 +16,22 @@
  */
 package org.apache.rocketmq.common.sysflag;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class PullSysFlagTest {
 
     @Test
     public void testLitePullFlag() {
         int flag = PullSysFlag.buildSysFlag(false, false, false, false, true);
-        assertThat(PullSysFlag.hasLitePullFlag(flag)).isTrue();
+        Assertions.assertTrue(PullSysFlag.hasLitePullFlag(flag));
     }
 
     @Test
     public void testLitePullFlagFalse() {
         int flag = PullSysFlag.buildSysFlag(false, false, false, false, false);
-        assertThat(PullSysFlag.hasLitePullFlag(flag)).isFalse();
+        Assertions.assertFalse(PullSysFlag.hasLitePullFlag(flag));
     }
 }

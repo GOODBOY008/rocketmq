@@ -47,19 +47,19 @@ import org.apache.rocketmq.store.MessageStore;
 import org.apache.rocketmq.store.PutMessageResult;
 import org.apache.rocketmq.store.PutMessageStatus;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class ReplyMessageProcessorTest {
     private ReplyMessageProcessor replyMessageProcessor;
     @Spy
@@ -77,7 +77,7 @@ public class ReplyMessageProcessorTest {
     @Mock
     private Broker2Client broker2Client;
 
-    @Before
+    @BeforeEach
     public void init() throws IllegalAccessException, NoSuchFieldException {
         clientInfo = new ClientChannelInfo(channel, "127.0.0.1", LanguageCode.JAVA, 0);
         brokerController.setMessageStore(messageStore);
@@ -98,8 +98,8 @@ public class ReplyMessageProcessorTest {
         final RemotingCommand request = createSendMessageRequestHeaderCommand(RequestCode.SEND_REPLY_MESSAGE);
         when(brokerController.getBroker2Client().callClient(any(Channel.class), any(RemotingCommand.class))).thenReturn(createResponse(ResponseCode.SUCCESS, request));
         RemotingCommand responseToReturn = replyMessageProcessor.processRequest(handlerContext, request);
-        assertThat(responseToReturn.getCode()).isEqualTo(ResponseCode.SUCCESS);
-        assertThat(responseToReturn.getOpaque()).isEqualTo(request.getOpaque());
+        Assertions.assertEquals(responseToReturn.getCode(),ResponseCode.SUCCESS);
+        Assertions.assertEquals(responseToReturn.getOpaque(),request.getOpaque());
     }
 
     private RemotingCommand createSendMessageRequestHeaderCommand(int requestCode) {

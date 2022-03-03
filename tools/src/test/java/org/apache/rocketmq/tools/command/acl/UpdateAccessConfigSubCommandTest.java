@@ -23,10 +23,10 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 import org.apache.rocketmq.common.PlainAccessConfig;
 import org.apache.rocketmq.srvutil.ServerUtil;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class UpdateAccessConfigSubCommandTest {
 
@@ -46,15 +46,15 @@ public class UpdateAccessConfigSubCommandTest {
             "-m true"};
         final CommandLine commandLine =
             ServerUtil.parseCmdLine("mqadmin " + cmd.commandName(), subargs, cmd.buildCommandlineOptions(options), new PosixParser());
-        assertThat(commandLine.getOptionValue('b').trim()).isEqualTo("127.0.0.1:10911");
-        assertThat(commandLine.getOptionValue('a').trim()).isEqualTo("RocketMQ");
-        assertThat(commandLine.getOptionValue('s').trim()).isEqualTo("12345678");
-        assertThat(commandLine.getOptionValue('w').trim()).isEqualTo("192.168.0.*");
-        assertThat(commandLine.getOptionValue('i').trim()).isEqualTo("DENY");
-        assertThat(commandLine.getOptionValue('u').trim()).isEqualTo("SUB");
-        assertThat(commandLine.getOptionValue('t').trim()).isEqualTo("topicA=DENY;topicB=PUB|SUB");
-        assertThat(commandLine.getOptionValue('g').trim()).isEqualTo("groupA=DENY;groupB=SUB");
-        assertThat(commandLine.getOptionValue('m').trim()).isEqualTo("true");
+        Assertions.assertEquals(commandLine.getOptionValue('b').trim(),"127.0.0.1:10911");
+        Assertions.assertEquals(commandLine.getOptionValue('a').trim(),"RocketMQ");
+        Assertions.assertEquals(commandLine.getOptionValue('s').trim(),"12345678");
+        Assertions.assertEquals(commandLine.getOptionValue('w').trim(),"192.168.0.*");
+        Assertions.assertEquals(commandLine.getOptionValue('i').trim(),"DENY");
+        Assertions.assertEquals(commandLine.getOptionValue('u').trim(),"SUB");
+        Assertions.assertEquals(commandLine.getOptionValue('t').trim(),"topicA=DENY;topicB=PUB|SUB");
+        Assertions.assertEquals(commandLine.getOptionValue('g').trim(),"groupA=DENY;groupB=SUB");
+        Assertions.assertEquals(commandLine.getOptionValue('m').trim(),"true");
 
         PlainAccessConfig accessConfig = new PlainAccessConfig();
 
@@ -82,8 +82,8 @@ public class UpdateAccessConfigSubCommandTest {
             accessConfig.setGroupPerms(groupPermList);
         }
 
-        Assert.assertTrue(accessConfig.getTopicPerms().contains("topicB=PUB|SUB"));
-        Assert.assertTrue(accessConfig.getGroupPerms().contains("groupB=SUB"));
+        Assertions.assertTrue(accessConfig.getTopicPerms().contains("topicB=PUB|SUB"));
+        Assertions.assertTrue(accessConfig.getGroupPerms().contains("groupB=SUB"));
 
     }
 }

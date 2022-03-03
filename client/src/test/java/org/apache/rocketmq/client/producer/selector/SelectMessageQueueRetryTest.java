@@ -19,14 +19,15 @@ package org.apache.rocketmq.client.producer.selector;
 import org.apache.rocketmq.client.impl.producer.TopicPublishInfo;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class SelectMessageQueueRetryTest {
 
@@ -49,7 +50,7 @@ public class SelectMessageQueueRetryTest {
 
         Set<String> retryBrokerNameSet = retryBroker(topicPublishInfo);
         //always in Set （broker-0，broker-1，broker-2）
-        assertThat(retryBroker(topicPublishInfo)).isEqualTo(retryBrokerNameSet);
+        Assertions.assertEquals(retryBroker(topicPublishInfo),retryBrokerNameSet);
     }
 
     private Set<String> retryBroker(TopicPublishInfo topicPublishInfo) {

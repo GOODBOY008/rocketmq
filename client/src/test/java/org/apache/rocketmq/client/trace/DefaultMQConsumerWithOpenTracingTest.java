@@ -65,17 +65,17 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.common.protocol.header.PullMessageRequestHeader;
 import org.apache.rocketmq.remoting.RPCHook;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -86,7 +86,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultMQConsumerWithOpenTracingTest {
     private String consumerGroup;
 
@@ -101,7 +101,7 @@ public class DefaultMQConsumerWithOpenTracingTest {
     private DefaultMQPushConsumer pushConsumer;
     private final MockTracer tracer = new MockTracer();
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         ConcurrentMap<String, MQClientInstance> factoryTable = (ConcurrentMap<String, MQClientInstance>) FieldUtils.readDeclaredField(MQClientManager.getInstance(), "factoryTable", true);
         for (Map.Entry<String, MQClientInstance> entry : factoryTable.entrySet()) {
@@ -168,7 +168,7 @@ public class DefaultMQConsumerWithOpenTracingTest {
         pushConsumer.start();
     }
 
-    @After
+    @AfterEach
     public void terminate() {
         pushConsumer.shutdown();
     }
@@ -191,9 +191,9 @@ public class DefaultMQConsumerWithOpenTracingTest {
         pullMessageService.executePullRequestImmediately(createPullRequest());
         countDownLatch.await(30, TimeUnit.SECONDS);
         MessageExt msg = messageAtomic.get();
-        assertThat(msg).isNotNull();
-        assertThat(msg.getTopic()).isEqualTo(topic);
-        assertThat(msg.getBody()).isEqualTo(new byte[] {'a'});
+        Assertions.assertNotNull(msg);
+        Assertions.assertEquals(msg.getTopic(),topic);
+        Assertions.assertEquals(msg.getBody(),new byte[] {'a'});
 
         // wait until consumeMessageAfter hook of tracer is done surely.
         waitAtMost(1, TimeUnit.SECONDS).until(new Callable() {
@@ -203,9 +203,9 @@ public class DefaultMQConsumerWithOpenTracingTest {
         });
 
         MockSpan span = tracer.finishedSpans().get(0);
-        assertThat(span.tags().get(Tags.MESSAGE_BUS_DESTINATION.getKey())).isEqualTo(topic);
-        assertThat(span.tags().get(Tags.SPAN_KIND.getKey())).isEqualTo(Tags.SPAN_KIND_CONSUMER);
-        assertThat(span.tags().get(TraceConstants.ROCKETMQ_SUCCESS)).isEqualTo(true);
+        Assertions.assertEquals(span.tags().get(Tags.MESSAGE_BUS_DESTINATION.getKey()),topic);
+        Assertions.assertEquals(span.tags().get(Tags.SPAN_KIND.getKey()),Tags.SPAN_KIND_CONSUMER);
+        Assertions.assertEquals(span.tags().get(TraceConstants.ROCKETMQ_SUCCESS),true);
     }
 
     private PullRequest createPullRequest() {

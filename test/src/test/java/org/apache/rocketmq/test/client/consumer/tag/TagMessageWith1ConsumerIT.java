@@ -25,19 +25,19 @@ import org.apache.rocketmq.test.client.rmq.RMQNormalProducer;
 import org.apache.rocketmq.test.factory.MQMessageFactory;
 import org.apache.rocketmq.test.listener.rmq.concurrent.RMQNormalListener;
 import org.apache.rocketmq.test.util.VerifyUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class TagMessageWith1ConsumerIT extends BaseConf {
     private static Logger logger = Logger.getLogger(TagMessageWith1ConsumerIT.class);
     private RMQNormalProducer producer = null;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         String consumerId = initConsumerGroup();
@@ -45,7 +45,7 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
         producer = getProducer(nsAddr, topic);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -56,9 +56,9 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
         int msgSize = 10;
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, tag, new RMQNormalListener());
         producer.send(tag, msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(producer.getAllMsgBody());
     }
@@ -70,10 +70,10 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExprress,
             new RMQNormalListener());
         producer.send(msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(producer.getAllMsgBody());
     }
@@ -86,10 +86,10 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExpress,
             new RMQNormalListener());
         producer.send(tag, msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(producer.getAllMsgBody());
     }
@@ -102,10 +102,10 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExpress,
             new RMQNormalListener());
         producer.send(tag, msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(producer.getAllMsgBody());
     }
@@ -118,10 +118,10 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExpress,
             new RMQNormalListener());
         producer.send(tag, msgSize);
-        Assert.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(producer.getAllMsgBody());
     }
@@ -141,10 +141,10 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
         producer.send(tag1Msgs);
         producer.send(tag2Msgs);
         producer.send(10);
-        Assert.assertEquals("Not all are sent", msgSize * 3, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize * 3, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(producer.getAllMsgBody());
     }
@@ -163,10 +163,10 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
 
         producer.send(tag1Msgs);
         producer.send(tag2Msgs);
-        Assert.assertEquals("Not all are sent", msgSize * 2, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize * 2, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(producer.getAllMsgBody());
     }
@@ -186,11 +186,11 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
         producer.send(tag1Msgs);
         producer.send(tag2Msgs);
         producer.send(10);
-        Assert.assertEquals("Not all are sent", msgSize * 3, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all are sent", msgSize * 3, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(MQMessageFactory.getMessageBody(tag2Msgs),
             consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(MQMessageFactory.getMessageBody(tag2Msgs));
     }

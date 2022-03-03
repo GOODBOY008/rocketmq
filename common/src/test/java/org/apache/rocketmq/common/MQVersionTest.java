@@ -17,31 +17,31 @@
 
 package org.apache.rocketmq.common;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class MQVersionTest {
 
     @Test
     public void testGetVersionDesc() throws Exception {
         String desc = "V3_0_0_SNAPSHOT";
-        assertThat(MQVersion.getVersionDesc(0)).isEqualTo(desc);
+        Assertions.assertEquals(MQVersion.getVersionDesc(0),desc);
     }
 
     @Test
     public void testGetVersionDesc_higherVersion() throws Exception {
         String desc = "HIGHER_VERSION";
-        assertThat(MQVersion.getVersionDesc(Integer.MAX_VALUE)).isEqualTo(desc);
+        Assertions.assertEquals(MQVersion.getVersionDesc(Integer.MAX_VALUE),desc);
     }
 
     @Test
     public void testValue2Version() throws Exception {
-        assertThat(MQVersion.value2Version(0)).isEqualTo(MQVersion.Version.V3_0_0_SNAPSHOT);
+        Assertions.assertEquals(MQVersion.value2Version(0),MQVersion.Version.V3_0_0_SNAPSHOT);
     }
 
     @Test
     public void testValue2Version_HigherVersion() throws Exception {
-        assertThat(MQVersion.value2Version(Integer.MAX_VALUE)).isEqualTo(MQVersion.Version.HIGHER_VERSION);
+        Assertions.assertEquals(MQVersion.value2Version(Integer.MAX_VALUE),MQVersion.Version.HIGHER_VERSION);
     }
 }

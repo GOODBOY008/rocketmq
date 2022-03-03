@@ -24,12 +24,12 @@ import java.nio.charset.Charset;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.message.MessageConst;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,7 +38,7 @@ public class MultiDispatchTest {
     private CommitLog commitLog;
     private MultiDispatch multiDispatch;
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         MessageStoreConfig messageStoreConfig = new MessageStoreConfig();
         messageStoreConfig.setMappedFileSizeCommitLog(1024 * 8);
@@ -57,7 +57,7 @@ public class MultiDispatchTest {
         this.multiDispatch = new MultiDispatch(messageStore, commitLog);
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         UtilAll.deleteFile(new File(System.getProperty("user.home") + File.separator + "unitteststore1"));
     }
@@ -67,7 +67,7 @@ public class MultiDispatchTest {
         MessageExtBrokerInner messageExtBrokerInner = mock(MessageExtBrokerInner.class);
         when(messageExtBrokerInner.getQueueId()).thenReturn(2);
         String ret = multiDispatch.queueKey("%LMQ%lmq123", messageExtBrokerInner);
-        assertEquals(ret, "%LMQ%lmq123-0");
+        Assertions.assertEquals(ret, "%LMQ%lmq123-0");
     }
 
     @Test
@@ -80,9 +80,9 @@ public class MultiDispatchTest {
         when(messageExtBrokerInner.getBornHost()).thenReturn(new InetSocketAddress("127.0.0.1", 54270));
         when(messageExtBrokerInner.getStoreHost()).thenReturn(new InetSocketAddress("127.0.0.1", 10911));
         multiDispatch.wrapMultiDispatch(messageExtBrokerInner);
-        assertTrue(commitLog.getLmqTopicQueueTable().size() == 2);
-        assertTrue(commitLog.getLmqTopicQueueTable().get("%LMQ%123-0") == 0L);
-        assertTrue(commitLog.getLmqTopicQueueTable().get("%LMQ%456-0") == 0L);
+        Assertions.assertTrue(commitLog.getLmqTopicQueueTable().size() == 2);
+        Assertions.assertTrue(commitLog.getLmqTopicQueueTable().get("%LMQ%123-0") == 0L);
+        Assertions.assertTrue(commitLog.getLmqTopicQueueTable().get("%LMQ%456-0") == 0L);
     }
 
     @Test
@@ -91,8 +91,8 @@ public class MultiDispatchTest {
         when(messageExtBrokerInner.getProperty(MessageConst.PROPERTY_INNER_MULTI_DISPATCH)).thenReturn("%LMQ%123,%LMQ%456");
         when(messageExtBrokerInner.getProperty(MessageConst.PROPERTY_INNER_MULTI_QUEUE_OFFSET)).thenReturn("0,1");
         multiDispatch.updateMultiQueueOffset(messageExtBrokerInner);
-        assertTrue(commitLog.getLmqTopicQueueTable().size() == 2);
-        assertTrue(commitLog.getLmqTopicQueueTable().get("%LMQ%123-0") == 1L);
-        assertTrue(commitLog.getLmqTopicQueueTable().get("%LMQ%456-0") == 2L);
+        Assertions.assertTrue(commitLog.getLmqTopicQueueTable().size() == 2);
+        Assertions.assertTrue(commitLog.getLmqTopicQueueTable().get("%LMQ%123-0") == 1L);
+        Assertions.assertTrue(commitLog.getLmqTopicQueueTable().get("%LMQ%456-0") == 2L);
     }
 }

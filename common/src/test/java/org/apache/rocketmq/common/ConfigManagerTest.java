@@ -17,14 +17,14 @@ package org.apache.rocketmq.common;/*
 
 import org.apache.rocketmq.common.ConfigManager;
 import org.apache.rocketmq.common.MixAll;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 
 public class ConfigManagerTest {
     private static final String PATH_FILE = System.getProperty("java.io.tmpdir") + File.separator + "org.apache.rocketmq.common.ConfigManagerTest";
@@ -34,10 +34,10 @@ public class ConfigManagerTest {
     public void testLoad() throws Exception {
         ConfigManager testConfigManager = buildTestConfigManager();
         File file = createAndWriteFile(testConfigManager.configFilePath());
-        assertTrue(testConfigManager.load());
+        Assertions.assertTrue(testConfigManager.load());
         file.delete();
         File fileBak = createAndWriteFile(testConfigManager.configFilePath() + ".bak");
-        assertTrue(testConfigManager.load());
+        Assertions.assertTrue(testConfigManager.load());
         fileBak.delete();
     }
 
@@ -49,11 +49,11 @@ public class ConfigManagerTest {
         Method declaredMethod = ConfigManager.class.getDeclaredMethod("loadBak");
         declaredMethod.setAccessible(true);
         Boolean loadBakResult = (Boolean) declaredMethod.invoke(testConfigManager);
-        assertTrue(loadBakResult);
+        Assertions.assertTrue(loadBakResult);
         file.delete();
 
         Boolean loadBakResult2 = (Boolean) declaredMethod.invoke(testConfigManager);
-        assertTrue(loadBakResult2);
+        Assertions.assertTrue(loadBakResult2);
         declaredMethod.setAccessible(false);
     }
 
@@ -62,7 +62,7 @@ public class ConfigManagerTest {
         ConfigManager testConfigManager = buildTestConfigManager();
         testConfigManager.persist();
         File file = new File(testConfigManager.configFilePath());
-        assertEquals(CONTENT_ENCODE, MixAll.file2String(file));
+        Assertions.assertEquals(CONTENT_ENCODE, MixAll.file2String(file));
     }
 
     private ConfigManager buildTestConfigManager() {

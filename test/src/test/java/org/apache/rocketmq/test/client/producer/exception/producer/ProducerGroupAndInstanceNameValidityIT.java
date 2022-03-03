@@ -21,23 +21,23 @@ import org.apache.log4j.Logger;
 import org.apache.rocketmq.test.base.BaseConf;
 import org.apache.rocketmq.test.client.rmq.RMQNormalProducer;
 import org.apache.rocketmq.test.util.RandomUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class ProducerGroupAndInstanceNameValidityIT extends BaseConf {
     private static Logger logger = Logger.getLogger(ProducerGroupAndInstanceNameValidityIT.class);
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("use topic: %s !", topic));
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -48,10 +48,10 @@ public class ProducerGroupAndInstanceNameValidityIT extends BaseConf {
     @Test
     public void testTwoProducerSameGroupAndInstanceName() {
         RMQNormalProducer producer1 = getProducer(nsAddr, topic);
-        assertThat(producer1.isStartSuccess()).isEqualTo(true);
+        Assertions.assertEquals(producer1.isStartSuccess(),true);
         RMQNormalProducer producer2 = getProducer(nsAddr, topic,
             producer1.getProducerGroupName(), producer1.getProducerInstanceName());
-        assertThat(producer2.isStartSuccess()).isEqualTo(false);
+        Assertions.assertEquals(producer2.isStartSuccess(),false);
     }
 
     /**
@@ -60,10 +60,10 @@ public class ProducerGroupAndInstanceNameValidityIT extends BaseConf {
     @Test
     public void testTwoProducerSameGroup() {
         RMQNormalProducer producer1 = getProducer(nsAddr, topic);
-        assertThat(producer1.isStartSuccess()).isEqualTo(true);
+        Assertions.assertEquals(producer1.isStartSuccess(),true);
         RMQNormalProducer producer2 = getProducer(nsAddr, topic,
             producer1.getProducerGroupName(), RandomUtils.getStringByUUID());
-        assertThat(producer2.isStartSuccess()).isEqualTo(true);
+        Assertions.assertEquals(producer2.isStartSuccess(),true);
     }
 
 }

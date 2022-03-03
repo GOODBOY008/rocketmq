@@ -24,16 +24,16 @@ import java.util.Map;
 import org.apache.rocketmq.client.ClientConfig;
 import org.apache.rocketmq.client.impl.factory.MQClientInstance;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class LocalFileOffsetStoreTest {
     @Mock
     private MQClientInstance mQClientFactory;
@@ -41,7 +41,7 @@ public class LocalFileOffsetStoreTest {
     private String topic = "FooBar";
     private String brokerName = "DefaultBrokerName";
 
-    @Before
+    @BeforeEach
     public void init() {
         System.setProperty("rocketmq.client.localOffsetStoreDir", System.getProperty("java.io.tmpdir") + File.separator + ".rocketmq_offsets");
         String clientId = new ClientConfig().buildMQClientId() + "#TestNamespace" + System.currentTimeMillis();
@@ -54,13 +54,13 @@ public class LocalFileOffsetStoreTest {
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 1);
         offsetStore.updateOffset(messageQueue, 1024, false);
 
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY)).isEqualTo(1024);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY),1024);
 
         offsetStore.updateOffset(messageQueue, 1023, false);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY)).isEqualTo(1023);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY),1023);
 
         offsetStore.updateOffset(messageQueue, 1022, true);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY)).isEqualTo(1023);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY),1023);
     }
 
     @Test
@@ -69,10 +69,10 @@ public class LocalFileOffsetStoreTest {
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 2);
 
         offsetStore.updateOffset(messageQueue, 1024, false);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE)).isEqualTo(-1);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE),-1);
 
         offsetStore.persistAll(new HashSet<MessageQueue>(Collections.singletonList(messageQueue)));
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE)).isEqualTo(1024);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE),1024);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class LocalFileOffsetStoreTest {
         offsetStore.updateOffset(messageQueue, 1024, false);
         Map<MessageQueue, Long> cloneOffsetTable = offsetStore.cloneOffsetTable(topic);
 
-        assertThat(cloneOffsetTable.size()).isEqualTo(1);
-        assertThat(cloneOffsetTable.get(messageQueue)).isEqualTo(1024);
+        Assertions.assertEquals(cloneOffsetTable.size(),1);
+        Assertions.assertEquals(cloneOffsetTable.get(messageQueue),1024);
     }
 }

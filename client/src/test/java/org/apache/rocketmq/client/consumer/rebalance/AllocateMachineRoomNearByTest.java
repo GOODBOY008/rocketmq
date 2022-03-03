@@ -25,9 +25,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import org.apache.rocketmq.client.consumer.AllocateMessageQueueStrategy;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 public class AllocateMachineRoomNearByTest {
@@ -47,7 +47,7 @@ public class AllocateMachineRoomNearByTest {
     private final AllocateMessageQueueStrategy allocateMessageQueueStrategy = new AllocateMachineRoomNearby(new AllocateMessageQueueAveragely(), machineRoomResolver);
 
 
-    @Before
+    @BeforeEach
     public void init() {
     }
 
@@ -112,11 +112,11 @@ public class AllocateMachineRoomNearByTest {
                 System.out.println("cid: "+currentID+"--> res :" +res);
             }
             for (MessageQueue mq : res) {
-                Assert.assertTrue(machineRoomResolver.brokerDeployIn(mq).equals(machineRoomResolver.consumerDeployIn(currentID)));
+                Assertions.assertTrue(machineRoomResolver.brokerDeployIn(mq).equals(machineRoomResolver.consumerDeployIn(currentID)));
             }
             resAll.addAll(res);
         }
-        Assert.assertTrue(hasAllocateAllQ(cidAll,mqAll,resAll));
+        Assertions.assertTrue(hasAllocateAllQ(cidAll,mqAll,resAll));
 
         if (print) {
             System.out.println("-------------------------------------------------------------------");
@@ -142,13 +142,13 @@ public class AllocateMachineRoomNearByTest {
             }
             for (MessageQueue mq : res) {
                 if (brokerIDCWithConsumer.contains(machineRoomResolver.brokerDeployIn(mq))) {//healthy idc, so only consumer in this idc should be allocated
-                    Assert.assertTrue(machineRoomResolver.brokerDeployIn(mq).equals(machineRoomResolver.consumerDeployIn(currentID)));
+                    Assertions.assertTrue(machineRoomResolver.brokerDeployIn(mq).equals(machineRoomResolver.consumerDeployIn(currentID)));
                 }
             }
             resAll.addAll(res);
         }
 
-        Assert.assertTrue(hasAllocateAllQ(cidAll,mqAll,resAll));
+        Assertions.assertTrue(hasAllocateAllQ(cidAll,mqAll,resAll));
         if (print) {
             System.out.println("-------------------------------------------------------------------");
         }
@@ -183,10 +183,10 @@ public class AllocateMachineRoomNearByTest {
         for (String consumerIDC : healthyIDC) {
             List<MessageQueue> resInOneIDC = idc2Res.get(consumerIDC);
             List<MessageQueue> mqInThisIDC = createMessageQueueList(consumerIDC,queueSize);
-            Assert.assertTrue(resInOneIDC.containsAll(mqInThisIDC));
+            Assertions.assertTrue(resInOneIDC.containsAll(mqInThisIDC));
         }
 
-        Assert.assertTrue(hasAllocateAllQ(cidAll,mqAll,resAll));
+        Assertions.assertTrue(hasAllocateAllQ(cidAll,mqAll,resAll));
         if (print) {
             System.out.println("-------------------------------------------------------------------");
         }

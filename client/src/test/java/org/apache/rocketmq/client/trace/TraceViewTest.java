@@ -19,8 +19,8 @@ package org.apache.rocketmq.client.trace;
 
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.message.MessageType;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -49,11 +49,11 @@ public class TraceViewTest {
         message.setBody(messageBody.getBytes(StandardCharsets.UTF_8));
         String key = "AC1415116D1418B4AAC217FE1B4E0000";
         List<TraceView> traceViews = TraceView.decodeFromTraceTransData(key, message);
-        Assert.assertEquals(traceViews.size(), 1);
-        Assert.assertEquals(traceViews.get(0).getMsgId(), key);
+        Assertions.assertEquals(traceViews.size(), 1);
+        Assertions.assertEquals(traceViews.get(0).getMsgId(), key);
 
         key = "AD4233434334AAC217FEFFD0000";
         traceViews = TraceView.decodeFromTraceTransData(key, message);
-        Assert.assertEquals(traceViews.size(), 0);
+        Assertions.assertEquals(traceViews.size(), 0);
     }
 }

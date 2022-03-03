@@ -49,15 +49,16 @@ import org.apache.rocketmq.common.protocol.route.QueueData;
 import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.apache.rocketmq.remoting.netty.NettyRemotingClient;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -66,7 +67,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultMQProducerTest {
     @Spy
     private MQClientInstance mQClientFactory = MQClientManager.getInstance().getOrCreateMQClientInstance(new ClientConfig());
@@ -82,7 +83,7 @@ public class DefaultMQProducerTest {
     private String topic = "FooBar";
     private String producerGroupPrefix = "FooBar_PID";
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         String producerGroupTemp = producerGroupPrefix + System.currentTimeMillis();
         producer = new DefaultMQProducer(producerGroupTemp);
@@ -111,7 +112,7 @@ public class DefaultMQProducerTest {
             .thenReturn(createSendResult(SendStatus.SEND_OK));
     }
 
-    @After
+    @AfterEach
     public void terminate() {
         producer.shutdown();
     }
@@ -122,7 +123,7 @@ public class DefaultMQProducerTest {
             producer.send(zeroMsg);
             failBecauseExceptionWasNotThrown(MQClientException.class);
         } catch (MQClientException e) {
-            assertThat(e).hasMessageContaining("message body length is zero");
+            Assertions.assertEquals(e).hasMessageContaining("message body length is zero");
         }
     }
 
@@ -133,7 +134,7 @@ public class DefaultMQProducerTest {
             producer.send(message);
             failBecauseExceptionWasNotThrown(MQClientException.class);
         } catch (MQClientException e) {
-            assertThat(e).hasMessageContaining("No name server address");
+            Assertions.assertEquals(e).hasMessageContaining("No name server address");
         }
     }
 
@@ -144,7 +145,7 @@ public class DefaultMQProducerTest {
             producer.send(message);
             failBecauseExceptionWasNotThrown(MQClientException.class);
         } catch (MQClientException e) {
-            assertThat(e).hasMessageContaining("No route info of this topic");
+            Assertions.assertEquals(e).hasMessageContaining("No route info of this topic");
         }
     }
 
@@ -153,9 +154,9 @@ public class DefaultMQProducerTest {
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         SendResult sendResult = producer.send(message);
 
-        assertThat(sendResult.getSendStatus()).isEqualTo(SendStatus.SEND_OK);
-        assertThat(sendResult.getOffsetMsgId()).isEqualTo("123");
-        assertThat(sendResult.getQueueOffset()).isEqualTo(456L);
+        Assertions.assertEquals(sendResult.getSendStatus(),SendStatus.SEND_OK);
+        Assertions.assertEquals(sendResult.getOffsetMsgId(),"123");
+        Assertions.assertEquals(sendResult.getQueueOffset(),456L);
     }
 
     @Test
@@ -163,9 +164,9 @@ public class DefaultMQProducerTest {
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         SendResult sendResult = producer.send(bigMessage);
 
-        assertThat(sendResult.getSendStatus()).isEqualTo(SendStatus.SEND_OK);
-        assertThat(sendResult.getOffsetMsgId()).isEqualTo("123");
-        assertThat(sendResult.getQueueOffset()).isEqualTo(456L);
+        Assertions.assertEquals(sendResult.getSendStatus(),SendStatus.SEND_OK);
+        Assertions.assertEquals(sendResult.getOffsetMsgId(),"123");
+        Assertions.assertEquals(sendResult.getQueueOffset(),456L);
     }
 
     @Test
@@ -175,9 +176,9 @@ public class DefaultMQProducerTest {
         producer.send(message, new SendCallback() {
             @Override
             public void onSuccess(SendResult sendResult) {
-                assertThat(sendResult.getSendStatus()).isEqualTo(SendStatus.SEND_OK);
-                assertThat(sendResult.getOffsetMsgId()).isEqualTo("123");
-                assertThat(sendResult.getQueueOffset()).isEqualTo(456L);
+                Assertions.assertEquals(sendResult.getSendStatus(),SendStatus.SEND_OK);
+                Assertions.assertEquals(sendResult.getOffsetMsgId(),"123");
+                Assertions.assertEquals(sendResult.getQueueOffset(),456L);
                 countDownLatch.countDown();
             }
 
@@ -227,7 +228,7 @@ public class DefaultMQProducerTest {
         producer.send(message, sendCallback, 1000);
 
         countDownLatch.await(3000L, TimeUnit.MILLISECONDS);
-        assertThat(cc.get()).isEqualTo(5);
+        Assertions.assertEquals(cc.get(),5);
     }
     
     @Test
@@ -272,7 +273,7 @@ public class DefaultMQProducerTest {
         producer.send(msgs, new MessageQueue(), sendCallback, 1000);
 
         countDownLatch.await(3000L, TimeUnit.MILLISECONDS);
-        assertThat(cc.get()).isEqualTo(1);
+        Assertions.assertEquals(cc.get(),1);
     }
 
     @Test
@@ -282,9 +283,9 @@ public class DefaultMQProducerTest {
         producer.send(bigMessage, new SendCallback() {
             @Override
             public void onSuccess(SendResult sendResult) {
-                assertThat(sendResult.getSendStatus()).isEqualTo(SendStatus.SEND_OK);
-                assertThat(sendResult.getOffsetMsgId()).isEqualTo("123");
-                assertThat(sendResult.getQueueOffset()).isEqualTo(456L);
+                Assertions.assertEquals(sendResult.getSendStatus(),SendStatus.SEND_OK);
+                Assertions.assertEquals(sendResult.getOffsetMsgId(),"123");
+                Assertions.assertEquals(sendResult.getQueueOffset(),456L);
                 countDownLatch.countDown();
             }
 
@@ -311,10 +312,10 @@ public class DefaultMQProducerTest {
                 assertionErrors[0] = assertInOtherThread(new Runnable() {
                     @Override
                     public void run() {
-                        assertThat(context.getMessage()).isEqualTo(message);
-                        assertThat(context.getProducer()).isEqualTo(producer);
-                        assertThat(context.getCommunicationMode()).isEqualTo(CommunicationMode.SYNC);
-                        assertThat(context.getSendResult()).isNull();
+                        Assertions.assertEquals(context.getMessage(),message);
+                        Assertions.assertEquals(context.getProducer(),producer);
+                        Assertions.assertEquals(context.getCommunicationMode(),CommunicationMode.SYNC);
+                        Assertions.assertNull(context.getSendResult());
                     }
                 });
                 countDownLatch.countDown();
@@ -325,10 +326,10 @@ public class DefaultMQProducerTest {
                 assertionErrors[0] = assertInOtherThread(new Runnable() {
                     @Override
                     public void run() {
-                        assertThat(context.getMessage()).isEqualTo(message);
-                        assertThat(context.getProducer()).isEqualTo(producer.getDefaultMQProducerImpl());
-                        assertThat(context.getCommunicationMode()).isEqualTo(CommunicationMode.SYNC);
-                        assertThat(context.getSendResult()).isNotNull();
+                        Assertions.assertEquals(context.getMessage(),message);
+                        Assertions.assertEquals(context.getProducer(),producer.getDefaultMQProducerImpl());
+                        Assertions.assertEquals(context.getCommunicationMode(),CommunicationMode.SYNC);
+                        Assertions.assertNotNull(context.getSendResult());
                     }
                 });
                 countDownLatch.countDown();
@@ -336,9 +337,9 @@ public class DefaultMQProducerTest {
         });
         SendResult sendResult = producer.send(message);
 
-        assertThat(sendResult.getSendStatus()).isEqualTo(SendStatus.SEND_OK);
-        assertThat(sendResult.getOffsetMsgId()).isEqualTo("123");
-        assertThat(sendResult.getQueueOffset()).isEqualTo(456L);
+        Assertions.assertEquals(sendResult.getSendStatus(),SendStatus.SEND_OK);
+        Assertions.assertEquals(sendResult.getOffsetMsgId(),"123");
+        Assertions.assertEquals(sendResult.getQueueOffset(),456L);
 
         countDownLatch.await();
 
@@ -360,7 +361,7 @@ public class DefaultMQProducerTest {
         NettyRemotingClient remotingClient = (NettyRemotingClient) producer.getDefaultMQProducerImpl()
             .getmQClientFactory().getMQClientAPIImpl().getRemotingClient();
 
-        assertThat(remotingClient.getCallbackExecutor()).isEqualTo(customized);
+        Assertions.assertEquals(remotingClient.getCallbackExecutor(),customized);
     }
 
     @Test
@@ -370,7 +371,7 @@ public class DefaultMQProducerTest {
         new Thread(new Runnable() {
             @Override public void run() {
                 ConcurrentHashMap<String, RequestResponseFuture> responseMap = RequestFutureHolder.getInstance().getRequestFutureTable();
-                assertThat(responseMap).isNotNull();
+                Assertions.assertNotNull(responseMap);
                 while (!finish.get()) {
                     try {
                         Thread.sleep(10);
@@ -385,14 +386,16 @@ public class DefaultMQProducerTest {
         }).start();
         Message result = producer.request(message, 3 * 1000L);
         finish.getAndSet(true);
-        assertThat(result.getTopic()).isEqualTo("FooBar");
-        assertThat(result.getBody()).isEqualTo(new byte[] {'a'});
+        Assertions.assertEquals(result.getTopic(),"FooBar");
+        Assertions.assertEquals(result.getBody(),new byte[] {'a'});
     }
 
-    @Test(expected = RequestTimeoutException.class)
+    @Test
     public void testRequestMessage_RequestTimeoutException() throws RemotingException, RequestTimeoutException, MQClientException, InterruptedException, MQBrokerException {
-        when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
-        Message result = producer.request(message, 3 * 1000L);
+        Assertions.assertThrowsExactly(RequestTimeoutException.class,()->{
+            when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
+            Message result = producer.request(message, 3 * 1000L);
+        });
     }
 
     @Test
@@ -401,9 +404,9 @@ public class DefaultMQProducerTest {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         RequestCallback requestCallback = new RequestCallback() {
             @Override public void onSuccess(Message message) {
-                assertThat(message.getTopic()).isEqualTo("FooBar");
-                assertThat(message.getBody()).isEqualTo(new byte[] {'a'});
-                assertThat(message.getFlag()).isEqualTo(1);
+                Assertions.assertEquals(message.getTopic(),"FooBar");
+                Assertions.assertEquals(message.getBody(),new byte[] {'a'});
+                Assertions.assertEquals(message.getFlag(),1);
                 countDownLatch.countDown();
             }
 
@@ -412,7 +415,7 @@ public class DefaultMQProducerTest {
         };
         producer.request(message, requestCallback, 3 * 1000L);
         ConcurrentHashMap<String, RequestResponseFuture> responseMap = RequestFutureHolder.getInstance().getRequestFutureTable();
-        assertThat(responseMap).isNotNull();
+        Assertions.assertNotNull(responseMap);
         for (Map.Entry<String, RequestResponseFuture> entry : responseMap.entrySet()) {
             RequestResponseFuture future = entry.getValue();
             future.setSendRequestOk(true);
@@ -448,14 +451,14 @@ public class DefaultMQProducerTest {
             failBecauseExceptionWasNotThrown(Exception.class);
         } catch (Exception e) {
             ConcurrentHashMap<String, RequestResponseFuture> responseMap = RequestFutureHolder.getInstance().getRequestFutureTable();
-            assertThat(responseMap).isNotNull();
+            Assertions.assertNotNull(responseMap);
             for (Map.Entry<String, RequestResponseFuture> entry : responseMap.entrySet()) {
                 RequestResponseFuture future = entry.getValue();
                 future.getRequestCallback().onException(e);
             }
         }
         countDownLatch.await(3000L, TimeUnit.MILLISECONDS);
-        assertThat(cc.get()).isEqualTo(1);
+        Assertions.assertEquals(cc.get(),1);
     }
 
     public static TopicRouteData createTopicRoute() {

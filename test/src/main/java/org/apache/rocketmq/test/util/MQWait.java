@@ -23,7 +23,7 @@ import java.util.Collections;
 import org.apache.log4j.Logger;
 import org.apache.rocketmq.test.listener.AbstractListener;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class MQWait {
     private static Logger logger = Logger.getLogger(MQWait.class);
@@ -47,7 +47,7 @@ public class MQWait {
                 }
 
                 try {
-                    assertThat(noDupMsgs).containsAllIn(allSendMsgs);
+                    Assertions(noDupMsgs).containsAllIn(allSendMsgs);
                     recvAll = true;
                     break;
                 } catch (Throwable e) {
@@ -82,7 +82,7 @@ public class MQWait {
         MQWait.setCondition(new Condition() {
             int i = 0;
 
-            public boolean meetCondition() {
+            @Override public boolean meetCondition() {
                 i++;
                 return i == 100;
             }

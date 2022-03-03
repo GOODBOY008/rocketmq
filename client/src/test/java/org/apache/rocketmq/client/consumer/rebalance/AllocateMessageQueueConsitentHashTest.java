@@ -24,16 +24,16 @@ import java.util.Random;
 import java.util.TreeMap;
 import org.apache.rocketmq.client.consumer.AllocateMessageQueueStrategy;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AllocateMessageQueueConsitentHashTest {
 
     private String topic;
     private static final String CID_PREFIX = "CID-";
 
-    @Before
+    @BeforeEach
     public void init() {
         topic = "topic_test";
     }
@@ -55,28 +55,34 @@ public class AllocateMessageQueueConsitentHashTest {
         List<MessageQueue> messageQueueList = createMessageQueueList(6);
         List<MessageQueue> result = new AllocateMessageQueueConsistentHash().allocate("", currentCID, messageQueueList, consumerIdList);
         printMessageQueue(result, "testCurrentCIDNotExists");
-        Assert.assertEquals(result.size(), 0);
+        Assertions.assertEquals(result.size(), 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCurrentCIDIllegalArgument() {
-        List<String> consumerIdList = createConsumerIdList(2);
-        List<MessageQueue> messageQueueList = createMessageQueueList(6);
-        new AllocateMessageQueueConsistentHash().allocate("", "", messageQueueList, consumerIdList);
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
+            List<String> consumerIdList = createConsumerIdList(2);
+            List<MessageQueue> messageQueueList = createMessageQueueList(6);
+            new AllocateMessageQueueConsistentHash().allocate("", "", messageQueueList, consumerIdList);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testMessageQueueIllegalArgument() {
-        String currentCID = "0";
-        List<String> consumerIdList = createConsumerIdList(2);
-        new AllocateMessageQueueConsistentHash().allocate("", currentCID, null, consumerIdList);
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
+            String currentCID = "0";
+            List<String> consumerIdList = createConsumerIdList(2);
+            new AllocateMessageQueueConsistentHash().allocate("", currentCID, null, consumerIdList);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConsumerIdIllegalArgument() {
-        String currentCID = "0";
-        List<MessageQueue> messageQueueList = createMessageQueueList(6);
-        new AllocateMessageQueueConsistentHash().allocate("", currentCID, messageQueueList, null);
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
+            String currentCID = "0";
+            List<MessageQueue> messageQueueList = createMessageQueueList(6);
+            new AllocateMessageQueueConsistentHash().allocate("", currentCID, messageQueueList, null);
+        });
     }
 
     @Test
@@ -127,7 +133,7 @@ public class AllocateMessageQueueConsitentHashTest {
                 //System.out.println("rs[" + cid + "]:" + rs.toString());
             }
 
-            Assert.assertTrue(
+            Assertions.assertTrue(
                 verifyAllocateAll(cidBegin, mqAll, allocatedResAll));
         }
 
@@ -157,7 +163,7 @@ public class AllocateMessageQueueConsitentHashTest {
                 //System.out.println("rs[" + cid + "]:" + "[" + rs.size() + "]" + rs.toString());
             }
 
-            Assert.assertTrue("queueSize" + queueSize + "consumerSize:" + consumerSize + "\nmqAll:" + mqAll + "\nallocatedResAllAfterRemove" + allocatedResAllAfterRemove,
+            Assertions.assertTrue("queueSize" + queueSize + "consumerSize:" + consumerSize + "\nmqAll:" + mqAll + "\nallocatedResAllAfterRemove" + allocatedResAllAfterRemove,
                 verifyAllocateAll(cidAfterRemoveOne, mqAll, allocatedResAllAfterRemove));
             verifyAfterRemove(allocateToAllOrigin, allocateToAllAfterRemoveOne, removeCID);
         }
@@ -184,7 +190,7 @@ public class AllocateMessageQueueConsitentHashTest {
                 //System.out.println("rs[" + cid + "]:" + "[" + rs.size() + "]" + rs.toString());
             }
 
-            Assert.assertTrue(
+            Assertions.assertTrue(
                 verifyAllocateAll(cidAfterAdd, mqAll, allocatedResAllAfterAdd));
             verifyAfterAdd(allocateToAllAfterRemoveOne, allocateToAll3, newCid);
         }
@@ -205,7 +211,7 @@ public class AllocateMessageQueueConsitentHashTest {
             if (allocateToOrigin.equals(removeCID)) {
 
             } else {//the rest queue should be the same
-                Assert.assertTrue(allocateAfter.get(mq).equals(allocateToOrigin));//should be the same
+                Assertions.assertTrue(allocateAfter.get(mq).equals(allocateToOrigin));//should be the same
             }
         }
     }
@@ -218,7 +224,7 @@ public class AllocateMessageQueueConsitentHashTest {
             if (allocateToAfter.equals(newCID)) {
 
             } else {//the rest queue should be the same
-                Assert.assertTrue("it was allocated to " + allocateToOrigin + ". Now, it is to " + allocateAfter.get(mq) + " mq:" + mq, allocateAfter.get(mq).equals(allocateToOrigin));//should be the same
+                Assertions.assertTrue("it was allocated to " + allocateToOrigin + ". Now, it is to " + allocateAfter.get(mq) + " mq:" + mq, allocateAfter.get(mq).equals(allocateToOrigin));//should be the same
             }
         }
     }

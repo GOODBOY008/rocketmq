@@ -52,17 +52,18 @@ import org.apache.rocketmq.common.protocol.route.QueueData;
 import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 import org.apache.rocketmq.common.topic.TopicValidator;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -71,7 +72,7 @@ import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class TransactionMQProducerWithTraceTest {
 
     @Spy
@@ -93,7 +94,7 @@ public class TransactionMQProducerWithTraceTest {
     private String producerGroupTraceTemp = TopicValidator.RMQ_SYS_TRACE_TOPIC + System.currentTimeMillis();
     private String customerTraceTopic = "rmq_trace_topic_12345";
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         TransactionListener transactionListener = new TransactionListener() {
             @Override
@@ -159,14 +160,14 @@ public class TransactionMQProducerWithTraceTest {
         producer.sendMessageInTransaction(message, null);
 
         EndTransactionContext ctx = context.get();
-        assertThat(ctx.getProducerGroup()).isEqualTo(producerGroupTemp);
-        assertThat(ctx.getMsgId()).isEqualTo("123");
-        assertThat(ctx.isFromTransactionCheck()).isFalse();
-        assertThat(new String(ctx.getMessage().getBody())).isEqualTo(new String(message.getBody()));
-        assertThat(ctx.getMessage().getTopic()).isEqualTo(topic);
+        Assertions.assertEquals(ctx.getProducerGroup(),producerGroupTemp);
+        Assertions.assertEquals(ctx.getMsgId(),"123");
+        Assertions.assertFalse(ctx.isFromTransactionCheck());
+        Assertions.assertEquals(new String(ctx.getMessage().getBody()),new String(message.getBody()));
+        Assertions.assertEquals(ctx.getMessage().getTopic(),topic);
     }
 
-    @After
+    @AfterEach
     public void terminate() {
         producer.shutdown();
     }

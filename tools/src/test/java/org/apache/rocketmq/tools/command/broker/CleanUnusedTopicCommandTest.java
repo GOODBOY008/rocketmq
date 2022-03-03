@@ -22,7 +22,7 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.rocketmq.srvutil.ServerUtil;
 import org.apache.rocketmq.tools.command.SubCommandException;
 import org.apache.rocketmq.tools.command.server.ServerResponseMocker;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CleanUnusedTopicCommandTest extends ServerResponseMocker {
 

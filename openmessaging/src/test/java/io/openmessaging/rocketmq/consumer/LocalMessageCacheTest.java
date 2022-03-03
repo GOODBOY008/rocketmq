@@ -22,18 +22,19 @@ import io.openmessaging.rocketmq.domain.NonStandardKeys;
 import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class LocalMessageCacheTest {
     private LocalMessageCache localMessageCache;
     @Mock
@@ -41,7 +42,7 @@ public class LocalMessageCacheTest {
     @Mock
     private ConsumeRequest consumeRequest;
 
-    @Before
+    @BeforeEach
     public void init() {
         ClientConfig clientConfig = new ClientConfig();
         clientConfig.setRmqPullMessageBatchNums(512);
@@ -51,11 +52,11 @@ public class LocalMessageCacheTest {
 
     @Test
     public void testNextPullBatchNums() throws Exception {
-        assertThat(localMessageCache.nextPullBatchNums()).isEqualTo(512);
+        Assertions.assertEquals(localMessageCache.nextPullBatchNums(),512);
         for (int i = 0; i < 513; i++) {
             localMessageCache.submitConsumeRequest(consumeRequest);
         }
-        assertThat(localMessageCache.nextPullBatchNums()).isEqualTo(511);
+        Assertions.assertEquals(localMessageCache.nextPullBatchNums(),511);
     }
 
     @Test
@@ -63,14 +64,14 @@ public class LocalMessageCacheTest {
         MessageQueue messageQueue = new MessageQueue();
         when(rocketmqPullConsume.fetchConsumeOffset(any(MessageQueue.class), anyBoolean()))
             .thenReturn(123L);
-        assertThat(localMessageCache.nextPullOffset(new MessageQueue())).isEqualTo(123L);
+        Assertions.assertEquals(localMessageCache.nextPullOffset(new MessageQueue()),123L);
     }
 
     @Test
     public void testUpdatePullOffset() throws Exception {
         MessageQueue messageQueue = new MessageQueue();
         localMessageCache.updatePullOffset(messageQueue, 124L);
-        assertThat(localMessageCache.nextPullOffset(messageQueue)).isEqualTo(124L);
+        Assertions.assertEquals(localMessageCache.nextPullOffset(messageQueue),124L);
     }
 
     @Test
@@ -84,6 +85,6 @@ public class LocalMessageCacheTest {
 
         when(consumeRequest.getMessageExt()).thenReturn(consumedMsg);
         localMessageCache.submitConsumeRequest(consumeRequest);
-        assertThat(localMessageCache.poll()).isEqualTo(consumedMsg);
+        Assertions.assertEquals(localMessageCache.poll(),consumedMsg);
     }
 }

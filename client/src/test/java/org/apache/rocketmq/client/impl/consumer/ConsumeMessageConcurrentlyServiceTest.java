@@ -52,16 +52,16 @@ import org.apache.rocketmq.common.stats.StatsItem;
 import org.apache.rocketmq.common.stats.StatsItemSet;
 import org.apache.rocketmq.remoting.RPCHook;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -71,7 +71,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class ConsumeMessageConcurrentlyServiceTest {
     private String consumerGroup;
     private String topic = "FooBar";
@@ -84,7 +84,7 @@ public class ConsumeMessageConcurrentlyServiceTest {
     private RebalancePushImpl rebalancePushImpl;
     private DefaultMQPushConsumer pushConsumer;
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         ConcurrentMap<String, MQClientInstance> factoryTable = (ConcurrentMap<String, MQClientInstance>) FieldUtils.readDeclaredField(MQClientManager.getInstance(), "factoryTable", true);
         Collection<MQClientInstance> instances = factoryTable.values();
@@ -193,14 +193,14 @@ public class ConsumeMessageConcurrentlyServiceTest {
         StatsItemSet itemSet = (StatsItemSet)statItmeSetField.get(mgr);
         StatsItem item = itemSet.getAndCreateStatsItem(topic + "@" + pushConsumer.getDefaultMQPushConsumerImpl().groupName());
 
-        assertThat(item.getValue().sum()).isGreaterThan(0L);
+        Assertions.assertEquals(item.getValue().sum()).isGreaterThan(0L);
         MessageExt msg = messageAtomic.get();
-        assertThat(msg).isNotNull();
-        assertThat(msg.getTopic()).isEqualTo(topic);
-        assertThat(msg.getBody()).isEqualTo(new byte[] {'a'});
+        Assertions.assertNotNull(msg);
+        Assertions.assertEquals(msg.getTopic(),topic);
+        Assertions.assertEquals(msg.getBody(),new byte[] {'a'});
     }
 
-    @After
+    @AfterEach
     public void terminate() {
         pushConsumer.shutdown();
     }
@@ -258,9 +258,9 @@ public class ConsumeMessageConcurrentlyServiceTest {
         countDownLatch.await();
         System.out.println(consumeThreadName.get());
         if (consumeGroup2.length() <= 100) {
-            assertThat(consumeThreadName.get()).startsWith("ConsumeMessageThread_" + consumeGroup2 + "_");
+            Assertions.assertEquals(consumeThreadName.get()).startsWith("ConsumeMessageThread_" + consumeGroup2 + "_");
         } else {
-            assertThat(consumeThreadName.get()).startsWith("ConsumeMessageThread_" + consumeGroup2.substring(0, 100) + "_");
+            Assertions.assertEquals(consumeThreadName.get()).startsWith("ConsumeMessageThread_" + consumeGroup2.substring(0, 100) + "_");
         }
     }
 }

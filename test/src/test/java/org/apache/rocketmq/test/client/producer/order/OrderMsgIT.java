@@ -27,11 +27,11 @@ import org.apache.rocketmq.test.factory.MQMessageFactory;
 import org.apache.rocketmq.test.listener.rmq.order.RMQOrderListener;
 import org.apache.rocketmq.test.message.MessageQueueMsg;
 import org.apache.rocketmq.test.util.VerifyUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class OrderMsgIT extends BaseConf {
     private static Logger logger = Logger.getLogger(OrderMsgIT.class);
@@ -39,7 +39,7 @@ public class OrderMsgIT extends BaseConf {
     private RMQNormalConsumer consumer = null;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("use topic: %s;", topic));
@@ -47,7 +47,7 @@ public class OrderMsgIT extends BaseConf {
         consumer = getConsumer(nsAddr, topic, "*", new RMQOrderListener());
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         shutdown();
     }
@@ -61,11 +61,11 @@ public class OrderMsgIT extends BaseConf {
 
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(mqMsgs.getMsgBodys());
 
-        assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
+        Assertions.assertEquals(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
             .isEqualTo(true);
     }
 
@@ -79,11 +79,11 @@ public class OrderMsgIT extends BaseConf {
 
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(mqMsgs.getMsgBodys());
 
-        assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
+        Assertions.assertEquals(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
             .isEqualTo(true);
     }
 
@@ -98,11 +98,11 @@ public class OrderMsgIT extends BaseConf {
 
         consumer.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(mqMsgs.getMsgBodys());
 
-        assertThat(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
+        Assertions.assertEquals(VerifyUtils.verifyOrder(((RMQOrderListener) consumer.getListener()).getMsgs()))
             .isEqualTo(true);
     }
 }

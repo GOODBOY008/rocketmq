@@ -69,17 +69,17 @@ import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 import org.apache.rocketmq.common.topic.TopicValidator;
 import org.apache.rocketmq.remoting.RPCHook;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -89,7 +89,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultMQConsumerWithTraceTest {
     private String consumerGroup;
     private String consumerGroupNormal;
@@ -114,7 +114,7 @@ public class DefaultMQConsumerWithTraceTest {
     private DefaultMQProducer traceProducer;
     private String customerTraceTopic = "rmq_trace_topic_12345";
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         ConcurrentMap<String, MQClientInstance> factoryTable = (ConcurrentMap<String, MQClientInstance>) FieldUtils.readDeclaredField(MQClientManager.getInstance(), "factoryTable", true);
         for (Map.Entry<String, MQClientInstance> entry : factoryTable.entrySet()) {
@@ -210,7 +210,7 @@ public class DefaultMQConsumerWithTraceTest {
         pushConsumer.getDefaultMQPushConsumerImpl().updateTopicSubscribeInfo(topic, messageQueueSet);
     }
 
-    @After
+    @AfterEach
     public void terminate() {
         pushConsumer.shutdown();
     }
@@ -235,9 +235,9 @@ public class DefaultMQConsumerWithTraceTest {
         pullMessageService.executePullRequestImmediately(createPullRequest());
         countDownLatch.await(30, TimeUnit.SECONDS);
         MessageExt msg = messageAtomic.get();
-        assertThat(msg).isNotNull();
-        assertThat(msg.getTopic()).isEqualTo(topic);
-        assertThat(msg.getBody()).isEqualTo(new byte[] {'a'});
+        Assertions.assertNotNull(msg);
+        Assertions.assertEquals(msg.getTopic(),topic);
+        Assertions.assertEquals(msg.getBody(),new byte[] {'a'});
     }
     
     @Test
@@ -245,7 +245,7 @@ public class DefaultMQConsumerWithTraceTest {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("consumerGroup", true);
         consumer.setUseTLS(true);
         AsyncTraceDispatcher asyncTraceDispatcher = (AsyncTraceDispatcher) consumer.getTraceDispatcher();
-        Assert.assertTrue(asyncTraceDispatcher.getTraceProducer().isUseTLS());
+        Assertions.assertTrue(asyncTraceDispatcher.getTraceProducer().isUseTLS());
     }
 
     private PullRequest createPullRequest() {

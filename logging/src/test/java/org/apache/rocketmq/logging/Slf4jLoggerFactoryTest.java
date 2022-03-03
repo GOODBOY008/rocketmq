@@ -20,9 +20,9 @@ package org.apache.rocketmq.logging;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.Context;
 import ch.qos.logback.core.joran.spi.JoranException;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ public class Slf4jLoggerFactoryTest extends BasicLoggerTest {
 
     public static final String LOGGER = "Slf4jTestLogger";
 
-    @Before
+    @BeforeEach
     public void initLogback() throws JoranException {
         InternalLoggerFactory.setCurrentLoggerType(InternalLoggerFactory.LOGGER_SLF4J);
         System.setProperty("loggingDir", loggingDir);
@@ -52,7 +52,7 @@ public class Slf4jLoggerFactoryTest extends BasicLoggerTest {
     public void testSlf4j() throws IOException {
         InternalLogger logger1 = Slf4jLoggerFactory.getLogger(LOGGER);
         InternalLogger logger = InternalLoggerFactory.getLogger(LOGGER);
-        Assert.assertTrue(logger.getName().equals(logger1.getName()));
+        Assertions.assertTrue(logger.getName().equals(logger1.getName()));
         InternalLogger logger2 = Slf4jLoggerFactory.getLogger(Slf4jLoggerFactoryTest.class);
         Slf4jLoggerFactory.Slf4jLogger logger3 = (Slf4jLoggerFactory.Slf4jLogger) logger2;
 
@@ -71,10 +71,10 @@ public class Slf4jLoggerFactoryTest extends BasicLoggerTest {
         String content = readFile(file);
         System.out.println(content);
 
-        Assert.assertTrue(content.contains("Slf4jLoggerFactoryTest"));
-        Assert.assertTrue(content.contains("info"));
-        Assert.assertTrue(content.contains("RuntimeException"));
-        Assert.assertTrue(!content.contains("debug"));
+        Assertions.assertTrue(content.contains("Slf4jLoggerFactoryTest"));
+        Assertions.assertTrue(content.contains("info"));
+        Assertions.assertTrue(content.contains("RuntimeException"));
+        Assertions.assertTrue(!content.contains("debug"));
     }
 
 }

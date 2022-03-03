@@ -31,24 +31,24 @@ import org.apache.rocketmq.test.factory.ProducerFactory;
 import org.apache.rocketmq.test.factory.SendCallBackFactory;
 import org.apache.rocketmq.test.util.RandomUtils;
 import org.apache.rocketmq.test.util.TestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class AsyncSendExceptionIT extends BaseConf {
     private static Logger logger = Logger.getLogger(TagMessageWith1ConsumerIT.class);
     private static boolean sendFail = false;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("user topic[%s]!", topic));
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -115,7 +115,7 @@ public class AsyncSendExceptionIT extends BaseConf {
             TestUtils.waitForMoment(100);
         }
         producer.shutdown();
-        assertThat(sendFail).isEqualTo(true);
+        Assertions.assertEquals(sendFail,true);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class AsyncSendExceptionIT extends BaseConf {
             TestUtils.waitForMoment(100);
         }
         producer.shutdown();
-        assertThat(sendFail).isEqualTo(false);
+        Assertions.assertEquals(sendFail,false);
     }
 
 }

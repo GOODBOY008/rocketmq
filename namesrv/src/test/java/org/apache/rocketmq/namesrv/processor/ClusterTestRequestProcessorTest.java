@@ -39,11 +39,12 @@ import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExt;
 import org.apache.rocketmq.tools.admin.DefaultMQAdminExtImpl;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -56,7 +57,7 @@ public class ClusterTestRequestProcessorTest {
     private MQClientAPIImpl mQClientAPIImpl;
     private ChannelHandlerContext ctx;
 
-    @Before
+    @BeforeEach
     public void init() throws NoSuchFieldException, IllegalAccessException, RemotingException, MQClientException, InterruptedException {
         NamesrvController namesrvController = new NamesrvController(
             new NamesrvConfig(),
@@ -92,7 +93,7 @@ public class ClusterTestRequestProcessorTest {
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(topicRouteData);
     }
 
-    @After
+    @AfterEach
     public void terminate() {
     }
 
@@ -105,9 +106,9 @@ public class ClusterTestRequestProcessorTest {
             }
         });
         RemotingCommand remoting = clusterTestProcessor.getRouteInfoByTopic(ctx, request);
-        assertThat(remoting.getCode()).isEqualTo(ResponseCode.TOPIC_NOT_EXIST);
-        assertThat(remoting.getBody()).isNull();
-        assertThat(remoting.getRemark()).isNotNull();
+        Assertions.assertEquals(remoting.getCode(),ResponseCode.TOPIC_NOT_EXIST);
+        Assertions.assertNull(remoting.getBody());
+        Assertions.assertNotNull(remoting.getRemark());
     }
 
 }

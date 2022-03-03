@@ -17,26 +17,26 @@
 
 package org.apache.rocketmq.broker;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Assertions;
 
 public class BrokerPathConfigHelperTest {
 
     @Test
     public void testGetLmqConsumerOffsetPath() {
         String lmqConsumerOffsetPath = BrokerPathConfigHelper.getLmqConsumerOffsetPath("/home/admin/store");
-        assertEquals("/home/admin/store/config/lmqConsumerOffset.json", lmqConsumerOffsetPath);
+        Assertions.assertEquals("/home/admin/store/config/lmqConsumerOffset.json", lmqConsumerOffsetPath);
 
 
         String consumerOffsetPath = BrokerPathConfigHelper.getConsumerOffsetPath("/home/admin/store");
-        assertEquals("/home/admin/store/config/consumerOffset.json", consumerOffsetPath);
+        Assertions.assertEquals("/home/admin/store/config/consumerOffset.json", consumerOffsetPath);
 
         String topicConfigPath = BrokerPathConfigHelper.getTopicConfigPath("/home/admin/store");
-        assertEquals("/home/admin/store/config/topics.json", topicConfigPath);
+        Assertions.assertEquals("/home/admin/store/config/topics.json", topicConfigPath);
 
         String subscriptionGroupPath = BrokerPathConfigHelper.getSubscriptionGroupPath("/home/admin/store");
-        assertEquals("/home/admin/store/config/subscriptionGroup.json", subscriptionGroupPath);
+        Assertions.assertEquals("/home/admin/store/config/subscriptionGroup.json", subscriptionGroupPath);
 
     }
 }

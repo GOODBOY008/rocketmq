@@ -17,10 +17,10 @@
 
 package org.apache.rocketmq.store.ha;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assertions.*;
 
 public class WaitNotifyObjectTest {
     @Test
@@ -37,7 +37,7 @@ public class WaitNotifyObjectTest {
             t.start();
             t.join();
         }
-        Assert.assertEquals(0, waitNotifyObject.waitingThreadTable.size());
+        Assertions.assertEquals(0, waitNotifyObject.waitingThreadTable.size());
     }
 
 }

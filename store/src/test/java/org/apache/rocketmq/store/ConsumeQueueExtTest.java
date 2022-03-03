@@ -18,13 +18,14 @@
 package org.apache.rocketmq.store;
 
 import org.apache.rocketmq.common.UtilAll;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.Random;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ConsumeQueueExtTest {
 
@@ -70,20 +71,20 @@ public class ConsumeQueueExtTest {
                 unitSameSize ? genUnit(true) : genUnit(i % 2 == 0);
 
             long addr = consumeQueueExt.put(putUnit);
-            assertThat(addr).isLessThan(0);
+            Assertions.assertEquals(addr).isLessThan(0);
 
             if (getAfterPut) {
                 ConsumeQueueExt.CqExtUnit getUnit = consumeQueueExt.get(addr);
 
-                assertThat(getUnit).isNotNull();
-                assertThat(putUnit).isEqualTo(getUnit);
+                Assertions.assertNotNull(getUnit);
+                Assertions.assertEquals(putUnit,getUnit);
             }
 
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                assertThat(false).isTrue();
+                Assertions.assertTrue(false);
             }
         }
     }
@@ -118,7 +119,7 @@ public class ConsumeQueueExtTest {
                     break;
                 }
 
-                assertThat(unit.getSize()).isGreaterThanOrEqualTo(ConsumeQueueExt.CqExtUnit.MIN_EXT_UNIT_SIZE);
+                Assertions.assertEquals(unit.getSize()).isGreaterThanOrEqualTo(ConsumeQueueExt.CqExtUnit.MIN_EXT_UNIT_SIZE);
 
                 addr += unit.getSize();
             }
@@ -137,13 +138,13 @@ public class ConsumeQueueExtTest {
         try {
             ConsumeQueueExt.CqExtUnit unit = consumeQueueExt.get(0);
 
-            assertThat(unit).isNull();
+            Assertions.assertNull(unit);
 
             long addr = (cqExtFileSize / unitSizeWithBitMap) * unitSizeWithBitMap;
             addr += unitSizeWithBitMap;
 
             unit = consumeQueueExt.get(addr);
-            assertThat(unit).isNull();
+            Assertions.assertNull(unit);
         } finally {
             consumeQueueExt.destroy();
             UtilAll.deleteFile(new File(storePath));
@@ -163,7 +164,7 @@ public class ConsumeQueueExtTest {
         loadCqExt.recover();
 
         try {
-            assertThat(loadCqExt.getMinAddress()).isEqualTo(Long.MIN_VALUE);
+            Assertions.assertEquals(loadCqExt.getMinAddress(),Long.MIN_VALUE);
 
             // same unit size.
             int countPerFile = (cqExtFileSize - ConsumeQueueExt.END_BLANK_DATA_LENGTH) / unitSizeWithBitMap;
@@ -176,9 +177,9 @@ public class ConsumeQueueExtTest {
             }
 
             if (lastFileUnitCount == 0) {
-                assertThat(loadCqExt.unDecorate(loadCqExt.getMaxAddress()) % cqExtFileSize).isEqualTo(0);
+                Assertions.assertEquals(loadCqExt.unDecorate(loadCqExt.getMaxAddress()) % cqExtFileSize,0);
             } else {
-                assertThat(loadCqExt.unDecorate(loadCqExt.getMaxAddress()))
+                Assertions.assertEquals(loadCqExt.unDecorate(loadCqExt.getMaxAddress()))
                     .isEqualTo(lastFileUnitCount * unitSizeWithBitMap + (fileCount - 1) * cqExtFileSize);
             }
         } finally {
@@ -204,7 +205,7 @@ public class ConsumeQueueExtTest {
 
             long minAddress = consumeQueueExt.getMinAddress();
 
-            assertThat(expectMinAddress).isEqualTo(minAddress);
+            Assertions.assertEquals(expectMinAddress,minAddress);
         } finally {
             consumeQueueExt.destroy();
             UtilAll.deleteFile(new File(storePath));
@@ -227,14 +228,14 @@ public class ConsumeQueueExtTest {
 
             long maxAddress = consumeQueueExt.getMaxAddress();
 
-            assertThat(expectMaxAddress).isEqualTo(maxAddress);
+            Assertions.assertEquals(expectMaxAddress,maxAddress);
         } finally {
             consumeQueueExt.destroy();
             UtilAll.deleteFile(new File(storePath));
         }
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         UtilAll.deleteFile(new File(storePath));
     }

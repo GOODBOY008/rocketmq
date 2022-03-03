@@ -66,9 +66,10 @@ import org.apache.rocketmq.store.SelectMappedBufferResult;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.schedule.ScheduleMessageService;
 import org.apache.rocketmq.store.stats.BrokerStats;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -80,7 +81,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -88,7 +89,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class AdminBrokerProcessorTest {
 
     private AdminBrokerProcessor adminBrokerProcessor;
@@ -123,7 +124,7 @@ public class AdminBrokerProcessorTest {
     @Mock
     private ScheduleMessageService scheduleMessageService;
 
-    @Before
+    @BeforeEach
     public void init() {
         brokerController.setMessageStore(messageStore);
         adminBrokerProcessor = new AdminBrokerProcessor(brokerController);
@@ -148,7 +149,7 @@ public class AdminBrokerProcessorTest {
         when(messageStore.putMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
                 (PutMessageStatus.PUT_OK, new AppendMessageResult(AppendMessageStatus.PUT_OK)));
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -158,7 +159,7 @@ public class AdminBrokerProcessorTest {
         when(messageStore.putMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
                 (PutMessageStatus.UNKNOWN_ERROR, new AppendMessageResult(AppendMessageStatus.UNKNOWN_ERROR)));
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SYSTEM_ERROR);
     }
 
     @Test
@@ -167,20 +168,20 @@ public class AdminBrokerProcessorTest {
         for (String topic : systemTopicSet) {
             RemotingCommand request = buildCreateTopicRequest(topic);
             RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-            assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
-            assertThat(response.getRemark()).isEqualTo("The topic[" + topic + "] is conflict with system topic.");
+            Assertions.assertEquals(response.getCode(),ResponseCode.SYSTEM_ERROR);
+            Assertions.assertEquals(response.getRemark(),"The topic[" + topic + "] is conflict with system topic.");
         }
 
         //test validate error topic
         String topic = "";
         RemotingCommand request = buildCreateTopicRequest(topic);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SYSTEM_ERROR);
 
         topic = "TEST_CREATE_TOPIC";
         request = buildCreateTopicRequest(topic);
         response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
 
     }
 
@@ -190,14 +191,14 @@ public class AdminBrokerProcessorTest {
         for (String topic : systemTopicSet) {
             RemotingCommand request = buildDeleteTopicRequest(topic);
             RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-            assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
-            assertThat(response.getRemark()).isEqualTo("The topic[" + topic + "] is conflict with system topic.");
+            Assertions.assertEquals(response.getCode(),ResponseCode.SYSTEM_ERROR);
+            Assertions.assertEquals(response.getRemark(),"The topic[" + topic + "] is conflict with system topic.");
         }
 
         String topic = "TEST_DELETE_TOPIC";
         RemotingCommand request = buildDeleteTopicRequest(topic);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -205,7 +206,7 @@ public class AdminBrokerProcessorTest {
         GetAllTopicConfigResponseHeader getAllTopicConfigResponseHeader = new GetAllTopicConfigResponseHeader();
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_ALL_TOPIC_CONFIG, getAllTopicConfigResponseHeader);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -220,14 +221,14 @@ public class AdminBrokerProcessorTest {
         bodyMap.put("key", "value");
         request.setBody(bodyMap.toString().getBytes());
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
     public void testGetBrokerConfig() throws Exception {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_BROKER_CONFIG, null);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -244,7 +245,7 @@ public class AdminBrokerProcessorTest {
         request.addExtField("queueId", "0");
         request.addExtField("timestamp", System.currentTimeMillis() + "");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -257,7 +258,7 @@ public class AdminBrokerProcessorTest {
         request.addExtField("topic", "topic");
         request.addExtField("queueId", "0");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -270,7 +271,7 @@ public class AdminBrokerProcessorTest {
         request.addExtField("topic", "topic");
         request.addExtField("queueId", "0");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -282,7 +283,7 @@ public class AdminBrokerProcessorTest {
         request.addExtField("topic", "topic");
         request.addExtField("queueId", "0");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -296,7 +297,7 @@ public class AdminBrokerProcessorTest {
         when(brokerStats.getMsgGetTotalTodayNow()).thenReturn(Long.MIN_VALUE);
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_BROKER_RUNTIME_INFO, null);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -307,7 +308,7 @@ public class AdminBrokerProcessorTest {
         lockBatchRequestBody.setConsumerGroup("group");
         request.setBody(JSON.toJSON(lockBatchRequestBody).toString().getBytes());
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -318,7 +319,7 @@ public class AdminBrokerProcessorTest {
         unlockBatchRequestBody.setConsumerGroup("group");
         request.setBody(JSON.toJSON(unlockBatchRequestBody).toString().getBytes());
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -333,14 +334,14 @@ public class AdminBrokerProcessorTest {
         subscriptionGroupConfig.setConsumeFromMinEnable(Boolean.TRUE);
         request.setBody(JSON.toJSON(subscriptionGroupConfig).toString().getBytes());
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
     public void testGetAllSubscriptionGroup() throws RemotingCommandException {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_ALL_SUBSCRIPTIONGROUP_CONFIG, null);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -349,7 +350,7 @@ public class AdminBrokerProcessorTest {
         request.addExtField("groupName", "GID-Group-Name");
         request.addExtField("removeOffset", "true");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -357,14 +358,14 @@ public class AdminBrokerProcessorTest {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_TOPIC_STATS_INFO, null);
         request.addExtField("topic", "topicTest");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.TOPIC_NOT_EXIST);
+        Assertions.assertEquals(response.getCode(),ResponseCode.TOPIC_NOT_EXIST);
         topicConfigManager = mock(TopicConfigManager.class);
         when(brokerController.getTopicConfigManager()).thenReturn(topicConfigManager);
         TopicConfig topicConfig = new TopicConfig();
         topicConfig.setTopicName("topicTest");
         when(topicConfigManager.selectTopicConfig(anyString())).thenReturn(topicConfig);
         RemotingCommand responseSuccess = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(responseSuccess.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(responseSuccess.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -376,7 +377,7 @@ public class AdminBrokerProcessorTest {
         ConsumerGroupInfo consumerGroupInfo = new ConsumerGroupInfo("GID-group-test", ConsumeType.CONSUME_ACTIVELY, MessageModel.CLUSTERING, ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         when(consumerManager.getConsumerGroupInfo(anyString())).thenReturn(consumerGroupInfo);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -384,7 +385,7 @@ public class AdminBrokerProcessorTest {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_PRODUCER_CONNECTION_LIST, null);
         request.addExtField("producerGroup", "ProducerGroupId");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SYSTEM_ERROR);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SYSTEM_ERROR);
     }
 
     @Test
@@ -393,7 +394,7 @@ public class AdminBrokerProcessorTest {
         request.addExtField("topic", "topicTest");
         request.addExtField("consumerGroup", "GID-test");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -404,7 +405,7 @@ public class AdminBrokerProcessorTest {
         when(consumerOffsetManager.encode()).thenReturn(JSON.toJSONString(consumerOffset, false));
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_ALL_CONSUMER_OFFSET, null);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -416,7 +417,7 @@ public class AdminBrokerProcessorTest {
         when(scheduleMessageService.encode()).thenReturn("content");
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_ALL_DELAY_OFFSET, null);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     private RemotingCommand buildCreateTopicRequest(String topic) {

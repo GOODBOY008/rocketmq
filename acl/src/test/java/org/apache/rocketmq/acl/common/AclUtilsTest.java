@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.remoting.RPCHook;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AclUtilsTest {
 
@@ -45,7 +45,7 @@ public class AclUtilsTest {
         addressList.add("1.1.1.2");
         addressList.add("1.1.1.3");
         addressList.add("1.1.1.4");
-        Assert.assertEquals(newAddressList, addressList);
+        Assertions.assertEquals(newAddressList, addressList);
 
 //        IPv6 test
         String ipv6Address = "1:ac41:9987::bb22:666:{1,2,3,4}";
@@ -60,7 +60,7 @@ public class AclUtilsTest {
         ipv6AddressList.add("1:ac41:9987::bb22:666:2");
         ipv6AddressList.add("1:ac41:9987::bb22:666:3");
         ipv6AddressList.add("1:ac41:9987::bb22:666:4");
-        Assert.assertEquals(newIPv6AddressList, ipv6AddressList);
+        Assertions.assertEquals(newIPv6AddressList, ipv6AddressList);
     }
 
     @Test
@@ -70,9 +70,9 @@ public class AclUtilsTest {
         for (int i = 0; i < 6; i++) {
             boolean isScope = AclUtils.isScope(address, 4);
             if (i == 3) {
-                Assert.assertTrue(isScope);
+                Assertions.assertTrue(isScope);
             } else {
-                Assert.assertFalse(isScope);
+                Assertions.assertFalse(isScope);
             }
             address = address + ".12";
         }
@@ -82,34 +82,34 @@ public class AclUtilsTest {
     public void isScopeArray() {
         String[] adderss = StringUtils.split("12.12.12.12", ".");
         boolean isScope = AclUtils.isScope(adderss, 4);
-        Assert.assertTrue(isScope);
+        Assertions.assertTrue(isScope);
         isScope = AclUtils.isScope(adderss, 3);
-        Assert.assertTrue(isScope);
+        Assertions.assertTrue(isScope);
 
         adderss = StringUtils.split("12.12.1222.1222", ".");
         isScope = AclUtils.isScope(adderss, 4);
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
         isScope = AclUtils.isScope(adderss, 3);
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
 
 //        IPv6 test
         adderss = StringUtils.split("1050:0000:0000:0000:0005:0600:300c:326b", ":");
         isScope = AclUtils.isIPv6Scope(adderss, 8);
-        Assert.assertTrue(isScope);
+        Assertions.assertTrue(isScope);
         isScope = AclUtils.isIPv6Scope(adderss, 4);
-        Assert.assertTrue(isScope);
+        Assertions.assertTrue(isScope);
 
         adderss = StringUtils.split("1050:9876:0000:0000:0005:akkg:300c:326b", ":");
         isScope = AclUtils.isIPv6Scope(adderss, 8);
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
         isScope = AclUtils.isIPv6Scope(adderss, 4);
-        Assert.assertTrue(isScope);
+        Assertions.assertTrue(isScope);
 
         adderss = StringUtils.split(AclUtils.expandIP("1050::0005:akkg:300c:326b", 8), ":");
         isScope = AclUtils.isIPv6Scope(adderss, 8);
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
         isScope = AclUtils.isIPv6Scope(adderss, 4);
-        Assert.assertTrue(isScope);
+        Assertions.assertTrue(isScope);
 
     }
 
@@ -117,99 +117,99 @@ public class AclUtilsTest {
     public void isScopeStringTest() {
         for (int i = 0; i < 256; i++) {
             boolean isScope = AclUtils.isScope(i + "");
-            Assert.assertTrue(isScope);
+            Assertions.assertTrue(isScope);
         }
         boolean isScope = AclUtils.isScope("-1");
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
         isScope = AclUtils.isScope("256");
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
     }
 
     @Test
     public void isScopeTest() {
         for (int i = 0; i < 256; i++) {
             boolean isScope = AclUtils.isScope(i);
-            Assert.assertTrue(isScope);
+            Assertions.assertTrue(isScope);
         }
         boolean isScope = AclUtils.isScope(-1);
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
         isScope = AclUtils.isScope(256);
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
 
         //        IPv6 test
         int min = Integer.parseInt("0", 16);
         int max = Integer.parseInt("ffff", 16);
         for (int i = min; i < max + 1; i++) {
             isScope = AclUtils.isIPv6Scope(i);
-            Assert.assertTrue(isScope);
+            Assertions.assertTrue(isScope);
         }
         isScope = AclUtils.isIPv6Scope(-1);
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
         isScope = AclUtils.isIPv6Scope(max + 1);
-        Assert.assertFalse(isScope);
+        Assertions.assertFalse(isScope);
 
     }
 
     @Test
     public void isAsteriskTest() {
         boolean isAsterisk = AclUtils.isAsterisk("*");
-        Assert.assertTrue(isAsterisk);
+        Assertions.assertTrue(isAsterisk);
 
         isAsterisk = AclUtils.isAsterisk(",");
-        Assert.assertFalse(isAsterisk);
+        Assertions.assertFalse(isAsterisk);
     }
 
     @Test
     public void isColonTest() {
         boolean isColon = AclUtils.isComma(",");
-        Assert.assertTrue(isColon);
+        Assertions.assertTrue(isColon);
 
         isColon = AclUtils.isComma("-");
-        Assert.assertFalse(isColon);
+        Assertions.assertFalse(isColon);
     }
 
     @Test
     public void isMinusTest() {
         boolean isMinus = AclUtils.isMinus("-");
-        Assert.assertTrue(isMinus);
+        Assertions.assertTrue(isMinus);
 
         isMinus = AclUtils.isMinus("*");
-        Assert.assertFalse(isMinus);
+        Assertions.assertFalse(isMinus);
     }
 
     @Test
     public void v6ipProcessTest() {
         String remoteAddr = "5::7:6:1-200:*";
         String[] strArray = StringUtils.split(remoteAddr, ":");
-        Assert.assertEquals(AclUtils.v6ipProcess(remoteAddr), "0005:0000:0000:0000:0007:0006");
-//        Assert.assertEquals(AclUtils.v6ipProcess(remoteAddr, strArray, 3), "0005:0000:0000:0000:0007:0006");
+        Assertions.assertEquals(AclUtils.v6ipProcess(remoteAddr), "0005:0000:0000:0000:0007:0006");
+//        Assertions.assertEquals(AclUtils.v6ipProcess(remoteAddr, strArray, 3), "0005:0000:0000:0000:0007:0006");
 
         remoteAddr = "5::7:6:1-200";
         strArray = StringUtils.split(remoteAddr, ":");
-        Assert.assertEquals(AclUtils.v6ipProcess(remoteAddr), "0005:0000:0000:0000:0000:0007:0006");
-//        Assert.assertEquals(AclUtils.v6ipProcess(remoteAddr, strArray, 3), "0005:0000:0000:0000:0000:0007:0006");
+        Assertions.assertEquals(AclUtils.v6ipProcess(remoteAddr), "0005:0000:0000:0000:0000:0007:0006");
+//        Assertions.assertEquals(AclUtils.v6ipProcess(remoteAddr, strArray, 3), "0005:0000:0000:0000:0000:0007:0006");
 
         remoteAddr = "5::7:6:*";
         strArray = StringUtils.split(remoteAddr, ":");
-        Assert.assertEquals(AclUtils.v6ipProcess(remoteAddr), "0005:0000:0000:0000:0000:0007:0006");
-//        Assert.assertEquals(AclUtils.v6ipProcess(remoteAddr, strArray, 3), "0005:0000:0000:0000:0000:0007:0006");
+        Assertions.assertEquals(AclUtils.v6ipProcess(remoteAddr), "0005:0000:0000:0000:0000:0007:0006");
+//        Assertions.assertEquals(AclUtils.v6ipProcess(remoteAddr, strArray, 3), "0005:0000:0000:0000:0000:0007:0006");
 
         remoteAddr = "5:7:6:*";
         strArray = StringUtils.split(remoteAddr, ":");
-        Assert.assertEquals(AclUtils.v6ipProcess(remoteAddr), "0005:0007:0006");
-//        Assert.assertEquals(AclUtils.v6ipProcess(remoteAddr, strArray, 3), "0005:0007:0006");
+        Assertions.assertEquals(AclUtils.v6ipProcess(remoteAddr), "0005:0007:0006");
+//        Assertions.assertEquals(AclUtils.v6ipProcess(remoteAddr, strArray, 3), "0005:0007:0006");
     }
 
     @Test
     public void expandIPTest() {
-        Assert.assertEquals(AclUtils.expandIP("::", 8), "0000:0000:0000:0000:0000:0000:0000:0000");
-        Assert.assertEquals(AclUtils.expandIP("::1", 8), "0000:0000:0000:0000:0000:0000:0000:0001");
-        Assert.assertEquals(AclUtils.expandIP("3::", 8), "0003:0000:0000:0000:0000:0000:0000:0000");
-        Assert.assertEquals(AclUtils.expandIP("2::2", 8), "0002:0000:0000:0000:0000:0000:0000:0002");
-        Assert.assertEquals(AclUtils.expandIP("4::aac4:92", 8), "0004:0000:0000:0000:0000:0000:AAC4:0092");
-        Assert.assertEquals(AclUtils.expandIP("ab23:56:901a::cc6:765:bb:9011", 8), "AB23:0056:901A:0000:0CC6:0765:00BB:9011");
-        Assert.assertEquals(AclUtils.expandIP("ab23:56:901a:1:cc6:765:bb:9011", 8), "AB23:0056:901A:0001:0CC6:0765:00BB:9011");
-        Assert.assertEquals(AclUtils.expandIP("5::7:6", 6), "0005:0000:0000:0000:0007:0006");
+        Assertions.assertEquals(AclUtils.expandIP("::", 8), "0000:0000:0000:0000:0000:0000:0000:0000");
+        Assertions.assertEquals(AclUtils.expandIP("::1", 8), "0000:0000:0000:0000:0000:0000:0000:0001");
+        Assertions.assertEquals(AclUtils.expandIP("3::", 8), "0003:0000:0000:0000:0000:0000:0000:0000");
+        Assertions.assertEquals(AclUtils.expandIP("2::2", 8), "0002:0000:0000:0000:0000:0000:0000:0002");
+        Assertions.assertEquals(AclUtils.expandIP("4::aac4:92", 8), "0004:0000:0000:0000:0000:0000:AAC4:0092");
+        Assertions.assertEquals(AclUtils.expandIP("ab23:56:901a::cc6:765:bb:9011", 8), "AB23:0056:901A:0000:0CC6:0765:00BB:9011");
+        Assertions.assertEquals(AclUtils.expandIP("ab23:56:901a:1:cc6:765:bb:9011", 8), "AB23:0056:901A:0001:0CC6:0765:00BB:9011");
+        Assertions.assertEquals(AclUtils.expandIP("5::7:6", 6), "0005:0000:0000:0000:0007:0006");
     }
 
     @SuppressWarnings("unchecked")
@@ -217,7 +217,7 @@ public class AclUtilsTest {
     public void getYamlDataObjectTest() {
 
         Map<String, Object> map = AclUtils.getYamlDataObject("src/test/resources/conf/plain_acl_correct.yml", Map.class);
-        Assert.assertFalse(map.isEmpty());
+        Assertions.assertFalse(map.isEmpty());
     }
 
     @Test
@@ -248,7 +248,7 @@ public class AclUtilsTest {
         };
         accounts.add(accountsMap);
         aclYamlMap.put("accounts", accounts);
-        Assert.assertTrue(AclUtils.writeDataObject(targetFileName, aclYamlMap));
+        Assertions.assertTrue(AclUtils.writeDataObject(targetFileName, aclYamlMap));
 
         transport.delete();
     }
@@ -282,7 +282,7 @@ public class AclUtilsTest {
 
         Map<String, Object> readableMap = AclUtils.getYamlDataObject(targetFileName, Map.class);
         List<String> updatedGlobalWhiteRemoteAddrs = (List<String>) readableMap.get("globalWhiteRemoteAddrs");
-        Assert.assertEquals("192.168.1.2", updatedGlobalWhiteRemoteAddrs.get(0));
+        Assertions.assertEquals("192.168.1.2", updatedGlobalWhiteRemoteAddrs.get(0));
 
         transport.delete();
     }
@@ -291,7 +291,7 @@ public class AclUtilsTest {
     public void getYamlDataIgnoreFileNotFoundExceptionTest() {
 
         JSONObject yamlDataObject = AclUtils.getYamlDataObject("plain_acl.yml", JSONObject.class);
-        Assert.assertTrue(yamlDataObject == null);
+        Assertions.assertTrue(yamlDataObject == null);
     }
 
 
@@ -299,16 +299,16 @@ public class AclUtilsTest {
     public void getAclRPCHookTest() {
 
         //RPCHook errorContRPCHook = AclUtils.getAclRPCHook("src/test/resources/conf/plain_acl_format_error.yml");
-        //Assert.assertNull(errorContRPCHook);
+        //Assertions.assertNull(errorContRPCHook);
 
         RPCHook noFileRPCHook = AclUtils.getAclRPCHook("src/test/resources/plain_acl_format_error1.yml");
-        Assert.assertNull(noFileRPCHook);
+        Assertions.assertNull(noFileRPCHook);
 
         //RPCHook emptyContRPCHook = AclUtils.getAclRPCHook("src/test/resources/conf/plain_acl_null.yml");
-        //Assert.assertNull(emptyContRPCHook);
+        //Assertions.assertNull(emptyContRPCHook);
 
         RPCHook incompleteContRPCHook = AclUtils.getAclRPCHook("src/test/resources/conf/plain_acl_incomplete.yml");
-        Assert.assertNull(incompleteContRPCHook);
+        Assertions.assertNull(incompleteContRPCHook);
     }
 
 }

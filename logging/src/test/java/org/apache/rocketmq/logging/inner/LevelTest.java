@@ -17,8 +17,8 @@
 
 package org.apache.rocketmq.logging.inner;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class LevelTest {
 
@@ -26,12 +26,12 @@ public class LevelTest {
     public void levelTest() {
         Level info = Level.toLevel("info");
         Level error = Level.toLevel(3);
-        Assert.assertTrue(error != null && info != null);
+        Assertions.assertTrue(error != null && info != null);
     }
 
     @Test
     public void loggerLevel(){
         Level level = Logger.getRootLogger().getLevel();
-        Assert.assertTrue(level!=null);
+        Assertions.assertTrue(level!=null);
     }
 }

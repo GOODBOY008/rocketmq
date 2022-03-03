@@ -20,11 +20,12 @@ package org.apache.rocketmq.client;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.topic.TopicValidator;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
-import static org.junit.Assert.fail;
+import static org.junit.Assertions.fail;
 
 public class ValidatorsTest {
 
@@ -44,7 +45,7 @@ public class ValidatorsTest {
             Validators.checkTopic(illegalTopic);
             failBecauseExceptionWasNotThrown(MQClientException.class);
         } catch (MQClientException e) {
-            assertThat(e).hasMessageStartingWith(String.format("The specified topic[%s] contains illegal characters, allowing only %s", illegalTopic, "^[%|a-zA-Z0-9_-]+$"));
+            Assertions.assertEquals(e).hasMessageStartingWith(String.format("The specified topic[%s] contains illegal characters, allowing only %s", illegalTopic, "^[%|a-zA-Z0-9_-]+$"));
         }
     }
 
@@ -55,19 +56,19 @@ public class ValidatorsTest {
             Validators.checkTopic(blankTopic);
             failBecauseExceptionWasNotThrown(MQClientException.class);
         } catch (MQClientException e) {
-            assertThat(e).hasMessageStartingWith("The specified topic is blank");
+            Assertions.assertEquals(e).hasMessageStartingWith("The specified topic is blank");
         }
     }
 
     @Test
     public void testCheckTopic_TooLongTopic() {
         String tooLongTopic = StringUtils.rightPad("TooLongTopic", Validators.TOPIC_MAX_LENGTH + 1, "_");
-        assertThat(tooLongTopic.length()).isGreaterThan(Validators.TOPIC_MAX_LENGTH);
+        Assertions.assertEquals(tooLongTopic.length()).isGreaterThan(Validators.TOPIC_MAX_LENGTH);
         try {
             Validators.checkTopic(tooLongTopic);
             failBecauseExceptionWasNotThrown(MQClientException.class);
         } catch (MQClientException e) {
-            assertThat(e).hasMessageStartingWith("The specified topic is longer than topic max length");
+            Assertions.assertEquals(e).hasMessageStartingWith("The specified topic is longer than topic max length");
         }
     }
 
@@ -78,8 +79,8 @@ public class ValidatorsTest {
                 Validators.isSystemTopic(topic);
                 fail("excepted MQClientException for system topic");
             } catch (MQClientException e) {
-                assertThat(e.getResponseCode()).isEqualTo(-1);
-                assertThat(e.getErrorMessage()).isEqualTo(String.format("The topic[%s] is conflict with system topic.", topic));
+                Assertions.assertEquals(e.getResponseCode(),-1);
+                Assertions.assertEquals(e.getErrorMessage(),String.format("The topic[%s] is conflict with system topic.", topic));
             }
         }
     }
@@ -91,8 +92,8 @@ public class ValidatorsTest {
                 Validators.isNotAllowedSendTopic(topic);
                 fail("excepted MQClientException for blacklist topic");
             } catch (MQClientException e) {
-                assertThat(e.getResponseCode()).isEqualTo(-1);
-                assertThat(e.getErrorMessage()).isEqualTo(String.format("Sending message to topic[%s] is forbidden.", topic));
+                Assertions.assertEquals(e.getResponseCode(),-1);
+                Assertions.assertEquals(e.getErrorMessage(),String.format("Sending message to topic[%s] is forbidden.", topic));
             }
         }
     }

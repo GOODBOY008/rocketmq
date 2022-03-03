@@ -22,13 +22,13 @@ import org.apache.rocketmq.common.protocol.heartbeat.ConsumeType;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ConsumerConnectionTest {
 
@@ -55,14 +55,14 @@ public class ConsumerConnectionTest {
 
         String json = RemotingSerializable.toJson(consumerConnection, true);
         ConsumerConnection fromJson = RemotingSerializable.fromJson(json, ConsumerConnection.class);
-        assertThat(fromJson.getConsumeType()).isEqualTo(ConsumeType.CONSUME_ACTIVELY);
-        assertThat(fromJson.getMessageModel()).isEqualTo(MessageModel.CLUSTERING);
+        Assertions.assertEquals(fromJson.getConsumeType(),ConsumeType.CONSUME_ACTIVELY);
+        Assertions.assertEquals(fromJson.getMessageModel(),MessageModel.CLUSTERING);
 
         HashSet<Connection> connectionSet = fromJson.getConnectionSet();
-        assertThat(connectionSet).isInstanceOf(Set.class);
+        Assertions.assertEquals(connectionSet).isInstanceOf(Set.class);
 
         SubscriptionData data = fromJson.getSubscriptionTable().get("topicA");
-        assertThat(data).isExactlyInstanceOf(SubscriptionData.class);
+        Assertions.assertEquals(data).isExactlyInstanceOf(SubscriptionData.class);
     }
 
     @Test
@@ -78,6 +78,6 @@ public class ConsumerConnectionTest {
         consumerConnection.setConnectionSet(connections);
 
         int version = consumerConnection.computeMinVersion();
-        assertThat(version).isEqualTo(1);
+        Assertions.assertEquals(version,1);
     }
 }

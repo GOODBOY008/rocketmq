@@ -34,12 +34,12 @@ import org.apache.rocketmq.test.client.rmq.RMQSqlConsumer;
 import org.apache.rocketmq.test.factory.ConsumerFactory;
 import org.apache.rocketmq.test.listener.rmq.concurrent.RMQNormalListener;
 import org.apache.rocketmq.test.util.VerifyUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class SqlFilterIT extends BaseConf {
     private static Logger logger = Logger.getLogger(SqlFilterIT.class);
@@ -47,7 +47,7 @@ public class SqlFilterIT extends BaseConf {
     private String topic = null;
     private static final Map<MessageQueue, Long> OFFSE_TABLE = new HashMap<MessageQueue, Long>();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         topic = initTopic();
         logger.info(String.format("use topic: %s;", topic));
@@ -55,7 +55,7 @@ public class SqlFilterIT extends BaseConf {
         OFFSE_TABLE.clear();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -71,13 +71,13 @@ public class SqlFilterIT extends BaseConf {
         producer.send("TagA", msgSize);
         producer.send("TagB", msgSize);
         producer.send("TagC", msgSize);
-        Assert.assertEquals("Not all sent succeeded", msgSize * 3, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all sent succeeded", msgSize * 3, producer.getAllUndupMsgBody().size());
         consumer.getListener().waitForMessageConsume(msgSize * 2, consumeTime);
-        assertThat(producer.getAllMsgBody())
+        Assertions.assertEquals(producer.getAllMsgBody())
             .containsAllIn(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
                 consumer.getListener().getAllMsgBody()));
 
-        assertThat(consumer.getListener().getAllMsgBody().size()).isEqualTo(msgSize * 2);
+        Assertions.assertEquals(consumer.getListener().getAllMsgBody().size(),msgSize * 2);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class SqlFilterIT extends BaseConf {
         producer.send("TagA", msgSize);
         producer.send("TagB", msgSize);
         producer.send("TagC", msgSize);
-        Assert.assertEquals("Not all sent succeeded", msgSize * 3, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all sent succeeded", msgSize * 3, producer.getAllUndupMsgBody().size());
 
         List<String> receivedMessage = new ArrayList<>(2);
         Set<MessageQueue> mqs = consumer.fetchSubscribeMessageQueues(topic);
@@ -126,7 +126,7 @@ public class SqlFilterIT extends BaseConf {
             }
         }
 
-        assertThat(receivedMessage.size()).isEqualTo(msgSize * 2);
+        Assertions.assertEquals(receivedMessage.size(),msgSize * 2);
     }
 
     private static long getMessageQueueOffset(MessageQueue mq) {

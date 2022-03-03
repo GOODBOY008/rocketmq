@@ -28,15 +28,15 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.common.protocol.header.QueryConsumerOffsetRequestHeader;
 import org.apache.rocketmq.common.protocol.header.UpdateConsumerOffsetRequestHeader;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -44,7 +44,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class RemoteBrokerOffsetStoreTest {
     @Mock
     private MQClientInstance mQClientFactory;
@@ -54,7 +54,7 @@ public class RemoteBrokerOffsetStoreTest {
     private String topic = "FooBar";
     private String brokerName = "DefaultBrokerName";
 
-    @Before
+    @BeforeEach
     public void init() {
         System.setProperty("rocketmq.client.localOffsetStoreDir", System.getProperty("java.io.tmpdir") + ".rocketmq_offsets");
         String clientId = new ClientConfig().buildMQClientId() + "#TestNamespace" + System.currentTimeMillis();
@@ -69,13 +69,13 @@ public class RemoteBrokerOffsetStoreTest {
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 1);
 
         offsetStore.updateOffset(messageQueue, 1024, false);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY)).isEqualTo(1024);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY),1024);
 
         offsetStore.updateOffset(messageQueue, 1023, false);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY)).isEqualTo(1023);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY),1023);
 
         offsetStore.updateOffset(messageQueue, 1022, true);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY)).isEqualTo(1023);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY),1023);
     }
 
     @Test
@@ -87,11 +87,11 @@ public class RemoteBrokerOffsetStoreTest {
 
         doThrow(new MQBrokerException(-1, "", null))
             .when(mqClientAPI).queryConsumerOffset(anyString(), any(QueryConsumerOffsetRequestHeader.class), anyLong());
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE)).isEqualTo(-1);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE),-1);
 
         doThrow(new RemotingException("", null))
             .when(mqClientAPI).queryConsumerOffset(anyString(), any(QueryConsumerOffsetRequestHeader.class), anyLong());
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE)).isEqualTo(-2);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE),-2);
     }
 
     @Test
@@ -110,19 +110,19 @@ public class RemoteBrokerOffsetStoreTest {
 
         offsetStore.updateOffset(messageQueue, 1024, false);
         offsetStore.persist(messageQueue);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE)).isEqualTo(1024);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE),1024);
 
         offsetStore.updateOffset(messageQueue, 1023, false);
         offsetStore.persist(messageQueue);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE)).isEqualTo(1023);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE),1023);
 
         offsetStore.updateOffset(messageQueue, 1022, true);
         offsetStore.persist(messageQueue);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE)).isEqualTo(1023);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE),1023);
 
         offsetStore.updateOffset(messageQueue, 1025, false);
         offsetStore.persistAll(new HashSet<MessageQueue>(Collections.singletonList(messageQueue)));
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE)).isEqualTo(1025);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_STORE),1025);
     }
 
     @Test
@@ -131,9 +131,9 @@ public class RemoteBrokerOffsetStoreTest {
         final MessageQueue messageQueue = new MessageQueue(topic, brokerName, 4);
 
         offsetStore.updateOffset(messageQueue, 1024, false);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY)).isEqualTo(1024);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY),1024);
 
         offsetStore.removeOffset(messageQueue);
-        assertThat(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY)).isEqualTo(-1);
+        Assertions.assertEquals(offsetStore.readOffset(messageQueue, ReadOffsetType.READ_FROM_MEMORY),-1);
     }
 }

@@ -20,9 +20,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import org.apache.rocketmq.remoting.netty.RequestTask;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class BrokerFastFailureTest {
     @Test
@@ -31,7 +32,7 @@ public class BrokerFastFailureTest {
 
         BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
         brokerFastFailure.cleanExpiredRequestInQueue(queue, 1);
-        assertThat(queue.size()).isZero();
+        Assertions.assertEquals(queue.size()).isZero();
 
         //Normal Runnable
         Runnable runnable = new Runnable() {
@@ -42,9 +43,9 @@ public class BrokerFastFailureTest {
         };
         queue.add(runnable);
 
-        assertThat(queue.size()).isEqualTo(1);
+        Assertions.assertEquals(queue.size(),1);
         brokerFastFailure.cleanExpiredRequestInQueue(queue, 1);
-        assertThat(queue.size()).isEqualTo(1);
+        Assertions.assertEquals(queue.size(),1);
 
         queue.clear();
 
@@ -56,10 +57,10 @@ public class BrokerFastFailureTest {
         RequestTask requestTask = new RequestTask(runnable, null, null);
         queue.add(new FutureTaskExt<>(requestTask, null));
 
-        assertThat(queue.size()).isEqualTo(2);
+        Assertions.assertEquals(queue.size(),2);
         brokerFastFailure.cleanExpiredRequestInQueue(queue, 100);
-        assertThat(queue.size()).isEqualTo(1);
-        assertThat(((FutureTaskExt) queue.peek()).getRunnable()).isEqualTo(requestTask);
+        Assertions.assertEquals(queue.size(),1);
+        Assertions.assertEquals(((FutureTaskExt) queue.peek()).getRunnable(),requestTask);
     }
 
 }

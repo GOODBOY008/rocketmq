@@ -43,10 +43,10 @@ import org.apache.rocketmq.common.protocol.route.QueueData;
 import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 import org.apache.rocketmq.common.topic.TopicValidator;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -56,7 +56,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -64,7 +64,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultMQProducerWithOpenTracingTest {
 
     @Spy
@@ -81,7 +81,7 @@ public class DefaultMQProducerWithOpenTracingTest {
     private String producerGroupTraceTemp = TopicValidator.RMQ_SYS_TRACE_TOPIC + System.currentTimeMillis();
     private MockTracer tracer = new MockTracer();
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
 
         producer = new DefaultMQProducer(producerGroupTemp);
@@ -115,18 +115,18 @@ public class DefaultMQProducerWithOpenTracingTest {
         producer.getDefaultMQProducerImpl().getmQClientFactory().registerProducer(producerGroupTraceTemp, producer.getDefaultMQProducerImpl());
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         producer.send(message);
-        assertThat(tracer.finishedSpans().size()).isEqualTo(1);
+        Assertions.assertEquals(tracer.finishedSpans().size(),1);
         MockSpan span = tracer.finishedSpans().get(0);
-        assertThat(span.tags().get(Tags.MESSAGE_BUS_DESTINATION.getKey())).isEqualTo(topic);
-        assertThat(span.tags().get(Tags.SPAN_KIND.getKey())).isEqualTo(Tags.SPAN_KIND_PRODUCER);
-        assertThat(span.tags().get(TraceConstants.ROCKETMQ_MSG_ID)).isEqualTo("123");
-        assertThat(span.tags().get(TraceConstants.ROCKETMQ_BODY_LENGTH)).isEqualTo(3);
-        assertThat(span.tags().get(TraceConstants.ROCKETMQ_REGION_ID)).isEqualTo("HZ");
-        assertThat(span.tags().get(TraceConstants.ROCKETMQ_MSG_TYPE)).isEqualTo(MessageType.Normal_Msg.name());
-        assertThat(span.tags().get(TraceConstants.ROCKETMQ_SOTRE_HOST)).isEqualTo("127.0.0.1:10911");
+        Assertions.assertEquals(span.tags().get(Tags.MESSAGE_BUS_DESTINATION.getKey()),topic);
+        Assertions.assertEquals(span.tags().get(Tags.SPAN_KIND.getKey()),Tags.SPAN_KIND_PRODUCER);
+        Assertions.assertEquals(span.tags().get(TraceConstants.ROCKETMQ_MSG_ID),"123");
+        Assertions.assertEquals(span.tags().get(TraceConstants.ROCKETMQ_BODY_LENGTH),3);
+        Assertions.assertEquals(span.tags().get(TraceConstants.ROCKETMQ_REGION_ID),"HZ");
+        Assertions.assertEquals(span.tags().get(TraceConstants.ROCKETMQ_MSG_TYPE),MessageType.Normal_Msg.name());
+        Assertions.assertEquals(span.tags().get(TraceConstants.ROCKETMQ_SOTRE_HOST),"127.0.0.1:10911");
     }
 
-    @After
+    @AfterEach
     public void terminate() {
         producer.shutdown();
     }

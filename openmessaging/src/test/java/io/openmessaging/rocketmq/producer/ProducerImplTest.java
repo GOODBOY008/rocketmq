@@ -28,26 +28,26 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class ProducerImplTest {
     private Producer producer;
 
     @Mock
     private DefaultMQProducer rocketmqProducer;
 
-    @Before
+    @BeforeEach
     public void init() throws NoSuchFieldException, IllegalAccessException {
         final MessagingAccessPoint messagingAccessPoint = OMS
             .getMessagingAccessPoint("oms:rocketmq://IP1:9876,IP2:9876/namespace");
@@ -70,7 +70,7 @@ public class ProducerImplTest {
         io.openmessaging.producer.SendResult omsResult =
             producer.send(producer.createBytesMessage("HELLO_TOPIC", new byte[] {'a'}));
 
-        assertThat(omsResult.messageId()).isEqualTo("TestMsgID");
+        Assertions.assertEquals(omsResult.messageId(),"TestMsgID");
     }
 
     @Test
@@ -83,7 +83,7 @@ public class ProducerImplTest {
             producer.send(producer.createBytesMessage("HELLO_TOPIC", new byte[] {'a'}));
             failBecauseExceptionWasNotThrown(OMSRuntimeException.class);
         } catch (Exception e) {
-            assertThat(e).hasMessageContaining("Send message to RocketMQ broker failed.");
+            Assertions.assertEquals(e).hasMessageContaining("Send message to RocketMQ broker failed.");
         }
     }
 
@@ -94,7 +94,7 @@ public class ProducerImplTest {
             producer.send(producer.createBytesMessage("HELLO_TOPIC", new byte[] {'a'}));
             failBecauseExceptionWasNotThrown(OMSRuntimeException.class);
         } catch (Exception e) {
-            assertThat(e).hasMessageContaining("Send message to RocketMQ broker failed.");
+            Assertions.assertEquals(e).hasMessageContaining("Send message to RocketMQ broker failed.");
         }
     }
 

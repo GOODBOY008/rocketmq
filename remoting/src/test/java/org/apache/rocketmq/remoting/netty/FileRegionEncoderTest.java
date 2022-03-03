@@ -27,8 +27,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class FileRegionEncoderTest {
 
@@ -49,13 +49,13 @@ public class FileRegionEncoderTest {
         random.nextBytes(data);
         write(file, data);
         FileRegion fileRegion = new DefaultFileRegion(file, 0, dataLength);
-        Assert.assertEquals(0, fileRegion.transfered());
-        Assert.assertEquals(dataLength, fileRegion.count());
-        Assert.assertTrue(channel.writeOutbound(fileRegion));
+        Assertions.assertEquals(0, fileRegion.transfered());
+        Assertions.assertEquals(dataLength, fileRegion.count());
+        Assertions.assertTrue(channel.writeOutbound(fileRegion));
         ByteBuf out = (ByteBuf) channel.readOutbound();
         byte[] arr = new byte[out.readableBytes()];
         out.getBytes(0, arr);
-        Assert.assertArrayEquals("Data should be identical", data, arr);
+        Assertions.assertArrayEquals("Data should be identical", data, arr);
     }
 
     /**

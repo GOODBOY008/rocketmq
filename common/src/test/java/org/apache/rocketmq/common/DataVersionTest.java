@@ -18,8 +18,8 @@
 package org.apache.rocketmq.common;
 
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DataVersionTest {
 
@@ -28,7 +28,7 @@ public class DataVersionTest {
         DataVersion dataVersion = new DataVersion();
         DataVersion other = new DataVersion();
         other.setTimestamp(dataVersion.getTimestamp());
-        Assert.assertTrue(dataVersion.equals(other));
+        Assertions.assertTrue(dataVersion.equals(other));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class DataVersionTest {
         DataVersion other = new DataVersion();
         other.setCounter(new AtomicLong(1L));
         other.setTimestamp(dataVersion.getTimestamp());
-        Assert.assertFalse(dataVersion.equals(other));
+        Assertions.assertFalse(dataVersion.equals(other));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class DataVersionTest {
         DataVersion other = new DataVersion();
         other.setCounter(null);
         other.setTimestamp(dataVersion.getTimestamp());
-        Assert.assertFalse(dataVersion.equals(other));
+        Assertions.assertFalse(dataVersion.equals(other));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class DataVersionTest {
         dataVersion.setCounter(null);
         DataVersion other = new DataVersion();
         other.setTimestamp(dataVersion.getTimestamp());
-        Assert.assertFalse(dataVersion.equals(other));
+        Assertions.assertFalse(dataVersion.equals(other));
     }
 
     @Test
@@ -65,6 +65,6 @@ public class DataVersionTest {
         DataVersion other = new DataVersion();
         other.setCounter(null);
         other.setTimestamp(dataVersion.getTimestamp());
-        Assert.assertTrue(dataVersion.equals(other));
+        Assertions.assertTrue(dataVersion.equals(other));
     }
 }

@@ -18,9 +18,9 @@
 package org.apache.rocketmq.common.protocol.body;
 
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.Assertions.within;
 
 public class BrokerStatsDataTest {
@@ -56,16 +56,16 @@ public class BrokerStatsDataTest {
         String json = RemotingSerializable.toJson(brokerStatsData, true);
         BrokerStatsData brokerStatsDataResult = RemotingSerializable.fromJson(json, BrokerStatsData.class);
 
-        assertThat(brokerStatsDataResult.getStatsMinute().getAvgpt()).isCloseTo(brokerStatsData.getStatsMinute().getAvgpt(), within(0.0001));
-        assertThat(brokerStatsDataResult.getStatsMinute().getTps()).isCloseTo(brokerStatsData.getStatsMinute().getTps(), within(0.0001));
-        assertThat(brokerStatsDataResult.getStatsMinute().getSum()).isEqualTo(brokerStatsData.getStatsMinute().getSum());
+        Assertions.assertEquals(brokerStatsDataResult.getStatsMinute().getAvgpt()).isCloseTo(brokerStatsData.getStatsMinute().getAvgpt(), within(0.0001));
+        Assertions.assertEquals(brokerStatsDataResult.getStatsMinute().getTps()).isCloseTo(brokerStatsData.getStatsMinute().getTps(), within(0.0001));
+        Assertions.assertEquals(brokerStatsDataResult.getStatsMinute().getSum(),brokerStatsData.getStatsMinute().getSum());
 
-        assertThat(brokerStatsDataResult.getStatsHour().getAvgpt()).isCloseTo(brokerStatsData.getStatsHour().getAvgpt(), within(0.0001));
-        assertThat(brokerStatsDataResult.getStatsHour().getTps()).isCloseTo(brokerStatsData.getStatsHour().getTps(), within(0.0001));
-        assertThat(brokerStatsDataResult.getStatsHour().getSum()).isEqualTo(brokerStatsData.getStatsHour().getSum());
+        Assertions.assertEquals(brokerStatsDataResult.getStatsHour().getAvgpt()).isCloseTo(brokerStatsData.getStatsHour().getAvgpt(), within(0.0001));
+        Assertions.assertEquals(brokerStatsDataResult.getStatsHour().getTps()).isCloseTo(brokerStatsData.getStatsHour().getTps(), within(0.0001));
+        Assertions.assertEquals(brokerStatsDataResult.getStatsHour().getSum(),brokerStatsData.getStatsHour().getSum());
 
-        assertThat(brokerStatsDataResult.getStatsDay().getAvgpt()).isCloseTo(brokerStatsData.getStatsDay().getAvgpt(), within(0.0001));
-        assertThat(brokerStatsDataResult.getStatsDay().getTps()).isCloseTo(brokerStatsData.getStatsDay().getTps(), within(0.0001));
-        assertThat(brokerStatsDataResult.getStatsDay().getSum()).isEqualTo(brokerStatsData.getStatsDay().getSum());
+        Assertions.assertEquals(brokerStatsDataResult.getStatsDay().getAvgpt()).isCloseTo(brokerStatsData.getStatsDay().getAvgpt(), within(0.0001));
+        Assertions.assertEquals(brokerStatsDataResult.getStatsDay().getTps()).isCloseTo(brokerStatsData.getStatsDay().getTps(), within(0.0001));
+        Assertions.assertEquals(brokerStatsDataResult.getStatsDay().getSum(),brokerStatsData.getStatsDay().getSum());
     }
 }

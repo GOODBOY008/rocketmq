@@ -35,18 +35,19 @@ import org.apache.rocketmq.remoting.netty.NettyServerConfig;
 import org.apache.rocketmq.remoting.protocol.LanguageCode;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.apache.rocketmq.broker.processor.PullMessageProcessorTest.createConsumerData;
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class ClientManageProcessorTest {
     private ClientManageProcessor clientManageProcessor;
     @Spy
@@ -61,7 +62,7 @@ public class ClientManageProcessorTest {
     private String group = "FooBarGroup";
     private String topic = "FooBar";
 
-    @Before
+    @BeforeEach
     public void init() {
         when(handlerContext.channel()).thenReturn(channel);
         clientManageProcessor = new ClientManageProcessor(brokerController);
@@ -83,30 +84,30 @@ public class ClientManageProcessorTest {
     public void processRequest_UnRegisterProducer() throws Exception {
         brokerController.getProducerManager().registerProducer(group, clientChannelInfo);
         Map<Channel, ClientChannelInfo> channelMap = brokerController.getProducerManager().getGroupChannelTable().get(group);
-        assertThat(channelMap).isNotNull();
-        assertThat(channelMap.get(channel)).isEqualTo(clientChannelInfo);
+        Assertions.assertNotNull(channelMap);
+        Assertions.assertEquals(channelMap.get(channel),clientChannelInfo);
 
         RemotingCommand request = createUnRegisterProducerCommand();
         RemotingCommand response = clientManageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
 
         channelMap = brokerController.getProducerManager().getGroupChannelTable().get(group);
-        assertThat(channelMap).isNull();
+        Assertions.assertNull(channelMap);
     }
 
     @Test
     public void processRequest_UnRegisterConsumer() throws RemotingCommandException {
         ConsumerGroupInfo consumerGroupInfo = brokerController.getConsumerManager().getConsumerGroupInfo(group);
-        assertThat(consumerGroupInfo).isNotNull();
+        Assertions.assertNotNull(consumerGroupInfo);
 
         RemotingCommand request = createUnRegisterConsumerCommand();
         RemotingCommand response = clientManageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
 
         consumerGroupInfo = brokerController.getConsumerManager().getConsumerGroupInfo(group);
-        assertThat(consumerGroupInfo).isNull();
+        Assertions.assertNull(consumerGroupInfo);
     }
 
     private RemotingCommand createUnRegisterProducerCommand() {

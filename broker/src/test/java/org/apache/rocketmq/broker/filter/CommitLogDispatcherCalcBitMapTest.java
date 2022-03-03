@@ -21,14 +21,15 @@ import org.apache.rocketmq.common.BrokerConfig;
 import org.apache.rocketmq.common.filter.ExpressionType;
 import org.apache.rocketmq.filter.util.BitsArray;
 import org.apache.rocketmq.store.DispatchRequest;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class CommitLogDispatcherCalcBitMapTest {
 
@@ -77,13 +78,13 @@ public class CommitLogDispatcherCalcBitMapTest {
 
             calcBitMap.dispatch(dispatchRequest);
 
-            assertThat(dispatchRequest.getBitMap()).isNotNull();
+            Assertions.assertNotNull(dispatchRequest.getBitMap());
 
             BitsArray bitsArray = BitsArray.create(dispatchRequest.getBitMap(),
                 filterManager.getBloomFilter().getM());
 
             for (int j = 0; j < bitsArray.bitLength(); j++) {
-                assertThat(bitsArray.getBit(j)).isFalse();
+                Assertions.assertFalse(bitsArray.getBit(j));
             }
         }
     }
@@ -121,7 +122,7 @@ public class CommitLogDispatcherCalcBitMapTest {
 
             calcBitMap.dispatch(dispatchRequest);
 
-            assertThat(dispatchRequest.getBitMap()).isNull();
+            Assertions.assertNull(dispatchRequest.getBitMap());
         }
     }
 
@@ -158,7 +159,7 @@ public class CommitLogDispatcherCalcBitMapTest {
 
             calcBitMap.dispatch(dispatchRequest);
 
-            assertThat(dispatchRequest.getBitMap()).isNotNull();
+            Assertions.assertNotNull(dispatchRequest.getBitMap());
 
             BitsArray bits = BitsArray.create(dispatchRequest.getBitMap());
 
@@ -168,21 +169,21 @@ public class CommitLogDispatcherCalcBitMapTest {
 
                 if (filterManager.getBloomFilter().isHit(filterData.getBloomFilterData(), bits)) {
                     try {
-                        assertThat((Boolean) filterData.getCompiledExpression().evaluate(
+                        Assertions.assertTrue((Boolean) filterData.getCompiledExpression().evaluate(
                             new MessageEvaluationContext(properties)
-                        )).isTrue();
+                        ));
                     } catch (Exception e) {
                         e.printStackTrace();
-                        assertThat(true).isFalse();
+                        Assertions.assertFalse(true);
                     }
                 } else {
                     try {
-                        assertThat((Boolean) filterData.getCompiledExpression().evaluate(
+                        Assertions.assertFalse((Boolean) filterData.getCompiledExpression().evaluate(
                             new MessageEvaluationContext(properties)
-                        )).isFalse();
+                        ));
                     } catch (Exception e) {
                         e.printStackTrace();
-                        assertThat(true).isFalse();
+                        Assertions.assertFalse(true);
                     }
                 }
             }

@@ -18,8 +18,8 @@
 package org.apache.rocketmq.logging.inner;
 
 import org.apache.rocketmq.logging.BasicLoggerTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Enumeration;
 
@@ -40,10 +40,10 @@ public class LoggerRepositoryTest extends BasicLoggerTest {
         fileLogger.addAppender(myappender);
         Logger.getLogger("repoLogger").setLevel(Level.INFO);
         Logger repoLogger = Logger.getRepository().exists("repoLogger");
-        Assert.assertTrue(repoLogger != null);
+        Assertions.assertTrue(repoLogger != null);
         Enumeration currentLoggers = Logger.getRepository().getCurrentLoggers();
         Level logLevel = Logger.getRepository().getLogLevel();
-        Assert.assertTrue(logLevel.equals(Level.INFO));
+        Assertions.assertTrue(logLevel.equals(Level.INFO));
 //        Logger.getRepository().shutdown();
     }
 }

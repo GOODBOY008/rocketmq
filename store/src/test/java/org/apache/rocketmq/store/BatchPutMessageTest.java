@@ -26,9 +26,9 @@ import org.apache.rocketmq.common.message.MessageExtBatch;
 import org.apache.rocketmq.store.config.FlushDiskType;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.InetSocketAddress;
@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.apache.rocketmq.common.message.MessageDecoder.messageProperties2String;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
+
+import org.junit.jupiter.api.Assertions;
 
 public class BatchPutMessageTest {
 
@@ -50,15 +50,15 @@ public class BatchPutMessageTest {
     public static final char PROPERTY_SEPARATOR = 2;
     public final static Charset CHARSET_UTF8 = Charset.forName("UTF-8");
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         messageStore = buildMessageStore();
         boolean load = messageStore.load();
-        assertTrue(load);
+        Assertions.assertTrue(load);
         messageStore.start();
     }
 
-    @After
+    @AfterEach
     public void destory() {
         messageStore.shutdown();
         messageStore.destroy();
@@ -119,16 +119,16 @@ public class BatchPutMessageTest {
         messageExtBatch.setBornHost(new InetSocketAddress("127.0.0.1", 126));
 
         PutMessageResult putMessageResult = messageStore.putMessages(messageExtBatch);
-        assertThat(putMessageResult.isOk()).isTrue();
+        Assertions.assertTrue(putMessageResult.isOk());
         
         Thread.sleep(3 * 1000);
 
         for (long i = 0; i < 10; i++) {
             MessageExt messageExt = messageStore.lookMessageByOffset(msgLengthArr[(int) i]);
-            assertThat(messageExt).isNotNull();
+            Assertions.assertNotNull(messageExt);
             GetMessageResult result = messageStore.getMessage("batch_write_group", topic, queue, i, 1024 * 1024, null);
-            assertThat(result).isNotNull();
-            assertThat(result.getStatus()).isEqualTo(GetMessageStatus.FOUND);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(result.getStatus(),GetMessageStatus.FOUND);
             result.release();
         }
 
@@ -171,16 +171,16 @@ public class BatchPutMessageTest {
         messageExtBatch.setBornHost(new InetSocketAddress("::1", 126));
 
         PutMessageResult putMessageResult = messageStore.putMessages(messageExtBatch);
-        assertThat(putMessageResult.isOk()).isTrue();
+        Assertions.assertTrue(putMessageResult.isOk());
 
         Thread.sleep(3 * 1000);
 
         for (long i = 0; i < 10; i++) {
             MessageExt messageExt = messageStore.lookMessageByOffset(msgLengthArr[(int) i]);
-            assertThat(messageExt).isNotNull();
+            Assertions.assertNotNull(messageExt);
             GetMessageResult result = messageStore.getMessage("batch_write_group", topic, queue, i, 1024 * 1024, null);
-            assertThat(result).isNotNull();
-            assertThat(result.getStatus()).isEqualTo(GetMessageStatus.FOUND);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(result.getStatus(),GetMessageStatus.FOUND);
             result.release();
         }
 

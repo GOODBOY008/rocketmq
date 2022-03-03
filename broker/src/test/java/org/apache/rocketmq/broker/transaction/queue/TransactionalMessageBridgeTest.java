@@ -37,9 +37,10 @@ import org.apache.rocketmq.store.MessageStore;
 import org.apache.rocketmq.store.PutMessageResult;
 import org.apache.rocketmq.store.PutMessageStatus;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Spy;
@@ -49,14 +50,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class TransactionalMessageBridgeTest {
 
     private TransactionalMessageBridge transactionBridge;
@@ -68,7 +69,7 @@ public class TransactionalMessageBridgeTest {
     @Mock
     private MessageStore messageStore;
 
-    @Before
+    @BeforeEach
     public void init() {
         brokerController.setMessageStore(messageStore);
         transactionBridge = new TransactionalMessageBridge(brokerController, messageStore);
@@ -77,7 +78,7 @@ public class TransactionalMessageBridgeTest {
     @Test
     public void testPutOpMessage() {
         boolean isSuccess = transactionBridge.putOpMessage(createMessageBrokerInner(), TransactionalMessageUtil.REMOVETAG);
-        assertThat(isSuccess).isTrue();
+        Assertions.assertTrue(isSuccess);
     }
 
     @Test
@@ -85,7 +86,7 @@ public class TransactionalMessageBridgeTest {
         when(messageStore.putMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
             (PutMessageStatus.PUT_OK, new AppendMessageResult(AppendMessageStatus.PUT_OK)));
         PutMessageResult result = transactionBridge.putHalfMessage(createMessageBrokerInner());
-        assertThat(result.getPutMessageStatus()).isEqualTo(PutMessageStatus.PUT_OK);
+        Assertions.assertEquals(result.getPutMessageStatus(),PutMessageStatus.PUT_OK);
     }
 
     @Test
@@ -93,13 +94,13 @@ public class TransactionalMessageBridgeTest {
         when(messageStore.asyncPutMessage(any(MessageExtBrokerInner.class)))
                 .thenReturn(CompletableFuture.completedFuture(new PutMessageResult(PutMessageStatus.PUT_OK, new AppendMessageResult(AppendMessageStatus.PUT_OK))));
         CompletableFuture<PutMessageResult> result = transactionBridge.asyncPutHalfMessage(createMessageBrokerInner());
-        assertThat(result.get().getPutMessageStatus()).isEqualTo(PutMessageStatus.PUT_OK);
+        Assertions.assertEquals(result.get().getPutMessageStatus(),PutMessageStatus.PUT_OK);
     }
 
     @Test
     public void testFetchMessageQueues() {
         Set<MessageQueue> messageQueues = transactionBridge.fetchMessageQueues(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC);
-        assertThat(messageQueues.size()).isEqualTo(1);
+        Assertions.assertEquals(messageQueues.size(),1);
     }
 
     @Test
@@ -107,7 +108,7 @@ public class TransactionalMessageBridgeTest {
         MessageQueue mq = new MessageQueue(TransactionalMessageUtil.buildOpTopic(), this.brokerController.getBrokerConfig().getBrokerName(),
             0);
         long offset = transactionBridge.fetchConsumeOffset(mq);
-        assertThat(offset).isGreaterThan(-1);
+        Assertions.assertEquals(offset).isGreaterThan(-1);
     }
 
     @Test
@@ -121,14 +122,14 @@ public class TransactionalMessageBridgeTest {
     public void testGetHalfMessage() {
         when(messageStore.getMessage(anyString(), anyString(), anyInt(), anyLong(), anyInt(),  ArgumentMatchers.nullable(MessageFilter.class))).thenReturn(createGetMessageResult(GetMessageStatus.NO_MESSAGE_IN_QUEUE));
         PullResult result = transactionBridge.getHalfMessage(0, 0, 1);
-        assertThat(result.getPullStatus()).isEqualTo(PullStatus.NO_NEW_MSG);
+        Assertions.assertEquals(result.getPullStatus(),PullStatus.NO_NEW_MSG);
     }
 
     @Test
     public void testGetOpMessage() {
         when(messageStore.getMessage(anyString(), anyString(), anyInt(), anyLong(), anyInt(),  ArgumentMatchers.nullable(MessageFilter.class))).thenReturn(createGetMessageResult(GetMessageStatus.NO_MESSAGE_IN_QUEUE));
         PullResult result = transactionBridge.getOpMessage(0, 0, 1);
-        assertThat(result.getPullStatus()).isEqualTo(PullStatus.NO_NEW_MSG);
+        Assertions.assertEquals(result.getPullStatus(),PullStatus.NO_NEW_MSG);
     }
 
     @Test
@@ -136,7 +137,7 @@ public class TransactionalMessageBridgeTest {
         when(messageStore.putMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
             (PutMessageStatus.PUT_OK, new AppendMessageResult(AppendMessageStatus.PUT_OK)));
         PutMessageResult result = transactionBridge.putMessageReturnResult(createMessageBrokerInner());
-        assertThat(result.getPutMessageStatus()).isEqualTo(PutMessageStatus.PUT_OK);
+        Assertions.assertEquals(result.getPutMessageStatus(),PutMessageStatus.PUT_OK);
     }
 
     @Test
@@ -144,7 +145,7 @@ public class TransactionalMessageBridgeTest {
         when(messageStore.putMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
             (PutMessageStatus.PUT_OK, new AppendMessageResult(AppendMessageStatus.PUT_OK)));
         Boolean success = transactionBridge.putMessage(createMessageBrokerInner());
-        assertThat(success).isEqualTo(true);
+        Assertions.assertEquals(success,true);
     }
 
     @Test
@@ -153,11 +154,11 @@ public class TransactionalMessageBridgeTest {
         final String offset = "123456789";
         MessageExtBrokerInner msgInner = transactionBridge.renewImmunityHalfMessageInner(messageExt);
         MessageAccessor.putProperty(msgInner, MessageConst.PROPERTY_TRANSACTION_PREPARED_QUEUE_OFFSET,offset);
-        assertThat(msgInner).isNotNull();
+        Assertions.assertNotNull(msgInner);
         Map<String,String> properties = msgInner.getProperties();
-        assertThat(properties).isNotNull();
+        Assertions.assertNotNull(properties);
         String resOffset = properties.get(MessageConst.PROPERTY_TRANSACTION_PREPARED_QUEUE_OFFSET);
-        assertThat(resOffset).isEqualTo(offset);
+        Assertions.assertEquals(resOffset,offset);
     }
 
 
@@ -166,14 +167,14 @@ public class TransactionalMessageBridgeTest {
         MessageExt messageExt = new MessageExt();
         long bornTimeStamp = messageExt.getBornTimestamp();
         MessageExt messageExtRes = transactionBridge.renewHalfMessageInner(messageExt);
-        assertThat( messageExtRes.getBornTimestamp()).isEqualTo(bornTimeStamp);
+        Assertions.assertEquals( messageExtRes.getBornTimestamp(),bornTimeStamp);
     }
 
     @Test
     public void testLookMessageByOffset(){
         when(messageStore.lookMessageByOffset(anyLong())).thenReturn(new MessageExt());
         MessageExt messageExt = transactionBridge.lookMessageByOffset(123);
-        assertThat(messageExt).isNotNull();
+        Assertions.assertNotNull(messageExt);
     }
 
     @Test
@@ -182,7 +183,7 @@ public class TransactionalMessageBridgeTest {
                 .getMessage(anyString(), anyString(), anyInt(), anyLong(), anyInt(), ArgumentMatchers.nullable(MessageFilter.class)))
                 .thenReturn(createGetMessageResult(GetMessageStatus.FOUND));
         PullResult result = transactionBridge.getHalfMessage(0, 0, 1);
-        assertThat(result.getPullStatus()).isEqualTo(PullStatus.FOUND);
+        Assertions.assertEquals(result.getPullStatus(),PullStatus.FOUND);
     }
 
     @Test
@@ -191,7 +192,7 @@ public class TransactionalMessageBridgeTest {
                 .getMessage(anyString(), anyString(), anyInt(), anyLong(), anyInt(), ArgumentMatchers.nullable(MessageFilter.class)))
                 .thenReturn(null);
         PullResult result = transactionBridge.getHalfMessage(0, 0, 1);
-        assertThat(result).isNull();
+        Assertions.assertNull(result);
     }
 
     private GetMessageResult createGetMessageResult(GetMessageStatus status) {

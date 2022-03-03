@@ -17,13 +17,14 @@
 
 package org.apache.rocketmq.remoting.netty;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
+
+@ExtendWith(MockitoJUnitRunner.class)
 public class NettyServerConfigTest {
 
   @Test
@@ -32,6 +33,6 @@ public class NettyServerConfigTest {
     NettySystemConfig.socketBacklog =
             Integer.parseInt(System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_BACKLOG, "1024"));
     NettyServerConfig changedConfig = new NettyServerConfig();
-    assertThat(changedConfig.getServerSocketBacklog()).isEqualTo(65535);
+    Assertions.assertEquals(changedConfig.getServerSocketBacklog(),65535);
   }
 }

@@ -27,9 +27,9 @@ import org.apache.rocketmq.common.protocol.route.BrokerData;
 import org.apache.rocketmq.srvutil.ServerUtil;
 import org.apache.rocketmq.tools.command.SubCommandException;
 import org.apache.rocketmq.tools.command.server.ServerResponseMocker;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,13 +47,13 @@ public class GetConsumerConfigSubCommandTest {
 
     private ServerResponseMocker nameServerMocker;
 
-    @Before
+    @BeforeEach
     public void before() {
         brokerMocker = startOneBroker();
         nameServerMocker = startNameServer();
     }
 
-    @After
+    @AfterEach
     public void after() {
         brokerMocker.shutdown();
         nameServerMocker.shutdown();

@@ -22,13 +22,14 @@ import org.apache.rocketmq.common.protocol.route.BrokerData;
 import org.apache.rocketmq.common.protocol.route.QueueData;
 import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.assertj.core.api.Assertions.within;
 
 
@@ -64,7 +65,7 @@ public class TopicRouteDataTest {
         topicRouteData.setFilterServerTable(new HashMap<String, List<String>>());
         topicRouteData.setQueueDatas(queueDataList);
 
-        assertThat(topicRouteData.cloneTopicRouteData()).isEqualTo(topicRouteData);
+        Assertions.assertEquals(topicRouteData.cloneTopicRouteData(),topicRouteData);
 
     }
 
@@ -102,10 +103,10 @@ public class TopicRouteDataTest {
         String topicRouteDataJsonStr = RemotingSerializable.toJson(topicRouteData, true);
         TopicRouteData topicRouteDataFromJson = RemotingSerializable.fromJson(topicRouteDataJsonStr, TopicRouteData.class);
 
-        assertThat(topicRouteDataJsonStr).isNotEqualTo(topicRouteDataFromJson);
-        assertThat(topicRouteDataFromJson.getBrokerDatas()).isEqualTo(topicRouteData.getBrokerDatas());
-        assertThat(topicRouteDataFromJson.getFilterServerTable()).isEqualTo(topicRouteData.getFilterServerTable());
-        assertThat(topicRouteDataFromJson.getQueueDatas()).isEqualTo(topicRouteData.getQueueDatas());
+        Assertions.assertNotEquals(topicRouteDataJsonStr,topicRouteDataFromJson);
+        Assertions.assertEquals(topicRouteDataFromJson.getBrokerDatas(),topicRouteData.getBrokerDatas());
+        Assertions.assertEquals(topicRouteDataFromJson.getFilterServerTable(),topicRouteData.getFilterServerTable());
+        Assertions.assertEquals(topicRouteDataFromJson.getQueueDatas(),topicRouteData.getQueueDatas());
 
     }
 }

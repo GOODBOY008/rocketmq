@@ -33,12 +33,12 @@ import org.apache.rocketmq.common.message.MessageExtBatch;
 import org.apache.rocketmq.store.CommitLog.MessageExtEncoder;
 import org.apache.rocketmq.store.CommitLog.PutMessageContext;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Assertions;
 
 public class AppendCallbackTest {
 
@@ -46,7 +46,7 @@ public class AppendCallbackTest {
 
     MessageExtEncoder batchEncoder = new MessageExtEncoder(10 * 1024 * 1024);
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         MessageStoreConfig messageStoreConfig = new MessageStoreConfig();
         messageStoreConfig.setMappedFileSizeCommitLog(1024 * 8);
@@ -61,7 +61,7 @@ public class AppendCallbackTest {
         callback = commitLog.new DefaultAppendMessageCallback(1024);
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         UtilAll.deleteFile(new File(System.getProperty("user.home") + File.separator + "unitteststore"));
     }
@@ -92,13 +92,13 @@ public class AppendCallbackTest {
         //encounter end of file when append half of the data
         AppendMessageResult result =
                 callback.doAppend(0, buff, 1000, messageExtBatch, putMessageContext);
-        assertEquals(AppendMessageStatus.END_OF_FILE, result.getStatus());
-        assertEquals(0, result.getWroteOffset());
-        assertEquals(0, result.getLogicsOffset());
-        assertEquals(1000, result.getWroteBytes());
-        assertEquals(8, buff.position()); //write blank size and magic value
+        Assertions.assertEquals(AppendMessageStatus.END_OF_FILE, result.getStatus());
+        Assertions.assertEquals(0, result.getWroteOffset());
+        Assertions.assertEquals(0, result.getLogicsOffset());
+        Assertions.assertEquals(1000, result.getWroteBytes());
+        Assertions.assertEquals(8, buff.position()); //write blank size and magic value
 
-        assertTrue(result.getMsgId().length() > 0); //should have already constructed some message ids
+        Assertions.assertTrue(result.getMsgId().length() > 0); //should have already constructed some message ids
     }
 
     @Test
@@ -131,13 +131,13 @@ public class AppendCallbackTest {
         //encounter end of file when append half of the data
         AppendMessageResult result =
                 callback.doAppend(0, buff, 1000, messageExtBatch, putMessageContext);
-        assertEquals(AppendMessageStatus.END_OF_FILE, result.getStatus());
-        assertEquals(0, result.getWroteOffset());
-        assertEquals(0, result.getLogicsOffset());
-        assertEquals(1000, result.getWroteBytes());
-        assertEquals(8, buff.position()); //write blank size and magic value
+        Assertions.assertEquals(AppendMessageStatus.END_OF_FILE, result.getStatus());
+        Assertions.assertEquals(0, result.getWroteOffset());
+        Assertions.assertEquals(0, result.getLogicsOffset());
+        Assertions.assertEquals(1000, result.getWroteBytes());
+        Assertions.assertEquals(8, buff.position()); //write blank size and magic value
 
-        assertTrue(result.getMsgId().length() > 0); //should have already constructed some message ids
+        Assertions.assertTrue(result.getMsgId().length() > 0); //should have already constructed some message ids
     }
 
     @Test
@@ -166,34 +166,34 @@ public class AppendCallbackTest {
         AppendMessageResult allresult =
                 callback.doAppend(0, buff, 1024 * 10, messageExtBatch, putMessageContext);
 
-        assertEquals(AppendMessageStatus.PUT_OK, allresult.getStatus());
-        assertEquals(0, allresult.getWroteOffset());
-        assertEquals(0, allresult.getLogicsOffset());
-        assertEquals(buff.position(), allresult.getWroteBytes());
+        Assertions.assertEquals(AppendMessageStatus.PUT_OK, allresult.getStatus());
+        Assertions.assertEquals(0, allresult.getWroteOffset());
+        Assertions.assertEquals(0, allresult.getLogicsOffset());
+        Assertions.assertEquals(buff.position(), allresult.getWroteBytes());
 
-        assertEquals(messages.size(), allresult.getMsgNum());
+        Assertions.assertEquals(messages.size(), allresult.getMsgNum());
 
         Set<String> msgIds = new HashSet<>();
         for (String msgId : allresult.getMsgId().split(",")) {
-            assertEquals(32, msgId.length());
+            Assertions.assertEquals(32, msgId.length());
             msgIds.add(msgId);
         }
-        assertEquals(messages.size(), msgIds.size());
+        Assertions.assertEquals(messages.size(), msgIds.size());
 
         List<MessageExt> decodeMsgs = MessageDecoder.decodes((ByteBuffer) buff.flip());
-        assertEquals(decodeMsgs.size(), decodeMsgs.size());
+        Assertions.assertEquals(decodeMsgs.size(), decodeMsgs.size());
         long queueOffset = decodeMsgs.get(0).getQueueOffset();
         long storeTimeStamp = decodeMsgs.get(0).getStoreTimestamp();
         for (int i = 0; i < messages.size(); i++) {
-            assertEquals(messages.get(i).getTopic(), decodeMsgs.get(i).getTopic());
-            assertEquals(new String(messages.get(i).getBody()), new String(decodeMsgs.get(i).getBody()));
-            assertEquals(messages.get(i).getTags(), decodeMsgs.get(i).getTags());
+            Assertions.assertEquals(messages.get(i).getTopic(), decodeMsgs.get(i).getTopic());
+            Assertions.assertEquals(new String(messages.get(i).getBody()), new String(decodeMsgs.get(i).getBody()));
+            Assertions.assertEquals(messages.get(i).getTags(), decodeMsgs.get(i).getTags());
 
-            assertEquals(messageExtBatch.getBornHostNameString(), decodeMsgs.get(i).getBornHostNameString());
+            Assertions.assertEquals(messageExtBatch.getBornHostNameString(), decodeMsgs.get(i).getBornHostNameString());
 
-            assertEquals(messageExtBatch.getBornTimestamp(), decodeMsgs.get(i).getBornTimestamp());
-            assertEquals(storeTimeStamp, decodeMsgs.get(i).getStoreTimestamp());
-            assertEquals(queueOffset++, decodeMsgs.get(i).getQueueOffset());
+            Assertions.assertEquals(messageExtBatch.getBornTimestamp(), decodeMsgs.get(i).getBornTimestamp());
+            Assertions.assertEquals(storeTimeStamp, decodeMsgs.get(i).getStoreTimestamp());
+            Assertions.assertEquals(queueOffset++, decodeMsgs.get(i).getQueueOffset());
         }
 
     }
@@ -228,34 +228,34 @@ public class AppendCallbackTest {
         AppendMessageResult allresult =
                 callback.doAppend(0, buff, 1024 * 10, messageExtBatch, putMessageContext);
 
-        assertEquals(AppendMessageStatus.PUT_OK, allresult.getStatus());
-        assertEquals(0, allresult.getWroteOffset());
-        assertEquals(0, allresult.getLogicsOffset());
-        assertEquals(buff.position(), allresult.getWroteBytes());
+        Assertions.assertEquals(AppendMessageStatus.PUT_OK, allresult.getStatus());
+        Assertions.assertEquals(0, allresult.getWroteOffset());
+        Assertions.assertEquals(0, allresult.getLogicsOffset());
+        Assertions.assertEquals(buff.position(), allresult.getWroteBytes());
 
-        assertEquals(messages.size(), allresult.getMsgNum());
+        Assertions.assertEquals(messages.size(), allresult.getMsgNum());
 
         Set<String> msgIds = new HashSet<>();
         for (String msgId : allresult.getMsgId().split(",")) {
-            assertEquals(56, msgId.length());
+            Assertions.assertEquals(56, msgId.length());
             msgIds.add(msgId);
         }
-        assertEquals(messages.size(), msgIds.size());
+        Assertions.assertEquals(messages.size(), msgIds.size());
 
         List<MessageExt> decodeMsgs = MessageDecoder.decodes((ByteBuffer) buff.flip());
-        assertEquals(decodeMsgs.size(), decodeMsgs.size());
+        Assertions.assertEquals(decodeMsgs.size(), decodeMsgs.size());
         long queueOffset = decodeMsgs.get(0).getQueueOffset();
         long storeTimeStamp = decodeMsgs.get(0).getStoreTimestamp();
         for (int i = 0; i < messages.size(); i++) {
-            assertEquals(messages.get(i).getTopic(), decodeMsgs.get(i).getTopic());
-            assertEquals(new String(messages.get(i).getBody()), new String(decodeMsgs.get(i).getBody()));
-            assertEquals(messages.get(i).getTags(), decodeMsgs.get(i).getTags());
+            Assertions.assertEquals(messages.get(i).getTopic(), decodeMsgs.get(i).getTopic());
+            Assertions.assertEquals(new String(messages.get(i).getBody()), new String(decodeMsgs.get(i).getBody()));
+            Assertions.assertEquals(messages.get(i).getTags(), decodeMsgs.get(i).getTags());
 
-            assertEquals(messageExtBatch.getBornHostNameString(), decodeMsgs.get(i).getBornHostNameString());
+            Assertions.assertEquals(messageExtBatch.getBornHostNameString(), decodeMsgs.get(i).getBornHostNameString());
 
-            assertEquals(messageExtBatch.getBornTimestamp(), decodeMsgs.get(i).getBornTimestamp());
-            assertEquals(storeTimeStamp, decodeMsgs.get(i).getStoreTimestamp());
-            assertEquals(queueOffset++, decodeMsgs.get(i).getQueueOffset());
+            Assertions.assertEquals(messageExtBatch.getBornTimestamp(), decodeMsgs.get(i).getBornTimestamp());
+            Assertions.assertEquals(storeTimeStamp, decodeMsgs.get(i).getStoreTimestamp());
+            Assertions.assertEquals(queueOffset++, decodeMsgs.get(i).getQueueOffset());
         }
 
     }

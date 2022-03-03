@@ -18,12 +18,12 @@
 package org.apache.rocketmq.common.protocol.body;
 
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class KVTableTest {
 
@@ -39,9 +39,9 @@ public class KVTableTest {
         String json = RemotingSerializable.toJson(kvTable, true);
         KVTable fromJson = RemotingSerializable.fromJson(json, KVTable.class);
 
-        assertThat(fromJson).isNotEqualTo(kvTable);
-        assertThat(fromJson.getTable().get("key1")).isEqualTo(kvTable.getTable().get("key1"));
-        assertThat(fromJson.getTable().get("key2")).isEqualTo(kvTable.getTable().get("key2"));
+        Assertions.assertNotEquals(fromJson,kvTable);
+        Assertions.assertEquals(fromJson.getTable().get("key1"),kvTable.getTable().get("key1"));
+        Assertions.assertEquals(fromJson.getTable().get("key2"),kvTable.getTable().get("key2"));
     }
 
 }

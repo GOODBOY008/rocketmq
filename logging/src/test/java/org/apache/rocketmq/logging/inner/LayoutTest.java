@@ -18,8 +18,8 @@
 package org.apache.rocketmq.logging.inner;
 
 import org.apache.rocketmq.logging.BasicLoggerTest;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class LayoutTest extends BasicLoggerTest {
 
@@ -27,7 +27,7 @@ public class LayoutTest extends BasicLoggerTest {
     public void testSimpleLayout() {
         Layout layout = LoggingBuilder.newLayoutBuilder().withSimpleLayout().build();
         String format = layout.format(loggingEvent);
-        Assert.assertTrue(format.contains("junit"));
+        Assertions.assertTrue(format.contains("junit"));
     }
 
     @Test
@@ -35,10 +35,10 @@ public class LayoutTest extends BasicLoggerTest {
         Layout layout = LoggingBuilder.newLayoutBuilder().withDefaultLayout().build();
         String format = layout.format(loggingEvent);
         String contentType = layout.getContentType();
-        Assert.assertTrue(contentType.contains("text"));
-        Assert.assertTrue(format.contains("createLoggingEvent"));
-        Assert.assertTrue(format.contains("createLogging error"));
-        Assert.assertTrue(format.contains(Thread.currentThread().getName()));
+        Assertions.assertTrue(contentType.contains("text"));
+        Assertions.assertTrue(format.contains("createLoggingEvent"));
+        Assertions.assertTrue(format.contains("createLogging error"));
+        Assertions.assertTrue(format.contains(Thread.currentThread().getName()));
     }
 
     @Test

@@ -23,10 +23,10 @@ import org.apache.rocketmq.common.namesrv.RegisterBrokerResult;
 import org.apache.rocketmq.common.protocol.body.TopicConfigSerializeWrapper;
 import org.apache.rocketmq.common.protocol.route.QueueData;
 import org.apache.rocketmq.common.protocol.route.TopicRouteData;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -34,20 +34,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.mock;
 
 public class RouteInfoManagerTest {
 
     private static RouteInfoManager routeInfoManager;
 
-    @Before
+    @BeforeEach
     public void setup() {
         routeInfoManager = new RouteInfoManager();
         testRegisterBroker();
     }
 
-    @After
+    @AfterEach
     public void terminate() {
         routeInfoManager.printAllPeriodically();
         routeInfoManager.unregisterBroker("default-cluster", "127.0.0.1:10911", "default-broker", 1234);
@@ -56,14 +56,14 @@ public class RouteInfoManagerTest {
     @Test
     public void testGetAllClusterInfo() {
         byte[] clusterInfo = routeInfoManager.getAllClusterInfo();
-        assertThat(clusterInfo).isNotNull();
+        Assertions.assertNotNull(clusterInfo);
     }
 
     @Test
     public void testGetAllTopicList() {
         byte[] topicInfo = routeInfoManager.getAllTopicList();
-        Assert.assertTrue(topicInfo != null);
-        assertThat(topicInfo).isNotNull();
+        Assertions.assertTrue(topicInfo != null);
+        Assertions.assertNotNull(topicInfo);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class RouteInfoManagerTest {
         Channel channel = mock(Channel.class);
         RegisterBrokerResult registerBrokerResult = routeInfoManager.registerBroker("default-cluster", "127.0.0.1:10911", "default-broker", 1234, "127.0.0.1:1001",
                 topicConfigSerializeWrapper, new ArrayList<String>(), channel);
-        assertThat(registerBrokerResult).isNotNull();
+        Assertions.assertNotNull(registerBrokerResult);
     }
 
     @Test
@@ -99,45 +99,45 @@ public class RouteInfoManagerTest {
         filed.set(routeInfoManager, topicQueueTable);
 
         int addTopicCnt = routeInfoManager.wipeWritePermOfBrokerByLock("broker-a");
-        assertThat(addTopicCnt).isEqualTo(1);
-        assertThat(qd.getPerm()).isEqualTo(PermName.PERM_READ);
+        Assertions.assertEquals(addTopicCnt,1);
+        Assertions.assertEquals(qd.getPerm(),PermName.PERM_READ);
 
     }
 
     @Test
     public void testPickupTopicRouteData() {
         TopicRouteData result = routeInfoManager.pickupTopicRouteData("unit_test");
-        assertThat(result).isNull();
+        Assertions.assertNull(result);
     }
 
     @Test
     public void testGetSystemTopicList() {
         byte[] topicList = routeInfoManager.getSystemTopicList();
-        assertThat(topicList).isNotNull();
+        Assertions.assertNotNull(topicList);
     }
 
     @Test
     public void testGetTopicsByCluster() {
         byte[] topicList = routeInfoManager.getTopicsByCluster("default-cluster");
-        assertThat(topicList).isNotNull();
+        Assertions.assertNotNull(topicList);
     }
 
     @Test
     public void testGetUnitTopics() {
         byte[] topicList = routeInfoManager.getUnitTopics();
-        assertThat(topicList).isNotNull();
+        Assertions.assertNotNull(topicList);
     }
 
     @Test
     public void testGetHasUnitSubTopicList() {
         byte[] topicList = routeInfoManager.getHasUnitSubTopicList();
-        assertThat(topicList).isNotNull();
+        Assertions.assertNotNull(topicList);
     }
 
     @Test
     public void testGetHasUnitSubUnUnitTopicList() {
         byte[] topicList = routeInfoManager.getHasUnitSubUnUnitTopicList();
-        assertThat(topicList).isNotNull();
+        Assertions.assertNotNull(topicList);
     }
 
     @Test
@@ -155,8 +155,8 @@ public class RouteInfoManagerTest {
         filed.set(routeInfoManager, topicQueueTable);
 
         int addTopicCnt = routeInfoManager.addWritePermOfBrokerByLock("broker-a");
-        assertThat(addTopicCnt).isEqualTo(1);
-        assertThat(qd.getPerm()).isEqualTo(PermName.PERM_READ | PermName.PERM_WRITE);
+        Assertions.assertEquals(addTopicCnt,1);
+        Assertions.assertEquals(qd.getPerm(),PermName.PERM_READ | PermName.PERM_WRITE);
 
     }
 }

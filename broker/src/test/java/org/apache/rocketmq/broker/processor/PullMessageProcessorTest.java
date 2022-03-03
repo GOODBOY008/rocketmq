@@ -46,14 +46,15 @@ import org.apache.rocketmq.store.GetMessageResult;
 import org.apache.rocketmq.store.GetMessageStatus;
 import org.apache.rocketmq.store.MessageStore;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -61,7 +62,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class PullMessageProcessorTest {
     private PullMessageProcessor pullMessageProcessor;
     @Spy
@@ -74,7 +75,7 @@ public class PullMessageProcessorTest {
     private String group = "FooBarGroup";
     private String topic = "FooBar";
 
-    @Before
+    @BeforeEach
     public void init() {
         brokerController.setMessageStore(messageStore);
         pullMessageProcessor = new PullMessageProcessor(brokerController);
@@ -99,9 +100,9 @@ public class PullMessageProcessorTest {
         brokerController.getTopicConfigManager().getTopicConfigTable().remove(topic);
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.TOPIC_NOT_EXIST);
-        assertThat(response.getRemark()).contains("topic[" + topic + "] not exist");
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.TOPIC_NOT_EXIST);
+        Assertions.assertEquals(response.getRemark()).contains("topic[" + topic + "] not exist");
     }
 
     @Test
@@ -109,9 +110,9 @@ public class PullMessageProcessorTest {
         brokerController.getConsumerManager().unregisterConsumer(group, clientChannelInfo, false);
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUBSCRIPTION_NOT_EXIST);
-        assertThat(response.getRemark()).contains("consumer's group info not exist");
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUBSCRIPTION_NOT_EXIST);
+        Assertions.assertEquals(response.getRemark()).contains("consumer's group info not exist");
     }
 
     @Test
@@ -119,9 +120,9 @@ public class PullMessageProcessorTest {
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         request.addExtField("subVersion", String.valueOf(101));
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUBSCRIPTION_NOT_LATEST);
-        assertThat(response.getRemark()).contains("subscription not latest");
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUBSCRIPTION_NOT_LATEST);
+        Assertions.assertEquals(response.getRemark()).contains("subscription not latest");
     }
 
     @Test
@@ -131,8 +132,8 @@ public class PullMessageProcessorTest {
 
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -160,12 +161,12 @@ public class PullMessageProcessorTest {
         pullMessageProcessor.registerConsumeMessageHook(consumeMessageHookList);
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
-        assertThat(messageContext[0]).isNotNull();
-        assertThat(messageContext[0].getConsumerGroup()).isEqualTo(group);
-        assertThat(messageContext[0].getTopic()).isEqualTo(topic);
-        assertThat(messageContext[0].getQueueId()).isEqualTo(1);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
+        Assertions.assertNotNull(messageContext[0]);
+        Assertions.assertEquals(messageContext[0].getConsumerGroup(),group);
+        Assertions.assertEquals(messageContext[0].getTopic(),topic);
+        Assertions.assertEquals(messageContext[0].getQueueId(),1);
     }
 
     @Test
@@ -176,8 +177,8 @@ public class PullMessageProcessorTest {
 
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.PULL_RETRY_IMMEDIATELY);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.PULL_RETRY_IMMEDIATELY);
     }
 
     @Test
@@ -188,8 +189,8 @@ public class PullMessageProcessorTest {
 
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
-        assertThat(response).isNotNull();
-        assertThat(response.getCode()).isEqualTo(ResponseCode.PULL_OFFSET_MOVED);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(response.getCode(),ResponseCode.PULL_OFFSET_MOVED);
     }
 
     private RemotingCommand createPullMsgCommand(int requestCode) {

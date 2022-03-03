@@ -21,10 +21,10 @@ import org.apache.rocketmq.logging.inner.Appender;
 import org.apache.rocketmq.logging.inner.Level;
 import org.apache.rocketmq.logging.inner.Logger;
 import org.apache.rocketmq.logging.inner.LoggingBuilder;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -37,7 +37,7 @@ public class InnerLoggerFactoryTest extends BasicLoggerTest {
 
     private PrintStream out;
 
-    @Before
+    @BeforeEach
     public void initLogger() {
         out = System.out;
         byteArrayOutputStream = new ByteArrayOutputStream();
@@ -53,7 +53,7 @@ public class InnerLoggerFactoryTest extends BasicLoggerTest {
         consoleLogger.setLevel(Level.INFO);
     }
 
-    @After
+    @AfterEach
     public void fixConsole() {
         System.setOut(out);
     }
@@ -65,7 +65,7 @@ public class InnerLoggerFactoryTest extends BasicLoggerTest {
         InternalLogger logger1 = InnerLoggerFactory.getLogger(LOGGER);
         InternalLogger logger = InternalLoggerFactory.getLogger(LOGGER);
 
-        Assert.assertTrue(logger.getName().equals(logger1.getName()));
+        Assertions.assertTrue(logger.getName().equals(logger1.getName()));
 
         InternalLogger logger2 = InnerLoggerFactory.getLogger(InnerLoggerFactoryTest.class);
         InnerLoggerFactory.InnerLogger logger3 = (InnerLoggerFactory.InnerLogger) logger2;
@@ -84,9 +84,9 @@ public class InnerLoggerFactoryTest extends BasicLoggerTest {
         String content = new String(byteArrayOutputStream.toByteArray());
         System.out.println(content);
 
-        Assert.assertTrue(content.contains("InnerLoggerFactoryTest"));
-        Assert.assertTrue(content.contains("info"));
-        Assert.assertTrue(content.contains("RuntimeException"));
-        Assert.assertTrue(!content.contains("debug"));
+        Assertions.assertTrue(content.contains("InnerLoggerFactoryTest"));
+        Assertions.assertTrue(content.contains("info"));
+        Assertions.assertTrue(content.contains("RuntimeException"));
+        Assertions.assertTrue(!content.contains("debug"));
     }
 }

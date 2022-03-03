@@ -21,7 +21,8 @@ import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.filter.ExpressionType;
 import org.apache.rocketmq.common.filter.FilterAPI;
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ConsumerFilterManagerTest {
 
@@ -58,23 +59,23 @@ public class ConsumerFilterManagerTest {
     public void testRegister_newExpressionCompileErrorAndRemoveOld() {
         ConsumerFilterManager filterManager = gen(10, 10);
 
-        assertThat(filterManager.get("topic9", "CID_9")).isNotNull();
+        Assertions.assertNotNull(filterManager.get("topic9", "CID_9"));
 
         String newExpr = "a between 10,20";
 
-        assertThat(filterManager.register("topic9", "CID_9", newExpr, ExpressionType.SQL92, System.currentTimeMillis() + 1))
-            .isFalse();
-        assertThat(filterManager.get("topic9", "CID_9")).isNull();
+        Assertions.assertFalse(filterManager.register("topic9", "CID_9", newExpr, ExpressionType.SQL92, System.currentTimeMillis() + 1))
+            ;
+        Assertions.assertNull(filterManager.get("topic9", "CID_9"));
 
         newExpr = "a between 10 AND 20";
 
-        assertThat(filterManager.register("topic9", "CID_9", newExpr, ExpressionType.SQL92, System.currentTimeMillis() + 1))
-            .isTrue();
+        Assertions.assertTrue(filterManager.register("topic9", "CID_9", newExpr, ExpressionType.SQL92, System.currentTimeMillis() + 1))
+            ;
 
         ConsumerFilterData filterData = filterManager.get("topic9", "CID_9");
 
-        assertThat(filterData).isNotNull();
-        assertThat(newExpr).isEqualTo(filterData.getExpression());
+        Assertions.assertNotNull(filterData);
+        Assertions.assertEquals(newExpr,filterData.getExpression());
     }
 
     @Test
@@ -91,7 +92,7 @@ public class ConsumerFilterManagerTest {
 
         filterData = filterManager.get("topic9", "CID_9");
 
-        assertThat(newExpr).isEqualTo(filterData.getExpression());
+        Assertions.assertEquals(newExpr,filterData.getExpression());
 
         System.out.println(filterData.toString());
     }
@@ -102,26 +103,26 @@ public class ConsumerFilterManagerTest {
 
         ConsumerFilterData filterData = filterManager.get("topic9", "CID_9");
 
-        assertThat(filterData).isNotNull();
-        assertThat(filterData.isDead()).isFalse();
+        Assertions.assertNotNull(filterData);
+        Assertions.assertFalse(filterData.isDead());
 
         // new version
-        assertThat(filterManager.register(
+        Assertions.assertTrue(filterManager.register(
             "topic9", "CID_9", "a is not null", ExpressionType.SQL92, System.currentTimeMillis() + 1000
-        )).isTrue();
+        ));
 
         ConsumerFilterData newFilter = filterManager.get("topic9", "CID_9");
 
-        assertThat(newFilter).isNotEqualTo(filterData);
+        Assertions.assertNotEquals(newFilter,filterData);
 
         // same version
-        assertThat(filterManager.register(
+        Assertions.assertFalse(filterManager.register(
             "topic9", "CID_9", "a is null", ExpressionType.SQL92, newFilter.getClientVersion()
-        )).isFalse();
+        ));
 
         ConsumerFilterData filterData1 = filterManager.get("topic9", "CID_9");
 
-        assertThat(newFilter).isEqualTo(filterData1);
+        Assertions.assertEquals(newFilter,filterData1);
     }
 
     @Test
@@ -130,8 +131,8 @@ public class ConsumerFilterManagerTest {
 
         ConsumerFilterData filterData = filterManager.get("topic9", "CID_9");
 
-        assertThat(filterData).isNotNull();
-        assertThat(filterData.isDead()).isFalse();
+        Assertions.assertNotNull(filterData);
+        Assertions.assertFalse(filterData.isDead());
 
         //make dead
         filterManager.unRegister("CID_9");
@@ -147,8 +148,8 @@ public class ConsumerFilterManagerTest {
 
         ConsumerFilterData newFilterData = filterManager.get("topic9", "CID_9");
 
-        assertThat(newFilterData).isNotNull();
-        assertThat(newFilterData.isDead()).isFalse();
+        Assertions.assertNotNull(newFilterData);
+        Assertions.assertFalse(newFilterData.isDead());
     }
 
     @Test
@@ -166,7 +167,7 @@ public class ConsumerFilterManagerTest {
                 );
             } catch (Exception e) {
                 e.printStackTrace();
-                assertThat(true).isFalse();
+                Assertions.assertFalse(true);
             }
         }
 
@@ -174,15 +175,15 @@ public class ConsumerFilterManagerTest {
 
         Collection<ConsumerFilterData> filterDatas = filterManager.getByGroup("CID_0");
 
-        assertThat(filterDatas).isNotNull();
-        assertThat(filterDatas.size()).isEqualTo(10);
+        Assertions.assertNotNull(filterDatas);
+        Assertions.assertEquals(filterDatas.size(),10);
 
         Iterator<ConsumerFilterData> iterator = filterDatas.iterator();
         while (iterator.hasNext()) {
             ConsumerFilterData filterData = iterator.next();
 
-            assertThat(filterData).isNotNull();
-            assertThat(filterManager.getBloomFilter().isValid(filterData.getBloomFilterData())).isTrue();
+            Assertions.assertNotNull(filterData);
+            Assertions.assertTrue(filterManager.getBloomFilter().isValid(filterData.getBloomFilterData()));
         }
     }
 
@@ -190,11 +191,11 @@ public class ConsumerFilterManagerTest {
     public void testRegister_tag() {
         ConsumerFilterManager filterManager = new ConsumerFilterManager();
 
-        assertThat(filterManager.register("topic0", "CID_0", "*", null, System.currentTimeMillis())).isFalse();
+        Assertions.assertFalse(filterManager.register("topic0", "CID_0", "*", null, System.currentTimeMillis()));
 
         Collection<ConsumerFilterData> filterDatas = filterManager.getByGroup("CID_0");
 
-        assertThat(filterDatas).isNullOrEmpty();
+        Assertions.assertEquals(filterDatas).isNullOrEmpty();
     }
 
     @Test
@@ -203,12 +204,12 @@ public class ConsumerFilterManagerTest {
 
         ConsumerFilterData filterData = filterManager.get("topic9", "CID_9");
 
-        assertThat(filterData).isNotNull();
-        assertThat(filterData.isDead()).isFalse();
+        Assertions.assertNotNull(filterData);
+        Assertions.assertFalse(filterData.isDead());
 
         filterManager.unRegister("CID_9");
 
-        assertThat(filterData.isDead()).isTrue();
+        Assertions.assertTrue(filterData.isDead());
     }
 
     @Test
@@ -220,18 +221,18 @@ public class ConsumerFilterManagerTest {
 
             ConsumerFilterData filterData = filterManager.get("topic9", "CID_9");
 
-            assertThat(filterData).isNotNull();
-            assertThat(filterData.isDead()).isFalse();
+            Assertions.assertNotNull(filterData);
+            Assertions.assertFalse(filterData.isDead());
 
             ConsumerFilterManager loadFilter = new ConsumerFilterManager();
 
-            assertThat(loadFilter.load()).isTrue();
+            Assertions.assertTrue(loadFilter.load());
 
             filterData = loadFilter.get("topic9", "CID_9");
 
-            assertThat(filterData).isNotNull();
-            assertThat(filterData.isDead()).isTrue();
-            assertThat(filterData.getCompiledExpression()).isNotNull();
+            Assertions.assertNotNull(filterData);
+            Assertions.assertTrue(filterData.isDead());
+            Assertions.assertNotNull(filterData.getCompiledExpression());
         } finally {
             UtilAll.deleteFile(new File("./unit_test"));
         }
@@ -247,8 +248,8 @@ public class ConsumerFilterManagerTest {
 
             ConsumerFilterData filterData = filterManager.get(topic, cid);
 
-            assertThat(filterData).isNotNull();
-            assertThat(filterData.isDead()).isFalse();
+            Assertions.assertNotNull(filterData);
+            Assertions.assertFalse(filterData.isDead());
 
             //make dead more than 24h
             filterData.setBornTime(System.currentTimeMillis() - 26 * 60 * 60 * 1000);
@@ -260,15 +261,15 @@ public class ConsumerFilterManagerTest {
 
             ConsumerFilterManager loadFilter = new ConsumerFilterManager();
 
-            assertThat(loadFilter.load()).isTrue();
+            Assertions.assertTrue(loadFilter.load());
 
             ConsumerFilterData filterData = loadFilter.get(topic, "CID_9");
 
-            assertThat(filterData).isNull();
+            Assertions.assertNull(filterData);
 
             Collection<ConsumerFilterData> topicData = loadFilter.get(topic);
 
-            assertThat(topicData).isNullOrEmpty();
+            Assertions.assertEquals(topicData).isNullOrEmpty();
         } finally {
             UtilAll.deleteFile(new File("./unit_test"));
         }

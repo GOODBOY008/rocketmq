@@ -38,11 +38,11 @@ import org.apache.rocketmq.common.protocol.route.QueueData;
 import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 import org.apache.rocketmq.common.topic.TopicValidator;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -57,7 +57,7 @@ import java.util.concurrent.TimeUnit;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class DefaultMQProducerWithTraceTest {
 
     @Spy
@@ -79,7 +79,7 @@ public class DefaultMQProducerWithTraceTest {
     private String producerGroupTraceTemp = TopicValidator.RMQ_SYS_TRACE_TOPIC + System.currentTimeMillis();
     private String customerTraceTopic = "rmq_trace_topic_12345";
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
 
         customTraceTopicproducer = new DefaultMQProducer(producerGroupTemp, false, customerTraceTopic);
@@ -150,10 +150,10 @@ public class DefaultMQProducerWithTraceTest {
         DefaultMQProducer producer = new DefaultMQProducer(producerGroupTemp, true);
         producer.setUseTLS(true);
         AsyncTraceDispatcher asyncTraceDispatcher = (AsyncTraceDispatcher) producer.getTraceDispatcher();
-        Assert.assertTrue(asyncTraceDispatcher.getTraceProducer().isUseTLS());
+        Assertions.assertTrue(asyncTraceDispatcher.getTraceProducer().isUseTLS());
     }
     
-    @After
+    @AfterEach
     public void terminate() {
         producer.shutdown();
     }

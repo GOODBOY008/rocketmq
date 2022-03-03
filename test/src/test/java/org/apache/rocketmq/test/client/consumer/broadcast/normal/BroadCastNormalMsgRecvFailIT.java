@@ -24,12 +24,12 @@ import org.apache.rocketmq.test.client.rmq.RMQBroadCastConsumer;
 import org.apache.rocketmq.test.client.rmq.RMQNormalProducer;
 import org.apache.rocketmq.test.listener.rmq.concurrent.RMQNormalListener;
 import org.apache.rocketmq.test.util.VerifyUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
+
 
 public class BroadCastNormalMsgRecvFailIT extends BaseBroadCastIT {
     private static Logger logger = Logger
@@ -37,7 +37,7 @@ public class BroadCastNormalMsgRecvFailIT extends BaseBroadCastIT {
     private RMQNormalProducer producer = null;
     private String topic = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         printSeperator();
         topic = initTopic();
@@ -45,7 +45,7 @@ public class BroadCastNormalMsgRecvFailIT extends BaseBroadCastIT {
         producer = getProducer(nsAddr, topic);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.shutdown();
     }
@@ -61,11 +61,11 @@ public class BroadCastNormalMsgRecvFailIT extends BaseBroadCastIT {
             new RMQNormalListener(ConsumeConcurrentlyStatus.RECONSUME_LATER));
 
         producer.send(msgSize);
-        Assert.assertEquals("Not all sent succeeded", msgSize, producer.getAllUndupMsgBody().size());
+        Assertions.assertEquals("Not all sent succeeded", msgSize, producer.getAllUndupMsgBody().size());
 
         consumer1.getListener().waitForMessageConsume(producer.getAllMsgBody(), consumeTime);
 
-        assertThat(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
+        Assertions.assertEquals(VerifyUtils.getFilterdMessage(producer.getAllMsgBody(),
             consumer1.getListener().getAllMsgBody()))
             .containsExactlyElementsIn(producer.getAllMsgBody());
     }

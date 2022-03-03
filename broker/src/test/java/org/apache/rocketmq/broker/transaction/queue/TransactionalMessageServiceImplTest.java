@@ -38,9 +38,10 @@ import org.apache.rocketmq.store.MessageExtBrokerInner;
 import org.apache.rocketmq.store.PutMessageResult;
 import org.apache.rocketmq.store.PutMessageStatus;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
@@ -53,7 +54,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -61,7 +62,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class TransactionalMessageServiceImplTest {
 
     private TransactionalMessageService queueTransactionMsgService;
@@ -76,7 +77,7 @@ public class TransactionalMessageServiceImplTest {
     @Mock
     private AbstractTransactionalMessageCheckListener listener;
 
-    @Before
+    @BeforeEach
     public void init() {
         listener.setBrokerController(brokerController);
         queueTransactionMsgService = new TransactionalMessageServiceImpl(bridge);
@@ -96,14 +97,14 @@ public class TransactionalMessageServiceImplTest {
     public void testCommitMessage() {
         when(bridge.lookMessageByOffset(anyLong())).thenReturn(createMessageBrokerInner());
         OperationResult result = queueTransactionMsgService.commitMessage(createEndTransactionRequestHeader(MessageSysFlag.TRANSACTION_COMMIT_TYPE));
-        assertThat(result.getResponseCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(result.getResponseCode(),ResponseCode.SUCCESS);
     }
 
     @Test
     public void testRollbackMessage() {
         when(bridge.lookMessageByOffset(anyLong())).thenReturn(createMessageBrokerInner());
         OperationResult result = queueTransactionMsgService.commitMessage(createEndTransactionRequestHeader(MessageSysFlag.TRANSACTION_ROLLBACK_TYPE));
-        assertThat(result.getResponseCode()).isEqualTo(ResponseCode.SUCCESS);
+        Assertions.assertEquals(result.getResponseCode(),ResponseCode.SUCCESS);
     }
 
     @Test
@@ -123,7 +124,7 @@ public class TransactionalMessageServiceImplTest {
             }
         }).when(listener).resolveDiscardMsg(any(MessageExt.class));
         queueTransactionMsgService.check(timeOut, checkMax, listener);
-        assertThat(checkMessage.get()).isEqualTo(1);
+        Assertions.assertEquals(checkMessage.get(),1);
     }
 
     @Test
@@ -147,20 +148,20 @@ public class TransactionalMessageServiceImplTest {
             }
         }).when(listener).resolveHalfMsg(any(MessageExt.class));
         queueTransactionMsgService.check(timeOut, checkMax, listener);
-        assertThat(checkMessage.get()).isEqualTo(1);
+        Assertions.assertEquals(checkMessage.get(),1);
     }
 
     @Test
     public void testDeletePrepareMessage() {
         when(bridge.putOpMessage(any(MessageExt.class), anyString())).thenReturn(true);
         boolean res = queueTransactionMsgService.deletePrepareMessage(createMessageBrokerInner());
-        assertThat(res).isTrue();
+        Assertions.assertTrue(res);
     }
 
     @Test
     public void testOpen() {
         boolean isOpen = queueTransactionMsgService.open();
-        assertThat(isOpen).isTrue();
+        Assertions.assertTrue(isOpen);
     }
 
     private PullResult createDiscardPullResult(String topic, long queueOffset, String body, int size) {

@@ -17,11 +17,12 @@
 
 package org.apache.rocketmq.common.protocol.topic;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class OffsetMovedEventTest {
 
@@ -32,7 +33,7 @@ public class OffsetMovedEventTest {
     String json = event.toJson();
     OffsetMovedEvent fromJson = RemotingSerializable.fromJson(json, OffsetMovedEvent.class);
 
-    assertEquals(event, fromJson);
+    Assertions.assertEquals(event, fromJson);
   }
 
   @Test
@@ -42,19 +43,16 @@ public class OffsetMovedEventTest {
     byte[] encodeData = event.encode();
     OffsetMovedEvent decodeData = RemotingSerializable.decode(encodeData, OffsetMovedEvent.class);
 
-    assertEquals(event, decodeData);
+    Assertions.assertEquals(event, decodeData);
   }
 
   private void assertEquals(OffsetMovedEvent srcData, OffsetMovedEvent decodeData) {
-    assertThat(decodeData.getConsumerGroup()).isEqualTo(srcData.getConsumerGroup());
-    assertThat(decodeData.getMessageQueue().getTopic())
-        .isEqualTo(srcData.getMessageQueue().getTopic());
-    assertThat(decodeData.getMessageQueue().getBrokerName())
-        .isEqualTo(srcData.getMessageQueue().getBrokerName());
-    assertThat(decodeData.getMessageQueue().getQueueId())
-        .isEqualTo(srcData.getMessageQueue().getQueueId());
-    assertThat(decodeData.getOffsetRequest()).isEqualTo(srcData.getOffsetRequest());
-    assertThat(decodeData.getOffsetNew()).isEqualTo(srcData.getOffsetNew());
+    Assertions.assertEquals(decodeData.getConsumerGroup(),srcData.getConsumerGroup());
+    Assertions.assertEquals(decodeData.getMessageQueue().getTopic(),srcData.getMessageQueue().getTopic());
+    Assertions.assertEquals(decodeData.getMessageQueue().getBrokerName(),srcData.getMessageQueue().getBrokerName());
+    Assertions.assertEquals(decodeData.getMessageQueue().getQueueId(),srcData.getMessageQueue().getQueueId());
+    Assertions.assertEquals(decodeData.getOffsetRequest(),srcData.getOffsetRequest());
+    Assertions.assertEquals(decodeData.getOffsetNew(),srcData.getOffsetNew());
   }
 
   private OffsetMovedEvent mockOffsetMovedEvent() {

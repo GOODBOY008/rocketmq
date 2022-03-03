@@ -35,9 +35,10 @@ import org.apache.rocketmq.store.MessageFilter;
 import org.apache.rocketmq.store.PutMessageResult;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -49,7 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class MessageStoreWithFilterTest {
 
@@ -86,13 +87,13 @@ public class MessageStoreWithFilterTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         filterManager = ConsumerFilterManagerTest.gen(topicCount, msgPerTopic);
         master = gen(filterManager);
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         master.shutdown();
         master.destroy();
@@ -166,7 +167,7 @@ public class MessageStoreWithFilterTest {
         });
         master.getDispatcherList().addFirst(new CommitLogDispatcherCalcBitMap(brokerConfig, filterManager));
 
-        assertThat(master.load()).isTrue();
+        Assertions.assertTrue(master.load());
 
         master.start();
 
@@ -212,7 +213,7 @@ public class MessageStoreWithFilterTest {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                assertThat(true).isFalse();
+                Assertions.assertFalse(true);
             }
         }
 
@@ -246,11 +247,11 @@ public class MessageStoreWithFilterTest {
                 new ExpressionMessageFilter(resetSubData, resetFilterData, filterManager));
 
             try {
-                assertThat(resetGetResult).isNotNull();
+                Assertions.assertNotNull(resetGetResult);
 
                 List<MessageExtBrokerInner> filteredMsgs = filtered(msgs, resetFilterData);
 
-                assertThat(resetGetResult.getMessageBufferList().size()).isEqualTo(filteredMsgs.size());
+                Assertions.assertEquals(resetGetResult.getMessageBufferList().size(),filteredMsgs.size());
             } finally {
                 resetGetResult.release();
             }
@@ -258,8 +259,8 @@ public class MessageStoreWithFilterTest {
 
         {
             ConsumerFilterData normalFilterData = filterManager.get(topic, normalGroup);
-            assertThat(normalFilterData).isNotNull();
-            assertThat(normalFilterData.getBornTime()).isLessThan(System.currentTimeMillis());
+            Assertions.assertNotNull(normalFilterData);
+            Assertions.assertEquals(normalFilterData.getBornTime()).isLessThan(System.currentTimeMillis());
 
             SubscriptionData normalSubData = new SubscriptionData();
             normalSubData.setExpressionType(normalFilterData.getExpressionType());
@@ -273,8 +274,8 @@ public class MessageStoreWithFilterTest {
                 new ExpressionMessageFilter(normalSubData, normalFilterData, filterManager));
 
             try {
-                assertThat(normalGetResult).isNotNull();
-                assertThat(normalGetResult.getMessageBufferList().size()).isEqualTo(filteredMsgs.size());
+                Assertions.assertNotNull(normalGetResult);
+                Assertions.assertEquals(normalGetResult.getMessageBufferList().size(),filteredMsgs.size());
             } finally {
                 normalGetResult.release();
             }
@@ -294,7 +295,7 @@ public class MessageStoreWithFilterTest {
                 String group = "CID_" + j;
 
                 ConsumerFilterData filterData = filterManager.get(realTopic, group);
-                assertThat(filterData).isNotNull();
+                Assertions.assertNotNull(filterData);
 
                 List<MessageExtBrokerInner> filteredMsgs = filtered(msgs, filterData);
 
@@ -308,24 +309,24 @@ public class MessageStoreWithFilterTest {
                     new ExpressionMessageFilter(subscriptionData, filterData, filterManager));
                 String assertMsg = group + "-" + realTopic;
                 try {
-                    assertThat(getMessageResult).isNotNull();
-                    assertThat(GetMessageStatus.FOUND).isEqualTo(getMessageResult.getStatus());
-                    assertThat(getMessageResult.getMessageBufferList()).isNotNull().isNotEmpty();
-                    assertThat(getMessageResult.getMessageBufferList().size()).isEqualTo(filteredMsgs.size());
+                    Assertions.assertNotNull(getMessageResult);
+                    Assertions.assertEquals(GetMessageStatus.FOUND,getMessageResult.getStatus());
+                    Assertions.assertEquals(getMessageResult.getMessageBufferList()).isNotNull().isNotEmpty();
+                    Assertions.assertEquals(getMessageResult.getMessageBufferList().size(),filteredMsgs.size());
 
                     for (ByteBuffer buffer : getMessageResult.getMessageBufferList()) {
                         MessageExt messageExt = MessageDecoder.decode(buffer.slice(), false);
-                        assertThat(messageExt).isNotNull();
+                        Assertions.assertNotNull(messageExt);
 
                         Object evlRet = null;
                         try {
                             evlRet = filterData.getCompiledExpression().evaluate(new MessageEvaluationContext(messageExt.getProperties()));
                         } catch (Exception e) {
                             e.printStackTrace();
-                            assertThat(true).isFalse();
+                            Assertions.assertFalse(true);
                         }
 
-                        assertThat(evlRet).isNotNull().isEqualTo(Boolean.TRUE);
+                        Assertions.assertEquals(evlRet).isNotNull(,Boolean.TRUE);
 
                         // check
                         boolean find = false;
@@ -334,7 +335,7 @@ public class MessageStoreWithFilterTest {
                                 find = true;
                             }
                         }
-                        assertThat(find).isTrue();
+                        Assertions.assertTrue(find);
                     }
                 } finally {
                     getMessageResult.release();
@@ -367,7 +368,7 @@ public class MessageStoreWithFilterTest {
                         return true;
                     }
                 });
-            assertThat(getMessageResult.getMessageCount()).isEqualTo(msgPerTopic);
+            Assertions.assertEquals(getMessageResult.getMessageCount(),msgPerTopic);
         }
     }
 }

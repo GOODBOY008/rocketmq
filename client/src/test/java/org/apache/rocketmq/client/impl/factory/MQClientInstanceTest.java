@@ -37,23 +37,24 @@ import org.apache.rocketmq.common.protocol.route.BrokerData;
 import org.apache.rocketmq.common.protocol.route.QueueData;
 import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoJUnitRunner.class)
 public class MQClientInstanceTest {
     private MQClientInstance mqClientInstance = MQClientManager.getInstance().getOrCreateMQClientInstance(new ClientConfig());
     private String topic = "FooBar";
     private String group = "FooBarGroup";
     private ConcurrentMap<String, HashMap<Long, String>> brokerAddrTable = new ConcurrentHashMap<String, HashMap<Long, String>>();
 
-    @Before
+    @BeforeEach
     public void init() throws Exception {
         FieldUtils.writeDeclaredField(mqClientInstance, "brokerAddrTable", brokerAddrTable, true);
     }
@@ -85,8 +86,8 @@ public class MQClientInstanceTest {
 
         TopicPublishInfo topicPublishInfo = MQClientInstance.topicRouteData2TopicPublishInfo(topic, topicRouteData);
 
-        assertThat(topicPublishInfo.isHaveTopicRouterInfo()).isFalse();
-        assertThat(topicPublishInfo.getMessageQueueList().size()).isEqualTo(4);
+        Assertions.assertFalse(topicPublishInfo.isHaveTopicRouterInfo());
+        Assertions.assertEquals(topicPublishInfo.getMessageQueueList().size(),4);
     }
 
     @Test
@@ -100,9 +101,9 @@ public class MQClientInstanceTest {
         brokerAddrTable.put(brokerName, addrMap);
         long brokerId = 1;
         FindBrokerResult brokerResult = mqClientInstance.findBrokerAddressInSubscribe(brokerName, brokerId, false);
-        assertThat(brokerResult).isNotNull();
-        assertThat(brokerResult.getBrokerAddr()).isEqualTo("127.0.0.1:10912");
-        assertThat(brokerResult.isSlave()).isTrue();
+        Assertions.assertNotNull(brokerResult);
+        Assertions.assertEquals(brokerResult.getBrokerAddr(),"127.0.0.1:10912");
+        Assertions.assertTrue(brokerResult.isSlave());
 
         // dledger case, when node n0 was voted as the leader
         brokerName = "BrokerB";
@@ -112,35 +113,35 @@ public class MQClientInstanceTest {
         addrMapNew.put(3L, "127.0.0.1:10913");
         brokerAddrTable.put(brokerName, addrMapNew);
         brokerResult = mqClientInstance.findBrokerAddressInSubscribe(brokerName, brokerId, false);
-        assertThat(brokerResult).isNotNull();
-        assertThat(brokerResult.getBrokerAddr()).isEqualTo("127.0.0.1:10912");
-        assertThat(brokerResult.isSlave()).isTrue();
+        Assertions.assertNotNull(brokerResult);
+        Assertions.assertEquals(brokerResult.getBrokerAddr(),"127.0.0.1:10912");
+        Assertions.assertTrue(brokerResult.isSlave());
     }
 
     @Test
     public void testRegisterProducer() {
         boolean flag = mqClientInstance.registerProducer(group, mock(DefaultMQProducerImpl.class));
-        assertThat(flag).isTrue();
+        Assertions.assertTrue(flag);
 
         flag = mqClientInstance.registerProducer(group, mock(DefaultMQProducerImpl.class));
-        assertThat(flag).isFalse();
+        Assertions.assertFalse(flag);
 
         mqClientInstance.unregisterProducer(group);
         flag = mqClientInstance.registerProducer(group, mock(DefaultMQProducerImpl.class));
-        assertThat(flag).isTrue();
+        Assertions.assertTrue(flag);
     }
 
     @Test
     public void testRegisterConsumer() throws RemotingException, InterruptedException, MQBrokerException {
         boolean flag = mqClientInstance.registerConsumer(group, mock(MQConsumerInner.class));
-        assertThat(flag).isTrue();
+        Assertions.assertTrue(flag);
 
         flag = mqClientInstance.registerConsumer(group, mock(MQConsumerInner.class));
-        assertThat(flag).isFalse();
+        Assertions.assertFalse(flag);
 
         mqClientInstance.unregisterConsumer(group);
         flag = mqClientInstance.registerConsumer(group, mock(MQConsumerInner.class));
-        assertThat(flag).isTrue();
+        Assertions.assertTrue(flag);
     }
 
 
@@ -155,29 +156,29 @@ public class MQClientInstanceTest {
         mqClientInstance.unregisterConsumer(group);
 
         ConsumerRunningInfo runningInfo = mqClientInstance.consumerRunningInfo(group);
-        assertThat(runningInfo).isNull();
+        Assertions.assertNull(runningInfo);
         boolean flag = mqClientInstance.registerConsumer(group, mockConsumerInner);
-        assertThat(flag).isTrue();
+        Assertions.assertTrue(flag);
 
         runningInfo = mqClientInstance.consumerRunningInfo(group);
-        assertThat(runningInfo).isNotNull();
-        assertThat(mockConsumerInner.consumerRunningInfo().getProperties().get(ConsumerRunningInfo.PROP_CONSUME_TYPE));
+        Assertions.assertNotNull(runningInfo);
+        Assertions.assertEquals(mockConsumerInner.consumerRunningInfo().getProperties().get(ConsumerRunningInfo.PROP_CONSUME_TYPE));
 
         mqClientInstance.unregisterConsumer(group);
         flag = mqClientInstance.registerConsumer(group, mock(MQConsumerInner.class));
-        assertThat(flag).isTrue();
+        Assertions.assertTrue(flag);
     }
 
     @Test
     public void testRegisterAdminExt() {
         boolean flag = mqClientInstance.registerAdminExt(group, mock(MQAdminExtInner.class));
-        assertThat(flag).isTrue();
+        Assertions.assertTrue(flag);
 
         flag = mqClientInstance.registerAdminExt(group, mock(MQAdminExtInner.class));
-        assertThat(flag).isFalse();
+        Assertions.assertFalse(flag);
 
         mqClientInstance.unregisterAdminExt(group);
         flag = mqClientInstance.registerAdminExt(group, mock(MQAdminExtInner.class));
-        assertThat(flag).isTrue();
+        Assertions.assertTrue(flag);
     }
 }

@@ -24,7 +24,7 @@ import org.apache.rocketmq.common.protocol.body.BrokerStatsItem;
 import org.apache.rocketmq.srvutil.ServerUtil;
 import org.apache.rocketmq.tools.command.SubCommandException;
 import org.apache.rocketmq.tools.command.server.ServerResponseMocker;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BrokerStatusSubCommandTest extends ServerResponseMocker {
 
