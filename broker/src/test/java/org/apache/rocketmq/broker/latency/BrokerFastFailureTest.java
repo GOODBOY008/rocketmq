@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class BrokerFastFailureTest {
     @Test
-    public void testCleanExpiredRequestInQueue() throws Exception {
+    void testCleanExpiredRequestInQueue() throws Exception {
         BrokerFastFailure brokerFastFailure = new BrokerFastFailure(null);
 
         BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();

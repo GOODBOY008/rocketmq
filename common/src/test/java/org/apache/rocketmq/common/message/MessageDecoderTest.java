@@ -34,7 +34,7 @@ import static org.apache.rocketmq.common.message.MessageDecoder.createMessageId;
 public class MessageDecoderTest {
 
     @Test
-    public void testDecodeProperties() {
+    void testDecodeProperties() {
         MessageExt messageExt = new MessageExt();
 
         messageExt.setMsgId("645100FA00002A9F000000489A3AA09E");
@@ -83,7 +83,7 @@ public class MessageDecoderTest {
     }
 
     @Test
-    public void testDecodePropertiesOnIPv6Host() {
+    void testDecodePropertiesOnIPv6Host() {
         MessageExt messageExt = new MessageExt();
 
         messageExt.setMsgId("24084004018081003FAA1DDE2B3F898A00002A9F0000000000000CA0");
@@ -134,7 +134,7 @@ public class MessageDecoderTest {
     }
 
     @Test
-    public void testEncodeAndDecode() {
+    void testEncodeAndDecode() {
         MessageExt messageExt = new MessageExt();
 
         messageExt.setMsgId("645100FA00002A9F000000489A3AA09E");
@@ -191,7 +191,7 @@ public class MessageDecoderTest {
     }
 
     @Test
-    public void testEncodeAndDecodeOnIPv6Host() {
+    void testEncodeAndDecodeOnIPv6Host() {
         MessageExt messageExt = new MessageExt();
 
         messageExt.setMsgId("24084004018081003FAA1DDE2B3F898A00002A9F0000000000000CA0");
@@ -269,7 +269,7 @@ public class MessageDecoderTest {
     }
 
     @Test
-    public void testString2messageProperties() {
+    void testString2messageProperties() {
         StringBuilder sb = new StringBuilder();
         sb.append("k1").append(NAME_VALUE_SEPARATOR).append("v1");
         Map<String,String> m = MessageDecoder.string2messageProperties(sb.toString());

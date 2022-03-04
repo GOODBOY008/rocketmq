@@ -51,7 +51,7 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testTagSmoke() {
+    void testTagSmoke() {
         String tag = "jueyin";
         int msgSize = 10;
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, tag, new RMQNormalListener());
@@ -64,7 +64,7 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSubAllMessageNoTag() {
+    void testSubAllMessageNoTag() {
         String subExprress = "*";
         int msgSize = 10;
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, subExprress,
@@ -79,7 +79,7 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSubAllMessageWithTag() {
+    void testSubAllMessageWithTag() {
         String tag = "jueyin";
         String subExpress = "*";
         int msgSize = 10;
@@ -95,7 +95,7 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSubAllMessageWithNullTag() {
+    void testSubAllMessageWithNullTag() {
         String tag = null;
         String subExpress = "*";
         int msgSize = 10;
@@ -111,7 +111,7 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSubNullWithTagNull() {
+    void testSubNullWithTagNull() {
         String tag = null;
         String subExpress = null;
         int msgSize = 10;
@@ -127,7 +127,7 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSubAllWithKindsOfMessage() {
+    void testSubAllWithKindsOfMessage() {
         String tag1 = null;
         String tag2 = "jueyin";
         String subExpress = "*";
@@ -150,7 +150,7 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSubNullWithKindsOfMessage() {
+    void testSubNullWithKindsOfMessage() {
         String tag1 = null;
         String tag2 = "jueyin";
         String subExpress = null;
@@ -172,7 +172,7 @@ public class TagMessageWith1ConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSubTagWithKindsOfMessage() {
+    void testSubTagWithKindsOfMessage() {
         String tag1 = null;
         String tag2 = "jueyin";
         String subExpress = tag2;

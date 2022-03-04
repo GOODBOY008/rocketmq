@@ -169,7 +169,7 @@ public class QueryMsgByUniqueKeySubCommandTest {
     }
 
     @Test
-    public void testExecuteConsumeActively() throws SubCommandException, InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
+    void testExecuteConsumeActively() throws SubCommandException, InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
 
         ConsumerConnection consumerConnection = new ConsumerConnection();
         consumerConnection.setConsumeType(ConsumeType.CONSUME_ACTIVELY);
@@ -192,7 +192,7 @@ public class QueryMsgByUniqueKeySubCommandTest {
     }
 
     @Test
-    public void testExecuteConsumePassively() throws SubCommandException, InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
+    void testExecuteConsumePassively() throws SubCommandException, InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
 
         ConsumerConnection consumerConnection = new ConsumerConnection();
         consumerConnection.setConsumeType(ConsumeType.CONSUME_PASSIVELY);
@@ -217,7 +217,7 @@ public class QueryMsgByUniqueKeySubCommandTest {
     }
 
     @Test
-    public void testExecuteWithConsumerGroupAndClientId() throws SubCommandException {
+    void testExecuteWithConsumerGroupAndClientId() throws SubCommandException {
 
         Options options = ServerUtil.buildCommandlineOptions(new Options());
 
@@ -232,7 +232,7 @@ public class QueryMsgByUniqueKeySubCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
 
         System.setProperty("rocketmq.namesrv.addr", "127.0.0.1:9876");
 

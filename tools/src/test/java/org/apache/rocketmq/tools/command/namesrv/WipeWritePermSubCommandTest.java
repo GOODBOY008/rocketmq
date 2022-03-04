@@ -52,7 +52,7 @@ public class WipeWritePermSubCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         WipeWritePermSubCommand cmd = new WipeWritePermSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-b default-broker"};

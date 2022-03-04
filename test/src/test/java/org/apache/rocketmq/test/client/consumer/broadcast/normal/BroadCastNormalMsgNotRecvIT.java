@@ -50,7 +50,7 @@ public class BroadCastNormalMsgNotRecvIT extends BaseBroadCastIT {
     }
 
     @Test
-    public void testNotConsumeAfterConsume() throws Exception {
+    void testNotConsumeAfterConsume() throws Exception {
         int msgSize = 16;
 
         String group = initConsumerGroup();

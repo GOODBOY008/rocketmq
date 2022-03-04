@@ -118,7 +118,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSendMessage_ZeroMessage() throws InterruptedException, RemotingException, MQBrokerException {
+    void testSendMessage_ZeroMessage() throws InterruptedException, RemotingException, MQBrokerException {
         try {
             producer.send(zeroMsg);
             failBecauseExceptionWasNotThrown(MQClientException.class);
@@ -128,7 +128,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSendMessage_NoNameSrv() throws RemotingException, InterruptedException, MQBrokerException {
+    void testSendMessage_NoNameSrv() throws RemotingException, InterruptedException, MQBrokerException {
         when(mQClientAPIImpl.getNameServerAddressList()).thenReturn(new ArrayList<String>());
         try {
             producer.send(message);
@@ -139,7 +139,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSendMessage_NoRoute() throws RemotingException, InterruptedException, MQBrokerException {
+    void testSendMessage_NoRoute() throws RemotingException, InterruptedException, MQBrokerException {
         when(mQClientAPIImpl.getNameServerAddressList()).thenReturn(Collections.singletonList("127.0.0.1:9876"));
         try {
             producer.send(message);
@@ -150,7 +150,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSendMessageSync_Success() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
+    void testSendMessageSync_Success() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         SendResult sendResult = producer.send(message);
 
@@ -160,7 +160,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSendMessageSync_WithBodyCompressed() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
+    void testSendMessageSync_WithBodyCompressed() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         SendResult sendResult = producer.send(bigMessage);
 
@@ -170,7 +170,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSendMessageAsync_Success() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
+    void testSendMessageAsync_Success() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         producer.send(message, new SendCallback() {
@@ -191,7 +191,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSendMessageAsync() throws RemotingException, MQClientException, InterruptedException {
+    void testSendMessageAsync() throws RemotingException, MQClientException, InterruptedException {
         final AtomicInteger cc = new AtomicInteger(0);
         final CountDownLatch countDownLatch = new CountDownLatch(6);
 
@@ -232,7 +232,7 @@ public class DefaultMQProducerTest {
     }
     
     @Test
-    public void testBatchSendMessageAsync()
+    void testBatchSendMessageAsync()
             throws RemotingException, MQClientException, InterruptedException, MQBrokerException {
         final AtomicInteger cc = new AtomicInteger(0);
         final CountDownLatch countDownLatch = new CountDownLatch(4);
@@ -277,7 +277,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSendMessageAsync_BodyCompressed() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
+    void testSendMessageAsync_BodyCompressed() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         producer.send(bigMessage, new SendCallback() {
@@ -297,7 +297,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSendMessageSync_SuccessWithHook() throws Throwable {
+    void testSendMessageSync_SuccessWithHook() throws Throwable {
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         final Throwable[] assertionErrors = new Throwable[1];
         final CountDownLatch countDownLatch = new CountDownLatch(2);
@@ -349,7 +349,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testSetCallbackExecutor() throws MQClientException {
+    void testSetCallbackExecutor() throws MQClientException {
         String producerGroupTemp = "testSetCallbackExecutor_" + System.currentTimeMillis();
         producer = new DefaultMQProducer(producerGroupTemp);
         producer.setNamesrvAddr("127.0.0.1:9876");
@@ -365,7 +365,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testRequestMessage() throws RemotingException, RequestTimeoutException, MQClientException, InterruptedException, MQBrokerException {
+    void testRequestMessage() throws RemotingException, RequestTimeoutException, MQClientException, InterruptedException, MQBrokerException {
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         final AtomicBoolean finish = new AtomicBoolean(false);
         new Thread(new Runnable() {
@@ -391,7 +391,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testRequestMessage_RequestTimeoutException() throws RemotingException, RequestTimeoutException, MQClientException, InterruptedException, MQBrokerException {
+    void testRequestMessage_RequestTimeoutException() throws RemotingException, RequestTimeoutException, MQClientException, InterruptedException, MQBrokerException {
         Assertions.assertThrowsExactly(RequestTimeoutException.class,()->{
             when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
             Message result = producer.request(message, 3 * 1000L);
@@ -399,7 +399,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testAsyncRequest_OnSuccess() throws Exception {
+    void testAsyncRequest_OnSuccess() throws Exception {
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         RequestCallback requestCallback = new RequestCallback() {
@@ -426,7 +426,7 @@ public class DefaultMQProducerTest {
     }
 
     @Test
-    public void testAsyncRequest_OnException() throws Exception {
+    void testAsyncRequest_OnException() throws Exception {
         final AtomicInteger cc = new AtomicInteger(0);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         RequestCallback requestCallback = new RequestCallback() {

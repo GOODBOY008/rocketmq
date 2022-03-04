@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 public class AclUtilsTest {
 
     @Test
-    public void getAddresses() {
+    void getAddresses() {
         String address = "1.1.1.{1,2,3,4}";
         String[] addressArray = AclUtils.getAddresses(address, "{1,2,3,4}");
         List<String> newAddressList = new ArrayList<>();
@@ -64,7 +64,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void isScopeStringArray() {
+    void isScopeStringArray() {
         String address = "12";
 
         for (int i = 0; i < 6; i++) {
@@ -79,7 +79,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void isScopeArray() {
+    void isScopeArray() {
         String[] adderss = StringUtils.split("12.12.12.12", ".");
         boolean isScope = AclUtils.isScope(adderss, 4);
         Assertions.assertTrue(isScope);
@@ -114,7 +114,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void isScopeStringTest() {
+    void isScopeStringTest() {
         for (int i = 0; i < 256; i++) {
             boolean isScope = AclUtils.isScope(i + "");
             Assertions.assertTrue(isScope);
@@ -126,7 +126,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void isScopeTest() {
+    void isScopeTest() {
         for (int i = 0; i < 256; i++) {
             boolean isScope = AclUtils.isScope(i);
             Assertions.assertTrue(isScope);
@@ -151,7 +151,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void isAsteriskTest() {
+    void isAsteriskTest() {
         boolean isAsterisk = AclUtils.isAsterisk("*");
         Assertions.assertTrue(isAsterisk);
 
@@ -160,7 +160,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void isColonTest() {
+    void isColonTest() {
         boolean isColon = AclUtils.isComma(",");
         Assertions.assertTrue(isColon);
 
@@ -169,7 +169,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void isMinusTest() {
+    void isMinusTest() {
         boolean isMinus = AclUtils.isMinus("-");
         Assertions.assertTrue(isMinus);
 
@@ -178,7 +178,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void v6ipProcessTest() {
+    void v6ipProcessTest() {
         String remoteAddr = "5::7:6:1-200:*";
         String[] strArray = StringUtils.split(remoteAddr, ":");
         Assertions.assertEquals(AclUtils.v6ipProcess(remoteAddr), "0005:0000:0000:0000:0007:0006");
@@ -201,7 +201,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void expandIPTest() {
+    void expandIPTest() {
         Assertions.assertEquals(AclUtils.expandIP("::", 8), "0000:0000:0000:0000:0000:0000:0000:0000");
         Assertions.assertEquals(AclUtils.expandIP("::1", 8), "0000:0000:0000:0000:0000:0000:0000:0001");
         Assertions.assertEquals(AclUtils.expandIP("3::", 8), "0003:0000:0000:0000:0000:0000:0000:0000");
@@ -214,14 +214,14 @@ public class AclUtilsTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void getYamlDataObjectTest() {
+    void getYamlDataObjectTest() {
 
         Map<String, Object> map = AclUtils.getYamlDataObject("src/test/resources/conf/plain_acl_correct.yml", Map.class);
         Assertions.assertFalse(map.isEmpty());
     }
 
     @Test
-    public void writeDataObject2YamlFileTest() throws IOException {
+    void writeDataObject2YamlFileTest() throws IOException {
 
         String targetFileName = "src/test/resources/conf/plain_write_acl.yml";
         File transport = new File(targetFileName);
@@ -254,7 +254,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void updateExistedYamlFileTest() throws IOException {
+    void updateExistedYamlFileTest() throws IOException {
 
         String targetFileName = "src/test/resources/conf/plain_update_acl.yml";
         File transport = new File(targetFileName);
@@ -288,7 +288,7 @@ public class AclUtilsTest {
     }
 
     @Test
-    public void getYamlDataIgnoreFileNotFoundExceptionTest() {
+    void getYamlDataIgnoreFileNotFoundExceptionTest() {
 
         JSONObject yamlDataObject = AclUtils.getYamlDataObject("plain_acl.yml", JSONObject.class);
         Assertions.assertTrue(yamlDataObject == null);
@@ -296,7 +296,7 @@ public class AclUtilsTest {
 
 
     @Test
-    public void getAclRPCHookTest() {
+    void getAclRPCHookTest() {
 
         //RPCHook errorContRPCHook = AclUtils.getAclRPCHook("src/test/resources/conf/plain_acl_format_error.yml");
         //Assertions.assertNull(errorContRPCHook);

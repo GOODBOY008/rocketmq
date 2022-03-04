@@ -43,7 +43,7 @@ public class ParserTest {
     private static String illegalBetween = " a between 10 and 0";
 
     @Test
-    public void testParse_valid() {
+    void testParse_valid() {
         for (String expr : Arrays.asList(
             andExpression, orExpression, inExpression, notInExpression, betweenExpression,
             equalNullExpression, notEqualNullExpression, nowExpression
@@ -61,7 +61,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParse_invalid() {
+    void testParse_invalid() {
         try {
             SelectorParser.parse(invalidExpression);
 
@@ -71,7 +71,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParse_decimalOverFlow() {
+    void testParse_decimalOverFlow() {
         try {
             String str = "100000000000000000000000";
 
@@ -83,7 +83,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParse_floatOverFlow() {
+    void testParse_floatOverFlow() {
         try {
             StringBuilder sb = new StringBuilder(210000);
             sb.append("1");
@@ -105,7 +105,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParse_illegalBetween() {
+    void testParse_illegalBetween() {
         try {
             SelectorParser.parse(illegalBetween);
 
@@ -115,7 +115,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         try {
             Expression expr1 = SelectorParser.parse(andExpression);
 

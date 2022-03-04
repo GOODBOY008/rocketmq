@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 public class DeleteAccessConfigSubCommandTest {
 
     @Test
-    public void testExecute() {
+    void testExecute() {
         DeleteAccessConfigSubCommand cmd = new DeleteAccessConfigSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-a unit-test", "-c default-cluster"};

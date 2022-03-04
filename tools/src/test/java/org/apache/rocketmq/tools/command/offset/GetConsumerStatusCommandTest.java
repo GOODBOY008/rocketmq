@@ -51,7 +51,7 @@ public class GetConsumerStatusCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         GetConsumerStatusCommand cmd = new GetConsumerStatusCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-g default-group", "-t unit-test", "-i clientid"};

@@ -72,7 +72,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void test_repeat_restart() throws Exception {
+    void test_repeat_restart() throws Exception {
         Assertions.assertThrowsExactly(OverlappingFileLockException.class,()->{
             QUEUE_TOTAL = 1;
             MessageBody = StoreMessage.getBytes();
@@ -119,7 +119,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testWriteAndRead() {
+    void testWriteAndRead() {
         long ipv4HostMsgs = 10;
         long ipv6HostMsgs = 10;
         long totalMsgs = ipv4HostMsgs + ipv6HostMsgs;
@@ -144,7 +144,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testLookMessageByOffset_OffsetIsFirst() {
+    void testLookMessageByOffset_OffsetIsFirst() {
         final int totalCount = 10;
         int queueId = new Random().nextInt(10);
         String topic = "FooBar";
@@ -160,7 +160,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testLookMessageByOffset_OffsetIsLast() {
+    void testLookMessageByOffset_OffsetIsLast() {
         final int totalCount = 10;
         int queueId = new Random().nextInt(10);
         String topic = "FooBar";
@@ -174,7 +174,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testLookMessageByOffset_OffsetIsOutOfBound() {
+    void testLookMessageByOffset_OffsetIsOutOfBound() {
         final int totalCount = 10;
         int queueId = new Random().nextInt(10);
         String topic = "FooBar";
@@ -187,7 +187,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testGetOffsetInQueueByTime() {
+    void testGetOffsetInQueueByTime() {
         final int totalCount = 10;
         int queueId = 0;
         String topic = "FooBar";
@@ -206,7 +206,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testGetOffsetInQueueByTime_TimestampIsSkewing() {
+    void testGetOffsetInQueueByTime_TimestampIsSkewing() {
         final int totalCount = 10;
         int queueId = 0;
         String topic = "FooBar";
@@ -231,7 +231,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testGetOffsetInQueueByTime_TimestampSkewingIsLarge() {
+    void testGetOffsetInQueueByTime_TimestampSkewingIsLarge() {
         final int totalCount = 10;
         int queueId = 0;
         String topic = "FooBar";
@@ -257,7 +257,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testGetOffsetInQueueByTime_ConsumeQueueNotFound1() {
+    void testGetOffsetInQueueByTime_ConsumeQueueNotFound1() {
         final int totalCount = 10;
         int queueId = 0;
         int wrongQueueId = 1;
@@ -273,7 +273,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testGetOffsetInQueueByTime_ConsumeQueueNotFound2() {
+    void testGetOffsetInQueueByTime_ConsumeQueueNotFound2() {
         final int totalCount = 10;
         int queueId = 0;
         int wrongQueueId = 1;
@@ -288,7 +288,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testGetOffsetInQueueByTime_ConsumeQueueOffsetNotExist() {
+    void testGetOffsetInQueueByTime_ConsumeQueueOffsetNotExist() {
         final int totalCount = 10;
         int queueId = 0;
         int wrongQueueId = 1;
@@ -304,7 +304,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testGetMessageStoreTimeStamp() {
+    void testGetMessageStoreTimeStamp() {
         final int totalCount = 10;
         int queueId = 0;
         String topic = "FooBar";
@@ -321,14 +321,14 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testGetStoreTime_ParamIsNull() {
+    void testGetStoreTime_ParamIsNull() {
         long storeTime = getStoreTime(null);
 
         Assertions.assertEquals(storeTime,-1);
     }
 
     @Test
-    public void testGetStoreTime_EverythingIsOk() {
+    void testGetStoreTime_EverythingIsOk() {
         final int totalCount = 10;
         int queueId = 0;
         String topic = "FooBar";
@@ -346,7 +346,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testGetStoreTime_PhyOffsetIsLessThanCommitLogMinOffset() {
+    void testGetStoreTime_PhyOffsetIsLessThanCommitLogMinOffset() {
         long phyOffset = -10;
         int size = 138;
         ByteBuffer byteBuffer = ByteBuffer.allocate(100);
@@ -482,7 +482,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testPullSize() throws Exception {
+    void testPullSize() throws Exception {
         String topic = "pullSizeTopic";
 
         for (int i = 0; i < 32; i++) {
@@ -511,7 +511,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testRecover() throws Exception {
+    void testRecover() throws Exception {
         String topic = "recoverTopic";
         MessageBody = StoreMessage.getBytes();
         for (int i = 0; i < 100; i++) {
@@ -609,7 +609,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testStorePathOK() {
+    void testStorePathOK() {
         if (messageStore instanceof DefaultMessageStore) {
             Assertions.assertTrue(fileExists(((DefaultMessageStore) messageStore).getStorePathPhysic()));
             Assertions.assertTrue(fileExists(((DefaultMessageStore) messageStore).getStorePathLogic()));
@@ -645,7 +645,7 @@ public class DefaultMessageStoreTest {
     }
 
     @Test
-    public void testCleanUnusedLmqTopic() throws Exception {
+    void testCleanUnusedLmqTopic() throws Exception {
         String lmqTopic = "%LMQ%123";
 
         MessageExtBrokerInner messageExtBrokerInner = buildMessage();

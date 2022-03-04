@@ -58,7 +58,7 @@ public class TransactionalMsgIT extends BaseConf {
     }
 
     @Test
-    public void testMessageVisibility() throws Exception {
+    void testMessageVisibility() throws Exception {
         Thread.sleep(3000);
         int msgSize = 120;
         List<Object> msgs = MQMessageFactory.getMsg(topic, msgSize);

@@ -115,7 +115,7 @@ public class ScheduleMessageServiceTest {
 
 
     @Test
-    public void deliverDelayedMessageTimerTaskTest() throws Exception {
+    void deliverDelayedMessageTimerTaskTest() throws Exception {
         Assertions.assertTrue(messageStore.getMessageStoreConfig().isEnableScheduleMessageStats());
 
         Assertions.assertNull(messageStore.getBrokerStatsManager().getStatsItem(TOPIC_PUT_NUMS, topic));
@@ -179,7 +179,7 @@ public class ScheduleMessageServiceTest {
      * add some [error/no use] code test
      */
     @Test
-    public void otherTest() {
+    void otherTest() {
         // the method no use ,why need ?
         int queueId = ScheduleMessageService.queueId2DelayLevel(delayLevel);
         Assertions.assertEquals(queueId,delayLevel + 1);

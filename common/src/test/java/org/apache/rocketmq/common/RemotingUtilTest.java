@@ -24,20 +24,20 @@ import org.junit.jupiter.api.Test;
 
 public class RemotingUtilTest {
     @Test
-    public void testGetLocalAddress() throws Exception {
+    void testGetLocalAddress() throws Exception {
         String localAddress = RemotingUtil.getLocalAddress();
         Assertions.assertNotNull(localAddress);
         Assertions.assertEquals(localAddress.length()).isGreaterThan(0);
     }
 
     @Test
-    public void testConvert2IpStringWithIp() {
+    void testConvert2IpStringWithIp() {
         String result = RemotingUtil.convert2IpString("127.0.0.1:9876");
         Assertions.assertEquals(result,"127.0.0.1:9876");
     }
 
     @Test
-    public void testConvert2IpStringWithHost() {
+    void testConvert2IpStringWithHost() {
         String result = RemotingUtil.convert2IpString("localhost:9876");
         Assertions.assertEquals(result,"127.0.0.1:9876");
     }

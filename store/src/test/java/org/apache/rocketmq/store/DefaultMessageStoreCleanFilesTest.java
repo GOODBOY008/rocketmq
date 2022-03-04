@@ -73,7 +73,7 @@ public class DefaultMessageStoreCleanFilesTest {
     }
 
     @Test
-    public void testIsSpaceFullFunctionEmpty2Full() throws Exception {
+    void testIsSpaceFullFunctionEmpty2Full() throws Exception {
         String deleteWhen = "04";
         // the min value of diskMaxUsedSpaceRatio.
         int diskMaxUsedSpaceRatio = 1;
@@ -95,7 +95,7 @@ public class DefaultMessageStoreCleanFilesTest {
     }
 
     @Test
-    public void testIsSpaceFullMultiCommitLogStorePath() throws Exception {
+    void testIsSpaceFullMultiCommitLogStorePath() throws Exception {
         String deleteWhen = "04";
         // the min value of diskMaxUsedSpaceRatio.
         int diskMaxUsedSpaceRatio = 1;
@@ -130,7 +130,7 @@ public class DefaultMessageStoreCleanFilesTest {
     }
 
     @Test
-    public void testIsSpaceFullFunctionFull2Empty() throws Exception {
+    void testIsSpaceFullFunctionFull2Empty() throws Exception {
         String deleteWhen = "04";
         // the min value of diskMaxUsedSpaceRatio.
         int diskMaxUsedSpaceRatio = 1;
@@ -145,7 +145,7 @@ public class DefaultMessageStoreCleanFilesTest {
     }
 
     @Test
-    public void testDeleteExpiredFilesByTimeUp() throws Exception {
+    void testDeleteExpiredFilesByTimeUp() throws Exception {
         String deleteWhen = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + "";
         // the max value of diskMaxUsedSpaceRatio
         int diskMaxUsedSpaceRatio = 99;
@@ -191,7 +191,7 @@ public class DefaultMessageStoreCleanFilesTest {
     }
 
     @Test
-    public void testDeleteExpiredFilesBySpaceFull() throws Exception {
+    void testDeleteExpiredFilesBySpaceFull() throws Exception {
         String deleteWhen = "04";
         // the min value of diskMaxUsedSpaceRatio.
         int diskMaxUsedSpaceRatio = 1;
@@ -237,7 +237,7 @@ public class DefaultMessageStoreCleanFilesTest {
     }
 
     @Test
-    public void testDeleteFilesImmediatelyBySpaceFull() throws Exception {
+    void testDeleteFilesImmediatelyBySpaceFull() throws Exception {
         String deleteWhen = "04";
         // the min value of diskMaxUsedSpaceRatio.
         int diskMaxUsedSpaceRatio = 1;
@@ -285,7 +285,7 @@ public class DefaultMessageStoreCleanFilesTest {
     }
 
     @Test
-    public void testDeleteExpiredFilesManually() throws Exception {
+    void testDeleteExpiredFilesManually() throws Exception {
         String deleteWhen = "04";
         // the max value of diskMaxUsedSpaceRatio
         int diskMaxUsedSpaceRatio = 99;

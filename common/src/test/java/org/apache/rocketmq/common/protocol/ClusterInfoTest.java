@@ -33,7 +33,7 @@ import java.util.Set;
 public class ClusterInfoTest {
 
     @Test
-    public void testFormJson() throws Exception {
+    void testFormJson() throws Exception {
         ClusterInfo clusterInfo = buildClusterInfo();
         byte[] data = clusterInfo.encode();
         ClusterInfo json = RemotingSerializable.decode(data, ClusterInfo.class);
@@ -50,7 +50,7 @@ public class ClusterInfoTest {
     }
 
     @Test
-    public void testRetrieveAllClusterNames() throws Exception {
+    void testRetrieveAllClusterNames() throws Exception {
         ClusterInfo clusterInfo = buildClusterInfo();
         byte[] data = clusterInfo.encode();
         ClusterInfo json = RemotingSerializable.decode(data, ClusterInfo.class);
@@ -60,7 +60,7 @@ public class ClusterInfoTest {
 
 
     @Test
-    public void testRetrieveAllAddrByCluster() throws Exception {
+    void testRetrieveAllAddrByCluster() throws Exception {
         ClusterInfo clusterInfo = buildClusterInfo();
         byte[] data = clusterInfo.encode();
         ClusterInfo json = RemotingSerializable.decode(data, ClusterInfo.class);

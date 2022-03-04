@@ -46,7 +46,7 @@ public class ProducerGroupAndInstanceNameValidityIT extends BaseConf {
      * @since version3.4.6
      */
     @Test
-    public void testTwoProducerSameGroupAndInstanceName() {
+    void testTwoProducerSameGroupAndInstanceName() {
         RMQNormalProducer producer1 = getProducer(nsAddr, topic);
         Assertions.assertEquals(producer1.isStartSuccess(),true);
         RMQNormalProducer producer2 = getProducer(nsAddr, topic,
@@ -58,7 +58,7 @@ public class ProducerGroupAndInstanceNameValidityIT extends BaseConf {
      * @since version3.4.6
      */
     @Test
-    public void testTwoProducerSameGroup() {
+    void testTwoProducerSameGroup() {
         RMQNormalProducer producer1 = getProducer(nsAddr, topic);
         Assertions.assertEquals(producer1.isStartSuccess(),true);
         RMQNormalProducer producer2 = getProducer(nsAddr, topic,

@@ -52,7 +52,7 @@ public class IOTinyUtilsTest {
 
 
     @Test
-    public void testToString() throws Exception {
+    void testToString() throws Exception {
         byte[] b = "testToString".getBytes(RemotingHelper.DEFAULT_CHARSET);
         InputStream is = new ByteArrayInputStream(b);
 
@@ -71,7 +71,7 @@ public class IOTinyUtilsTest {
 
 
     @Test
-    public void testCopy() throws Exception {
+    void testCopy() throws Exception {
         char[] arr = "testToString".toCharArray();
         Reader reader = new CharArrayReader(arr);
         Writer writer = new CharArrayWriter();
@@ -81,7 +81,7 @@ public class IOTinyUtilsTest {
     }
 
     @Test
-    public void testReadLines() throws Exception {
+    void testReadLines() throws Exception {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 10; i++) {
             sb.append("testReadLines").append("\n");
@@ -94,7 +94,7 @@ public class IOTinyUtilsTest {
     }
 
     @Test
-    public void testToBufferedReader() throws Exception {
+    void testToBufferedReader() throws Exception {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 10; i++) {
             sb.append("testToBufferedReader").append("\n");
@@ -109,7 +109,7 @@ public class IOTinyUtilsTest {
     }
 
     @Test
-    public void testWriteStringToFile() throws Exception {
+    void testWriteStringToFile() throws Exception {
         File file = new File(testRootDir, "testWriteStringToFile");
         Assertions.assertTrue(!file.exists());
 
@@ -119,7 +119,7 @@ public class IOTinyUtilsTest {
     }
 
     @Test
-    public void testCleanDirectory() throws Exception {
+    void testCleanDirectory() throws Exception {
         for (int i = 0; i < 10; i++) {
             IOTinyUtils.writeStringToFile(new File(testRootDir, "testCleanDirectory" + i), "testCleanDirectory", RemotingHelper.DEFAULT_CHARSET);
         }
@@ -134,7 +134,7 @@ public class IOTinyUtilsTest {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         for (int i = 0; i < 10; i++) {
             IOTinyUtils.writeStringToFile(new File(testRootDir, "testDelete" + i), "testCleanDirectory", RemotingHelper.DEFAULT_CHARSET);
         }
@@ -149,7 +149,7 @@ public class IOTinyUtilsTest {
     }
 
     @Test
-    public void testCopyFile() throws Exception {
+    void testCopyFile() throws Exception {
         File source = new File(testRootDir, "soruce");
         String target = testRootDir + File.separator + "dest";
 

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 public class ConsumeMessageDirectlyResultTest {
     @Test
-    public void testFromJson() throws Exception {
+    void testFromJson() throws Exception {
         ConsumeMessageDirectlyResult result = new ConsumeMessageDirectlyResult();
         boolean defaultAutoCommit = true;
         boolean defaultOrder = false;

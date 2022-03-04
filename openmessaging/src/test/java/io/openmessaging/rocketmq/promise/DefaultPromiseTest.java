@@ -36,25 +36,25 @@ public class DefaultPromiseTest {
     }
 
     @Test
-    public void testIsCancelled() throws Exception {
+    void testIsCancelled() throws Exception {
         Assertions.assertEquals(promise.isCancelled(),false);
     }
 
     @Test
-    public void testIsDone() throws Exception {
+    void testIsDone() throws Exception {
         Assertions.assertEquals(promise.isDone(),false);
         promise.set("Done");
         Assertions.assertEquals(promise.isDone(),true);
     }
 
     @Test
-    public void testGet() throws Exception {
+    void testGet() throws Exception {
         promise.set("Done");
         Assertions.assertEquals(promise.get(),"Done");
     }
 
     @Test
-    public void testGet_WithTimeout() throws Exception {
+    void testGet_WithTimeout() throws Exception {
         try {
             promise.get(100);
             failBecauseExceptionWasNotThrown(OMSRuntimeException.class);
@@ -64,7 +64,7 @@ public class DefaultPromiseTest {
     }
 
     @Test
-    public void testAddListener() throws Exception {
+    void testAddListener() throws Exception {
         promise.addListener(new FutureListener<String>() {
             @Override
             public void operationComplete(Future<String> future) {
@@ -76,7 +76,7 @@ public class DefaultPromiseTest {
     }
 
     @Test
-    public void testAddListener_ListenerAfterSet() throws Exception {
+    void testAddListener_ListenerAfterSet() throws Exception {
         promise.set("Done");
         promise.addListener(new FutureListener<String>() {
             @Override
@@ -87,7 +87,7 @@ public class DefaultPromiseTest {
     }
 
     @Test
-    public void testAddListener_WithException_ListenerAfterSet() throws Exception {
+    void testAddListener_WithException_ListenerAfterSet() throws Exception {
         final Throwable exception = new OMSRuntimeException("-1", "Test Error");
         promise.setFailure(exception);
         promise.addListener(new FutureListener<String>() {
@@ -99,7 +99,7 @@ public class DefaultPromiseTest {
     }
 
     @Test
-    public void testAddListener_WithException() throws Exception {
+    void testAddListener_WithException() throws Exception {
         final Throwable exception = new OMSRuntimeException("-1", "Test Error");
         promise.addListener(new FutureListener<String>() {
             @Override
@@ -111,7 +111,7 @@ public class DefaultPromiseTest {
     }
 
     @Test
-    public void getThrowable() throws Exception {
+    void getThrowable() throws Exception {
         Assertions.assertNull(promise.getThrowable());
         Throwable exception = new OMSRuntimeException("-1", "Test Error");
         promise.setFailure(exception);

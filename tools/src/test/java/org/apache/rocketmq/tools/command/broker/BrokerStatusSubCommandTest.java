@@ -44,7 +44,7 @@ public class BrokerStatusSubCommandTest extends ServerResponseMocker {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         BrokerStatusSubCommand cmd = new BrokerStatusSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-b 127.0.0.1:" + PORT, "-c default-cluster"};

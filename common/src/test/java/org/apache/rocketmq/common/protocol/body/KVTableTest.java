@@ -28,7 +28,7 @@ import java.util.HashMap;
 public class KVTableTest {
 
     @Test
-    public void testFromJson() throws Exception {
+    void testFromJson() throws Exception {
         HashMap<String, String> table = new HashMap<String, String>();
         table.put("key1", "value1");
         table.put("key2", "value2");

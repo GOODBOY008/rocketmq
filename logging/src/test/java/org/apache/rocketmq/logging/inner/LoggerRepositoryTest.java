@@ -26,7 +26,7 @@ import java.util.Enumeration;
 public class LoggerRepositoryTest extends BasicLoggerTest {
 
     @Test
-    public void testLoggerRepository() {
+    void testLoggerRepository() {
         Logger.getRepository().setLogLevel(Level.INFO);
 
         String file = loggingDir + "/repo.log";

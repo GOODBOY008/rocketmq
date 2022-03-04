@@ -85,12 +85,12 @@ public class DefaultMQPullConsumerTest {
     }
 
     @Test
-    public void testStart_OffsetShouldNotNUllAfterStart() {
+    void testStart_OffsetShouldNotNUllAfterStart() {
         Assertions.assertNotNull(pullConsumer.getOffsetStore());
     }
 
     @Test
-    public void testPullMessage_Success() throws Exception {
+    void testPullMessage_Success() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock mock) throws Throwable {
@@ -110,7 +110,7 @@ public class DefaultMQPullConsumerTest {
     }
 
     @Test
-    public void testPullMessage_NotFound() throws Exception {
+    void testPullMessage_NotFound() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock mock) throws Throwable {
@@ -125,7 +125,7 @@ public class DefaultMQPullConsumerTest {
     }
 
     @Test
-    public void testPullMessageAsync_Success() throws Exception {
+    void testPullMessageAsync_Success() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock mock) throws Throwable {

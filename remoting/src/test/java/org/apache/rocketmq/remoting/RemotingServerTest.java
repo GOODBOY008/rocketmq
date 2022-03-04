@@ -84,7 +84,7 @@ public class RemotingServerTest {
     }
 
     @Test
-    public void testInvokeSync() throws InterruptedException, RemotingConnectException,
+    void testInvokeSync() throws InterruptedException, RemotingConnectException,
         RemotingSendRequestException, RemotingTimeoutException {
         RequestHeader requestHeader = new RequestHeader();
         requestHeader.setCount(1);
@@ -98,7 +98,7 @@ public class RemotingServerTest {
     }
 
     @Test
-    public void testInvokeOneway() throws InterruptedException, RemotingConnectException,
+    void testInvokeOneway() throws InterruptedException, RemotingConnectException,
         RemotingTimeoutException, RemotingTooMuchRequestException, RemotingSendRequestException {
 
         RemotingCommand request = RemotingCommand.createRequestCommand(0, null);
@@ -107,7 +107,7 @@ public class RemotingServerTest {
     }
 
     @Test
-    public void testInvokeAsync() throws InterruptedException, RemotingConnectException,
+    void testInvokeAsync() throws InterruptedException, RemotingConnectException,
         RemotingTimeoutException, RemotingTooMuchRequestException, RemotingSendRequestException {
 
         final CountDownLatch latch = new CountDownLatch(1);

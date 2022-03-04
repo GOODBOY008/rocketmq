@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class DeleteTopicSubCommandTest {
     @Test
-    public void testExecute() {
+    void testExecute() {
         DeleteTopicSubCommand cmd = new DeleteTopicSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-t unit-test", "-c default-cluster"};

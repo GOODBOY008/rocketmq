@@ -43,7 +43,7 @@ public class LmqConsumerOffsetManagerTest {
         new NettyClientConfig(), new MessageStoreConfig());
 
     @Test
-    public void testOffsetManage() {
+    void testOffsetManage() {
         LmqConsumerOffsetManager lmqConsumerOffsetManager = new LmqConsumerOffsetManager(brokerController);
         LmqTopicConfigManager lmqTopicConfigManager = new LmqTopicConfigManager(brokerController);
         LmqSubscriptionGroupManager lmqSubscriptionGroupManager = new LmqSubscriptionGroupManager(brokerController);

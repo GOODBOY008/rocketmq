@@ -54,7 +54,7 @@ public class AsyncSendExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSendCallBackNull() throws Exception {
+    void testSendCallBackNull() throws Exception {
         Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
         DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
         SendCallback sendCallback = null;
@@ -62,7 +62,7 @@ public class AsyncSendExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSendMQNull() throws Exception {
+    void testSendMQNull() throws Exception {
         Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
         DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
         MessageQueue messageQueue = null;
@@ -70,7 +70,7 @@ public class AsyncSendExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSendSelectorNull() throws Exception {
+    void testSendSelectorNull() throws Exception {
         Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
         DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
         MessageQueueSelector selector = null;
@@ -78,7 +78,7 @@ public class AsyncSendExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSelectorThrowsException() throws Exception {
+    void testSelectorThrowsException() throws Exception {
         Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
         DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
         producer.send(msg, new MessageQueueSelector() {
@@ -91,7 +91,7 @@ public class AsyncSendExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testQueueIdBigThanQueueNum() throws Exception {
+    void testQueueIdBigThanQueueNum() throws Exception {
         int queueId = 100;
         sendFail = false;
         MessageQueue mq = new MessageQueue(topic, broker1Name, queueId);
@@ -119,7 +119,7 @@ public class AsyncSendExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testQueueIdSmallZero() throws Exception {
+    void testQueueIdSmallZero() throws Exception {
         int queueId = -100;
         sendFail = true;
         MessageQueue mq = new MessageQueue(topic, broker1Name, queueId);

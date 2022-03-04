@@ -30,7 +30,7 @@ public class NameServerAddressUtilsTest {
     private static String endpoint4 = "MQ_INST_123456789_BXXUzaee.xxx:80";
 
     @Test
-    public void testValidateInstanceEndpoint() {
+    void testValidateInstanceEndpoint() {
         Assertions.assertEquals(NameServerAddressUtils.validateInstanceEndpoint(endpoint1),false);
         Assertions.assertEquals(NameServerAddressUtils.validateInstanceEndpoint(endpoint2),false);
         Assertions.assertEquals(NameServerAddressUtils.validateInstanceEndpoint(endpoint3),true);
@@ -38,7 +38,7 @@ public class NameServerAddressUtilsTest {
     }
 
     @Test
-    public void testParseInstanceIdFromEndpoint() {
+    void testParseInstanceIdFromEndpoint() {
         Assertions.assertEquals(NameServerAddressUtils.parseInstanceIdFromEndpoint(endpoint3),
             "MQ_INST_123456789_BXXUzaee");
         Assertions.assertEquals(NameServerAddressUtils.parseInstanceIdFromEndpoint(endpoint4),
@@ -46,7 +46,7 @@ public class NameServerAddressUtilsTest {
     }
 
     @Test
-    public void testGetNameSrvAddrFromNamesrvEndpoint() {
+    void testGetNameSrvAddrFromNamesrvEndpoint() {
         Assertions.assertEquals(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint1))
             .isEqualTo("127.0.0.1:9876");
         Assertions.assertEquals(NameServerAddressUtils.getNameSrvAddrFromNamesrvEndpoint(endpoint2))

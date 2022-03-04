@@ -49,7 +49,7 @@ public class OneWaySendIT extends BaseConf {
     }
 
     @Test
-    public void testOneWaySendWithOnlyMsgAsParam() {
+    void testOneWaySendWithOnlyMsgAsParam() {
         int msgSize = 20;
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
 

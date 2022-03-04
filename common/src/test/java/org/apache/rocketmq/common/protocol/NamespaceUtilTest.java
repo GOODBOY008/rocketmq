@@ -41,7 +41,7 @@ public class NamespaceUtilTest {
         MixAll.DLQ_GROUP_TOPIC_PREFIX + INSTANCE_ID + NamespaceUtil.NAMESPACE_SEPARATOR + GROUP_ID;
 
     @Test
-    public void testWithoutNamespace() {
+    void testWithoutNamespace() {
         String topic = NamespaceUtil.withoutNamespace(TOPIC_WITH_NAMESPACE, INSTANCE_ID);
         Assertions.assertEquals(topic, TOPIC);
         String topic1 = NamespaceUtil.withoutNamespace(TOPIC_WITH_NAMESPACE);
@@ -60,7 +60,7 @@ public class NamespaceUtilTest {
     }
 
     @Test
-    public void testWrapNamespace() {
+    void testWrapNamespace() {
         String topic1 = NamespaceUtil.wrapNamespace(INSTANCE_ID, TOPIC);
         Assertions.assertEquals(topic1, TOPIC_WITH_NAMESPACE);
         String topicWithNamespaceAgain = NamespaceUtil.wrapNamespace(INSTANCE_ID, topic1);
@@ -82,7 +82,7 @@ public class NamespaceUtilTest {
     }
 
     @Test
-    public void testGetNamespaceFromResource(){
+    void testGetNamespaceFromResource(){
         String namespaceExpectBlank = NamespaceUtil.getNamespaceFromResource(TOPIC);
         Assertions.assertEquals(namespaceExpectBlank, NamespaceUtil.STRING_BLANK);
         String namespace =  NamespaceUtil.getNamespaceFromResource(TOPIC_WITH_NAMESPACE);

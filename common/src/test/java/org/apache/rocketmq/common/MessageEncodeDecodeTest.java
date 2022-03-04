@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 public class MessageEncodeDecodeTest {
 
     @Test
-    public void testEncodeDecodeSingle() throws Exception {
+    void testEncodeDecodeSingle() throws Exception {
         Message message = new Message("topic", "body".getBytes());
         message.setFlag(12);
         message.putUserProperty("key", "value");
@@ -45,7 +45,7 @@ public class MessageEncodeDecodeTest {
     }
 
     @Test
-    public void testEncodeDecodeList() throws Exception {
+    void testEncodeDecodeList() throws Exception {
         List<Message> messages = new ArrayList<Message>(128);
         for (int i = 0; i < 100; i++) {
             Message message = new Message("topic", ("body" + i).getBytes());

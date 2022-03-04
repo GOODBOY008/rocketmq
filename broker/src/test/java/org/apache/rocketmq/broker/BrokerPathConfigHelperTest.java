@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Assertions;
 public class BrokerPathConfigHelperTest {
 
     @Test
-    public void testGetLmqConsumerOffsetPath() {
+    void testGetLmqConsumerOffsetPath() {
         String lmqConsumerOffsetPath = BrokerPathConfigHelper.getLmqConsumerOffsetPath("/home/admin/store");
         Assertions.assertEquals("/home/admin/store/config/lmqConsumerOffset.json", lmqConsumerOffsetPath);
 

@@ -24,7 +24,7 @@ import static org.junit.Assertions.*;
 
 public class MessageTest {
     @Test
-    public void putUserPropertyWithRuntimeException() throws Exception {
+    void putUserPropertyWithRuntimeException() throws Exception {
         Assertions.assertThrowsExactly(RuntimeException.class,()->{
             Message m = new Message();
 
@@ -33,7 +33,7 @@ public class MessageTest {
     }
 
     @Test
-    public void putUserNullValuePropertyWithException() throws Exception {
+    void putUserNullValuePropertyWithException() throws Exception {
         Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
             Message m = new Message();
 
@@ -42,7 +42,7 @@ public class MessageTest {
     }
 
     @Test
-    public void putUserEmptyValuePropertyWithException() throws Exception {
+    void putUserEmptyValuePropertyWithException() throws Exception {
         Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
             Message m = new Message();
 
@@ -51,7 +51,7 @@ public class MessageTest {
     }
 
     @Test
-    public void putUserNullNamePropertyWithException() throws Exception {
+    void putUserNullNamePropertyWithException() throws Exception {
         Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
             Message m = new Message();
 
@@ -60,7 +60,7 @@ public class MessageTest {
     }
 
     @Test
-    public void putUserEmptyNamePropertyWithException() throws Exception {
+    void putUserEmptyNamePropertyWithException() throws Exception {
         Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
             Message m = new Message();
 
@@ -69,7 +69,7 @@ public class MessageTest {
     }
 
     @Test
-    public void putUserProperty() throws Exception {
+    void putUserProperty() throws Exception {
         Message m = new Message();
 
         m.putUserProperty("prop1", "val1");

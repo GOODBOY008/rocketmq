@@ -50,7 +50,7 @@ public class NormalMsgStaticBalanceIT extends BaseConf {
     }
 
     @Test
-    public void testTwoConsumersBalance() {
+    void testTwoConsumersBalance() {
         int msgSize = 400;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
@@ -73,7 +73,7 @@ public class NormalMsgStaticBalanceIT extends BaseConf {
     }
 
     @Test
-    public void testFourConsumersBalance() {
+    void testFourConsumersBalance() {
         int msgSize = 600;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,

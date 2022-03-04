@@ -51,7 +51,7 @@ public class TLS_Mix2_IT extends BaseConf {
     }
 
     @Test
-    public void testSendAndReceiveMessageOverTLS() {
+    void testSendAndReceiveMessageOverTLS() {
         int numberOfMessagesToSend = 16;
         producer.send(numberOfMessagesToSend);
 

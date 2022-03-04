@@ -47,7 +47,7 @@ public class MessageExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testProducerSmoke() {
+    void testProducerSmoke() {
         Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
         SendResult sendResult = null;
         try {
@@ -60,12 +60,12 @@ public class MessageExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSynSendNullMessage() throws Exception {
+    void testSynSendNullMessage() throws Exception {
         Assertions.assertThrowsExactly(java.lang.NullPointerException.class,()-> producer.send((Message) null));
     }
 
     @Test
-    public void testSynSendNullBodyMessage() throws Exception {
+    void testSynSendNullBodyMessage() throws Exception {
         Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
             Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
             msg.setBody(null);
@@ -74,7 +74,7 @@ public class MessageExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSynSendZeroSizeBodyMessage() throws Exception {
+    void testSynSendZeroSizeBodyMessage() throws Exception {
         Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
             Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
             msg.setBody(new byte[0]);
@@ -83,7 +83,7 @@ public class MessageExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSynSendOutOfSizeBodyMessage() throws Exception {
+    void testSynSendOutOfSizeBodyMessage() throws Exception {
         Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
             Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
             msg.setBody(new byte[1024 * 1024 * 4 + 1]);
@@ -92,7 +92,7 @@ public class MessageExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSynSendNullTopicMessage() throws Exception {
+    void testSynSendNullTopicMessage() throws Exception {
         Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
             Message msg = new Message(null, RandomUtils.getStringByUUID().getBytes());
             producer.send(msg);
@@ -100,7 +100,7 @@ public class MessageExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSynSendBlankTopicMessage() throws Exception {
+    void testSynSendBlankTopicMessage() throws Exception {
         Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
             Message msg = new Message("", RandomUtils.getStringByUUID().getBytes());
             producer.send(msg);
@@ -108,7 +108,7 @@ public class MessageExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSend128kMsg() throws Exception {
+    void testSend128kMsg() throws Exception {
         Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
             Message msg = new Message(topic,
                     RandomUtils.getStringWithNumber(1024 * 1024 * 4 + 1).getBytes());
@@ -117,7 +117,7 @@ public class MessageExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSendLess128kMsg() {
+    void testSendLess128kMsg() {
         Message msg = new Message(topic, RandomUtils.getStringWithNumber(128 * 1024).getBytes());
         SendResult sendResult = null;
         try {
@@ -128,7 +128,7 @@ public class MessageExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSendMsgWithUserProperty() {
+    void testSendMsgWithUserProperty() {
         Message msg = MessageFactory.getRandomMessage(topic);
         msg.putUserProperty("key", RandomUtils.getCheseWord(10 * 1024));
         SendResult sendResult = null;

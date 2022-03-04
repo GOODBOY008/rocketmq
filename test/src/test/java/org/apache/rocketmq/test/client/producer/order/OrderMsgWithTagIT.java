@@ -51,7 +51,7 @@ public class OrderMsgWithTagIT extends BaseConf {
     }
 
     @Test
-    public void testOrderMsgWithTagSubAll() {
+    void testOrderMsgWithTagSubAll() {
         int msgSize = 10;
         String tag = "jueyin_tag";
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, "*", new RMQOrderListener());
@@ -71,7 +71,7 @@ public class OrderMsgWithTagIT extends BaseConf {
     }
 
     @Test
-    public void testOrderMsgWithTagSubTag() {
+    void testOrderMsgWithTagSubTag() {
         int msgSize = 5;
         String tag = "jueyin_tag";
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, tag, new RMQOrderListener());
@@ -91,7 +91,7 @@ public class OrderMsgWithTagIT extends BaseConf {
     }
 
     @Test
-    public void testOrderMsgWithTag1AndTag2SubTag1() {
+    void testOrderMsgWithTag1AndTag2SubTag1() {
         int msgSize = 5;
         String tag1 = "jueyin_tag_1";
         String tag2 = "jueyin_tag_2";
@@ -117,7 +117,7 @@ public class OrderMsgWithTagIT extends BaseConf {
     }
 
     @Test
-    public void testTwoConsumerSubTag() {
+    void testTwoConsumerSubTag() {
         int msgSize = 10;
         String tag1 = "jueyin_tag_1";
         String tag2 = "jueyin_tag_2";
@@ -144,7 +144,7 @@ public class OrderMsgWithTagIT extends BaseConf {
     }
 
     @Test
-    public void testConsumeTwoTag() {
+    void testConsumeTwoTag() {
         int msgSize = 10;
         String tag1 = "jueyin_tag_1";
         String tag2 = "jueyin_tag_2";

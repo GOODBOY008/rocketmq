@@ -60,7 +60,7 @@ public class GetConsumerConfigSubCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         GetConsumerConfigSubCommand cmd = new GetConsumerConfigSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-g group_test"};

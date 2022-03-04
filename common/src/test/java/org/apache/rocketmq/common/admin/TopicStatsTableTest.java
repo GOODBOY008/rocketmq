@@ -60,12 +60,12 @@ public class TopicStatsTableTest {
     }
 
     @Test
-    public void testGetOffsetTable() throws Exception {
+    void testGetOffsetTable() throws Exception {
         validateTopicStatsTable(topicStatsTable);
     }
 
     @Test
-    public void testFromJson() throws Exception {
+    void testFromJson() throws Exception {
         String json = RemotingSerializable.toJson(topicStatsTable, true);
         TopicStatsTable fromJson = RemotingSerializable.fromJson(json, TopicStatsTable.class);
 

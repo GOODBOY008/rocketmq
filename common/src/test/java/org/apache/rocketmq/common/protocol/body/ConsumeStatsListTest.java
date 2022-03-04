@@ -32,7 +32,7 @@ import java.util.Map;
 public class ConsumeStatsListTest {
 
     @Test
-    public void testFromJson() {
+    void testFromJson() {
         ConsumeStats consumeStats = new ConsumeStats();
         ArrayList<ConsumeStats> consumeStatsListValue = new ArrayList<ConsumeStats>();
         consumeStatsListValue.add(consumeStats);

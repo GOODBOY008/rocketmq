@@ -75,7 +75,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void contentTest() {
+    void contentTest() {
         SendMessageRequestHeader messageRequestHeader = new SendMessageRequestHeader();
         messageRequestHeader.setTopic("topicA");
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.SEND_MESSAGE, messageRequestHeader);
@@ -99,7 +99,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateTest() {
+    void validateTest() {
         SendMessageRequestHeader messageRequestHeader = new SendMessageRequestHeader();
         messageRequestHeader.setTopic("topicB");
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.SEND_MESSAGE, messageRequestHeader);
@@ -121,7 +121,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateSendMessageTest() {
+    void validateSendMessageTest() {
         SendMessageRequestHeader messageRequestHeader = new SendMessageRequestHeader();
         messageRequestHeader.setTopic("topicB");
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.SEND_MESSAGE, messageRequestHeader);
@@ -142,7 +142,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateSendMessageV2Test() {
+    void validateSendMessageV2Test() {
         SendMessageRequestHeader messageRequestHeader = new SendMessageRequestHeader();
         messageRequestHeader.setTopic("topicC");
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.SEND_MESSAGE_V2, SendMessageRequestHeaderV2.createSendMessageRequestHeaderV2(messageRequestHeader));
@@ -163,7 +163,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateForAdminCommandWithOutAclRPCHook() {
+    void validateForAdminCommandWithOutAclRPCHook() {
         RemotingCommand consumerOffsetAdminRequest = RemotingCommand.createRequestCommand(RequestCode.GET_ALL_CONSUMER_OFFSET, null);
         plainAccessValidator.parse(consumerOffsetAdminRequest, "192.168.0.1:9876");
 
@@ -179,7 +179,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validatePullMessageTest() {
+    void validatePullMessageTest() {
         PullMessageRequestHeader pullMessageRequestHeader = new PullMessageRequestHeader();
         pullMessageRequestHeader.setTopic("topicC");
         pullMessageRequestHeader.setConsumerGroup("consumerGroupA");
@@ -200,7 +200,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateConsumeMessageBackTest() {
+    void validateConsumeMessageBackTest() {
         ConsumerSendMsgBackRequestHeader consumerSendMsgBackRequestHeader = new ConsumerSendMsgBackRequestHeader();
         consumerSendMsgBackRequestHeader.setOriginTopic("topicC");
         consumerSendMsgBackRequestHeader.setGroup("consumerGroupA");
@@ -221,7 +221,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateQueryMessageTest() {
+    void validateQueryMessageTest() {
         QueryMessageRequestHeader queryMessageRequestHeader = new QueryMessageRequestHeader();
         queryMessageRequestHeader.setTopic("topicC");
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.QUERY_MESSAGE, queryMessageRequestHeader);
@@ -241,7 +241,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateQueryMessageByKeyTest() {
+    void validateQueryMessageByKeyTest() {
         QueryMessageRequestHeader queryMessageRequestHeader = new QueryMessageRequestHeader();
         queryMessageRequestHeader.setTopic("topicC");
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.QUERY_MESSAGE, queryMessageRequestHeader);
@@ -262,7 +262,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateHeartBeatTest() {
+    void validateHeartBeatTest() {
         HeartbeatData heartbeatData = new HeartbeatData();
         Set<ProducerData> producerDataSet = new HashSet<>();
         Set<ConsumerData> consumerDataSet = new HashSet<>();
@@ -297,7 +297,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateUnRegisterClientTest() {
+    void validateUnRegisterClientTest() {
         UnregisterClientRequestHeader unregisterClientRequestHeader = new UnregisterClientRequestHeader();
         unregisterClientRequestHeader.setConsumerGroup("consumerGroupA");
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.UNREGISTER_CLIENT, unregisterClientRequestHeader);
@@ -317,7 +317,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateGetConsumerListByGroupTest() {
+    void validateGetConsumerListByGroupTest() {
         GetConsumerListByGroupRequestHeader getConsumerListByGroupRequestHeader = new GetConsumerListByGroupRequestHeader();
         getConsumerListByGroupRequestHeader.setConsumerGroup("consumerGroupA");
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.GET_CONSUMER_LIST_BY_GROUP, getConsumerListByGroupRequestHeader);
@@ -337,7 +337,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateUpdateConsumerOffSetTest() {
+    void validateUpdateConsumerOffSetTest() {
         UpdateConsumerOffsetRequestHeader updateConsumerOffsetRequestHeader = new UpdateConsumerOffsetRequestHeader();
         updateConsumerOffsetRequestHeader.setConsumerGroup("consumerGroupA");
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.UPDATE_CONSUMER_OFFSET, updateConsumerOffsetRequestHeader);
@@ -357,7 +357,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateNullAccessKeyTest() {
+    void validateNullAccessKeyTest() {
         Assertions.assertThrowsExactly(AclException.class,()-> {
         SessionCredentials sessionCredentials = new SessionCredentials();
         sessionCredentials.setAccessKey("RocketMQ1");
@@ -383,7 +383,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateErrorSecretKeyTest() {
+    void validateErrorSecretKeyTest() {
         Assertions.assertThrowsExactly(AclException.class,()-> {
             SessionCredentials sessionCredentials = new SessionCredentials();
             sessionCredentials.setAccessKey("RocketMQ");
@@ -410,7 +410,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void validateGetAllTopicConfigTest() {
+    void validateGetAllTopicConfigTest() {
         String whiteRemoteAddress = "192.168.0.1";
         RemotingCommand remotingCommand = RemotingCommand.createRequestCommand(RequestCode.GET_ALL_TOPIC_CONFIG, null);
 
@@ -429,7 +429,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void addAccessAclYamlConfigTest() throws InterruptedException {
+    void addAccessAclYamlConfigTest() throws InterruptedException {
         String targetFileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/plain_acl.yml";
         Map<String, Object> backUpAclConfigMap = AclUtils.getYamlDataObject(targetFileName, Map.class);
 
@@ -484,7 +484,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void getAccessAclYamlConfigTest() {
+    void getAccessAclYamlConfigTest() {
         String accessKey = "rocketmq2";
         PlainAccessValidator plainAccessValidator = new PlainAccessValidator();
         AclConfig aclConfig = plainAccessValidator.getAllAclConfig();
@@ -509,7 +509,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void updateAccessAclYamlConfigTest() throws InterruptedException{
+    void updateAccessAclYamlConfigTest() throws InterruptedException{
         String targetFileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/plain_acl.yml";
         Map<String, Object> backUpAclConfigMap = AclUtils.getYamlDataObject(targetFileName, Map.class);
 
@@ -584,7 +584,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void deleteAccessAclYamlConfigTest() throws InterruptedException {
+    void deleteAccessAclYamlConfigTest() throws InterruptedException {
         String targetFileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/plain_acl.yml";
         Map<String, Object> backUpAclConfigMap = AclUtils.getYamlDataObject(targetFileName, Map.class);
 
@@ -631,7 +631,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void updateGlobalWhiteRemoteAddressesTest() throws InterruptedException {
+    void updateGlobalWhiteRemoteAddressesTest() throws InterruptedException {
         String targetFileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/plain_acl.yml";
         Map<String, Object> backUpAclConfigMap = AclUtils.getYamlDataObject(targetFileName, Map.class);
 
@@ -649,7 +649,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void addYamlConfigTest() throws IOException, InterruptedException {
+    void addYamlConfigTest() throws IOException, InterruptedException {
         String fileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/acl/plain_acl_test.yml";
         File transport = new File(fileName);
         transport.delete();
@@ -689,7 +689,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void updateAccessAnotherAclYamlConfigTest() throws IOException, InterruptedException {
+    void updateAccessAnotherAclYamlConfigTest() throws IOException, InterruptedException {
         String fileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/acl/plain_acl_test.yml";
         File transport = new File(fileName);
         transport.delete();
@@ -745,7 +745,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void createAndUpdateAccessAclNullSkExceptionTest() {
+    void createAndUpdateAccessAclNullSkExceptionTest() {
         Assertions.assertThrowsExactly(AclException.class,()-> {
             String targetFileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/acl/plain_acl.yml";
             Map<String, Object> backUpAclConfigMap = AclUtils.getYamlDataObject(targetFileName, Map.class);
@@ -762,7 +762,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void addAccessDefaultAclYamlConfigTest() throws InterruptedException {
+    void addAccessDefaultAclYamlConfigTest() throws InterruptedException {
         PlainAccessValidator plainAccessValidator = new PlainAccessValidator();
         String targetFileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/plain_acl.yml";
         Map<String, Object> backUpAclConfigMap = AclUtils.getYamlDataObject(targetFileName, Map.class);
@@ -800,7 +800,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void deleteAccessAnotherAclYamlConfigTest() throws IOException, InterruptedException {
+    void deleteAccessAnotherAclYamlConfigTest() throws IOException, InterruptedException {
         String fileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/acl/plain_acl_test.yml";
         File transport = new File(fileName);
         transport.delete();
@@ -845,7 +845,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void getAllAclConfigTest() {
+    void getAllAclConfigTest() {
         PlainAccessValidator plainAccessValidator = new PlainAccessValidator();
         AclConfig aclConfig = plainAccessValidator.getAllAclConfig();
         Assertions.assertEquals(aclConfig.getGlobalWhiteAddrs().size(), 4);
@@ -853,7 +853,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void updateAccessConfigEmptyPermListTest() {
+    void updateAccessConfigEmptyPermListTest() {
         String targetFileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/plain_acl.yml";
         Map<String, Object> backUpAclConfigMap = AclUtils.getYamlDataObject(targetFileName, Map.class);
 
@@ -881,7 +881,7 @@ public class PlainAccessValidatorTest {
     }
 
     @Test
-    public void updateAccessConfigEmptyWhiteRemoteAddressTest() {
+    void updateAccessConfigEmptyWhiteRemoteAddressTest() {
         String targetFileName = System.getProperty("rocketmq.home.dir") + File.separator + "conf/plain_acl.yml";
         Map<String, Object> backUpAclConfigMap = AclUtils.getYamlDataObject(targetFileName, Map.class);
 

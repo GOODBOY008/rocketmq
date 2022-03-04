@@ -49,7 +49,7 @@ public class TLS_IT extends BaseConf {
     }
 
     @Test
-    public void testSendAndReceiveMessageOverTLS() {
+    void testSendAndReceiveMessageOverTLS() {
         int numberOfMessagesToSend = 16;
         producer.send(numberOfMessagesToSend);
 

@@ -49,7 +49,7 @@ public class OneWaySendExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSendMQNull() throws Exception {
+    void testSendMQNull() throws Exception {
         Assertions.assertThrowsExactly(java.lang.NullPointerException.class,()->{
             Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
             DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
@@ -59,7 +59,7 @@ public class OneWaySendExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSendSelectorNull() throws Exception {
+    void testSendSelectorNull() throws Exception {
         Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
             Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
             DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);
@@ -69,7 +69,7 @@ public class OneWaySendExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testSelectorThrowsException() throws Exception {
+    void testSelectorThrowsException() throws Exception {
         Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQClientException.class,()->{
             Message msg = new Message(topic, RandomUtils.getStringByUUID().getBytes());
             DefaultMQProducer producer = ProducerFactory.getRMQProducer(nsAddr);

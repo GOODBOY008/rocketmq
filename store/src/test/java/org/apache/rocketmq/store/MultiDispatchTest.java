@@ -63,7 +63,7 @@ public class MultiDispatchTest {
     }
 
     @Test
-    public void queueKey() {
+    void queueKey() {
         MessageExtBrokerInner messageExtBrokerInner = mock(MessageExtBrokerInner.class);
         when(messageExtBrokerInner.getQueueId()).thenReturn(2);
         String ret = multiDispatch.queueKey("%LMQ%lmq123", messageExtBrokerInner);
@@ -71,7 +71,7 @@ public class MultiDispatchTest {
     }
 
     @Test
-    public void wrapMultiDispatch() {
+    void wrapMultiDispatch() {
         MessageExtBrokerInner messageExtBrokerInner = mock(MessageExtBrokerInner.class);
         when(messageExtBrokerInner.getProperty(MessageConst.PROPERTY_INNER_MULTI_DISPATCH)).thenReturn(
             "%LMQ%123,%LMQ%456");
@@ -86,7 +86,7 @@ public class MultiDispatchTest {
     }
 
     @Test
-    public void updateMultiQueueOffset() {
+    void updateMultiQueueOffset() {
         MessageExtBrokerInner messageExtBrokerInner = mock(MessageExtBrokerInner.class);
         when(messageExtBrokerInner.getProperty(MessageConst.PROPERTY_INNER_MULTI_DISPATCH)).thenReturn("%LMQ%123,%LMQ%456");
         when(messageExtBrokerInner.getProperty(MessageConst.PROPERTY_INNER_MULTI_QUEUE_OFFSET)).thenReturn("0,1");

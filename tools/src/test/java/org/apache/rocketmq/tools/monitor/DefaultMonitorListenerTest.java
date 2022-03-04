@@ -39,12 +39,12 @@ public class DefaultMonitorListenerTest {
     }
 
     @Test
-    public void testBeginRound() {
+    void testBeginRound() {
         defaultMonitorListener.beginRound();
     }
 
     @Test
-    public void testReportUndoneMsgs() {
+    void testReportUndoneMsgs() {
         UndoneMsgs undoneMsgs = new UndoneMsgs();
         undoneMsgs.setConsumerGroup("default-group");
         undoneMsgs.setTopic("unit-test");
@@ -55,7 +55,7 @@ public class DefaultMonitorListenerTest {
     }
 
     @Test
-    public void testReportFailedMsgs() {
+    void testReportFailedMsgs() {
         FailedMsgs failedMsgs = new FailedMsgs();
         failedMsgs.setTopic("unit-test");
         failedMsgs.setConsumerGroup("default-consumer");
@@ -64,7 +64,7 @@ public class DefaultMonitorListenerTest {
     }
 
     @Test
-    public void testReportDeleteMsgsEvent() {
+    void testReportDeleteMsgsEvent() {
         DeleteMsgsEvent deleteMsgsEvent = new DeleteMsgsEvent();
         deleteMsgsEvent.setEventTimestamp(System.currentTimeMillis());
         deleteMsgsEvent.setOffsetMovedEvent(new OffsetMovedEvent());
@@ -72,7 +72,7 @@ public class DefaultMonitorListenerTest {
     }
 
     @Test
-    public void testReportConsumerRunningInfo() {
+    void testReportConsumerRunningInfo() {
         TreeMap<String, ConsumerRunningInfo> criTable = new TreeMap<>();
         ConsumerRunningInfo consumerRunningInfo = new ConsumerRunningInfo();
         consumerRunningInfo.setSubscriptionSet(new TreeSet<SubscriptionData>());

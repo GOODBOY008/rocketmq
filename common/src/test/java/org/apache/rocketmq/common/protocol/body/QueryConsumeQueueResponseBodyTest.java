@@ -30,7 +30,7 @@ import java.util.List;
 public class QueryConsumeQueueResponseBodyTest {
 
     @Test
-    public void test(){
+    void test(){
         QueryConsumeQueueResponseBody body = new QueryConsumeQueueResponseBody();
 
         SubscriptionData subscriptionData = new SubscriptionData();

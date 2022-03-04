@@ -56,7 +56,7 @@ public class ProducerConnectionSubCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         ProducerConnectionSubCommand cmd = new ProducerConnectionSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-g default-producer-group", "-t unit-test"};

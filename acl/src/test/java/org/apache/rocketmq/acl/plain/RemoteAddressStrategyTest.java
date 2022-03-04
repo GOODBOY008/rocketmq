@@ -25,7 +25,7 @@ public class RemoteAddressStrategyTest {
     RemoteAddressStrategyFactory remoteAddressStrategyFactory = new RemoteAddressStrategyFactory();
 
     @Test
-    public void netaddressStrategyFactoryExceptionTest() {
+    void netaddressStrategyFactoryExceptionTest() {
         PlainAccessResource plainAccessResource = new PlainAccessResource();
         remoteAddressStrategyFactory.getRemoteAddressStrategy(plainAccessResource);
         Assertions.assertEquals(remoteAddressStrategyFactory.getRemoteAddressStrategy(plainAccessResource).getClass(),
@@ -33,7 +33,7 @@ public class RemoteAddressStrategyTest {
     }
 
     @Test
-    public void netaddressStrategyFactoryTest() {
+    void netaddressStrategyFactoryTest() {
         PlainAccessResource plainAccessResource = new PlainAccessResource();
 
         plainAccessResource.setWhiteRemoteAddress("*");
@@ -103,7 +103,7 @@ public class RemoteAddressStrategyTest {
     }
 
     @Test
-    public void verifyTest() {
+    void verifyTest() {
         Assertions.assertThrowsExactly(AclException.class,()->{
             PlainAccessResource plainAccessResource = new PlainAccessResource();
             plainAccessResource.setWhiteRemoteAddress("127.0.0.1");
@@ -116,19 +116,19 @@ public class RemoteAddressStrategyTest {
     }
 
     @Test
-    public void nullNetaddressStrategyTest() {
+    void nullNetaddressStrategyTest() {
         boolean isMatch = RemoteAddressStrategyFactory.NULL_NET_ADDRESS_STRATEGY.match(new PlainAccessResource());
         Assertions.assertTrue(isMatch);
     }
 
     @Test
-    public void blankNetaddressStrategyTest() {
+    void blankNetaddressStrategyTest() {
         boolean isMatch = RemoteAddressStrategyFactory.BLANK_NET_ADDRESS_STRATEGY.match(new PlainAccessResource());
         Assertions.assertFalse(isMatch);
     }
 
     @Test
-    public void oneNetaddressStrategyTest() {
+    void oneNetaddressStrategyTest() {
         PlainAccessResource plainAccessResource = new PlainAccessResource();
         plainAccessResource.setWhiteRemoteAddress("127.0.0.1");
         RemoteAddressStrategy remoteAddressStrategy = remoteAddressStrategyFactory.getRemoteAddressStrategy(plainAccessResource);
@@ -166,7 +166,7 @@ public class RemoteAddressStrategyTest {
     }
 
     @Test
-    public void multipleNetaddressStrategyTest() {
+    void multipleNetaddressStrategyTest() {
         PlainAccessResource plainAccessResource = new PlainAccessResource();
         plainAccessResource.setWhiteRemoteAddress("127.0.0.1,127.0.0.2,127.0.0.3");
         RemoteAddressStrategy remoteAddressStrategy = remoteAddressStrategyFactory.getRemoteAddressStrategy(plainAccessResource);
@@ -194,7 +194,7 @@ public class RemoteAddressStrategyTest {
     }
 
     @Test
-    public void multipleNetaddressStrategyExceptionTest() {
+    void multipleNetaddressStrategyExceptionTest() {
         Assertions.assertThrowsExactly(AclException.class,()->{
             PlainAccessResource plainAccessResource = new PlainAccessResource();
             plainAccessResource.setWhiteRemoteAddress("127.0.0.1,2,3}");
@@ -263,7 +263,7 @@ public class RemoteAddressStrategyTest {
     }
 
     @Test
-    public void rangeNetaddressStrategyTest() {
+    void rangeNetaddressStrategyTest() {
         String head = "127.0.0.";
         PlainAccessResource plainAccessResource = new PlainAccessResource();
         plainAccessResource.setWhiteRemoteAddress("127.0.0.1-200");
@@ -360,17 +360,17 @@ public class RemoteAddressStrategyTest {
     }
 
     @Test
-    public void rangeNetaddressStrategyExceptionStartGreaterEndTest() {
+    void rangeNetaddressStrategyExceptionStartGreaterEndTest() {
         Assertions.assertThrowsExactly(AclException.class,()-> rangeNetaddressStrategyExceptionTest("127.0.0.2-1"));
     }
 
     @Test
-    public void rangeNetaddressStrategyExceptionScopeTest() {
+    void rangeNetaddressStrategyExceptionScopeTest() {
         Assertions.assertThrowsExactly(AclException.class,()-> rangeNetaddressStrategyExceptionTest("127.0.0.-1-200"));
     }
 
     @Test
-    public void rangeNetaddressStrategyExceptionScopeTwoTest() {
+    void rangeNetaddressStrategyExceptionScopeTwoTest() {
         Assertions.assertThrowsExactly(AclException.class,()-> rangeNetaddressStrategyExceptionTest("127.0.0.0-256"));
     }
 

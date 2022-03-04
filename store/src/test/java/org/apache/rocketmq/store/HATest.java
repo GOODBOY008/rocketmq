@@ -92,7 +92,7 @@ public class HATest {
     }
 
     @Test
-    public void testHandleHA() {
+    void testHandleHA() {
         long totalMsgs = 10;
         QUEUE_TOTAL = 1;
         MessageBody = StoreMessage.getBytes();
@@ -123,7 +123,7 @@ public class HATest {
     }
 
     @Test
-    public void testSemiSyncReplica() throws Exception {
+    void testSemiSyncReplica() throws Exception {
         long totalMsgs = 5;
         QUEUE_TOTAL = 1;
         MessageBody = StoreMessage.getBytes();

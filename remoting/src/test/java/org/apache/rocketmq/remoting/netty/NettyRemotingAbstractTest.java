@@ -36,7 +36,7 @@ public class NettyRemotingAbstractTest {
     private NettyRemotingAbstract remotingAbstract = new NettyRemotingClient(new NettyClientConfig());
 
     @Test
-    public void testProcessResponseCommand() throws InterruptedException {
+    void testProcessResponseCommand() throws InterruptedException {
         final Semaphore semaphore = new Semaphore(0);
         ResponseFuture responseFuture = new ResponseFuture(null,1, 3000, new InvokeCallback() {
             @Override
@@ -57,7 +57,7 @@ public class NettyRemotingAbstractTest {
     }
 
     @Test
-    public void testProcessResponseCommand_NullCallBack() throws InterruptedException {
+    void testProcessResponseCommand_NullCallBack() throws InterruptedException {
         final Semaphore semaphore = new Semaphore(0);
         ResponseFuture responseFuture = new ResponseFuture(null,1, 3000, null,
             new SemaphoreReleaseOnlyOnce(semaphore));
@@ -72,7 +72,7 @@ public class NettyRemotingAbstractTest {
     }
 
     @Test
-    public void testProcessResponseCommand_RunCallBackInCurrentThread() throws InterruptedException {
+    void testProcessResponseCommand_RunCallBackInCurrentThread() throws InterruptedException {
         final Semaphore semaphore = new Semaphore(0);
         ResponseFuture responseFuture = new ResponseFuture(null,1, 3000, new InvokeCallback() {
             @Override
@@ -94,7 +94,7 @@ public class NettyRemotingAbstractTest {
     }
 
     @Test
-    public void testScanResponseTable() {
+    void testScanResponseTable() {
         int dummyId = 1;
         // mock timeout
         ResponseFuture responseFuture = new ResponseFuture(null, dummyId, -1000, new InvokeCallback() {

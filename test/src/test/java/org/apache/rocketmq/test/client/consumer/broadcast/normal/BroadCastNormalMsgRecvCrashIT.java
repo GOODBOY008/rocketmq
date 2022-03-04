@@ -51,7 +51,7 @@ public class BroadCastNormalMsgRecvCrashIT extends BaseBroadCastIT {
     }
 
     @Test
-    public void testStartTwoAndCrashOneLater() {
+    void testStartTwoAndCrashOneLater() {
         int msgSize = 16;
 
         String group = initConsumerGroup();

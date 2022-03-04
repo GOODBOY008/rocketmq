@@ -55,7 +55,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoJUnitRunner.class)
 public class TestBenchLmqStore {
     @Test
-    public void test() throws MQBrokerException, RemotingException, InterruptedException, MQClientException {
+    void test() throws MQBrokerException, RemotingException, InterruptedException, MQClientException {
         System.setProperty("sendThreadNum", "1");
         System.setProperty("pullConsumerNum", "1");
         System.setProperty("consumerThreadNum", "1");
@@ -72,7 +72,7 @@ public class TestBenchLmqStore {
             PullCallback.class));
     }
     @Test
-    public void testOffset() throws RemotingException, InterruptedException, MQClientException, MQBrokerException, IllegalAccessException {
+    void testOffset() throws RemotingException, InterruptedException, MQClientException, MQBrokerException, IllegalAccessException {
         System.setProperty("sendThreadNum", "1");
         DefaultMQPullConsumer defaultMQPullConsumer = mock(DefaultMQPullConsumer.class);
         BenchLmqStore.defaultMQPullConsumers = new DefaultMQPullConsumer[1];

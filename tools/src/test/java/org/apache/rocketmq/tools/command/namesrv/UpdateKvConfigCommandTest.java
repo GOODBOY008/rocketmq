@@ -49,7 +49,7 @@ public class UpdateKvConfigCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         UpdateKvConfigCommand cmd = new UpdateKvConfigCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[]{"-s namespace", "-k topicname", "-v unit_test"};

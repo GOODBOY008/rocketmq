@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 
 public class RemotingSerializableTest {
     @Test
-    public void testEncodeAndDecode_HeterogeneousClass() {
+    void testEncodeAndDecode_HeterogeneousClass() {
         Sample sample = new Sample();
 
         byte[] bytes = RemotingSerializable.encode(sample);
@@ -35,7 +35,7 @@ public class RemotingSerializableTest {
     }
 
     @Test
-    public void testToJson_normalString() {
+    void testToJson_normalString() {
         RemotingSerializable serializable = new RemotingSerializable() {
             private List<String> stringList = Arrays.asList("a", "o", "e", "i", "u", "v");
 
@@ -54,7 +54,7 @@ public class RemotingSerializableTest {
     }
 
     @Test
-    public void testToJson_prettyString() {
+    void testToJson_prettyString() {
         RemotingSerializable serializable = new RemotingSerializable() {
             private List<String> stringList = Arrays.asList("a", "o", "e", "i", "u", "v");
 

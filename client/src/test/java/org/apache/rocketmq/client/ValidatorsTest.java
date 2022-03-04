@@ -30,7 +30,7 @@ import static org.junit.Assertions.fail;
 public class ValidatorsTest {
 
     @Test
-    public void testCheckTopic_Success() throws MQClientException {
+    void testCheckTopic_Success() throws MQClientException {
         Validators.checkTopic("Hello");
         Validators.checkTopic("%RETRY%Hello");
         Validators.checkTopic("_%RETRY%Hello");
@@ -39,7 +39,7 @@ public class ValidatorsTest {
     }
 
     @Test
-    public void testCheckTopic_HasIllegalCharacters() {
+    void testCheckTopic_HasIllegalCharacters() {
         String illegalTopic = "TOPIC&*^";
         try {
             Validators.checkTopic(illegalTopic);
@@ -50,7 +50,7 @@ public class ValidatorsTest {
     }
 
     @Test
-    public void testCheckTopic_BlankTopic() {
+    void testCheckTopic_BlankTopic() {
         String blankTopic = "";
         try {
             Validators.checkTopic(blankTopic);
@@ -61,7 +61,7 @@ public class ValidatorsTest {
     }
 
     @Test
-    public void testCheckTopic_TooLongTopic() {
+    void testCheckTopic_TooLongTopic() {
         String tooLongTopic = StringUtils.rightPad("TooLongTopic", Validators.TOPIC_MAX_LENGTH + 1, "_");
         Assertions.assertEquals(tooLongTopic.length()).isGreaterThan(Validators.TOPIC_MAX_LENGTH);
         try {
@@ -73,7 +73,7 @@ public class ValidatorsTest {
     }
 
     @Test
-    public void testIsSystemTopic() {
+    void testIsSystemTopic() {
         for (String topic : TopicValidator.getSystemTopicSet()) {
             try {
                 Validators.isSystemTopic(topic);
@@ -86,7 +86,7 @@ public class ValidatorsTest {
     }
 
     @Test
-    public void testIsNotAllowedSendTopic() {
+    void testIsNotAllowedSendTopic() {
         for (String topic : TopicValidator.getNotAllowedSendTopicSet()) {
             try {
                 Validators.isNotAllowedSendTopic(topic);

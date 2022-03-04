@@ -38,7 +38,7 @@ public class FileRegionEncoderTest {
      * @throws IOException if there is an error.
      */
     @Test
-    public void testEncode() throws IOException {
+    void testEncode() throws IOException {
         FileRegionEncoder fileRegionEncoder = new FileRegionEncoder();
         EmbeddedChannel channel = new EmbeddedChannel(fileRegionEncoder);
         File file = File.createTempFile(UUID.randomUUID().toString(), ".data");

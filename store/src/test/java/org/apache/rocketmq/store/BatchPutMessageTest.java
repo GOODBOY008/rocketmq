@@ -80,7 +80,7 @@ public class BatchPutMessageTest {
     }
 
     @Test
-    public void testPutMessages() throws Exception {
+    void testPutMessages() throws Exception {
         String batchPropK = "extraKey";
         String batchPropV = "extraValue";
         Map<String, String> batchProp = new HashMap<>(1);
@@ -135,7 +135,7 @@ public class BatchPutMessageTest {
     }
 
     @Test
-    public void testPutIPv6HostMessages() throws Exception {
+    void testPutIPv6HostMessages() throws Exception {
         List<Message> messages = new ArrayList<>();
         String topic = "batch-write-topic";
         int queue = 0;

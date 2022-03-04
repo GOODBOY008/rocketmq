@@ -62,18 +62,18 @@ public class DefaultTransactionalMessageCheckListenerTest {
     }
 
     @Test
-    public void testResolveHalfMsg() {
+    void testResolveHalfMsg() {
         listener.resolveHalfMsg(createMessageExt());
     }
 
     @Test
-    public void testSendCheckMessage() throws Exception {
+    void testSendCheckMessage() throws Exception {
         MessageExt messageExt = createMessageExt();
         listener.sendCheckMessage(messageExt);
     }
 
     @Test
-    public void sendCheckMessage() {
+    void sendCheckMessage() {
         listener.resolveDiscardMsg(createMessageExt());
     }
 
@@ -90,7 +90,7 @@ public class DefaultTransactionalMessageCheckListenerTest {
     }
 
     @Test
-    public void testResolveDiscardMsg() {
+    void testResolveDiscardMsg() {
         MessageExt messageExt = new MessageExt();
         messageExt.setTopic(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC);
         messageExt.setQueueId(0);

@@ -24,7 +24,7 @@ import static org.junit.Assertions.*;
 
 public class WaitNotifyObjectTest {
     @Test
-    public void removeFromWaitingThreadTable() throws Exception {
+    void removeFromWaitingThreadTable() throws Exception {
         final WaitNotifyObject waitNotifyObject = new WaitNotifyObject();
         for (int i = 0; i < 5; i++) {
             Thread t = new Thread(new Runnable() {

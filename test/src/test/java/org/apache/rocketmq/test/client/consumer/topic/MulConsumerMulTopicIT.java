@@ -44,7 +44,7 @@ public class MulConsumerMulTopicIT extends BaseConf {
     }
 
     @Test
-    public void testSynSendMessage() {
+    void testSynSendMessage() {
         int msgSize = 10;
         String topic1 = initTopic();
         String topic2 = initTopic();
@@ -64,7 +64,7 @@ public class MulConsumerMulTopicIT extends BaseConf {
     }
 
     @Test
-    public void testConsumeWithDiffTag() {
+    void testConsumeWithDiffTag() {
         int msgSize = 10;
         String topic1 = initTopic();
         String topic2 = initTopic();
@@ -85,7 +85,7 @@ public class MulConsumerMulTopicIT extends BaseConf {
     }
 
     @Test
-    public void testConsumeWithDiffTagAndFilter() {
+    void testConsumeWithDiffTagAndFilter() {
         int msgSize = 10;
         String topic1 = initTopic();
         String topic2 = initTopic();

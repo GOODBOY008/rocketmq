@@ -34,7 +34,7 @@ public class SelectMessageQueueRetryTest {
     private String topic = "TEST";
 
     @Test
-    public void testSelect() throws Exception {
+    void testSelect() throws Exception {
 
         TopicPublishInfo topicPublishInfo = new TopicPublishInfo();
         List<MessageQueue> messageQueueList = new ArrayList();

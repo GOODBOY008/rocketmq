@@ -19,7 +19,6 @@ package org.apache.rocketmq.common.protocol.heartbeat;
 
 import org.apache.rocketmq.common.filter.ExpressionType;
 import org.apache.rocketmq.remoting.protocol.RemotingSerializable;
-import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ import org.junit.jupiter.api.Test;
 public class SubscriptionDataTest {
 
     @Test
-    public void testConstructor1() {
+    void testConstructor1() {
         SubscriptionData subscriptionData = new SubscriptionData();
         Assertions.assertNull(subscriptionData.getTopic());
         Assertions.assertNull(subscriptionData.getSubString());
@@ -41,7 +40,7 @@ public class SubscriptionDataTest {
     }
 
     @Test
-    public void testConstructor2() {
+    void testConstructor2() {
         SubscriptionData subscriptionData = new SubscriptionData("TOPICA", "*");
         Assertions.assertEquals(subscriptionData.getTopic(),"TOPICA");
         Assertions.assertEquals(subscriptionData.getSubString(),"*");
@@ -55,7 +54,7 @@ public class SubscriptionDataTest {
 
 
     @Test
-    public void testHashCodeNotEquals() {
+    void testHashCodeNotEquals() {
         SubscriptionData subscriptionData = new SubscriptionData("TOPICA", "*");
         subscriptionData.setCodeSet(Sets.newLinkedHashSet(1, 2, 3));
         subscriptionData.setTagsSet(Sets.newLinkedHashSet("TAGA", "TAGB", "TAG3"));
@@ -63,7 +62,7 @@ public class SubscriptionDataTest {
     }
 
     @Test
-    public void testFromJson() throws Exception {
+    void testFromJson() throws Exception {
         SubscriptionData subscriptionData = new SubscriptionData("TOPICA", "*");
         subscriptionData.setFilterClassSource("TestFilterClassSource");
         subscriptionData.setCodeSet(Sets.newLinkedHashSet(1, 2, 3));
@@ -78,7 +77,7 @@ public class SubscriptionDataTest {
 
 
     @Test
-    public void testCompareTo() {
+    void testCompareTo() {
         SubscriptionData subscriptionData = new SubscriptionData("TOPICA", "*");
         SubscriptionData subscriptionData1 = new SubscriptionData("TOPICBA", "*");
         Assertions.assertEquals(subscriptionData.compareTo(subscriptionData1),"TOPICA@*".compareTo("TOPICB@*"));

@@ -51,7 +51,7 @@ public class DynamicAddConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testAddOneConsumer() {
+    void testAddOneConsumer() {
         int msgSize = 100;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
 
@@ -73,7 +73,7 @@ public class DynamicAddConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testAddTwoConsumer() {
+    void testAddTwoConsumer() {
         int msgSize = 100;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
 

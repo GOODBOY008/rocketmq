@@ -22,12 +22,12 @@ import org.junit.jupiter.api.Test;
 public class AclSignerTest {
 
     @Test
-    public void calSignatureExceptionTest(){
+    void calSignatureExceptionTest(){
         Assertions.assertThrowsExactly(Exception.class,()-> AclSigner.calSignature(new byte[]{},""));
     }
 
     @Test
-    public void calSignatureTest(){
+    void calSignatureTest(){
         AclSigner.calSignature("RocketMQ","12345678");
         AclSigner.calSignature("RocketMQ".getBytes(),"12345678");
     }

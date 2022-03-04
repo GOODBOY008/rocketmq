@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class UpdateTopicPermSubCommandTest {
     @Test
-    public void testExecute() {
+    void testExecute() {
         UpdateTopicPermSubCommand cmd = new UpdateTopicPermSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-b 127.0.0.1:10911", "-c default-cluster", "-t unit-test", "-p 6"};

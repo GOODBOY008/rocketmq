@@ -86,7 +86,7 @@ public class EndTransactionProcessorTest {
     }
 
     @Test
-    public void testProcessRequest() throws RemotingCommandException {
+    void testProcessRequest() throws RemotingCommandException {
         when(transactionMsgService.commitMessage(any(EndTransactionRequestHeader.class))).thenReturn(createResponse(ResponseCode.SUCCESS));
         when(messageStore.putMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
             (PutMessageStatus.PUT_OK, new AppendMessageResult(AppendMessageStatus.PUT_OK)));
@@ -96,7 +96,7 @@ public class EndTransactionProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_CheckMessage() throws RemotingCommandException {
+    void testProcessRequest_CheckMessage() throws RemotingCommandException {
         when(transactionMsgService.commitMessage(any(EndTransactionRequestHeader.class))).thenReturn(createResponse(ResponseCode.SUCCESS));
         when(messageStore.putMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
             (PutMessageStatus.PUT_OK, new AppendMessageResult(AppendMessageStatus.PUT_OK)));
@@ -106,14 +106,14 @@ public class EndTransactionProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_NotType() throws RemotingCommandException {
+    void testProcessRequest_NotType() throws RemotingCommandException {
         RemotingCommand request = createEndTransactionMsgCommand(MessageSysFlag.TRANSACTION_NOT_TYPE, true);
         RemotingCommand response = endTransactionProcessor.processRequest(handlerContext, request);
         Assertions.assertNull(response);
     }
 
     @Test
-    public void testProcessRequest_RollBack() throws RemotingCommandException {
+    void testProcessRequest_RollBack() throws RemotingCommandException {
         when(transactionMsgService.rollbackMessage(any(EndTransactionRequestHeader.class))).thenReturn(createResponse(ResponseCode.SUCCESS));
         RemotingCommand request = createEndTransactionMsgCommand(MessageSysFlag.TRANSACTION_ROLLBACK_TYPE, true);
         RemotingCommand response = endTransactionProcessor.processRequest(handlerContext, request);

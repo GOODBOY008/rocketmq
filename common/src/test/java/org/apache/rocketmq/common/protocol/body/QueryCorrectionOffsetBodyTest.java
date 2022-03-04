@@ -28,7 +28,7 @@ import java.util.Map;
 public class QueryCorrectionOffsetBodyTest {
 
     @Test
-    public void testFromJson() throws Exception {
+    void testFromJson() throws Exception {
         QueryCorrectionOffsetBody qcob = new QueryCorrectionOffsetBody();
         Map<Integer, Long> offsetMap = new HashMap<Integer, Long>();
         offsetMap.put(1, 100L);

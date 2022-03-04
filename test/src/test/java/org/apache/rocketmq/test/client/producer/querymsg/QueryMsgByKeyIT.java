@@ -51,7 +51,7 @@ public class QueryMsgByKeyIT extends BaseConf {
     }
 
     @Test
-    public void testQueryMsg() {
+    void testQueryMsg() {
         int msgSize = 20;
         String key = "jueyin";
         long begin = System.currentTimeMillis();
@@ -72,7 +72,7 @@ public class QueryMsgByKeyIT extends BaseConf {
     }
 
     @Test
-    public void testQueryMax() {
+    void testQueryMax() {
         int msgSize = 500;
         int max = 64 * brokerNum;
         String key = "jueyin";
@@ -106,7 +106,7 @@ public class QueryMsgByKeyIT extends BaseConf {
 
 
     @Test
-    public void testQueryMsgWithSameHash1() throws Exception {
+    void testQueryMsgWithSameHash1() throws Exception {
         Assertions.assertThrowsExactly(MQClientException.class,()->{
             int msgSize = 1;
             String topicA = "AaTopic";
@@ -134,7 +134,7 @@ public class QueryMsgByKeyIT extends BaseConf {
 
 
     @Test
-    public void testQueryMsgWithSameHash2() throws Exception {
+    void testQueryMsgWithSameHash2() throws Exception {
         int msgSize = 1;
         String topicA = "AaAaTopic";
         String keyA = "Aa";

@@ -49,7 +49,7 @@ public class LocalFileOffsetStoreTest {
     }
 
     @Test
-    public void testUpdateOffset() throws Exception {
+    void testUpdateOffset() throws Exception {
         OffsetStore offsetStore = new LocalFileOffsetStore(mQClientFactory, group);
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 1);
         offsetStore.updateOffset(messageQueue, 1024, false);
@@ -64,7 +64,7 @@ public class LocalFileOffsetStoreTest {
     }
 
     @Test
-    public void testReadOffset_FromStore() throws Exception {
+    void testReadOffset_FromStore() throws Exception {
         OffsetStore offsetStore = new LocalFileOffsetStore(mQClientFactory, group);
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 2);
 
@@ -76,7 +76,7 @@ public class LocalFileOffsetStoreTest {
     }
 
     @Test
-    public void testCloneOffset() throws Exception {
+    void testCloneOffset() throws Exception {
         OffsetStore offsetStore = new LocalFileOffsetStore(mQClientFactory, group);
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 3);
         offsetStore.updateOffset(messageQueue, 1024, false);

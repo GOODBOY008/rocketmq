@@ -51,7 +51,7 @@ public class ChinaPropIT extends BaseConf {
      * @since version3.4.6
      */
     @Test
-    public void testSend20kChinaPropMsg() throws Exception {
+    void testSend20kChinaPropMsg() throws Exception {
         Assertions.assertThrowsExactly(org.apache.rocketmq.client.exception.MQBrokerException.class,()->{
             Message msg = MessageFactory.getRandomMessage(topic);
             msg.putUserProperty("key", RandomUtils.getCheseWord(32 * 1024 + 1));
@@ -63,7 +63,7 @@ public class ChinaPropIT extends BaseConf {
      * @since version3.4.6
      */
     @Test
-    public void testSend10kChinaPropMsg() {
+    void testSend10kChinaPropMsg() {
 
         Message msg = MessageFactory.getRandomMessage(topic);
         msg.putUserProperty("key", RandomUtils.getCheseWord(10 * 1024));

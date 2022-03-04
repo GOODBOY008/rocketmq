@@ -55,7 +55,7 @@ public class ConsumerProgressSubCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         ConsumerProgressSubCommand cmd = new ConsumerProgressSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-g default-group"};

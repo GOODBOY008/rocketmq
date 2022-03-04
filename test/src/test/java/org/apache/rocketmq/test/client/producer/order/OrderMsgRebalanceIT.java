@@ -53,7 +53,7 @@ public class OrderMsgRebalanceIT extends BaseConf {
     }
 
     @Test
-    public void testTwoConsumersBalance() {
+    void testTwoConsumersBalance() {
         int msgSize = 10;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQOrderListener());
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
@@ -80,7 +80,7 @@ public class OrderMsgRebalanceIT extends BaseConf {
     }
 
     @Test
-    public void testFourConsuemrBalance() {
+    void testFourConsuemrBalance() {
         int msgSize = 20;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQOrderListener());
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,

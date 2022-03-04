@@ -24,13 +24,13 @@ import org.junit.jupiter.api.Test;
 public class PullSysFlagTest {
 
     @Test
-    public void testLitePullFlag() {
+    void testLitePullFlag() {
         int flag = PullSysFlag.buildSysFlag(false, false, false, false, true);
         Assertions.assertTrue(PullSysFlag.hasLitePullFlag(flag));
     }
 
     @Test
-    public void testLitePullFlagFalse() {
+    void testLitePullFlagFalse() {
         int flag = PullSysFlag.buildSysFlag(false, false, false, false, false);
         Assertions.assertFalse(PullSysFlag.hasLitePullFlag(flag));
     }

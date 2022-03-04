@@ -85,7 +85,7 @@ public class TransactionalMessageServiceImplTest {
     }
 
     @Test
-    public void testPrepareMessage() {
+    void testPrepareMessage() {
         MessageExtBrokerInner inner = createMessageBrokerInner();
         when(bridge.putHalfMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
             (PutMessageStatus.PUT_OK, new AppendMessageResult(AppendMessageStatus.PUT_OK)));
@@ -94,21 +94,21 @@ public class TransactionalMessageServiceImplTest {
     }
 
     @Test
-    public void testCommitMessage() {
+    void testCommitMessage() {
         when(bridge.lookMessageByOffset(anyLong())).thenReturn(createMessageBrokerInner());
         OperationResult result = queueTransactionMsgService.commitMessage(createEndTransactionRequestHeader(MessageSysFlag.TRANSACTION_COMMIT_TYPE));
         Assertions.assertEquals(result.getResponseCode(),ResponseCode.SUCCESS);
     }
 
     @Test
-    public void testRollbackMessage() {
+    void testRollbackMessage() {
         when(bridge.lookMessageByOffset(anyLong())).thenReturn(createMessageBrokerInner());
         OperationResult result = queueTransactionMsgService.commitMessage(createEndTransactionRequestHeader(MessageSysFlag.TRANSACTION_ROLLBACK_TYPE));
         Assertions.assertEquals(result.getResponseCode(),ResponseCode.SUCCESS);
     }
 
     @Test
-    public void testCheck_withDiscard() {
+    void testCheck_withDiscard() {
         when(bridge.fetchMessageQueues(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC)).thenReturn(createMessageQueueSet(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC));
         when(bridge.getHalfMessage(0, 0, 1)).thenReturn(createDiscardPullResult(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC, 5, "hellp", 1));
         when(bridge.getHalfMessage(0, 1, 1)).thenReturn(createPullResult(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC, 6, "hellp", 0));
@@ -128,7 +128,7 @@ public class TransactionalMessageServiceImplTest {
     }
 
     @Test
-    public void testCheck_withCheck() {
+    void testCheck_withCheck() {
         when(bridge.fetchMessageQueues(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC)).thenReturn(createMessageQueueSet(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC));
         when(bridge.getHalfMessage(0, 0, 1)).thenReturn(createPullResult(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC, 5, "hello", 1));
         when(bridge.getHalfMessage(0, 1, 1)).thenReturn(createPullResult(TopicValidator.RMQ_SYS_TRANS_HALF_TOPIC, 6, "hellp", 0));
@@ -152,14 +152,14 @@ public class TransactionalMessageServiceImplTest {
     }
 
     @Test
-    public void testDeletePrepareMessage() {
+    void testDeletePrepareMessage() {
         when(bridge.putOpMessage(any(MessageExt.class), anyString())).thenReturn(true);
         boolean res = queueTransactionMsgService.deletePrepareMessage(createMessageBrokerInner());
         Assertions.assertTrue(res);
     }
 
     @Test
-    public void testOpen() {
+    void testOpen() {
         boolean isOpen = queueTransactionMsgService.open();
         Assertions.assertTrue(isOpen);
     }

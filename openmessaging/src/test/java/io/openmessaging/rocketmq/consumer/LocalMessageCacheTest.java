@@ -51,7 +51,7 @@ public class LocalMessageCacheTest {
     }
 
     @Test
-    public void testNextPullBatchNums() throws Exception {
+    void testNextPullBatchNums() throws Exception {
         Assertions.assertEquals(localMessageCache.nextPullBatchNums(),512);
         for (int i = 0; i < 513; i++) {
             localMessageCache.submitConsumeRequest(consumeRequest);
@@ -60,7 +60,7 @@ public class LocalMessageCacheTest {
     }
 
     @Test
-    public void testNextPullOffset() throws Exception {
+    void testNextPullOffset() throws Exception {
         MessageQueue messageQueue = new MessageQueue();
         when(rocketmqPullConsume.fetchConsumeOffset(any(MessageQueue.class), anyBoolean()))
             .thenReturn(123L);
@@ -68,14 +68,14 @@ public class LocalMessageCacheTest {
     }
 
     @Test
-    public void testUpdatePullOffset() throws Exception {
+    void testUpdatePullOffset() throws Exception {
         MessageQueue messageQueue = new MessageQueue();
         localMessageCache.updatePullOffset(messageQueue, 124L);
         Assertions.assertEquals(localMessageCache.nextPullOffset(messageQueue),124L);
     }
 
     @Test
-    public void testSubmitConsumeRequest() throws Exception {
+    void testSubmitConsumeRequest() throws Exception {
         byte[] body = new byte[] {'1', '2', '3'};
         MessageExt consumedMsg = new MessageExt();
         consumedMsg.setMsgId("NewMsgId");

@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SubscriptionGroupWrapperTest {
 
     @Test
-    public void testFromJson(){
+    void testFromJson(){
         SubscriptionGroupWrapper subscriptionGroupWrapper = new SubscriptionGroupWrapper();
         ConcurrentHashMap<String, SubscriptionGroupConfig> subscriptions = new ConcurrentHashMap<String, SubscriptionGroupConfig>();
         SubscriptionGroupConfig subscriptionGroupConfig = new SubscriptionGroupConfig();

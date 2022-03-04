@@ -66,7 +66,7 @@ public class DLedgerProduceAndConsumeIT {
     }
 
     @Test
-    public void testProduceAndConsume() throws Exception {
+    void testProduceAndConsume() throws Exception {
         String cluster = UUID.randomUUID().toString();
         String brokerName = UUID.randomUUID().toString();
         String selfId = "n0";

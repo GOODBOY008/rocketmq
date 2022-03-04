@@ -58,7 +58,7 @@ public class OrderMsgBroadCastIT extends BaseBroadCastIT {
     }
 
     @Test
-    public void testTwoConsumerSubTag() {
+    void testTwoConsumerSubTag() {
         int msgSize = 10;
 
         RMQBroadCastConsumer consumer1 = getBroadCastConsumer(nsAddr, topic, "*",

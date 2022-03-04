@@ -84,7 +84,7 @@ public class BrokerConsumeStatsSubCommadTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException, IllegalAccessException, NoSuchFieldException {
+    void testExecute() throws SubCommandException, IllegalAccessException, NoSuchFieldException {
 
         Field field = BrokerConsumeStatsSubCommad.class.getDeclaredField("defaultMQAdminExt");
         field.setAccessible(true);

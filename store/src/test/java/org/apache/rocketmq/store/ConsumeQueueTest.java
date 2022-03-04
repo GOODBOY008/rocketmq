@@ -232,7 +232,7 @@ public class ConsumeQueueTest {
     }
 
     @Test
-    public void testPutMessagePositionInfo_buildCQRepeatedly() throws Exception {
+    void testPutMessagePositionInfo_buildCQRepeatedly() throws Exception {
         DefaultMessageStore messageStore = null;
         try {
 
@@ -275,7 +275,7 @@ public class ConsumeQueueTest {
     }
 
     @Test
-    public void testPutMessagePositionInfoWrapper_MultiQueue() throws Exception {
+    void testPutMessagePositionInfoWrapper_MultiQueue() throws Exception {
         DefaultMessageStore messageStore = null;
         try {
             messageStore = genForMultiQueue();
@@ -323,7 +323,7 @@ public class ConsumeQueueTest {
     }
 
     @Test
-    public void testPutMessagePositionInfoMultiQueue() throws Exception {
+    void testPutMessagePositionInfoMultiQueue() throws Exception {
         DefaultMessageStore messageStore = null;
         try {
 
@@ -358,7 +358,7 @@ public class ConsumeQueueTest {
     }
 
     @Test
-    public void testConsumeQueueWithExtendData() {
+    void testConsumeQueueWithExtendData() {
         DefaultMessageStore master = null;
         try {
             master = gen();

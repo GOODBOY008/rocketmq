@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 public class MultiPathMappedFileQueueTest {
 
     @Test
-    public void testGetLastMappedFile() {
+    void testGetLastMappedFile() {
         final byte[] fixedMsg = new byte[1024];
 
         MessageStoreConfig config = new MessageStoreConfig();
@@ -50,7 +50,7 @@ public class MultiPathMappedFileQueueTest {
     }
 
     @Test
-    public void testLoadReadOnlyMappedFiles() {
+    void testLoadReadOnlyMappedFiles() {
         {
             //create old mapped files
             final byte[] fixedMsg = new byte[1024];
@@ -89,7 +89,7 @@ public class MultiPathMappedFileQueueTest {
     }
 
     @Test
-    public void testUpdatePathsOnline() {
+    void testUpdatePathsOnline() {
         final byte[] fixedMsg = new byte[1024];
 
         MessageStoreConfig config = new MessageStoreConfig();
@@ -116,7 +116,7 @@ public class MultiPathMappedFileQueueTest {
     }
 
     @Test
-    public void testFullStorePath() {
+    void testFullStorePath() {
         final byte[] fixedMsg = new byte[1024];
 
         Set<String> fullStorePath = new HashSet<>();

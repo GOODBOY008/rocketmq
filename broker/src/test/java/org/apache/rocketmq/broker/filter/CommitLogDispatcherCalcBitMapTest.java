@@ -34,7 +34,7 @@ import java.util.UUID;
 public class CommitLogDispatcherCalcBitMapTest {
 
     @Test
-    public void testDispatch_filterDataIllegal() {
+    void testDispatch_filterDataIllegal() {
         BrokerConfig brokerConfig = new BrokerConfig();
         brokerConfig.setEnableCalcFilterBitMap(true);
 
@@ -90,7 +90,7 @@ public class CommitLogDispatcherCalcBitMapTest {
     }
 
     @Test
-    public void testDispatch_blankFilterData() {
+    void testDispatch_blankFilterData() {
         BrokerConfig brokerConfig = new BrokerConfig();
         brokerConfig.setEnableCalcFilterBitMap(true);
 
@@ -127,7 +127,7 @@ public class CommitLogDispatcherCalcBitMapTest {
     }
 
     @Test
-    public void testDispatch() {
+    void testDispatch() {
         BrokerConfig brokerConfig = new BrokerConfig();
         brokerConfig.setEnableCalcFilterBitMap(true);
 

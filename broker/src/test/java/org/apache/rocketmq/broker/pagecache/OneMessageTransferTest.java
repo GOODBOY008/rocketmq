@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 public class OneMessageTransferTest {
 
     @Test
-    public void OneMessageTransferTest(){
+    void OneMessageTransferTest(){
         ByteBuffer byteBuffer = ByteBuffer.allocate(20);
         byteBuffer.putInt(20);
         SelectMappedBufferResult selectMappedBufferResult = new SelectMappedBufferResult(0,byteBuffer,20,new MappedFile());
@@ -34,7 +34,7 @@ public class OneMessageTransferTest {
     }
 
     @Test
-    public void OneMessageTransferCountTest(){
+    void OneMessageTransferCountTest(){
         ByteBuffer byteBuffer = ByteBuffer.allocate(20);
         byteBuffer.putInt(20);
         SelectMappedBufferResult selectMappedBufferResult = new SelectMappedBufferResult(0,byteBuffer,20,new MappedFile());
@@ -43,7 +43,7 @@ public class OneMessageTransferTest {
     }
 
     @Test
-    public void OneMessageTransferPosTest(){
+    void OneMessageTransferPosTest(){
         ByteBuffer byteBuffer = ByteBuffer.allocate(20);
         byteBuffer.putInt(20);
         SelectMappedBufferResult selectMappedBufferResult = new SelectMappedBufferResult(0,byteBuffer,20,new MappedFile());

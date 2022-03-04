@@ -39,7 +39,7 @@ public class LoggerTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testInnerConsoleLogger() throws IOException {
+    void testInnerConsoleLogger() throws IOException {
         PrintStream out = System.out;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(byteArrayOutputStream));
@@ -78,7 +78,7 @@ public class LoggerTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testInnerFileLogger() throws IOException {
+    void testInnerFileLogger() throws IOException {
         String file = loggingDir + "/inner.log";
 
         Logger fileLogger = Logger.getLogger("innerLogger");

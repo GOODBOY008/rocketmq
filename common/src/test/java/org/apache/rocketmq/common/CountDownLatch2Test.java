@@ -41,7 +41,7 @@ public class CountDownLatch2Test {
      * @see CountDownLatch2#CountDownLatch2(int)
      */
     @Test
-    public void testConstructorError() {
+    void testConstructorError() {
         int count = -1;
         try {
             CountDownLatch2 latch = new CountDownLatch2(count);
@@ -56,7 +56,7 @@ public class CountDownLatch2Test {
      * @see CountDownLatch2#CountDownLatch2(int)
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         int count = 10;
         CountDownLatch2 latch = new CountDownLatch2(count);
         Assertions.assertEquals("Expected equal", count, latch.getCount());
@@ -69,7 +69,7 @@ public class CountDownLatch2Test {
      * @see CountDownLatch2#await(long, TimeUnit)
      */
     @Test
-    public void testAwaitTimeout() throws InterruptedException {
+    void testAwaitTimeout() throws InterruptedException {
         int count = 1;
         CountDownLatch2 latch = new CountDownLatch2(count);
         boolean await = latch.await(10, TimeUnit.MILLISECONDS);
@@ -105,7 +105,7 @@ public class CountDownLatch2Test {
      * @see CountDownLatch2#reset()
      */
     @Test
-    public void testReset() throws InterruptedException {
+    void testReset() throws InterruptedException {
         int count = 2;
         CountDownLatch2 latch = new CountDownLatch2(count);
         latch.countDown();

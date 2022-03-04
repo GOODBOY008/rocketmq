@@ -37,13 +37,13 @@ public class MessageBatchTest {
     }
 
     @Test
-    public void testGenerate_OK() throws Exception {
+    void testGenerate_OK() throws Exception {
         List<Message> messages = generateMessages();
         MessageBatch.generateFromList(messages);
     }
 
     @Test
-    public void testGenerate_DiffTopic() throws Exception {
+    void testGenerate_DiffTopic() throws Exception {
         Assertions.assertThrowsExactly(UnsupportedOperationException.class,()->{
             List<Message> messages = generateMessages();
             messages.get(1).setTopic("topic2");
@@ -52,7 +52,7 @@ public class MessageBatchTest {
     }
 
     @Test
-    public void testGenerate_DiffWaitOK() throws Exception {
+    void testGenerate_DiffWaitOK() throws Exception {
         Assertions.assertThrowsExactly(UnsupportedOperationException.class,()->{
             List<Message> messages = generateMessages();
             messages.get(1).setWaitStoreMsgOK(false);
@@ -61,7 +61,7 @@ public class MessageBatchTest {
     }
 
     @Test
-    public void testGenerate_Delay() throws Exception {
+    void testGenerate_Delay() throws Exception {
         Assertions.assertThrowsExactly(UnsupportedOperationException.class,()->{
             List<Message> messages = generateMessages();
             messages.get(1).setDelayTimeLevel(1);
@@ -70,7 +70,7 @@ public class MessageBatchTest {
     }
 
     @Test
-    public void testGenerate_Retry() throws Exception {
+    void testGenerate_Retry() throws Exception {
         Assertions.assertThrowsExactly(UnsupportedOperationException.class,()->{
             List<Message> messages = generateMessages();
             messages.get(1).setTopic(MixAll.RETRY_GROUP_TOPIC_PREFIX + "topic");

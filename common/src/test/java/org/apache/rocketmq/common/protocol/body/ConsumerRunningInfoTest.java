@@ -68,7 +68,7 @@ public class ConsumerRunningInfoTest {
     }
 
     @Test
-    public void testFromJson() {
+    void testFromJson() {
         String toJson = RemotingSerializable.toJson(consumerRunningInfo, true);
         ConsumerRunningInfo fromJson = RemotingSerializable.fromJson(toJson, ConsumerRunningInfo.class);
 
@@ -86,20 +86,20 @@ public class ConsumerRunningInfoTest {
     }
 
     @Test
-    public void testAnalyzeRebalance(){
+    void testAnalyzeRebalance(){
         boolean result = ConsumerRunningInfo.analyzeRebalance(criTable);
         Assertions.assertTrue(result);
     }
 
     @Test
-    public void testAnalyzeProcessQueue(){
+    void testAnalyzeProcessQueue(){
         String result = ConsumerRunningInfo.analyzeProcessQueue("client_id", consumerRunningInfo);
         Assertions.assertEquals(result).isEmpty();
 
     }
 
     @Test
-    public void testAnalyzeSubscription(){
+    void testAnalyzeSubscription(){
         boolean result = ConsumerRunningInfo.analyzeSubscription(criTable);
         Assertions.assertTrue(result);
     }

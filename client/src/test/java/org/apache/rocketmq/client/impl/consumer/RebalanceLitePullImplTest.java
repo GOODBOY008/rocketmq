@@ -51,7 +51,7 @@ public class RebalanceLitePullImplTest {
     }
 
     @Test
-    public void testComputePullFromWhereWithException_ne_minus1() throws MQClientException {
+    void testComputePullFromWhereWithException_ne_minus1() throws MQClientException {
         for (ConsumeFromWhere where : new ConsumeFromWhere[]{
                 ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET,
                 ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET,
@@ -67,7 +67,7 @@ public class RebalanceLitePullImplTest {
     }
 
     @Test
-    public void testComputePullFromWhereWithException_eq_minus1_last() throws MQClientException {
+    void testComputePullFromWhereWithException_eq_minus1_last() throws MQClientException {
         when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-1L);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
         when(admin.maxOffset(any(MessageQueue.class))).thenReturn(12345L);
@@ -78,14 +78,14 @@ public class RebalanceLitePullImplTest {
     }
 
     @Test
-    public void testComputePullFromWhereWithException_eq_minus1_first() throws MQClientException {
+    void testComputePullFromWhereWithException_eq_minus1_first() throws MQClientException {
         when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-1L);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         Assertions.assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
     }
 
     @Test
-    public void testComputePullFromWhereWithException_eq_minus1_timestamp() throws MQClientException {
+    void testComputePullFromWhereWithException_eq_minus1_timestamp() throws MQClientException {
         when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-1L);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_TIMESTAMP);
         when(admin.searchOffset(any(MessageQueue.class), anyLong())).thenReturn(12345L);

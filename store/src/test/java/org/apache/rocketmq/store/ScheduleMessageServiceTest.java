@@ -54,7 +54,7 @@ public class ScheduleMessageServiceTest {
     private Random random = new Random();
 
     @Test
-    public void testCorrectDelayOffset_whenInit() throws Exception {
+    void testCorrectDelayOffset_whenInit() throws Exception {
 
         ConcurrentMap<Integer /* level */, Long/* offset */> offsetTable = null;
 
@@ -103,7 +103,7 @@ public class ScheduleMessageServiceTest {
     }
 
     @Test
-    public void testHandlePutResultTask() throws Exception {
+    void testHandlePutResultTask() throws Exception {
         DefaultMessageStore messageStore = mock(DefaultMessageStore.class);
         MessageStoreConfig config = buildMessageStoreConfig();
         config.setEnableScheduleMessageStats(false);

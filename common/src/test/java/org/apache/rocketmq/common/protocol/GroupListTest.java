@@ -32,7 +32,7 @@ import java.util.UUID;
 public class GroupListTest {
 
     @Test
-    public void testSetGet() throws Exception {
+    void testSetGet() throws Exception {
         HashSet<String> fisrtUniqueSet=createUniqueNewSet();
         HashSet<String> secondUniqueSet=createUniqueNewSet();
         Assertions.assertNotEquals(fisrtUniqueSet,secondUniqueSet);

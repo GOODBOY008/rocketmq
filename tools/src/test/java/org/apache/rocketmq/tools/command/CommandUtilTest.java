@@ -91,19 +91,19 @@ public class CommandUtilTest {
     }
 
     @Test
-    public void testFetchMasterAndSlaveDistinguish() throws InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
+    void testFetchMasterAndSlaveDistinguish() throws InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
         Map<String, List<String>> result = CommandUtil.fetchMasterAndSlaveDistinguish(defaultMQAdminExtImpl, "default-cluster");
         Assertions.assertEquals(result.get(null).get(0),"127.0.0.1:10911");
     }
 
     @Test
-    public void testFetchMasterAddrByClusterName() throws InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
+    void testFetchMasterAddrByClusterName() throws InterruptedException, MQBrokerException, RemotingTimeoutException, RemotingSendRequestException, RemotingConnectException {
         Set<String> result = CommandUtil.fetchMasterAddrByClusterName(defaultMQAdminExtImpl, "default-cluster");
         Assertions.assertEquals(result.size(),0);
     }
 
     @Test
-    public void testFetchBrokerNameByClusterName() throws Exception {
+    void testFetchBrokerNameByClusterName() throws Exception {
         Set<String> result = CommandUtil.fetchBrokerNameByClusterName(defaultMQAdminExtImpl, "default-cluster");
         Assertions.assertTrue(result.contains("default-broker"));
         Assertions.assertTrue(result.contains("default-broker-one"));

@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.within;
 public class BrokerStatsDataTest {
 
     @Test
-    public void testFromJson() throws Exception {
+    void testFromJson() throws Exception {
         BrokerStatsData brokerStatsData = new BrokerStatsData();
 
         {

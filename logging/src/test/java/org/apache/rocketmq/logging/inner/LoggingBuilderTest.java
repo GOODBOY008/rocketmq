@@ -29,7 +29,7 @@ import java.io.PrintStream;
 public class LoggingBuilderTest extends BasicLoggerTest {
 
     @Test
-    public void testConsole() {
+    void testConsole() {
         PrintStream out = System.out;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(byteArrayOutputStream));
@@ -46,7 +46,7 @@ public class LoggingBuilderTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testFileAppender() throws InterruptedException {
+    void testFileAppender() throws InterruptedException {
         String logFile = loggingDir + "/file.log";
         Appender rollingFileAppender = LoggingBuilder.newAppenderBuilder().withAsync(false, 102400)
             .withFileAppender(logFile).withLayout(LoggingBuilder.newLayoutBuilder().withDefaultLayout().build()).build();
@@ -61,7 +61,7 @@ public class LoggingBuilderTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testRollingFileAppender() throws InterruptedException {
+    void testRollingFileAppender() throws InterruptedException {
 
         String rollingFile = loggingDir + "/rolling.log";
         Appender rollingFileAppender = LoggingBuilder.newAppenderBuilder().withAsync(false, 1024)
@@ -89,7 +89,7 @@ public class LoggingBuilderTest extends BasicLoggerTest {
     }
 
     //@Test
-    public void testDailyRollingFileAppender() throws InterruptedException {
+    void testDailyRollingFileAppender() throws InterruptedException {
         String rollingFile = loggingDir + "/daily-rolling--222.log";
         Appender rollingFileAppender = LoggingBuilder.newAppenderBuilder().withAsync(false, 1024)
             .withDailyFileRollingAppender(rollingFile, "'.'yyyy-MM-dd_HH-mm-ss-SSS")

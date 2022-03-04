@@ -61,7 +61,7 @@ public class SqlFilterIT extends BaseConf {
     }
 
     @Test
-    public void testFilterConsumer() throws Exception {
+    void testFilterConsumer() throws Exception {
         int msgSize = 16;
 
         String group = initConsumerGroup();
@@ -81,7 +81,7 @@ public class SqlFilterIT extends BaseConf {
     }
 
     @Test
-    public void testFilterPullConsumer() throws Exception {
+    void testFilterPullConsumer() throws Exception {
         int msgSize = 16;
 
         String group = initConsumerGroup();

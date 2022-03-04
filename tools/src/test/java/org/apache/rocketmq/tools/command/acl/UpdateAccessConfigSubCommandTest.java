@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 public class UpdateAccessConfigSubCommandTest {
 
     @Test
-    public void testExecute() {
+    void testExecute() {
         UpdateAccessConfigSubCommand cmd = new UpdateAccessConfigSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {

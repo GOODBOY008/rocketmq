@@ -120,7 +120,7 @@ public class DefaultMQProducerWithTraceTest {
     }
 
     @Test
-    public void testSendMessageSync_WithTrace_Success() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
+    void testSendMessageSync_WithTrace_Success() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
         traceProducer.getDefaultMQProducerImpl().getmQClientFactory().registerProducer(producerGroupTraceTemp, traceProducer.getDefaultMQProducerImpl());
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         final CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -133,7 +133,7 @@ public class DefaultMQProducerWithTraceTest {
     }
 
     @Test
-    public void testSendMessageSync_WithTrace_NoBrokerSet_Exception() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
+    void testSendMessageSync_WithTrace_NoBrokerSet_Exception() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
         when(mQClientAPIImpl.getTopicRouteInfoFromNameServer(anyString(), anyLong())).thenReturn(createTopicRoute());
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         try {
@@ -146,7 +146,7 @@ public class DefaultMQProducerWithTraceTest {
 
     
     @Test
-    public void testProducerWithTraceTLS() {
+    void testProducerWithTraceTLS() {
         DefaultMQProducer producer = new DefaultMQProducer(producerGroupTemp, true);
         producer.setUseTLS(true);
         AsyncTraceDispatcher asyncTraceDispatcher = (AsyncTraceDispatcher) producer.getTraceDispatcher();

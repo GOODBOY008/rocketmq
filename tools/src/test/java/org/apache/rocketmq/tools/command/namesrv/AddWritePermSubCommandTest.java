@@ -52,7 +52,7 @@ public class AddWritePermSubCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         AddWritePermSubCommand cmd = new AddWritePermSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[]{"-b default-broker"};

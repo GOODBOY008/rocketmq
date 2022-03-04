@@ -50,7 +50,7 @@ public class FilterSpiTest {
     }
 
     @Test
-    public void testRegister() {
+    void testRegister() {
         FilterFactory.INSTANCE.register(new NothingFilter());
 
         Expression expr = null;
@@ -72,7 +72,7 @@ public class FilterSpiTest {
     }
 
     @Test
-    public void testGet() {
+    void testGet() {
         try {
             Assertions.assertFalse((Boolean) FilterFactory.INSTANCE.get(ExpressionType.SQL92).compile("a is not null and a > 0")
                 .evaluate(new EmptyEvaluationContext()));

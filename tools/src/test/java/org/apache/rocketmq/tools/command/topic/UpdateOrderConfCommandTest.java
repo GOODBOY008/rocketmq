@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class UpdateOrderConfCommandTest {
     @Test
-    public void testExecute() {
+    void testExecute() {
         UpdateOrderConfCommand cmd = new UpdateOrderConfCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-t unit-test", "-v default-broker:8", "-m post"};

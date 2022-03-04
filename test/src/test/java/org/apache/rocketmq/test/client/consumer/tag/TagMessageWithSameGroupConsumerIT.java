@@ -51,7 +51,7 @@ public class TagMessageWithSameGroupConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testTwoConsumerWithSameGroup() {
+    void testTwoConsumerWithSameGroup() {
         int msgSize = 20;
         String originMsgDCName = RandomUtils.getStringByUUID();
         String msgBodyDCName = RandomUtils.getStringByUUID();
@@ -69,7 +69,7 @@ public class TagMessageWithSameGroupConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testConsumerStartWithInterval() {
+    void testConsumerStartWithInterval() {
         int msgSize = 100;
         String originMsgDCName = RandomUtils.getStringByUUID();
         String msgBodyDCName = RandomUtils.getStringByUUID();
@@ -89,7 +89,7 @@ public class TagMessageWithSameGroupConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testConsumerStartTwoAndCrashOneAfterWhile() {
+    void testConsumerStartTwoAndCrashOneAfterWhile() {
         int msgSize = 100;
         String originMsgDCName = RandomUtils.getStringByUUID();
         String msgBodyDCName = RandomUtils.getStringByUUID();

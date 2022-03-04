@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 public class GetAccessConfigSubCommandTest {
 
     @Test
-    public void testExecute() {
+    void testExecute() {
         GetAccessConfigSubCommand cmd = new GetAccessConfigSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-c default-cluster"};

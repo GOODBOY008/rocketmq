@@ -115,7 +115,7 @@ public class DefaultMQLitePullConsumerWithTraceTest {
     }
 
     @Test
-    public void testSubscribe_PollMessageSuccess_WithDefaultTraceTopic() throws Exception {
+    void testSubscribe_PollMessageSuccess_WithDefaultTraceTopic() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createLitePullConsumerWithDefaultTraceTopic();
         try {
             Set<MessageQueue> messageQueueSet = new HashSet<MessageQueue>();
@@ -131,7 +131,7 @@ public class DefaultMQLitePullConsumerWithTraceTest {
     }
 
     @Test
-    public void testSubscribe_PollMessageSuccess_WithCustomizedTraceTopic() throws Exception {
+    void testSubscribe_PollMessageSuccess_WithCustomizedTraceTopic() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createLitePullConsumerWithCustomizedTraceTopic();
         try {
             Set<MessageQueue> messageQueueSet = new HashSet<MessageQueue>();
@@ -147,7 +147,7 @@ public class DefaultMQLitePullConsumerWithTraceTest {
     }
 
     @Test
-    public void testLitePullConsumerWithTraceTLS() throws Exception {
+    void testLitePullConsumerWithTraceTLS() throws Exception {
         DefaultLitePullConsumer consumer = new DefaultLitePullConsumer("consumerGroup");
         consumer.setUseTLS(true);
         consumer.setEnableMsgTrace(true);

@@ -23,14 +23,14 @@ import org.junit.jupiter.api.Test;
 public class LevelTest {
 
     @Test
-    public void levelTest() {
+    void levelTest() {
         Level info = Level.toLevel("info");
         Level error = Level.toLevel(3);
         Assertions.assertTrue(error != null && info != null);
     }
 
     @Test
-    public void loggerLevel(){
+    void loggerLevel(){
         Level level = Logger.getRootLogger().getLevel();
         Assertions.assertTrue(level!=null);
     }

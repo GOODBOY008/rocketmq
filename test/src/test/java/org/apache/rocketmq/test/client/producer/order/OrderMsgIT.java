@@ -53,7 +53,7 @@ public class OrderMsgIT extends BaseConf {
     }
 
     @Test
-    public void testOrderMsg() {
+    void testOrderMsg() {
         int msgSize = 10;
         List<MessageQueue> mqs = producer.getMessageQueue();
         MessageQueueMsg mqMsgs = new MessageQueueMsg(mqs, msgSize);
@@ -70,7 +70,7 @@ public class OrderMsgIT extends BaseConf {
     }
 
     @Test
-    public void testSendOneQueue() {
+    void testSendOneQueue() {
         int msgSize = 20;
         List<MessageQueue> mqs = producer.getMessageQueue();
         MessageQueueMsg mqMsgs = new MessageQueueMsg(MQMessageFactory.getMessageQueues(mqs.get(0)),
@@ -88,7 +88,7 @@ public class OrderMsgIT extends BaseConf {
     }
 
     @Test
-    public void testSendRandomQueues() {
+    void testSendRandomQueues() {
         int msgSize = 10;
         List<MessageQueue> mqs = producer.getMessageQueue();
         MessageQueueMsg mqMsgs = new MessageQueueMsg(

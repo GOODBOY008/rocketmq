@@ -51,7 +51,7 @@ public class NormalMsgDelayIT extends DelayConf {
     }
 
     @Test
-    public void testDelayLevel1() throws Exception {
+    void testDelayLevel1() throws Exception {
         Thread.sleep(3000);
         int delayLevel = 1;
         List<Object> delayMsgs = MQMessageFactory.getDelayMsg(topic, delayLevel, msgSize);
@@ -67,7 +67,7 @@ public class NormalMsgDelayIT extends DelayConf {
     }
 
     @Test
-    public void testDelayLevel2() {
+    void testDelayLevel2() {
         int delayLevel = 2;
         List<Object> delayMsgs = MQMessageFactory.getDelayMsg(topic, delayLevel, msgSize);
         producer.send(delayMsgs);
@@ -83,7 +83,7 @@ public class NormalMsgDelayIT extends DelayConf {
     }
 
     @Test
-    public void testDelayLevel3() {
+    void testDelayLevel3() {
         int delayLevel = 3;
         List<Object> delayMsgs = MQMessageFactory.getDelayMsg(topic, delayLevel, msgSize);
         producer.send(delayMsgs);
@@ -99,7 +99,7 @@ public class NormalMsgDelayIT extends DelayConf {
     }
 
     @Test
-    public void testDelayLevel4() {
+    void testDelayLevel4() {
         int delayLevel = 4;
         List<Object> delayMsgs = MQMessageFactory.getDelayMsg(topic, delayLevel, msgSize);
         producer.send(delayMsgs);

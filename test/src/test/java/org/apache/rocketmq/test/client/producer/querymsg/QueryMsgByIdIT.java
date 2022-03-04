@@ -53,7 +53,7 @@ public class QueryMsgByIdIT extends BaseConf {
     }
 
     @Test
-    public void testQueryMsg() {
+    void testQueryMsg() {
         int msgSize = 20;
         producer.send(msgSize);
         Assertions.assertEquals("Not all are sent", msgSize, producer.getAllUndupMsgBody().size());

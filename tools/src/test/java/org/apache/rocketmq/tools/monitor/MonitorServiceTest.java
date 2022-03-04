@@ -170,12 +170,12 @@ public class MonitorServiceTest {
     }
 
     @Test
-    public void testDoMonitorWork() throws RemotingException, MQClientException, InterruptedException {
+    void testDoMonitorWork() throws RemotingException, MQClientException, InterruptedException {
         monitorService.doMonitorWork();
     }
 
     @Test
-    public void testReportConsumerRunningInfo() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
+    void testReportConsumerRunningInfo() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
         monitorService.reportConsumerRunningInfo("test_group");
     }
 }

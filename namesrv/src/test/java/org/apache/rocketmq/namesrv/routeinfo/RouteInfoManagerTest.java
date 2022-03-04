@@ -54,20 +54,20 @@ public class RouteInfoManagerTest {
     }
 
     @Test
-    public void testGetAllClusterInfo() {
+    void testGetAllClusterInfo() {
         byte[] clusterInfo = routeInfoManager.getAllClusterInfo();
         Assertions.assertNotNull(clusterInfo);
     }
 
     @Test
-    public void testGetAllTopicList() {
+    void testGetAllTopicList() {
         byte[] topicInfo = routeInfoManager.getAllTopicList();
         Assertions.assertTrue(topicInfo != null);
         Assertions.assertNotNull(topicInfo);
     }
 
     @Test
-    public void testRegisterBroker() {
+    void testRegisterBroker() {
         TopicConfigSerializeWrapper topicConfigSerializeWrapper = new TopicConfigSerializeWrapper();
         ConcurrentHashMap<String, TopicConfig> topicConfigConcurrentHashMap = new ConcurrentHashMap<>();
         TopicConfig topicConfig = new TopicConfig();
@@ -85,7 +85,7 @@ public class RouteInfoManagerTest {
     }
 
     @Test
-    public void testWipeWritePermOfBrokerByLock() throws Exception {
+    void testWipeWritePermOfBrokerByLock() throws Exception {
         List<QueueData> qdList = new ArrayList<>();
         QueueData qd = new QueueData();
         qd.setPerm(PermName.PERM_READ | PermName.PERM_WRITE);
@@ -105,43 +105,43 @@ public class RouteInfoManagerTest {
     }
 
     @Test
-    public void testPickupTopicRouteData() {
+    void testPickupTopicRouteData() {
         TopicRouteData result = routeInfoManager.pickupTopicRouteData("unit_test");
         Assertions.assertNull(result);
     }
 
     @Test
-    public void testGetSystemTopicList() {
+    void testGetSystemTopicList() {
         byte[] topicList = routeInfoManager.getSystemTopicList();
         Assertions.assertNotNull(topicList);
     }
 
     @Test
-    public void testGetTopicsByCluster() {
+    void testGetTopicsByCluster() {
         byte[] topicList = routeInfoManager.getTopicsByCluster("default-cluster");
         Assertions.assertNotNull(topicList);
     }
 
     @Test
-    public void testGetUnitTopics() {
+    void testGetUnitTopics() {
         byte[] topicList = routeInfoManager.getUnitTopics();
         Assertions.assertNotNull(topicList);
     }
 
     @Test
-    public void testGetHasUnitSubTopicList() {
+    void testGetHasUnitSubTopicList() {
         byte[] topicList = routeInfoManager.getHasUnitSubTopicList();
         Assertions.assertNotNull(topicList);
     }
 
     @Test
-    public void testGetHasUnitSubUnUnitTopicList() {
+    void testGetHasUnitSubUnUnitTopicList() {
         byte[] topicList = routeInfoManager.getHasUnitSubUnUnitTopicList();
         Assertions.assertNotNull(topicList);
     }
 
     @Test
-    public void testAddWritePermOfBrokerByLock() throws Exception {
+    void testAddWritePermOfBrokerByLock() throws Exception {
         List<QueueData> qdList = new ArrayList<>();
         QueueData qd = new QueueData();
         qd.setPerm(PermName.PERM_READ);

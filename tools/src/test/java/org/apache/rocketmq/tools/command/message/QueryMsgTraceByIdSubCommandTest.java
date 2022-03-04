@@ -64,7 +64,7 @@ public class QueryMsgTraceByIdSubCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         QueryMsgTraceByIdSubCommand cmd = new QueryMsgTraceByIdSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-i " + MSG_ID};

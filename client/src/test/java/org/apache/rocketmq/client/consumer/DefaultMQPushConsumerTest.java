@@ -164,12 +164,12 @@ public class DefaultMQPushConsumerTest {
     }
 
     @Test
-    public void testStart_OffsetShouldNotNUllAfterStart() {
+    void testStart_OffsetShouldNotNUllAfterStart() {
         Assertions.assertNotNull(pushConsumer.getOffsetStore());
     }
 
     @Test
-    public void testPullMessage_Success() throws InterruptedException, RemotingException, MQBrokerException {
+    void testPullMessage_Success() throws InterruptedException, RemotingException, MQBrokerException {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final AtomicReference<MessageExt> messageAtomic = new AtomicReference<MessageExt>();
         pushConsumer.getDefaultMQPushConsumerImpl().setConsumeMessageService(new ConsumeMessageConcurrentlyService(pushConsumer.getDefaultMQPushConsumerImpl(), new MessageListenerConcurrently() {
@@ -192,7 +192,7 @@ public class DefaultMQPushConsumerTest {
     }
 
     @Test
-    public void testPullMessage_SuccessWithOrderlyService() throws Exception {
+    void testPullMessage_SuccessWithOrderlyService() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final AtomicReference<MessageExt> messageAtomic = new AtomicReference<MessageExt>();
 
@@ -219,7 +219,7 @@ public class DefaultMQPushConsumerTest {
     }
 
     @Test
-    public void testCheckConfig() {
+    void testCheckConfig() {
         DefaultMQPushConsumer pushConsumer = createPushConsumer();
 
         pushConsumer.setPullThresholdForQueue(65535 + 1);
@@ -260,7 +260,7 @@ public class DefaultMQPushConsumerTest {
     }
 
     @Test
-    public void testGracefulShutdown() throws InterruptedException, RemotingException, MQBrokerException, MQClientException {
+    void testGracefulShutdown() throws InterruptedException, RemotingException, MQBrokerException, MQClientException {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         pushConsumer.setAwaitTerminationMillisWhenShutdown(2000);
         final AtomicBoolean messageConsumedFlag = new AtomicBoolean(false);
@@ -327,7 +327,7 @@ public class DefaultMQPushConsumerTest {
     }
 
     @Test
-    public void testPullMessage_ExceptionOccursWhenComputePullFromWhere() throws MQClientException {
+    void testPullMessage_ExceptionOccursWhenComputePullFromWhere() throws MQClientException {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final MessageExt[] messageExts = new MessageExt[1];
         pushConsumer.getDefaultMQPushConsumerImpl().setConsumeMessageService(

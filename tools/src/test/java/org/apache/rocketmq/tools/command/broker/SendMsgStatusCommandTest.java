@@ -67,7 +67,7 @@ public class SendMsgStatusCommandTest {
     }
 
     @Test
-    public void testExecute() {
+    void testExecute() {
         SendMsgStatusCommand cmd = new SendMsgStatusCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-b 127.0.0.1:10911", "-s 1024 -c 10"};

@@ -162,7 +162,7 @@ public class ConsumeMessageConcurrentlyServiceTest {
     }
 
     @Test
-    public void testPullMessage_ConsumeSuccess() throws InterruptedException, RemotingException, MQBrokerException, NoSuchFieldException,Exception {
+    void testPullMessage_ConsumeSuccess() throws InterruptedException, RemotingException, MQBrokerException, NoSuchFieldException,Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final AtomicReference<MessageExt> messageAtomic = new AtomicReference<MessageExt>();
 
@@ -233,7 +233,7 @@ public class ConsumeMessageConcurrentlyServiceTest {
     }
 
     @Test
-    public void testConsumeThreadName() throws Exception {
+    void testConsumeThreadName() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final AtomicReference<String> consumeThreadName = new AtomicReference<String>();
 

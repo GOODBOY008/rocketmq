@@ -105,7 +105,7 @@ public class ConsumeMessageCommandTest {
     }
 
     @Test
-    public void testExecuteDefault() throws SubCommandException {
+    void testExecuteDefault() throws SubCommandException {
         PrintStream out = System.out;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bos));
@@ -122,7 +122,7 @@ public class ConsumeMessageCommandTest {
     }
 
     @Test
-    public void testExecuteByCondition() throws SubCommandException {
+    void testExecuteByCondition() throws SubCommandException {
         PrintStream out = System.out;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bos));
@@ -138,7 +138,7 @@ public class ConsumeMessageCommandTest {
     }
 
     @Test
-    public void testExecuteDefaultWhenPullMessageByQueueGotException() throws SubCommandException, InterruptedException, RemotingException, MQClientException, MQBrokerException, NoSuchFieldException, IllegalAccessException {
+    void testExecuteDefaultWhenPullMessageByQueueGotException() throws SubCommandException, InterruptedException, RemotingException, MQClientException, MQBrokerException, NoSuchFieldException, IllegalAccessException {
         DefaultMQPullConsumer defaultMQPullConsumer = mock(DefaultMQPullConsumer.class);
         when(defaultMQPullConsumer.pull(any(MessageQueue.class), anyString(), anyLong(), anyInt())).thenThrow(MQClientException.class);
         Field producerField = ConsumeMessageCommand.class.getDeclaredField("defaultMQPullConsumer");
@@ -160,7 +160,7 @@ public class ConsumeMessageCommandTest {
     }
 
     @Test
-    public void testExecuteByConditionWhenPullMessageByQueueGotException() throws IllegalAccessException, InterruptedException, RemotingException, MQClientException, MQBrokerException, NoSuchFieldException, SubCommandException {
+    void testExecuteByConditionWhenPullMessageByQueueGotException() throws IllegalAccessException, InterruptedException, RemotingException, MQClientException, MQBrokerException, NoSuchFieldException, SubCommandException {
         DefaultMQPullConsumer defaultMQPullConsumer = mock(DefaultMQPullConsumer.class);
         when(defaultMQPullConsumer.pull(any(MessageQueue.class), anyString(), anyLong(), anyInt())).thenThrow(MQClientException.class);
         Field producerField = ConsumeMessageCommand.class.getDeclaredField("defaultMQPullConsumer");

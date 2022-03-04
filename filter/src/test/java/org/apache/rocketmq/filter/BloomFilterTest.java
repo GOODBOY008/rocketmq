@@ -30,7 +30,7 @@ import java.util.Random;
 public class BloomFilterTest {
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         BloomFilter a = BloomFilter.createByFn(10, 20);
 
         BloomFilter b = BloomFilter.createByFn(10, 20);
@@ -51,7 +51,7 @@ public class BloomFilterTest {
     }
 
     @Test
-    public void testHashTo() {
+    void testHashTo() {
         String cid = "CID_abc_efg";
 
         BloomFilter bloomFilter = BloomFilter.createByFn(10, 20);
@@ -68,7 +68,7 @@ public class BloomFilterTest {
     }
 
     @Test
-    public void testCalcBitPositions() {
+    void testCalcBitPositions() {
         String cid = "CID_abc_efg";
 
         BloomFilter bloomFilter = BloomFilter.createByFn(10, 20);
@@ -87,7 +87,7 @@ public class BloomFilterTest {
     }
 
     @Test
-    public void testIsHit() {
+    void testIsHit() {
         String cid = "CID_abc_efg";
         String cid2 = "CID_abc_123";
 
@@ -107,7 +107,7 @@ public class BloomFilterTest {
     }
 
     @Test
-    public void testBloomFilterData() {
+    void testBloomFilterData() {
         BloomFilterData bloomFilterData = new BloomFilterData(new int[] {1, 2, 3}, 128);
         BloomFilterData bloomFilterData1 = new BloomFilterData(new int[] {1, 2, 3}, 128);
         BloomFilterData bloomFilterData2 = new BloomFilterData(new int[] {1, 2, 3}, 129);
@@ -144,7 +144,7 @@ public class BloomFilterTest {
     }
 
     @Test
-    public void testCheckFalseHit() {
+    void testCheckFalseHit() {
         BloomFilter bloomFilter = BloomFilter.createByFn(1, 300);
         BitsArray bits = BitsArray.create(bloomFilter.getM());
         int falseHit = 0;

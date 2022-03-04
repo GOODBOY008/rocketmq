@@ -56,7 +56,7 @@ public class ConsumerStatusSubCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         ConsumerStatusSubCommand cmd = new ConsumerStatusSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-g default-group", "-i cid_one"};

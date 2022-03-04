@@ -74,7 +74,7 @@ public class RebalancePushImplTest {
     }
 
     @Test
-    public void testMessageQueueChanged_CountThreshold() {
+    void testMessageQueueChanged_CountThreshold() {
         RebalancePushImpl rebalancePush = new RebalancePushImpl(consumerGroup, MessageModel.CLUSTERING,
             new AllocateMessageQueueAveragely(), mqClientInstance, defaultMQPushConsumer);
         init(rebalancePush);
@@ -122,7 +122,7 @@ public class RebalancePushImplTest {
     }
 
     @Test
-    public void testMessageQueueChanged_SizeThreshold() {
+    void testMessageQueueChanged_SizeThreshold() {
         RebalancePushImpl rebalancePush = new RebalancePushImpl(consumerGroup, MessageModel.CLUSTERING,
             new AllocateMessageQueueAveragely(), mqClientInstance, defaultMQPushConsumer);
         init(rebalancePush);
@@ -147,7 +147,7 @@ public class RebalancePushImplTest {
     }
 
     @Test
-    public void testMessageQueueChanged_ConsumerRuntimeInfo() throws MQClientException {
+    void testMessageQueueChanged_ConsumerRuntimeInfo() throws MQClientException {
         RebalancePushImpl rebalancePush = new RebalancePushImpl(consumerGroup, MessageModel.CLUSTERING,
             new AllocateMessageQueueAveragely(), mqClientInstance, defaultMQPushConsumer);
         init(rebalancePush);
@@ -183,7 +183,7 @@ public class RebalancePushImplTest {
     }
 
     @Test
-    public void testComputePullFromWhereWithException_ne_minus1() throws MQClientException {
+    void testComputePullFromWhereWithException_ne_minus1() throws MQClientException {
         for (ConsumeFromWhere where : new ConsumeFromWhere[]{
                 ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET,
                 ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET,
@@ -199,7 +199,7 @@ public class RebalancePushImplTest {
     }
 
     @Test
-    public void testComputePullFromWhereWithException_eq_minus1_last() throws MQClientException {
+    void testComputePullFromWhereWithException_eq_minus1_last() throws MQClientException {
         when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-1L);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
         when(admin.maxOffset(any(MessageQueue.class))).thenReturn(12345L);
@@ -210,14 +210,14 @@ public class RebalancePushImplTest {
     }
 
     @Test
-    public void testComputePullFromWhereWithException_eq_minus1_first() throws MQClientException {
+    void testComputePullFromWhereWithException_eq_minus1_first() throws MQClientException {
         when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-1L);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         Assertions.assertEquals(0, rebalanceImpl.computePullFromWhereWithException(mq));
     }
 
     @Test
-    public void testComputePullFromWhereWithException_eq_minus1_timestamp() throws MQClientException {
+    void testComputePullFromWhereWithException_eq_minus1_timestamp() throws MQClientException {
         when(offsetStore.readOffset(any(MessageQueue.class), any(ReadOffsetType.class))).thenReturn(-1L);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_TIMESTAMP);
         when(admin.searchOffset(any(MessageQueue.class), anyLong())).thenReturn(12345L);

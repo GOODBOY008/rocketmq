@@ -57,14 +57,14 @@ public class TraceDataEncoderTest {
     }
 
     @Test
-    public void testDecoderFromTraceDataString() {
+    void testDecoderFromTraceDataString() {
         List<TraceContext> contexts = TraceDataEncoder.decoderFromTraceDataString(traceData);
         Assertions.assertEquals(contexts.size(), 1);
         Assertions.assertEquals(contexts.get(0).getTraceType(), TraceType.Pub);
     }
 
     @Test
-    public void testEncoderFromContextBean() {
+    void testEncoderFromContextBean() {
         TraceContext context = new TraceContext();
         context.setTraceType(TraceType.Pub);
         context.setGroupName("PID-test");
@@ -92,7 +92,7 @@ public class TraceDataEncoderTest {
     }
 
     @Test
-    public void testEncoderFromContextBean_EndTransaction() {
+    void testEncoderFromContextBean_EndTransaction() {
         TraceContext context = new TraceContext();
         context.setTraceType(TraceType.EndTransaction);
         context.setGroupName("PID-test");
@@ -134,7 +134,7 @@ public class TraceDataEncoderTest {
     }
 
     @Test
-    public void testPubTraceDataFormatTest() {
+    void testPubTraceDataFormatTest() {
         TraceContext pubContext = new TraceContext();
         pubContext.setTraceType(TraceType.Pub);
         pubContext.setTimeStamp(time);
@@ -163,7 +163,7 @@ public class TraceDataEncoderTest {
     }
 
     @Test
-    public void testSubBeforeTraceDataFormatTest() {
+    void testSubBeforeTraceDataFormatTest() {
         TraceContext subBeforeContext = new TraceContext();
         subBeforeContext.setTraceType(TraceType.SubBefore);
         subBeforeContext.setTimeStamp(time);
@@ -186,7 +186,7 @@ public class TraceDataEncoderTest {
     }
 
     @Test
-    public void testSubAfterTraceDataFormatTest() {
+    void testSubAfterTraceDataFormatTest() {
         TraceContext subAfterContext = new TraceContext();
         subAfterContext.setTraceType(TraceType.SubAfter);
         subAfterContext.setRequestId("3455848576927");
@@ -210,7 +210,7 @@ public class TraceDataEncoderTest {
     }
 
     @Test
-    public void testEndTrxTraceDataFormatTest() {
+    void testEndTrxTraceDataFormatTest() {
         TraceContext endTrxContext = new TraceContext();
         endTrxContext.setTraceType(TraceType.EndTransaction);
         endTrxContext.setGroupName("PID-test");
@@ -239,7 +239,7 @@ public class TraceDataEncoderTest {
     }
 
     @Test
-    public void testTraceKeys() {
+    void testTraceKeys() {
         TraceContext endTrxContext = new TraceContext();
         endTrxContext.setTraceType(TraceType.EndTransaction);
         endTrxContext.setGroupName("PID-test");

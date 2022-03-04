@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 public class CheckClientRequestBodyTest {
 
     @Test
-    public void testFromJson() {
+    void testFromJson() {
         SubscriptionData subscriptionData = new SubscriptionData();
         String expectedClientId = "defalutId";
         String expectedGroup = "defaultGroup";

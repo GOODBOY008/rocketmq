@@ -90,7 +90,7 @@ public class ConsumeQueueExtTest {
     }
 
     @Test
-    public void testPut() {
+    void testPut() {
         ConsumeQueueExt consumeQueueExt = genExt();
 
         try {
@@ -102,7 +102,7 @@ public class ConsumeQueueExtTest {
     }
 
     @Test
-    public void testGet() {
+    void testGet() {
         ConsumeQueueExt consumeQueueExt = genExt();
 
         putSth(consumeQueueExt, false, false, unitCount);
@@ -130,7 +130,7 @@ public class ConsumeQueueExtTest {
     }
 
     @Test
-    public void testGet_invalidAddress() {
+    void testGet_invalidAddress() {
         ConsumeQueueExt consumeQueueExt = genExt();
 
         putSth(consumeQueueExt, false, true, unitCount);
@@ -152,7 +152,7 @@ public class ConsumeQueueExtTest {
     }
 
     @Test
-    public void testRecovery() {
+    void testRecovery() {
         ConsumeQueueExt putCqExt = genExt();
 
         putSth(putCqExt, false, true, unitCount);
@@ -190,7 +190,7 @@ public class ConsumeQueueExtTest {
     }
 
     @Test
-    public void testTruncateByMinOffset() {
+    void testTruncateByMinOffset() {
         ConsumeQueueExt consumeQueueExt = genExt();
 
         putSth(consumeQueueExt, false, true, unitCount * 2);
@@ -213,7 +213,7 @@ public class ConsumeQueueExtTest {
     }
 
     @Test
-    public void testTruncateByMaxOffset() {
+    void testTruncateByMaxOffset() {
         ConsumeQueueExt consumeQueueExt = genExt();
 
         putSth(consumeQueueExt, false, true, unitCount * 2);

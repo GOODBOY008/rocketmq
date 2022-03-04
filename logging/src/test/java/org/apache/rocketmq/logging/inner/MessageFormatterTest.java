@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 public class MessageFormatterTest {
 
     @Test
-    public void formatTest(){
+    void formatTest(){
         InnerLoggerFactory.FormattingTuple logging = InnerLoggerFactory.MessageFormatter.format("this is {},and {}", "logging", 6546);
         String message = logging.getMessage();
         Assertions.assertTrue(message.contains("logging"));

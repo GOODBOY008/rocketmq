@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class ServiceThreadTest {
 
     @Test
-    public void testShutdown() {
+    void testShutdown() {
         shutdown(false, false);
         shutdown(false, true);
         shutdown(true, false);
@@ -32,20 +32,20 @@ public class ServiceThreadTest {
     }
 
     @Test
-    public void testStop() {
+    void testStop() {
         stop(true);
         stop(false);
     }
 
     @Test
-    public void testMakeStop() {
+    void testMakeStop() {
         ServiceThread testServiceThread = startTestServiceThread();
         testServiceThread.makeStop();
         Assertions.assertEquals(true, testServiceThread.isStopped());
     }
 
     @Test
-    public void testWakeup() {
+    void testWakeup() {
         ServiceThread testServiceThread = startTestServiceThread();
         testServiceThread.wakeup();
         Assertions.assertEquals(true, testServiceThread.hasNotified.get());
@@ -53,7 +53,7 @@ public class ServiceThreadTest {
     }
 
     @Test
-    public void testWaitForRunning() {
+    void testWaitForRunning() {
         ServiceThread testServiceThread = startTestServiceThread();
         // test waitForRunning
         testServiceThread.waitForRunning(1000);

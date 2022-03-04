@@ -51,7 +51,7 @@ public class NormalMsgTwoSameGroupConsumerIT extends BaseBroadCastIT {
     }
 
     @Test
-    public void testStartTwoSameGroupConsumer() {
+    void testStartTwoSameGroupConsumer() {
         int msgSize = 16;
 
         String group = initConsumerGroup();

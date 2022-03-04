@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 public class PermissionTest {
 
     @Test
-    public void fromStringGetPermissionTest() {
+    void fromStringGetPermissionTest() {
         byte perm = Permission.parsePermFromString("PUB");
         Assertions.assertEquals(perm, Permission.PUB);
 
@@ -54,7 +54,7 @@ public class PermissionTest {
     }
 
     @Test
-    public void checkPermissionTest() {
+    void checkPermissionTest() {
         boolean boo = Permission.checkPermission(Permission.DENY, Permission.DENY);
         Assertions.assertFalse(boo);
 
@@ -91,7 +91,7 @@ public class PermissionTest {
     }
 
     @Test
-    public void setTopicPermTest() {
+    void setTopicPermTest() {
         PlainAccessResource plainAccessResource = new PlainAccessResource();
         Map<String, Byte> resourcePermMap = plainAccessResource.getResourcePermMap();
 
@@ -139,7 +139,7 @@ public class PermissionTest {
     }
 
     @Test
-    public void checkAdminCodeTest() {
+    void checkAdminCodeTest() {
         Set<Integer> code = new HashSet<>();
         code.add(17);
         code.add(25);
@@ -156,7 +156,7 @@ public class PermissionTest {
     }
 
     @Test
-    public void AclExceptionTest(){
+    void AclExceptionTest(){
         AclException aclException = new AclException("CAL_SIGNATURE_FAILED",10015);
         AclException aclExceptionWithMessage = new AclException("CAL_SIGNATURE_FAILED",10015,"CAL_SIGNATURE_FAILED Exception");
         Assertions.assertEquals(aclException.getCode(),10015);
@@ -168,7 +168,7 @@ public class PermissionTest {
     }
 
     @Test
-    public void checkResourcePermsNormalTest() {
+    void checkResourcePermsNormalTest() {
         Permission.checkResourcePerms(null);
         Permission.checkResourcePerms(new ArrayList<>());
         Permission.checkResourcePerms(Arrays.asList("topicA=PUB"));
@@ -176,17 +176,17 @@ public class PermissionTest {
     }
 
     @Test
-    public void checkResourcePermsExceptionTest1() {
+    void checkResourcePermsExceptionTest1() {
         Assertions.assertThrowsExactly(AclException.class,()->Permission.checkResourcePerms(Arrays.asList("topicA")));
     }
 
     @Test
-    public void checkResourcePermsExceptionTest2() {
+    void checkResourcePermsExceptionTest2() {
         Assertions.assertThrowsExactly(AclException.class,()->Permission.checkResourcePerms(Arrays.asList("topicA=")));
     }
 
     @Test
-    public void checkResourcePermsExceptionTest3() {
+    void checkResourcePermsExceptionTest3() {
         Assertions.assertThrowsExactly(AclException.class,()->Permission.checkResourcePerms(Arrays.asList("topicA=DENY1")));
     }
 }

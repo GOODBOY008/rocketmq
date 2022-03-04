@@ -29,7 +29,7 @@ import java.util.Map;
 public class ResetOffsetBodyTest {
 
     @Test
-    public void testFromJson() throws Exception {
+    void testFromJson() throws Exception {
         ResetOffsetBody rob = new ResetOffsetBody();
         Map<MessageQueue, Long> offsetMap = new HashMap<MessageQueue, Long>();
         MessageQueue queue = new MessageQueue();

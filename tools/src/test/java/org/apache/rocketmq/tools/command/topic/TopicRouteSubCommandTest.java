@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class TopicRouteSubCommandTest {
     @Test
-    public void testExecute() {
+    void testExecute() {
         TopicRouteSubCommand cmd = new TopicRouteSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-t unit-test"};

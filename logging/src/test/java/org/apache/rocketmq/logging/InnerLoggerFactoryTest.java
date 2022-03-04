@@ -59,7 +59,7 @@ public class InnerLoggerFactoryTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testInnerLoggerFactory() {
+    void testInnerLoggerFactory() {
         InternalLoggerFactory.setCurrentLoggerType(InternalLoggerFactory.LOGGER_INNER);
 
         InternalLogger logger1 = InnerLoggerFactory.getLogger(LOGGER);

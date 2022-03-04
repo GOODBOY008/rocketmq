@@ -31,7 +31,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class ProcessQueueTest {
 
     @Test
-    public void testCachedMessageCount() {
+    void testCachedMessageCount() {
         ProcessQueue pq = new ProcessQueue();
 
         pq.putMessage(createMessageList());
@@ -48,7 +48,7 @@ public class ProcessQueueTest {
     }
 
     @Test
-    public void testCachedMessageSize() {
+    void testCachedMessageSize() {
         ProcessQueue pq = new ProcessQueue();
 
         pq.putMessage(createMessageList());
@@ -65,7 +65,7 @@ public class ProcessQueueTest {
     }
 
     @Test
-    public void testFillProcessQueueInfo() {
+    void testFillProcessQueueInfo() {
         ProcessQueue pq = new ProcessQueue();
         pq.putMessage(createMessageList(102400));
 

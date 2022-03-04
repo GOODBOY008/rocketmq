@@ -51,7 +51,7 @@ public class DynamicCrashConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testAddOneConsumer() {
+    void testAddOneConsumer() {
         int msgSize = 100;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,
@@ -74,7 +74,7 @@ public class DynamicCrashConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testAddTwoConsumer() {
+    void testAddTwoConsumer() {
         int msgSize = 100;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
         RMQNormalConsumer consumer2 = getConsumer(nsAddr, consumer1.getConsumerGroup(), topic,

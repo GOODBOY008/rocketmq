@@ -33,7 +33,7 @@ import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 public class MessageUtilsTest {
 
     @Test
-    public void testCreateReplyMessage() throws MQClientException {
+    void testCreateReplyMessage() throws MQClientException {
         Message msg = MessageUtil.createReplyMessage(createReplyMessage("clusterName"), new byte[] {'a'});
         Assertions.assertEquals(msg.getTopic(),"clusterName" + "_" + MixAll.REPLY_TOPIC_POSTFIX);
         Assertions.assertEquals(msg.getProperty(MessageConst.PROPERTY_MESSAGE_REPLY_TO_CLIENT),"127.0.0.1");
@@ -41,7 +41,7 @@ public class MessageUtilsTest {
     }
 
     @Test
-    public void testCreateReplyMessage_Exception() throws MQClientException {
+    void testCreateReplyMessage_Exception() throws MQClientException {
         try {
             Message msg = MessageUtil.createReplyMessage(createReplyMessage(null), new byte[] {'a'});
             failBecauseExceptionWasNotThrown(MQClientException.class);
@@ -51,7 +51,7 @@ public class MessageUtilsTest {
     }
 
     @Test
-    public void testCreateReplyMessage_reqMsgIsNull() throws MQClientException {
+    void testCreateReplyMessage_reqMsgIsNull() throws MQClientException {
         try {
             Message msg = MessageUtil.createReplyMessage(null, new byte[] {'a'});
             failBecauseExceptionWasNotThrown(MQClientException.class);
@@ -61,7 +61,7 @@ public class MessageUtilsTest {
     }
 
     @Test
-    public void testGetReplyToClient() throws MQClientException {
+    void testGetReplyToClient() throws MQClientException {
         Message msg = createReplyMessage("clusterName");
         String replyToClient = MessageUtil.getReplyToClient(msg);
         Assertions.assertNotNull(replyToClient);

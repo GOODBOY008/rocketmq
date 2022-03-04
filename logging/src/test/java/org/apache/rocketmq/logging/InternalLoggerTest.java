@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 public class InternalLoggerTest {
 
     @Test
-    public void testInternalLogger() {
+    void testInternalLogger() {
         SysLogger.setQuietMode(false);
         SysLogger.setInternalDebugging(true);
         PrintStream out = System.out;

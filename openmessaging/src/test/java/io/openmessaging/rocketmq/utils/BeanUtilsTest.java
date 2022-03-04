@@ -77,7 +77,7 @@ public class BeanUtilsTest {
     }
 
     @Test
-    public void testPopulate() {
+    void testPopulate() {
         CustomizedConfig config = BeanUtils.populate(properties, CustomizedConfig.class);
 
         //RemotingConfig config = BeanUtils.populate(properties, RemotingConfig.class);
@@ -90,7 +90,7 @@ public class BeanUtilsTest {
     }
 
     @Test
-    public void testPopulate_ExistObj() {
+    void testPopulate_ExistObj() {
         CustomizedConfig config = new CustomizedConfig();
         config.setConsumerId("NewConsumerId");
 

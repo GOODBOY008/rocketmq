@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class RegisterBrokerBodyTest {
     @Test
-    public void test_encode_decode() throws IOException {
+    void test_encode_decode() throws IOException {
         RegisterBrokerBody registerBrokerBody = new RegisterBrokerBody();
         TopicConfigSerializeWrapper topicConfigSerializeWrapper = new TopicConfigSerializeWrapper();
         registerBrokerBody.setTopicConfigSerializeWrapper(topicConfigSerializeWrapper);

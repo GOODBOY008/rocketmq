@@ -28,7 +28,7 @@ import java.util.List;
 public class TraceViewTest {
 
     @Test
-    public void testDecodeFromTraceTransData() {
+    void testDecodeFromTraceTransData() {
         String messageBody = new StringBuilder()
             .append("Pub").append(TraceConstants.CONTENT_SPLITOR)
             .append(System.currentTimeMillis()).append(TraceConstants.CONTENT_SPLITOR)

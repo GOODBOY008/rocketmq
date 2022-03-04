@@ -46,7 +46,7 @@ public class QueryMsgByIdExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testQueryMsgByErrorMsgId() {
+    void testQueryMsgByErrorMsgId() {
         producer.clearMsg();
         int msgSize = 20;
         String errorMsgId = "errorMsgId";
@@ -63,7 +63,7 @@ public class QueryMsgByIdExceptionIT extends BaseConf {
     }
 
     @Test
-    public void testQueryMsgByNullMsgId() {
+    void testQueryMsgByNullMsgId() {
         producer.clearMsg();
         int msgSize = 20;
         String errorMsgId = null;

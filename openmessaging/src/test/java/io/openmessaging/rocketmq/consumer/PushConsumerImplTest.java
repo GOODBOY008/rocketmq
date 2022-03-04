@@ -64,7 +64,7 @@ public class PushConsumerImplTest {
     }
 
     @Test
-    public void testConsumeMessage() {
+    void testConsumeMessage() {
         final byte[] testBody = new byte[] {'a', 'b'};
 
         MessageExt consumedMsg = new MessageExt();

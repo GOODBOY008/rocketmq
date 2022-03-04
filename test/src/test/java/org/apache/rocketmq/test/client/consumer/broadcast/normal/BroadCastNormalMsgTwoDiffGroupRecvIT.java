@@ -51,7 +51,7 @@ public class BroadCastNormalMsgTwoDiffGroupRecvIT extends BaseBroadCastIT {
     }
 
     @Test
-    public void testStartDiffSameGroupConsumer() {
+    void testStartDiffSameGroupConsumer() {
         int msgSize = 16;
 
         String group1 = initConsumerGroup();

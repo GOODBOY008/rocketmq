@@ -51,7 +51,7 @@ public class BroadCastNormalMsgRecvStartLaterIT extends BaseBroadCastIT {
     }
 
     @Test
-    public void testStartOneAndStartAnotherLater() {
+    void testStartOneAndStartAnotherLater() {
         int msgSize = 16;
 
         String group = initConsumerGroup();

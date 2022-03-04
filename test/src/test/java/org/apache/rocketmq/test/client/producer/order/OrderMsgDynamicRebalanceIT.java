@@ -52,7 +52,7 @@ public class OrderMsgDynamicRebalanceIT extends BaseConf {
     }
 
     @Test
-    public void testTwoConsumerAndCrashOne() {
+    void testTwoConsumerAndCrashOne() {
         int msgSize = 10;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*",
             new RMQOrderListener("1"));
@@ -81,7 +81,7 @@ public class OrderMsgDynamicRebalanceIT extends BaseConf {
     }
 
     @Test
-    public void testThreeConsumerAndCrashOne() {
+    void testThreeConsumerAndCrashOne() {
         int msgSize = 10;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*",
             new RMQOrderListener("1"));

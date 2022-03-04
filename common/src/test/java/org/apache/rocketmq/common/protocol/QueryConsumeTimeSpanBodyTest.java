@@ -35,7 +35,7 @@ import java.util.UUID;
 public class QueryConsumeTimeSpanBodyTest {
 
     @Test
-    public void testSetGet() throws Exception {
+    void testSetGet() throws Exception {
         QueryConsumeTimeSpanBody queryConsumeTimeSpanBody = new QueryConsumeTimeSpanBody();
         List<QueueTimeSpan> firstQueueTimeSpans = newUniqueConsumeTimeSpanSet();
         List<QueueTimeSpan> secondQueueTimeSpans = newUniqueConsumeTimeSpanSet();
@@ -48,7 +48,7 @@ public class QueryConsumeTimeSpanBodyTest {
     }
 
     @Test
-    public void testFromJson() throws Exception {
+    void testFromJson() throws Exception {
         QueryConsumeTimeSpanBody qctsb = new QueryConsumeTimeSpanBody();
         List<QueueTimeSpan> queueTimeSpans = new ArrayList<QueueTimeSpan>();
         QueueTimeSpan queueTimeSpan = new QueueTimeSpan();
@@ -69,7 +69,7 @@ public class QueryConsumeTimeSpanBodyTest {
     }
 
     @Test
-    public void testFromJsonRandom() throws Exception {
+    void testFromJsonRandom() throws Exception {
         QueryConsumeTimeSpanBody origin = new QueryConsumeTimeSpanBody();
         List<QueueTimeSpan> queueTimeSpans = newUniqueConsumeTimeSpanSet();
         origin.setConsumeTimeSpanSet(queueTimeSpans);
@@ -85,7 +85,7 @@ public class QueryConsumeTimeSpanBodyTest {
     }
 
     @Test
-    public void testEncode() throws Exception {
+    void testEncode() throws Exception {
         QueryConsumeTimeSpanBody origin = new QueryConsumeTimeSpanBody();
         List<QueueTimeSpan> queueTimeSpans = newUniqueConsumeTimeSpanSet();
         origin.setConsumeTimeSpanSet(queueTimeSpans);

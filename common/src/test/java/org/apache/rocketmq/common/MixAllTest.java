@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 public class MixAllTest {
     @Test
-    public void testGetLocalInetAddress() throws Exception {
+    void testGetLocalInetAddress() throws Exception {
         List<String> localInetAddress = MixAll.getLocalInetAddress();
         String local = InetAddress.getLocalHost().getHostAddress();
         Assertions.assertEquals(localInetAddress).contains("127.0.0.1");
@@ -38,12 +38,12 @@ public class MixAllTest {
     }
 
     @Test
-    public void testBrokerVIPChannel() {
+    void testBrokerVIPChannel() {
         Assertions.assertEquals(MixAll.brokerVIPChannel(true, "127.0.0.1:10911"),"127.0.0.1:10909");
     }
 
     @Test
-    public void testCompareAndIncreaseOnly() {
+    void testCompareAndIncreaseOnly() {
         AtomicLong target = new AtomicLong(5);
         Assertions.assertTrue(MixAll.compareAndIncreaseOnly(target, 6));
         Assertions.assertEquals(target.get(),6);
@@ -53,7 +53,7 @@ public class MixAllTest {
     }
 
     @Test
-    public void testFile2String() throws IOException {
+    void testFile2String() throws IOException {
         String fileName = System.getProperty("java.io.tmpdir") + File.separator + "MixAllTest" + System.currentTimeMillis();
         File file = new File(fileName);
         if (file.exists()) {
@@ -69,7 +69,7 @@ public class MixAllTest {
     }
 
     @Test
-    public void testFile2String_WithChinese() throws IOException {
+    void testFile2String_WithChinese() throws IOException {
         String fileName = System.getProperty("java.io.tmpdir") + File.separator + "MixAllTest" + System.currentTimeMillis();
         File file = new File(fileName);
         if (file.exists()) {
@@ -85,20 +85,20 @@ public class MixAllTest {
     }
 
     @Test
-    public void testString2File() throws IOException {
+    void testString2File() throws IOException {
         String fileName = System.getProperty("java.io.tmpdir") + File.separator + "MixAllTest" + System.currentTimeMillis();
         MixAll.string2File("MixAll_testString2File", fileName);
         Assertions.assertEquals(MixAll.file2String(fileName),"MixAll_testString2File");
     }
 
     @Test
-    public void testGetLocalhostByNetworkInterface() throws Exception {
+    void testGetLocalhostByNetworkInterface() throws Exception {
         Assertions.assertNotNull(MixAll.LOCALHOST);
         Assertions.assertNotNull(MixAll.getLocalhostByNetworkInterface());
     }
 
     @Test
-    public void testIsLmq() {
+    void testIsLmq() {
         String testLmq = null;
         Assertions.assertFalse(MixAll.isLmq(testLmq));
         testLmq = "lmq";

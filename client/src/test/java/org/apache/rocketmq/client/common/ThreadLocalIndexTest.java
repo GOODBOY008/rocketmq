@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 public class ThreadLocalIndexTest {
     @Test
-    public void testIncrementAndGet() throws Exception {
+    void testIncrementAndGet() throws Exception {
         ThreadLocalIndex localIndex = new ThreadLocalIndex();
         int initialVal = localIndex.incrementAndGet();
 
@@ -30,7 +30,7 @@ public class ThreadLocalIndexTest {
     }
 
     @Test
-    public void testIncrementAndGet2() throws Exception {
+    void testIncrementAndGet2() throws Exception {
         ThreadLocalIndex localIndex = new ThreadLocalIndex();
         int initialVal = localIndex.incrementAndGet();
         Assertions.assertEquals(initialVal >= 0);

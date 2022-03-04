@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConsumerConnectionTest {
 
     @Test
-    public void testFromJson() {
+    void testFromJson() {
         ConsumerConnection consumerConnection = new ConsumerConnection();
         HashSet<Connection> connections = new HashSet<Connection>();
         Connection conn = new Connection();
@@ -66,7 +66,7 @@ public class ConsumerConnectionTest {
     }
 
     @Test
-    public void testComputeMinVersion() {
+    void testComputeMinVersion() {
         ConsumerConnection consumerConnection = new ConsumerConnection();
         HashSet<Connection> connections = new HashSet<Connection>();
         Connection conn1 = new Connection();

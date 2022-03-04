@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 public class StoreStatsServiceTest {
 
     @Test
-    public void getSinglePutMessageTopicSizeTotal() throws Exception {
+    void getSinglePutMessageTopicSizeTotal() throws Exception {
         final StoreStatsService storeStatsService = new StoreStatsService();
         int num = Runtime.getRuntime().availableProcessors() * 2;
         for (int j = 0; j < 100; j++) {
@@ -59,7 +59,7 @@ public class StoreStatsServiceTest {
     }
 
     @Test
-    public void getSinglePutMessageTopicTimesTotal() throws Exception {
+    void getSinglePutMessageTopicTimesTotal() throws Exception {
         final StoreStatsService storeStatsService = new StoreStatsService();
         int num = Runtime.getRuntime().availableProcessors() * 2;
         for (int j = 0; j < 100; j++) {

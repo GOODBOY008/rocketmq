@@ -37,17 +37,17 @@ public class StatsItemSetTest {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Test
-    public void test_getAndCreateStatsItem_multiThread() throws InterruptedException {
+    void test_getAndCreateStatsItem_multiThread() throws InterruptedException {
         Assertions.assertEquals(20L, test_unit().longValue());
     }
 
     @Test
-    public void test_getAndCreateMomentStatsItem_multiThread() throws InterruptedException {
+    void test_getAndCreateMomentStatsItem_multiThread() throws InterruptedException {
         Assertions.assertEquals(10, test_unit_moment().longValue());
     }
 
     @Test
-    public void test_statsOfFirstStatisticsCycle() throws InterruptedException {
+    void test_statsOfFirstStatisticsCycle() throws InterruptedException {
         final String tpsStatKey = "tpsTest";
         final String rtStatKey = "rtTest";
         final StatsItemSet statsItemSet = new StatsItemSet(tpsStatKey, scheduler, null);

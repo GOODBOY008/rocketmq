@@ -51,7 +51,7 @@ public class BroadCastNormalMsgRecvFailIT extends BaseBroadCastIT {
     }
 
     @Test
-    public void testStartTwoConsumerAndOneConsumerFail() {
+    void testStartTwoConsumerAndOneConsumerFail() {
         int msgSize = 16;
 
         RMQBroadCastConsumer consumer1 = getBroadCastConsumer(nsAddr, topic, "*",

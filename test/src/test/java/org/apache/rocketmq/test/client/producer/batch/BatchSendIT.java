@@ -51,7 +51,7 @@ public class BatchSendIT extends BaseConf {
     }
 
     @Test
-    public void testBatchSend_ViewMessage() throws Exception {
+    void testBatchSend_ViewMessage() throws Exception {
         List<Message> messageList = new ArrayList<>();
         int batchNum = 100;
         for (int i = 0; i < batchNum; i++) {
@@ -78,7 +78,7 @@ public class BatchSendIT extends BaseConf {
     }
 
     @Test
-    public void testBatchSend_CheckProperties() throws Exception {
+    void testBatchSend_CheckProperties() throws Exception {
         List<Message> messageList = new ArrayList<>();
         Message message = new Message();
         message.setTopic(topic);

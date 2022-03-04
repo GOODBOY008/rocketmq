@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 
 public class StoreCheckpointTest {
     @Test
-    public void testWriteAndRead() throws IOException {
+    void testWriteAndRead() throws IOException {
         StoreCheckpoint storeCheckpoint = new StoreCheckpoint("target/checkpoint_test/0000");
         long physicMsgTimestamp = 0xAABB;
         long logicsMsgTimestamp = 0xCCDD;

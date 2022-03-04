@@ -30,7 +30,7 @@ public class SelectMessageQueueByHashTest {
     private String topic = "FooBar";
 
     @Test
-    public void testSelect() throws Exception {
+    void testSelect() throws Exception {
         SelectMessageQueueByHash selector = new SelectMessageQueueByHash();
 
         Message message = new Message(topic, new byte[] {});

@@ -54,7 +54,7 @@ public class OneWaySendWithSelectorIT extends BaseConf {
     }
 
     @Test
-    public void testSendWithSelector() {
+    void testSendWithSelector() {
         int msgSize = 20;
         final int queueId = 0;
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, "*", new RMQNormalListener());

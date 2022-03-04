@@ -85,7 +85,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_PutKVConfig() throws RemotingCommandException {
+    void testProcessRequest_PutKVConfig() throws RemotingCommandException {
         PutKVConfigRequestHeader header = new PutKVConfigRequestHeader();
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.PUT_KV_CONFIG,
             header);
@@ -102,7 +102,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_GetKVConfigReturnNotNull() throws RemotingCommandException {
+    void testProcessRequest_GetKVConfigReturnNotNull() throws RemotingCommandException {
         namesrvController.getKvConfigManager().putKVConfig("namespace", "key", "value");
 
         GetKVConfigRequestHeader header = new GetKVConfigRequestHeader();
@@ -123,7 +123,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_GetKVConfigReturnNull() throws RemotingCommandException {
+    void testProcessRequest_GetKVConfigReturnNull() throws RemotingCommandException {
         GetKVConfigRequestHeader header = new GetKVConfigRequestHeader();
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_KV_CONFIG,
             header);
@@ -142,7 +142,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_DeleteKVConfig() throws RemotingCommandException {
+    void testProcessRequest_DeleteKVConfig() throws RemotingCommandException {
         namesrvController.getKvConfigManager().putKVConfig("namespace", "key", "value");
 
         DeleteKVConfigRequestHeader header = new DeleteKVConfigRequestHeader();
@@ -161,7 +161,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_RegisterBroker() throws RemotingCommandException,
+    void testProcessRequest_RegisterBroker() throws RemotingCommandException,
         NoSuchFieldException, IllegalAccessException {
         RemotingCommand request = genSampleRegisterCmd(true);
 
@@ -186,7 +186,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_RegisterBrokerWithFilterServer() throws RemotingCommandException,
+    void testProcessRequest_RegisterBrokerWithFilterServer() throws RemotingCommandException,
         NoSuchFieldException, IllegalAccessException {
         RemotingCommand request = genSampleRegisterCmd(true);
 
@@ -214,7 +214,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_UnregisterBroker() throws RemotingCommandException, NoSuchFieldException, IllegalAccessException {
+    void testProcessRequest_UnregisterBroker() throws RemotingCommandException, NoSuchFieldException, IllegalAccessException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
 
@@ -237,7 +237,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetRouteInfoByTopic() throws RemotingCommandException {
+    void testGetRouteInfoByTopic() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_ROUTEINFO_BY_TOPIC);
@@ -249,7 +249,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetBrokerClusterInfo() throws RemotingCommandException {
+    void testGetBrokerClusterInfo() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_BROKER_CLUSTER_INFO);
@@ -258,7 +258,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testWipeWritePermOfBroker() throws RemotingCommandException {
+    void testWipeWritePermOfBroker() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.WIPE_WRITE_PERM_OF_BROKER);
@@ -267,7 +267,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetAllTopicListFromNameserver() throws RemotingCommandException {
+    void testGetAllTopicListFromNameserver() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_ALL_TOPIC_LIST_FROM_NAMESERVER);
@@ -276,7 +276,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testDeleteTopicInNamesrv() throws RemotingCommandException {
+    void testDeleteTopicInNamesrv() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.DELETE_TOPIC_IN_NAMESRV);
@@ -285,7 +285,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetKVListByNamespace() throws RemotingCommandException {
+    void testGetKVListByNamespace() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_KVLIST_BY_NAMESPACE);
@@ -298,7 +298,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetTopicsByCluster() throws RemotingCommandException {
+    void testGetTopicsByCluster() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_TOPICS_BY_CLUSTER);
@@ -308,7 +308,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetSystemTopicListFromNs() throws RemotingCommandException {
+    void testGetSystemTopicListFromNs() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_SYSTEM_TOPIC_LIST_FROM_NS);
@@ -318,7 +318,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetUnitTopicList() throws RemotingCommandException {
+    void testGetUnitTopicList() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_UNIT_TOPIC_LIST);
@@ -328,7 +328,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetHasUnitSubTopicList() throws RemotingCommandException {
+    void testGetHasUnitSubTopicList() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_HAS_UNIT_SUB_TOPIC_LIST);
@@ -338,7 +338,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetHasUnitSubUnUnitTopicList() throws RemotingCommandException {
+    void testGetHasUnitSubUnUnitTopicList() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_HAS_UNIT_SUB_UNUNIT_TOPIC_LIST);
@@ -348,7 +348,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testUpdateConfig() throws RemotingCommandException {
+    void testUpdateConfig() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.UPDATE_NAMESRV_CONFIG);
@@ -361,7 +361,7 @@ public class DefaultRequestProcessorTest {
     }
 
     @Test
-    public void testGetConfig() throws RemotingCommandException {
+    void testGetConfig() throws RemotingCommandException {
         ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
         when(ctx.channel()).thenReturn(null);
         RemotingCommand request = getRemotingCommand(RequestCode.GET_NAMESRV_CONFIG);

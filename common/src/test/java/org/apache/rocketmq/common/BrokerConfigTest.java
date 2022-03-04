@@ -23,13 +23,13 @@ import org.junit.jupiter.api.Test;
 public class BrokerConfigTest {
 
     @Test
-    public void testConsumerFallBehindThresholdOverflow() {
+    void testConsumerFallBehindThresholdOverflow() {
         long expect = 1024L * 1024 * 1024 * 16;
         Assertions.assertEquals(new BrokerConfig().getConsumerFallbehindThreshold(),expect);
     }
 
     @Test
-    public void testBrokerConfigAttribute() {
+    void testBrokerConfigAttribute() {
         BrokerConfig brokerConfig = new BrokerConfig();
         brokerConfig.setNamesrvAddr("127.0.0.1:9876");
         brokerConfig.setAutoCreateTopicEnable(false);

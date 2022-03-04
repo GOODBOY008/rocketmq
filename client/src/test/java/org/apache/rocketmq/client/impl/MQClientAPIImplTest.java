@@ -83,7 +83,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testSendMessageOneWay_Success() throws RemotingException, InterruptedException, MQBrokerException {
+    void testSendMessageOneWay_Success() throws RemotingException, InterruptedException, MQBrokerException {
         doNothing().when(remotingClient).invokeOneway(anyString(), any(RemotingCommand.class), anyLong());
         SendResult sendResult = mqClientAPI.sendMessage(brokerAddr, brokerName, msg, new SendMessageRequestHeader(),
             3 * 1000, CommunicationMode.ONEWAY, new SendMessageContext(), defaultMQProducerImpl);
@@ -91,7 +91,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testSendMessageOneWay_WithException() throws RemotingException, InterruptedException, MQBrokerException {
+    void testSendMessageOneWay_WithException() throws RemotingException, InterruptedException, MQBrokerException {
         doThrow(new RemotingTimeoutException("Remoting Exception in Test")).when(remotingClient).invokeOneway(anyString(), any(RemotingCommand.class), anyLong());
         try {
             mqClientAPI.sendMessage(brokerAddr, brokerName, msg, new SendMessageRequestHeader(),
@@ -112,7 +112,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testSendMessageSync_Success() throws InterruptedException, RemotingException, MQBrokerException {
+    void testSendMessageSync_Success() throws InterruptedException, RemotingException, MQBrokerException {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock mock) throws Throwable {
@@ -133,7 +133,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testSendMessageSync_WithException() throws InterruptedException, RemotingException, MQBrokerException {
+    void testSendMessageSync_WithException() throws InterruptedException, RemotingException, MQBrokerException {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock mock) throws Throwable {
@@ -158,7 +158,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testSendMessageAsync_Success() throws RemotingException, InterruptedException, MQBrokerException {
+    void testSendMessageAsync_Success() throws RemotingException, InterruptedException, MQBrokerException {
         doNothing().when(remotingClient).invokeAsync(anyString(), any(RemotingCommand.class), anyLong(), any(InvokeCallback.class));
         SendResult sendResult = mqClientAPI.sendMessage(brokerAddr, brokerName, msg, new SendMessageRequestHeader(),
             3 * 1000, CommunicationMode.ASYNC, new SendMessageContext(), defaultMQProducerImpl);
@@ -195,7 +195,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testSendMessageAsync_WithException() throws RemotingException, InterruptedException, MQBrokerException {
+    void testSendMessageAsync_WithException() throws RemotingException, InterruptedException, MQBrokerException {
         doThrow(new RemotingTimeoutException("Remoting Exception in Test")).when(remotingClient)
             .invokeAsync(anyString(), any(RemotingCommand.class), anyLong(), any(InvokeCallback.class));
         SendMessageContext sendMessageContext = new SendMessageContext();
@@ -226,7 +226,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testCreatePlainAccessConfig_Success() throws InterruptedException, RemotingException, MQBrokerException {
+    void testCreatePlainAccessConfig_Success() throws InterruptedException, RemotingException, MQBrokerException {
 
         doAnswer(new Answer() {
             @Override
@@ -246,7 +246,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testCreatePlainAccessConfig_Exception() throws InterruptedException, RemotingException, MQBrokerException {
+    void testCreatePlainAccessConfig_Exception() throws InterruptedException, RemotingException, MQBrokerException {
 
         doAnswer(new Answer() {
             @Override
@@ -266,7 +266,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testDeleteAccessConfig_Success() throws InterruptedException, RemotingException, MQBrokerException {
+    void testDeleteAccessConfig_Success() throws InterruptedException, RemotingException, MQBrokerException {
 
         doAnswer(new Answer() {
             @Override
@@ -285,7 +285,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testDeleteAccessConfig_Exception() throws InterruptedException, RemotingException, MQBrokerException {
+    void testDeleteAccessConfig_Exception() throws InterruptedException, RemotingException, MQBrokerException {
 
         doAnswer(new Answer() {
             @Override
@@ -304,7 +304,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testResumeCheckHalfMessage_WithException() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
+    void testResumeCheckHalfMessage_WithException() throws RemotingException, InterruptedException, MQBrokerException, MQClientException {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock mock) throws Throwable {
@@ -322,7 +322,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testResumeCheckHalfMessage_Success() throws InterruptedException, RemotingException, MQBrokerException, MQClientException {
+    void testResumeCheckHalfMessage_Success() throws InterruptedException, RemotingException, MQBrokerException, MQClientException {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock mock) throws Throwable {
@@ -337,7 +337,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testSendMessageTypeofReply() throws Exception {
+    void testSendMessageTypeofReply() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock mock) throws Throwable {
@@ -456,7 +456,7 @@ public class MQClientAPIImplTest {
     }
 
     @Test
-    public void testAddWritePermOfBroker() throws Exception {
+    void testAddWritePermOfBroker() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {

@@ -30,21 +30,21 @@ import java.util.List;
 public class ServiceProviderTest {
 
     @Test
-    public void loadTransactionMsgServiceTest() {
+    void loadTransactionMsgServiceTest() {
         TransactionalMessageService transactionService = ServiceProvider.loadClass(ServiceProvider.TRANSACTION_SERVICE_ID,
             TransactionalMessageService.class);
         Assertions.assertNotNull(transactionService);
     }
 
     @Test
-    public void loadAbstractTransactionListenerTest() {
+    void loadAbstractTransactionListenerTest() {
         AbstractTransactionalMessageCheckListener listener = ServiceProvider.loadClass(ServiceProvider.TRANSACTION_LISTENER_ID,
             AbstractTransactionalMessageCheckListener.class);
         Assertions.assertNotNull(listener);
     }
     
     @Test
-    public void loadAccessValidatorTest() {
+    void loadAccessValidatorTest() {
     	 List<AccessValidator> accessValidators = ServiceProvider.load(ServiceProvider.ACL_VALIDATOR_ID, AccessValidator.class);
         Assertions.assertNotNull(accessValidators);
     }

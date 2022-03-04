@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 public class MessageClientIDSetterTest {
 
     @Test
-    public void testGetTimeFromID() {
+    void testGetTimeFromID() {
         long t = System.currentTimeMillis();
         String uniqID = MessageClientIDSetter.createUniqID();
         long t2 = MessageClientIDSetter.getNearlyTimeFromID(uniqID).getTime();
@@ -35,7 +35,7 @@ public class MessageClientIDSetterTest {
     }
 
     @Test
-    public void testGetCountFromID() {
+    void testGetCountFromID() {
         String uniqID = MessageClientIDSetter.createUniqID();
         String uniqID2 = MessageClientIDSetter.createUniqID();
         String idHex = uniqID.substring(uniqID.length() - 4);
@@ -47,7 +47,7 @@ public class MessageClientIDSetterTest {
 
 
     @Test
-    public void testGetIPStrFromID() {
+    void testGetIPStrFromID() {
         byte[] ip = UtilAll.getIP();
         String ipStr = (4 == ip.length) ? UtilAll.ipToIPv4Str(ip) : UtilAll.ipToIPv6Str(ip);
 
@@ -59,7 +59,7 @@ public class MessageClientIDSetterTest {
 
 
     @Test
-    public void testGetPidFromID() {
+    void testGetPidFromID() {
         // Temporary fix on MacOS
         short pid = (short) UtilAll.getPid();
 

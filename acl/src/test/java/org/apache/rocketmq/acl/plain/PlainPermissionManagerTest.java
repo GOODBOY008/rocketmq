@@ -89,7 +89,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void buildPlainAccessResourceTest() {
+    void buildPlainAccessResourceTest() {
         PlainAccessResource plainAccessResource = null;
         PlainAccessConfig plainAccess = new PlainAccessConfig();
 
@@ -135,7 +135,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void checkPermAdmin() {
+    void checkPermAdmin() {
         Assertions.assertThrowsExactly(AclException.class,()-> {
         PlainAccessResource plainAccessResource = new PlainAccessResource();
         plainAccessResource.setRequestCode(17);
@@ -144,7 +144,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void checkPerm() {
+    void checkPerm() {
 
         PlainAccessResource plainAccessResource = new PlainAccessResource();
         plainAccessResource.addResourceAndPerm("topicA", Permission.PUB);
@@ -161,7 +161,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void checkErrorPermDefaultValueNotMatch() {
+    void checkErrorPermDefaultValueNotMatch() {
         Assertions.assertThrowsExactly(AclException.class,()-> {
             plainAccessResource = new PlainAccessResource();
             plainAccessResource.addResourceAndPerm("topicF", Permission.PUB);
@@ -170,7 +170,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void accountNullTest() {
+    void accountNullTest() {
         Assertions.assertThrowsExactly(AclException.class,()-> {
             plainAccessConfig.setAccessKey(null);
             plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
@@ -178,7 +178,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void accountThanTest() {
+    void accountThanTest() {
         Assertions.assertThrowsExactly(AclException.class,()->{
             plainAccessConfig.setAccessKey("123");
             plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
@@ -186,7 +186,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void passWordtNullTest() {
+    void passWordtNullTest() {
         Assertions.assertThrowsExactly(AclException.class,()->{
             plainAccessConfig.setAccessKey(null);
             plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
@@ -194,7 +194,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void passWordThanTest() {
+    void passWordThanTest() {
         Assertions.assertThrowsExactly(AclException.class,()->{
             plainAccessConfig.setSecretKey("123");
             plainPermissionManager.buildPlainAccessResource(plainAccessConfig);
@@ -204,7 +204,7 @@ public class PlainPermissionManagerTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void cleanAuthenticationInfoTest() throws IllegalAccessException {
+    void cleanAuthenticationInfoTest() throws IllegalAccessException {
         // PlainPermissionManager.addPlainAccessResource(plainAccessResource);
         Map<String, Map<String, PlainAccessResource>> plainAccessResourceMap = (Map<String, Map<String, PlainAccessResource>>) FieldUtils.readDeclaredField(plainPermissionManager, "aclPlainAccessResourceMap", true);
         Assertions.assertFalse(plainAccessResourceMap.isEmpty());
@@ -216,7 +216,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void isWatchStartTest() {
+    void isWatchStartTest() {
 
         PlainPermissionManager plainPermissionManager = new PlainPermissionManager();
         Assertions.assertTrue(plainPermissionManager.isWatchStart());
@@ -224,7 +224,7 @@ public class PlainPermissionManagerTest {
     }
 
     @Test
-    public void testWatch() throws IOException, IllegalAccessException, InterruptedException {
+    void testWatch() throws IOException, IllegalAccessException, InterruptedException {
         File file = new File("src/test/resources");
         System.setProperty("rocketmq.home.dir", file.getAbsolutePath());
 

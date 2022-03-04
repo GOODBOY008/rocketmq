@@ -49,7 +49,7 @@ public class Slf4jLoggerFactoryTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testSlf4j() throws IOException {
+    void testSlf4j() throws IOException {
         InternalLogger logger1 = Slf4jLoggerFactory.getLogger(LOGGER);
         InternalLogger logger = InternalLoggerFactory.getLogger(LOGGER);
         Assertions.assertTrue(logger.getName().equals(logger1.getName()));

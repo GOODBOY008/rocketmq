@@ -53,7 +53,7 @@ public class TagMessageWithMulConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSendTwoTag() {
+    void testSendTwoTag() {
         String tag1 = "jueyin1";
         String tag2 = "jueyin2";
         int msgSize = 10;
@@ -83,7 +83,7 @@ public class TagMessageWithMulConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSendMessagesWithTwoTag() {
+    void testSendMessagesWithTwoTag() {
         String[] tags = {"jueyin1", "jueyin2"};
         int msgSize = 10;
 
@@ -112,7 +112,7 @@ public class TagMessageWithMulConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testTwoConsumerOneMatchOneOtherMatchAll() {
+    void testTwoConsumerOneMatchOneOtherMatchAll() {
         String[] tags = {"jueyin1", "jueyin2"};
         String sub1 = String.format("%s||%s", tags[0], tags[1]);
         String sub2 = String.format("%s|| noExist", tags[0]);
@@ -143,7 +143,7 @@ public class TagMessageWithMulConsumerIT extends BaseConf {
     }
 
     @Test
-    public void testSubKindsOf() {
+    void testSubKindsOf() {
         String[] tags = {"jueyin1", "jueyin2"};
         String sub1 = String.format("%s||%s", tags[0], tags[1]);
         String sub2 = String.format("%s|| noExist", tags[0]);

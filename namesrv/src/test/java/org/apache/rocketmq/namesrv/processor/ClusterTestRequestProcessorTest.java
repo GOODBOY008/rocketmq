@@ -98,7 +98,7 @@ public class ClusterTestRequestProcessorTest {
     }
 
     @Test
-    public void testGetRouteInfoByTopic() throws RemotingCommandException {
+    void testGetRouteInfoByTopic() throws RemotingCommandException {
         RemotingCommand request = RemotingCommand.createRequestCommand(12, new CommandCustomHeader() {
             @Override
             public void checkFields() throws RemotingCommandException {

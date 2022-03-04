@@ -67,7 +67,7 @@ public class AppendCallbackTest {
     }
 
     @Test
-    public void testAppendMessageBatchEndOfFile() throws Exception {
+    void testAppendMessageBatchEndOfFile() throws Exception {
         List<Message> messages = new ArrayList<>();
         String topic = "test-topic";
         int queue = 0;
@@ -102,7 +102,7 @@ public class AppendCallbackTest {
     }
 
     @Test
-    public void testAppendIPv6HostMessageBatchEndOfFile() throws Exception {
+    void testAppendIPv6HostMessageBatchEndOfFile() throws Exception {
         List<Message> messages = new ArrayList<>();
         String topic = "test-topic";
         int queue = 0;
@@ -141,7 +141,7 @@ public class AppendCallbackTest {
     }
 
     @Test
-    public void testAppendMessageBatchSucc() throws Exception {
+    void testAppendMessageBatchSucc() throws Exception {
         List<Message> messages = new ArrayList<>();
         String topic = "test-topic";
         int queue = 0;
@@ -199,7 +199,7 @@ public class AppendCallbackTest {
     }
 
     @Test
-    public void testAppendIPv6HostMessageBatchSucc() throws Exception {
+    void testAppendIPv6HostMessageBatchSucc() throws Exception {
         List<Message> messages = new ArrayList<>();
         String topic = "test-topic";
         int queue = 0;

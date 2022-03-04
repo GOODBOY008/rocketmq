@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 public class RequestResponseFutureTest {
 
     @Test
-    public void testExecuteRequestCallback() throws Exception {
+    void testExecuteRequestCallback() throws Exception {
         final AtomicInteger cc = new AtomicInteger(0);
         RequestResponseFuture future = new RequestResponseFuture(UUID.randomUUID().toString(), 3 * 1000L, new RequestCallback() {
             @Override public void onSuccess(Message message) {

@@ -48,7 +48,7 @@ public class AsyncSendWithOnlySendCallBackIT extends BaseConf {
     }
 
     @Test
-    public void testSendWithOnlyCallBack() {
+    void testSendWithOnlyCallBack() {
         int msgSize = 20;
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
         producer.asyncSend(msgSize);

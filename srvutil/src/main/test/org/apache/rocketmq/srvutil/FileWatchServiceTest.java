@@ -36,7 +36,7 @@ public class FileWatchServiceTest {
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     @Test
-    public void watchSingleFile() throws Exception {
+    void watchSingleFile() throws Exception {
         final File file = tempFolder.newFile();
         final Semaphore waitSemaphore = new Semaphore(0);
         FileWatchService fileWatchService = new FileWatchService(new String[] {file.getAbsolutePath()}, new FileWatchService.Listener() {
@@ -53,7 +53,7 @@ public class FileWatchServiceTest {
     }
 
     @Test
-    public void watchSingleFile_FileDeleted() throws Exception {
+    void watchSingleFile_FileDeleted() throws Exception {
         File file = tempFolder.newFile();
         final Semaphore waitSemaphore = new Semaphore(0);
         FileWatchService fileWatchService = new FileWatchService(new String[] {file.getAbsolutePath()},
@@ -74,7 +74,7 @@ public class FileWatchServiceTest {
     }
 
     @Test
-    public void watchTwoFile_FileDeleted() throws Exception {
+    void watchTwoFile_FileDeleted() throws Exception {
         File fileA = tempFolder.newFile();
         File fileB = tempFolder.newFile();
         final Semaphore waitSemaphore = new Semaphore(0);
@@ -100,7 +100,7 @@ public class FileWatchServiceTest {
     }
 
     @Test
-    public void watchTwoFiles_ModifyOne() throws Exception {
+    void watchTwoFiles_ModifyOne() throws Exception {
         final File fileA = tempFolder.newFile();
         File fileB = tempFolder.newFile();
         final Semaphore waitSemaphore = new Semaphore(0);
@@ -120,7 +120,7 @@ public class FileWatchServiceTest {
     }
 
     @Test
-    public void watchTwoFiles() throws Exception {
+    void watchTwoFiles() throws Exception {
         File fileA = tempFolder.newFile();
         File fileB = tempFolder.newFile();
         final Semaphore waitSemaphore = new Semaphore(0);

@@ -49,7 +49,7 @@ public class DefaultMessageStoreShutDownTest {
     }
 
     @Test
-    public void testDispatchBehindWhenShutdown() {
+    void testDispatchBehindWhenShutdown() {
         messageStore.shutdown();
         Assertions.assertTrue(!messageStore.shutDownNormal);
         File file = new File(StorePathConfigHelper.getAbortFile(messageStore.getMessageStoreConfig().getStorePathRootDir()));

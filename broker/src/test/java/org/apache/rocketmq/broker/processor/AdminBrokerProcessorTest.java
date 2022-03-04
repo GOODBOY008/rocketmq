@@ -143,7 +143,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_success() throws RemotingCommandException, UnknownHostException {
+    void testProcessRequest_success() throws RemotingCommandException, UnknownHostException {
         RemotingCommand request = createResumeCheckHalfMessageCommand();
         when(messageStore.selectOneMessageByOffset(any(Long.class))).thenReturn(createSelectMappedBufferResult());
         when(messageStore.putMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
@@ -153,7 +153,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_fail() throws RemotingCommandException, UnknownHostException {
+    void testProcessRequest_fail() throws RemotingCommandException, UnknownHostException {
         RemotingCommand request = createResumeCheckHalfMessageCommand();
         when(messageStore.selectOneMessageByOffset(any(Long.class))).thenReturn(createSelectMappedBufferResult());
         when(messageStore.putMessage(any(MessageExtBrokerInner.class))).thenReturn(new PutMessageResult
@@ -163,7 +163,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testUpdateAndCreateTopic() throws Exception {
+    void testUpdateAndCreateTopic() throws Exception {
         //test system topic
         for (String topic : systemTopicSet) {
             RemotingCommand request = buildCreateTopicRequest(topic);
@@ -186,7 +186,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testDeleteTopic() throws Exception {
+    void testDeleteTopic() throws Exception {
         //test system topic
         for (String topic : systemTopicSet) {
             RemotingCommand request = buildDeleteTopicRequest(topic);
@@ -202,7 +202,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetAllTopicConfig() throws Exception {
+    void testGetAllTopicConfig() throws Exception {
         GetAllTopicConfigResponseHeader getAllTopicConfigResponseHeader = new GetAllTopicConfigResponseHeader();
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_ALL_TOPIC_CONFIG, getAllTopicConfigResponseHeader);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
@@ -210,7 +210,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testUpdateBrokerConfig() throws Exception {
+    void testUpdateBrokerConfig() throws Exception {
         handlerContext = mock(ChannelHandlerContext.class);
         channel = mock(Channel.class);
         when(handlerContext.channel()).thenReturn(channel);
@@ -225,14 +225,14 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetBrokerConfig() throws Exception {
+    void testGetBrokerConfig() throws Exception {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_BROKER_CONFIG, null);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
         Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
-    public void testSearchOffsetByTimestamp() throws Exception {
+    void testSearchOffsetByTimestamp() throws Exception {
         messageStore = mock(MessageStore.class);
         when(messageStore.getOffsetInQueueByTime(anyString(), anyInt(), anyLong())).thenReturn(Long.MIN_VALUE);
         when(brokerController.getMessageStore()).thenReturn(messageStore);
@@ -249,7 +249,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetMaxOffset() throws Exception {
+    void testGetMaxOffset() throws Exception {
         messageStore = mock(MessageStore.class);
         when(messageStore.getMaxOffsetInQueue(anyString(), anyInt())).thenReturn(Long.MIN_VALUE);
         when(brokerController.getMessageStore()).thenReturn(messageStore);
@@ -262,7 +262,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetMinOffset() throws Exception {
+    void testGetMinOffset() throws Exception {
         messageStore = mock(MessageStore.class);
         when(messageStore.getMinOffsetInQueue(anyString(), anyInt())).thenReturn(Long.MIN_VALUE);
         when(brokerController.getMessageStore()).thenReturn(messageStore);
@@ -275,7 +275,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetEarliestMsgStoretime() throws Exception {
+    void testGetEarliestMsgStoretime() throws Exception {
         messageStore = mock(MessageStore.class);
         when(brokerController.getMessageStore()).thenReturn(messageStore);
         GetEarliestMsgStoretimeRequestHeader getEarliestMsgStoretimeRequestHeader = new GetEarliestMsgStoretimeRequestHeader();
@@ -287,7 +287,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetBrokerRuntimeInfo() throws Exception {
+    void testGetBrokerRuntimeInfo() throws Exception {
         brokerStats = mock(BrokerStats.class);
         when(brokerController.getBrokerStats()).thenReturn(brokerStats);
         when(brokerStats.getMsgPutTotalYesterdayMorning()).thenReturn(Long.MIN_VALUE);
@@ -301,7 +301,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testLockBatchMQ() throws Exception {
+    void testLockBatchMQ() throws Exception {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.LOCK_BATCH_MQ, null);
         LockBatchRequestBody lockBatchRequestBody = new LockBatchRequestBody();
         lockBatchRequestBody.setClientId("1111");
@@ -312,7 +312,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testUnlockBatchMQ() throws Exception {
+    void testUnlockBatchMQ() throws Exception {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.UNLOCK_BATCH_MQ, null);
         UnlockBatchRequestBody unlockBatchRequestBody = new UnlockBatchRequestBody();
         unlockBatchRequestBody.setClientId("11111");
@@ -323,7 +323,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testUpdateAndCreateSubscriptionGroup() throws RemotingCommandException {
+    void testUpdateAndCreateSubscriptionGroup() throws RemotingCommandException {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.UPDATE_AND_CREATE_SUBSCRIPTIONGROUP, null);
         SubscriptionGroupConfig subscriptionGroupConfig = new SubscriptionGroupConfig();
         subscriptionGroupConfig.setBrokerId(1);
@@ -338,14 +338,14 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetAllSubscriptionGroup() throws RemotingCommandException {
+    void testGetAllSubscriptionGroup() throws RemotingCommandException {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_ALL_SUBSCRIPTIONGROUP_CONFIG, null);
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
         Assertions.assertEquals(response.getCode(),ResponseCode.SUCCESS);
     }
 
     @Test
-    public void testDeleteSubscriptionGroup() throws RemotingCommandException {
+    void testDeleteSubscriptionGroup() throws RemotingCommandException {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.DELETE_SUBSCRIPTIONGROUP, null);
         request.addExtField("groupName", "GID-Group-Name");
         request.addExtField("removeOffset", "true");
@@ -354,7 +354,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetTopicStatsInfo() throws RemotingCommandException {
+    void testGetTopicStatsInfo() throws RemotingCommandException {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_TOPIC_STATS_INFO, null);
         request.addExtField("topic", "topicTest");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
@@ -369,7 +369,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetConsumerConnectionList() throws RemotingCommandException {
+    void testGetConsumerConnectionList() throws RemotingCommandException {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_CONSUMER_CONNECTION_LIST, null);
         request.addExtField("consumerGroup", "GID-group-test");
         consumerManager = mock(ConsumerManager.class);
@@ -381,7 +381,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetProducerConnectionList() throws RemotingCommandException {
+    void testGetProducerConnectionList() throws RemotingCommandException {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_PRODUCER_CONNECTION_LIST, null);
         request.addExtField("producerGroup", "ProducerGroupId");
         RemotingCommand response = adminBrokerProcessor.processRequest(handlerContext, request);
@@ -389,7 +389,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetConsumeStats() throws RemotingCommandException {
+    void testGetConsumeStats() throws RemotingCommandException {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.GET_CONSUME_STATS, null);
         request.addExtField("topic", "topicTest");
         request.addExtField("consumerGroup", "GID-test");
@@ -398,7 +398,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetAllConsumerOffset() throws RemotingCommandException {
+    void testGetAllConsumerOffset() throws RemotingCommandException {
         consumerOffsetManager = mock(ConsumerOffsetManager.class);
         when(brokerController.getConsumerOffsetManager()).thenReturn(consumerOffsetManager);
         ConsumerOffsetManager consumerOffset = new ConsumerOffsetManager();
@@ -409,7 +409,7 @@ public class AdminBrokerProcessorTest {
     }
 
     @Test
-    public void testGetAllDelayOffset() throws Exception {
+    void testGetAllDelayOffset() throws Exception {
         defaultMessageStore = mock(DefaultMessageStore.class);
         scheduleMessageService = mock(ScheduleMessageService.class);
         when(brokerController.getMessageStore()).thenReturn(defaultMessageStore);

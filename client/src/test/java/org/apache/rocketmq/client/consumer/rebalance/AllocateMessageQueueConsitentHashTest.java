@@ -49,7 +49,7 @@ public class AllocateMessageQueueConsitentHashTest {
     }
 
     @Test
-    public void testCurrentCIDNotExists() {
+    void testCurrentCIDNotExists() {
         String currentCID = String.valueOf(Integer.MAX_VALUE);
         List<String> consumerIdList = createConsumerIdList(2);
         List<MessageQueue> messageQueueList = createMessageQueueList(6);
@@ -59,7 +59,7 @@ public class AllocateMessageQueueConsitentHashTest {
     }
 
     @Test
-    public void testCurrentCIDIllegalArgument() {
+    void testCurrentCIDIllegalArgument() {
         Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
             List<String> consumerIdList = createConsumerIdList(2);
             List<MessageQueue> messageQueueList = createMessageQueueList(6);
@@ -68,7 +68,7 @@ public class AllocateMessageQueueConsitentHashTest {
     }
 
     @Test
-    public void testMessageQueueIllegalArgument() {
+    void testMessageQueueIllegalArgument() {
         Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
             String currentCID = "0";
             List<String> consumerIdList = createConsumerIdList(2);
@@ -77,7 +77,7 @@ public class AllocateMessageQueueConsitentHashTest {
     }
 
     @Test
-    public void testConsumerIdIllegalArgument() {
+    void testConsumerIdIllegalArgument() {
         Assertions.assertThrowsExactly(IllegalArgumentException.class,()->{
             String currentCID = "0";
             List<MessageQueue> messageQueueList = createMessageQueueList(6);
@@ -86,17 +86,17 @@ public class AllocateMessageQueueConsitentHashTest {
     }
 
     @Test
-    public void testAllocate1() {
+    void testAllocate1() {
         testAllocate(20, 10);
     }
 
     @Test
-    public void testAllocate2() {
+    void testAllocate2() {
         testAllocate(10, 20);
     }
 
     @Test
-    public void testRun100RandomCase() {
+    void testRun100RandomCase() {
         for (int i = 0; i < 10; i++) {
             int consumerSize = new Random().nextInt(20) + 1;//1-20
             int queueSize = new Random().nextInt(20) + 1;//1-20

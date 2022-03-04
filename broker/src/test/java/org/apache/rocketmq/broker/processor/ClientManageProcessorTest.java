@@ -81,7 +81,7 @@ public class ClientManageProcessorTest {
     }
 
     @Test
-    public void processRequest_UnRegisterProducer() throws Exception {
+    void processRequest_UnRegisterProducer() throws Exception {
         brokerController.getProducerManager().registerProducer(group, clientChannelInfo);
         Map<Channel, ClientChannelInfo> channelMap = brokerController.getProducerManager().getGroupChannelTable().get(group);
         Assertions.assertNotNull(channelMap);
@@ -97,7 +97,7 @@ public class ClientManageProcessorTest {
     }
 
     @Test
-    public void processRequest_UnRegisterConsumer() throws RemotingCommandException {
+    void processRequest_UnRegisterConsumer() throws RemotingCommandException {
         ConsumerGroupInfo consumerGroupInfo = brokerController.getConsumerManager().getConsumerGroupInfo(group);
         Assertions.assertNotNull(consumerGroupInfo);
 

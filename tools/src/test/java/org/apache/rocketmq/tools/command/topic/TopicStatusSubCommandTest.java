@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class TopicStatusSubCommandTest {
     @Test
-    public void testExecute() {
+    void testExecute() {
         TopicStatusSubCommand cmd = new TopicStatusSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-t unit-test"};

@@ -34,7 +34,7 @@ public class MappedFileTest {
     private final String storeMessage = "Once, there was a chance for me!";
 
     @Test
-    public void testSelectMappedBuffer() throws IOException {
+    void testSelectMappedBuffer() throws IOException {
         MappedFile mappedFile = new MappedFile("target/unit_test_store/MappedFileTest/000", 1024 * 64);
         boolean result = mappedFile.appendMessage(storeMessage.getBytes());
         Assertions.assertTrue(result);

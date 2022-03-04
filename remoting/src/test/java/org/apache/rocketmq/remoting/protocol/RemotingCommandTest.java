@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 
 public class RemotingCommandTest {
     @Test
-    public void testMarkProtocolType_JSONProtocolType() {
+    void testMarkProtocolType_JSONProtocolType() {
         int source = 261;
         SerializeType type = SerializeType.JSON;
         byte[] result = RemotingCommand.markProtocolType(source, type);
@@ -37,7 +37,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testMarkProtocolType_ROCKETMQProtocolType() {
+    void testMarkProtocolType_ROCKETMQProtocolType() {
         int source = 16777215;
         SerializeType type = SerializeType.ROCKETMQ;
         byte[] result = RemotingCommand.markProtocolType(source, type);
@@ -45,7 +45,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testCreateRequestCommand_RegisterBroker() {
+    void testCreateRequestCommand_RegisterBroker() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         int code = 103; //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
@@ -57,7 +57,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testCreateResponseCommand_SuccessWithHeader() {
+    void testCreateResponseCommand_SuccessWithHeader() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         int code = RemotingSysResponseCode.SUCCESS;
@@ -70,7 +70,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testCreateResponseCommand_SuccessWithoutHeader() {
+    void testCreateResponseCommand_SuccessWithoutHeader() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         int code = RemotingSysResponseCode.SUCCESS;
@@ -83,7 +83,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testCreateResponseCommand_FailToCreateCommand() {
+    void testCreateResponseCommand_FailToCreateCommand() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         int code = RemotingSysResponseCode.SUCCESS;
@@ -93,7 +93,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testCreateResponseCommand_SystemError() {
+    void testCreateResponseCommand_SystemError() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         RemotingCommand cmd = RemotingCommand.createResponseCommand(SampleCommandCustomHeader.class);
@@ -104,7 +104,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testEncodeAndDecode_EmptyBody() {
+    void testEncodeAndDecode_EmptyBody() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         int code = 103; //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
@@ -133,7 +133,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testEncodeAndDecode_FilledBody() {
+    void testEncodeAndDecode_FilledBody() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         int code = 103; //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
@@ -162,7 +162,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testEncodeAndDecode_FilledBodyWithExtFields() throws RemotingCommandException {
+    void testEncodeAndDecode_FilledBodyWithExtFields() throws RemotingCommandException {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         int code = 103; //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
@@ -206,7 +206,7 @@ public class RemotingCommandTest {
     }
 
     @Test
-    public void testNotNullField() throws Exception {
+    void testNotNullField() throws Exception {
         RemotingCommand remotingCommand = new RemotingCommand();
         Method method = RemotingCommand.class.getDeclaredMethod("isFieldNullable", Field.class);
         method.setAccessible(true);

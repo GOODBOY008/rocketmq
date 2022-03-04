@@ -50,7 +50,7 @@ public class NormalMessageSendAndRecvIT extends BaseConf {
     }
 
     @Test
-    public void testSynSendMessage() {
+    void testSynSendMessage() {
         int msgSize = 10;
         producer.send(msgSize);
         Assertions.assertEquals("Not all sent succeeded", msgSize, producer.getAllUndupMsgBody().size());

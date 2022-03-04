@@ -60,7 +60,7 @@ public class MQClientInstanceTest {
     }
 
     @Test
-    public void testTopicRouteData2TopicPublishInfo() {
+    void testTopicRouteData2TopicPublishInfo() {
         TopicRouteData topicRouteData = new TopicRouteData();
 
         topicRouteData.setFilterServerTable(new HashMap<String, List<String>>());
@@ -91,7 +91,7 @@ public class MQClientInstanceTest {
     }
 
     @Test
-    public void testFindBrokerAddressInSubscribe() {
+    void testFindBrokerAddressInSubscribe() {
         // dledger normal case
         String brokerName = "BrokerA";
         HashMap<Long, String> addrMap = new HashMap<Long, String>();
@@ -119,7 +119,7 @@ public class MQClientInstanceTest {
     }
 
     @Test
-    public void testRegisterProducer() {
+    void testRegisterProducer() {
         boolean flag = mqClientInstance.registerProducer(group, mock(DefaultMQProducerImpl.class));
         Assertions.assertTrue(flag);
 
@@ -132,7 +132,7 @@ public class MQClientInstanceTest {
     }
 
     @Test
-    public void testRegisterConsumer() throws RemotingException, InterruptedException, MQBrokerException {
+    void testRegisterConsumer() throws RemotingException, InterruptedException, MQBrokerException {
         boolean flag = mqClientInstance.registerConsumer(group, mock(MQConsumerInner.class));
         Assertions.assertTrue(flag);
 
@@ -146,7 +146,7 @@ public class MQClientInstanceTest {
 
 
     @Test
-    public void testConsumerRunningInfoWhenConsumersIsEmptyOrNot() throws RemotingException, InterruptedException, MQBrokerException {
+    void testConsumerRunningInfoWhenConsumersIsEmptyOrNot() throws RemotingException, InterruptedException, MQBrokerException {
         MQConsumerInner mockConsumerInner = mock(MQConsumerInner.class);
         ConsumerRunningInfo mockConsumerRunningInfo = mock(ConsumerRunningInfo.class);
         when(mockConsumerInner.consumerRunningInfo()).thenReturn(mockConsumerRunningInfo);
@@ -170,7 +170,7 @@ public class MQClientInstanceTest {
     }
 
     @Test
-    public void testRegisterAdminExt() {
+    void testRegisterAdminExt() {
         boolean flag = mqClientInstance.registerAdminExt(group, mock(MQAdminExtInner.class));
         Assertions.assertTrue(flag);
 

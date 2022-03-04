@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 public class ClusterAclConfigVersionListSubCommandTest {
 
     @Test
-    public void testExecute() {
+    void testExecute() {
         ClusterAclConfigVersionListSubCommand cmd = new ClusterAclConfigVersionListSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-c default-cluster"};

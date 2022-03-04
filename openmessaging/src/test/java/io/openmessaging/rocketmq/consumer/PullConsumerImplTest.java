@@ -72,7 +72,7 @@ public class PullConsumerImplTest {
     }
 
     @Test
-    public void testPoll() {
+    void testPoll() {
         final byte[] testBody = new byte[] {'a', 'b'};
         MessageExt consumedMsg = new MessageExt();
         consumedMsg.setMsgId("NewMsgId");
@@ -88,7 +88,7 @@ public class PullConsumerImplTest {
     }
 
     @Test
-    public void testPoll_WithTimeout() {
+    void testPoll_WithTimeout() {
         //There is a default timeout value, @see ClientConfig#omsOperationTimeout.
         Message message = consumer.receive();
         Assertions.assertNull(message);

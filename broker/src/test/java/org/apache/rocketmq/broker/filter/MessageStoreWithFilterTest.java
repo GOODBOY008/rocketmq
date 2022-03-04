@@ -221,7 +221,7 @@ public class MessageStoreWithFilterTest {
     }
 
     @Test
-    public void testGetMessage_withFilterBitMapAndConsumerChanged() throws Exception {
+    void testGetMessage_withFilterBitMapAndConsumerChanged() throws Exception {
         List<MessageExtBrokerInner> msgs = putMsg(master, topicCount, msgPerTopic);
 
         Thread.sleep(200);
@@ -283,7 +283,7 @@ public class MessageStoreWithFilterTest {
     }
 
     @Test
-    public void testGetMessage_withFilterBitMap() throws Exception {
+    void testGetMessage_withFilterBitMap() throws Exception {
         List<MessageExtBrokerInner> msgs = putMsg(master, topicCount, msgPerTopic);
 
         Thread.sleep(100);
@@ -345,7 +345,7 @@ public class MessageStoreWithFilterTest {
     }
 
     @Test
-    public void testGetMessage_withFilter_checkTagsCode() throws Exception {
+    void testGetMessage_withFilter_checkTagsCode() throws Exception {
         putMsg(master, topicCount, msgPerTopic);
 
         Thread.sleep(200);

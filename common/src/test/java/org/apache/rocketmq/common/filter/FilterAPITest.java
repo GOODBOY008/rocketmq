@@ -32,7 +32,7 @@ public class FilterAPITest {
     private String subString = "TAG1 || Tag2 || tag3";
 
     @Test
-    public void testBuildSubscriptionData() throws Exception {
+    void testBuildSubscriptionData() throws Exception {
         SubscriptionData subscriptionData =
                 FilterAPI.buildSubscriptionData(topic, subString);
         Assertions.assertEquals(subscriptionData.getTopic(),topic);
@@ -46,7 +46,7 @@ public class FilterAPITest {
     }
 
     @Test
-    public void testBuildTagSome() {
+    void testBuildTagSome() {
         try {
             SubscriptionData subscriptionData = FilterAPI.build(
                     "TOPIC", "A || B", ExpressionType.TAG
@@ -66,7 +66,7 @@ public class FilterAPITest {
     }
 
     @Test
-    public void testBuildSQL() {
+    void testBuildSQL() {
         try {
             SubscriptionData subscriptionData = FilterAPI.build(
                     "TOPIC", "a is not null", ExpressionType.SQL92
@@ -82,7 +82,7 @@ public class FilterAPITest {
     }
 
     @Test
-    public void testBuildSQLWithNullSubString() throws Exception {
+    void testBuildSQLWithNullSubString() throws Exception {
         Assertions.assertThrowsExactly(IllegalArgumentException.class,()-> FilterAPI.build("TOPIC", null, ExpressionType.SQL92));
     }
 }

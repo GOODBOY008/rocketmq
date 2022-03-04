@@ -96,7 +96,7 @@ public class PullMessageProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_TopicNotExist() throws RemotingCommandException {
+    void testProcessRequest_TopicNotExist() throws RemotingCommandException {
         brokerController.getTopicConfigManager().getTopicConfigTable().remove(topic);
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
@@ -106,7 +106,7 @@ public class PullMessageProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_SubNotExist() throws RemotingCommandException {
+    void testProcessRequest_SubNotExist() throws RemotingCommandException {
         brokerController.getConsumerManager().unregisterConsumer(group, clientChannelInfo, false);
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
@@ -116,7 +116,7 @@ public class PullMessageProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_SubNotLatest() throws RemotingCommandException {
+    void testProcessRequest_SubNotLatest() throws RemotingCommandException {
         final RemotingCommand request = createPullMsgCommand(RequestCode.PULL_MESSAGE);
         request.addExtField("subVersion", String.valueOf(101));
         RemotingCommand response = pullMessageProcessor.processRequest(handlerContext, request);
@@ -126,7 +126,7 @@ public class PullMessageProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_Found() throws RemotingCommandException {
+    void testProcessRequest_Found() throws RemotingCommandException {
         GetMessageResult getMessageResult = createGetMessageResult();
         when(messageStore.getMessage(anyString(), anyString(), anyInt(), anyLong(), anyInt(), any(ExpressionMessageFilter.class))).thenReturn(getMessageResult);
 
@@ -137,7 +137,7 @@ public class PullMessageProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_FoundWithHook() throws RemotingCommandException {
+    void testProcessRequest_FoundWithHook() throws RemotingCommandException {
         GetMessageResult getMessageResult = createGetMessageResult();
         when(messageStore.getMessage(anyString(), anyString(), anyInt(), anyLong(), anyInt(), any(ExpressionMessageFilter.class))).thenReturn(getMessageResult);
         List<ConsumeMessageHook> consumeMessageHookList = new ArrayList<>();
@@ -170,7 +170,7 @@ public class PullMessageProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_MsgWasRemoving() throws RemotingCommandException {
+    void testProcessRequest_MsgWasRemoving() throws RemotingCommandException {
         GetMessageResult getMessageResult = createGetMessageResult();
         getMessageResult.setStatus(GetMessageStatus.MESSAGE_WAS_REMOVING);
         when(messageStore.getMessage(anyString(), anyString(), anyInt(), anyLong(), anyInt(), any(ExpressionMessageFilter.class))).thenReturn(getMessageResult);
@@ -182,7 +182,7 @@ public class PullMessageProcessorTest {
     }
 
     @Test
-    public void testProcessRequest_NoMsgInQueue() throws RemotingCommandException {
+    void testProcessRequest_NoMsgInQueue() throws RemotingCommandException {
         GetMessageResult getMessageResult = createGetMessageResult();
         getMessageResult.setStatus(GetMessageStatus.NO_MESSAGE_IN_QUEUE);
         when(messageStore.getMessage(anyString(), anyString(), anyInt(), anyLong(), anyInt(), any(ExpressionMessageFilter.class))).thenReturn(getMessageResult);

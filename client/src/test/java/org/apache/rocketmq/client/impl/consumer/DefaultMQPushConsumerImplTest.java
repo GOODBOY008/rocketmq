@@ -34,7 +34,7 @@ public class DefaultMQPushConsumerImplTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void checkConfigTest() throws MQClientException {
+    void checkConfigTest() throws MQClientException {
 
         //test type
         thrown.expect(MQClientException.class);

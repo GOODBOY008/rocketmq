@@ -42,17 +42,17 @@ public class BrokerHousekeepingServiceTest {
     }
 
     @Test
-    public void testOnChannelClose() {
+    void testOnChannelClose() {
         brokerHousekeepingService.onChannelClose("127.0.0.1:9876", null);
     }
 
     @Test
-    public void testOnChannelException() {
+    void testOnChannelException() {
         brokerHousekeepingService.onChannelException("127.0.0.1:9876", null);
     }
 
     @Test
-    public void testOnChannelIdle() {
+    void testOnChannelIdle() {
         brokerHousekeepingService.onChannelException("127.0.0.1:9876", null);
     }
 

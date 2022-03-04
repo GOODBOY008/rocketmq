@@ -51,7 +51,7 @@ public class DynamicAddAndCrashIT extends BaseConf {
     }
 
     @Test
-    public void testAddOneConsumerAndCrashAfterWhile() {
+    void testAddOneConsumerAndCrashAfterWhile() {
         int msgSize = 150;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
 
@@ -75,7 +75,7 @@ public class DynamicAddAndCrashIT extends BaseConf {
     }
 
     @Test
-    public void testAddTwoConsumerAndCrashAfterWhile() {
+    void testAddTwoConsumerAndCrashAfterWhile() {
         int msgSize = 150;
         RMQNormalConsumer consumer1 = getConsumer(nsAddr, topic, "*", new RMQNormalListener());
 

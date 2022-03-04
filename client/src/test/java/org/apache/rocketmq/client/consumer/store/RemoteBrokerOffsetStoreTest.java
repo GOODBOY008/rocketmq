@@ -64,7 +64,7 @@ public class RemoteBrokerOffsetStoreTest {
     }
 
     @Test
-    public void testUpdateOffset() throws Exception {
+    void testUpdateOffset() throws Exception {
         OffsetStore offsetStore = new RemoteBrokerOffsetStore(mQClientFactory, group);
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 1);
 
@@ -79,7 +79,7 @@ public class RemoteBrokerOffsetStoreTest {
     }
 
     @Test
-    public void testReadOffset_WithException() throws Exception {
+    void testReadOffset_WithException() throws Exception {
         OffsetStore offsetStore = new RemoteBrokerOffsetStore(mQClientFactory, group);
         MessageQueue messageQueue = new MessageQueue(topic, brokerName, 2);
 
@@ -95,7 +95,7 @@ public class RemoteBrokerOffsetStoreTest {
     }
 
     @Test
-    public void testReadOffset_Success() throws Exception {
+    void testReadOffset_Success() throws Exception {
         OffsetStore offsetStore = new RemoteBrokerOffsetStore(mQClientFactory, group);
         final MessageQueue messageQueue = new MessageQueue(topic, brokerName, 3);
 
@@ -126,7 +126,7 @@ public class RemoteBrokerOffsetStoreTest {
     }
 
     @Test
-    public void testRemoveOffset() throws Exception {
+    void testRemoveOffset() throws Exception {
         OffsetStore offsetStore = new RemoteBrokerOffsetStore(mQClientFactory, group);
         final MessageQueue messageQueue = new MessageQueue(topic, brokerName, 4);
 

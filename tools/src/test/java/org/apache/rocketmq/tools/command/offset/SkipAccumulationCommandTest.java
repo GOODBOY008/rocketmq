@@ -66,7 +66,7 @@ public class SkipAccumulationCommandTest {
 
     @Disabled
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         System.setProperty("rocketmq.namesrv.addr", "127.0.0.1:9876");
         SkipAccumulationSubCommand cmd = new SkipAccumulationSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());

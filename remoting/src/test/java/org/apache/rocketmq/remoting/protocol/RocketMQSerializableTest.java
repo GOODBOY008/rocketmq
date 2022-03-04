@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 
 public class RocketMQSerializableTest {
     @Test
-    public void testRocketMQProtocolEncodeAndDecode_WithoutRemarkWithoutExtFields() {
+    void testRocketMQProtocolEncodeAndDecode_WithoutRemarkWithoutExtFields() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
@@ -63,7 +63,7 @@ public class RocketMQSerializableTest {
     }
 
     @Test
-    public void testRocketMQProtocolEncodeAndDecode_WithRemarkWithoutExtFields() {
+    void testRocketMQProtocolEncodeAndDecode_WithRemarkWithoutExtFields() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
@@ -107,7 +107,7 @@ public class RocketMQSerializableTest {
     }
 
     @Test
-    public void testRocketMQProtocolEncodeAndDecode_WithoutRemarkWithExtFields() {
+    void testRocketMQProtocolEncodeAndDecode_WithoutRemarkWithExtFields() {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
         //org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
@@ -150,13 +150,13 @@ public class RocketMQSerializableTest {
     }
 
     @Test
-    public void testIsBlank_NotBlank() {
+    void testIsBlank_NotBlank() {
         Assertions.assertFalse(RocketMQSerializable.isBlank("bar"));
         Assertions.assertFalse(RocketMQSerializable.isBlank("  A  "));
     }
 
     @Test
-    public void testIsBlank_Blank() {
+    void testIsBlank_Blank() {
         Assertions.assertTrue(RocketMQSerializable.isBlank(null));
         Assertions.assertTrue(RocketMQSerializable.isBlank(""));
         Assertions.assertTrue(RocketMQSerializable.isBlank("  "));

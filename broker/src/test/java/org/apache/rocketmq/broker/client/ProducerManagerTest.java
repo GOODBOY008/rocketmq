@@ -49,7 +49,7 @@ public class ProducerManagerTest {
     }
 
     @Test
-    public void scanNotActiveChannel() throws Exception {
+    void scanNotActiveChannel() throws Exception {
         producerManager.registerProducer(group, clientInfo);
         Assertions.assertNotNull((producerManager.getGroupChannelTable().get(group).get(channel)));
         Assertions.assertNotNull(producerManager.findChannel("clientId"));
@@ -64,7 +64,7 @@ public class ProducerManagerTest {
     }
 
     @Test
-    public void doChannelCloseEvent() throws Exception {
+    void doChannelCloseEvent() throws Exception {
         producerManager.registerProducer(group, clientInfo);
         Assertions.assertNotNull(producerManager.getGroupChannelTable().get(group).get(channel));
         Assertions.assertNotNull(producerManager.findChannel("clientId"));
@@ -74,7 +74,7 @@ public class ProducerManagerTest {
     }
 
     @Test
-    public void testRegisterProducer() throws Exception {
+    void testRegisterProducer() throws Exception {
         producerManager.registerProducer(group, clientInfo);
         Map<Channel, ClientChannelInfo> channelMap = producerManager.getGroupChannelTable().get(group);
         Channel channel1 = producerManager.findChannel("clientId");
@@ -85,7 +85,7 @@ public class ProducerManagerTest {
     }
 
     @Test
-    public void unregisterProducer() throws Exception {
+    void unregisterProducer() throws Exception {
         producerManager.registerProducer(group, clientInfo);
         Map<Channel, ClientChannelInfo> channelMap = producerManager.getGroupChannelTable().get(group);
         Assertions.assertNotNull(channelMap);
@@ -102,7 +102,7 @@ public class ProducerManagerTest {
     }
 
     @Test
-    public void testGetGroupChannelTable() throws Exception {
+    void testGetGroupChannelTable() throws Exception {
         producerManager.registerProducer(group, clientInfo);
         Map<Channel, ClientChannelInfo> oldMap = producerManager.getGroupChannelTable().get(group);
         
@@ -111,7 +111,7 @@ public class ProducerManagerTest {
     }
 
     @Test
-    public void testGetAvailableChannel() {
+    void testGetAvailableChannel() {
         producerManager.registerProducer(group, clientInfo);
 
         when(channel.isActive()).thenReturn(true);

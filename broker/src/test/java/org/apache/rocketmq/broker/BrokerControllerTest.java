@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
 public class BrokerControllerTest {
 
     @Test
-    public void testBrokerRestart() throws Exception {
+    void testBrokerRestart() throws Exception {
         BrokerController brokerController = new BrokerController(
             new BrokerConfig(),
             new NettyServerConfig(),
@@ -56,7 +56,7 @@ public class BrokerControllerTest {
     }
 
     @Test
-    public void testHeadSlowTimeMills() throws Exception {
+    void testHeadSlowTimeMills() throws Exception {
         BrokerController brokerController = new BrokerController(
                 new BrokerConfig(),
                 new NettyServerConfig(),

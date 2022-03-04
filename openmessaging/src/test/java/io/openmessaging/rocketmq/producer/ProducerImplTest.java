@@ -62,7 +62,7 @@ public class ProducerImplTest {
     }
 
     @Test
-    public void testSend_OK() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
+    void testSend_OK() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
         SendResult sendResult = new SendResult();
         sendResult.setMsgId("TestMsgID");
         sendResult.setSendStatus(SendStatus.SEND_OK);
@@ -74,7 +74,7 @@ public class ProducerImplTest {
     }
 
     @Test
-    public void testSend_Not_OK() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
+    void testSend_Not_OK() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
         SendResult sendResult = new SendResult();
         sendResult.setSendStatus(SendStatus.FLUSH_DISK_TIMEOUT);
 
@@ -88,7 +88,7 @@ public class ProducerImplTest {
     }
 
     @Test
-    public void testSend_WithException() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
+    void testSend_WithException() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
         when(rocketmqProducer.send(any(Message.class), anyLong())).thenThrow(MQClientException.class);
         try {
             producer.send(producer.createBytesMessage("HELLO_TOPIC", new byte[] {'a'}));

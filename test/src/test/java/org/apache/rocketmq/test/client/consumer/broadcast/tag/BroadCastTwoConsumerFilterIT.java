@@ -49,7 +49,7 @@ public class BroadCastTwoConsumerFilterIT extends BaseBroadCastIT {
     }
 
     @Test
-    public void testTwoConsumerFilter() {
+    void testTwoConsumerFilter() {
         int msgSize = 40;
         String tag1 = "jueyin_tag_1";
         String tag2 = "jueyin_tag_2";

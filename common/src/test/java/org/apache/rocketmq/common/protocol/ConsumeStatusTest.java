@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.within;
 public class ConsumeStatusTest {
 
     @Test
-    public void testFromJson() throws Exception {
+    void testFromJson() throws Exception {
         ConsumeStatus cs = new ConsumeStatus();
         cs.setConsumeFailedTPS(10);
         cs.setPullRT(100);

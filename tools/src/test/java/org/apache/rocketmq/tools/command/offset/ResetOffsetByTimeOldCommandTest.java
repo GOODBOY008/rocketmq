@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 
 public class ResetOffsetByTimeOldCommandTest {
     @Test
-    public void testExecute() {
+    void testExecute() {
         ResetOffsetByTimeOldCommand cmd = new ResetOffsetByTimeOldCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-g default-group", "-t unit-test", "-s 1412131213231", "-f false"};

@@ -110,7 +110,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testAssign_PollMessageSuccess() throws Exception {
+    void testAssign_PollMessageSuccess() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createStartLitePullConsumer();
         try {
             MessageQueue messageQueue = createMessageQueue();
@@ -124,7 +124,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testSubscribe_PollMessageSuccess() throws Exception {
+    void testSubscribe_PollMessageSuccess() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createSubscribeLitePullConsumer();
         try {
             Set<MessageQueue> messageQueueSet = new HashSet<MessageQueue>();
@@ -140,7 +140,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testSubscribe_BroadcastPollMessageSuccess() throws Exception {
+    void testSubscribe_BroadcastPollMessageSuccess() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createBroadcastLitePullConsumer();
         try {
             Set<MessageQueue> messageQueueSet = new HashSet<MessageQueue>();
@@ -156,7 +156,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testSubscriptionType_AssignAndSubscribeExclusive() throws Exception {
+    void testSubscriptionType_AssignAndSubscribeExclusive() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createStartLitePullConsumer();
         try {
             litePullConsumer.subscribe(topic, "*");
@@ -170,7 +170,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testFetchMessageQueues_FetchMessageQueuesBeforeStart() throws Exception {
+    void testFetchMessageQueues_FetchMessageQueuesBeforeStart() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createNotStartLitePullConsumer();
         try {
             litePullConsumer.fetchMessageQueues(topic);
@@ -183,7 +183,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testSeek_SeekOffsetSuccess() throws Exception {
+    void testSeek_SeekOffsetSuccess() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createStartLitePullConsumer();
         when(mQAdminImpl.minOffset(any(MessageQueue.class))).thenReturn(0L);
         when(mQAdminImpl.maxOffset(any(MessageQueue.class))).thenReturn(500L);
@@ -201,7 +201,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testSeek_SeekToBegin() throws Exception {
+    void testSeek_SeekToBegin() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createStartLitePullConsumer();
         when(mQAdminImpl.minOffset(any(MessageQueue.class))).thenReturn(0L);
         when(mQAdminImpl.maxOffset(any(MessageQueue.class))).thenReturn(500L);
@@ -218,7 +218,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testSeek_SeekToEnd() throws Exception {
+    void testSeek_SeekToEnd() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createStartLitePullConsumer();
         when(mQAdminImpl.minOffset(any(MessageQueue.class))).thenReturn(0L);
         when(mQAdminImpl.maxOffset(any(MessageQueue.class))).thenReturn(500L);
@@ -235,7 +235,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testSeek_SeekOffsetIllegal() throws Exception {
+    void testSeek_SeekOffsetIllegal() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createStartLitePullConsumer();
         when(mQAdminImpl.minOffset(any(MessageQueue.class))).thenReturn(0L);
         when(mQAdminImpl.maxOffset(any(MessageQueue.class))).thenReturn(100L);
@@ -260,7 +260,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testSeek_MessageQueueNotInAssignList() throws Exception {
+    void testSeek_MessageQueueNotInAssignList() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createStartLitePullConsumer();
         try {
             litePullConsumer.seek(createMessageQueue(), 0);
@@ -283,7 +283,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testOffsetForTimestamp_FailedAndSuccess() throws Exception {
+    void testOffsetForTimestamp_FailedAndSuccess() throws Exception {
         MessageQueue messageQueue = createMessageQueue();
         DefaultLitePullConsumer litePullConsumer = createNotStartLitePullConsumer();
         try {
@@ -301,7 +301,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testPauseAndResume_Success() throws Exception {
+    void testPauseAndResume_Success() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createNotStartLitePullConsumer();
         try {
             MessageQueue messageQueue = createMessageQueue();
@@ -321,7 +321,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testPullTaskImpl_ProcessQueueNull() throws Exception {
+    void testPullTaskImpl_ProcessQueueNull() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createNotStartLitePullConsumer();
         try {
             MessageQueue messageQueue = createMessageQueue();
@@ -345,7 +345,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testPullTaskImpl_ProcessQueueDropped() throws Exception {
+    void testPullTaskImpl_ProcessQueueDropped() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createNotStartLitePullConsumer();
         try {
             MessageQueue messageQueue = createMessageQueue();
@@ -368,7 +368,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testRegisterTopicMessageQueueChangeListener_Success() throws Exception {
+    void testRegisterTopicMessageQueueChangeListener_Success() throws Exception {
         flag = false;
         DefaultLitePullConsumer litePullConsumer = createStartLitePullConsumer();
         doReturn(Collections.emptySet()).when(mQAdminImpl).fetchSubscribeMessageQueues(anyString());
@@ -386,7 +386,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testFlowControl_Success() throws Exception {
+    void testFlowControl_Success() throws Exception {
         DefaultLitePullConsumer litePullConsumer = createStartLitePullConsumer();
         try {
             MessageQueue messageQueue = createMessageQueue();
@@ -437,7 +437,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testCheckConfig_Exception() {
+    void testCheckConfig_Exception() {
         DefaultLitePullConsumer litePullConsumer = new DefaultLitePullConsumer(MixAll.DEFAULT_CONSUMER_GROUP);
         try {
             litePullConsumer.start();
@@ -484,7 +484,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testComputePullFromWhereReturnedNotFound() throws Exception {
+    void testComputePullFromWhereReturnedNotFound() throws Exception {
         DefaultLitePullConsumer defaultLitePullConsumer = createStartLitePullConsumer();
         defaultLitePullConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         MessageQueue messageQueue = createMessageQueue();
@@ -494,7 +494,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testComputePullFromWhereReturned() throws Exception {
+    void testComputePullFromWhereReturned() throws Exception {
         DefaultLitePullConsumer defaultLitePullConsumer = createStartLitePullConsumer();
         defaultLitePullConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         MessageQueue messageQueue = createMessageQueue();
@@ -504,7 +504,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testComputePullFromLast() throws Exception {
+    void testComputePullFromLast() throws Exception {
         DefaultLitePullConsumer defaultLitePullConsumer = createStartLitePullConsumer();
         defaultLitePullConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
         MessageQueue messageQueue = createMessageQueue();
@@ -515,7 +515,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testComputePullByTimeStamp() throws Exception {
+    void testComputePullByTimeStamp() throws Exception {
         DefaultLitePullConsumer defaultLitePullConsumer = createStartLitePullConsumer();
         defaultLitePullConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_TIMESTAMP);
         defaultLitePullConsumer.setConsumeTimestamp("20191024171201");
@@ -527,7 +527,7 @@ public class DefaultLitePullConsumerTest {
     }
 
     @Test
-    public void testConsumerAfterShutdown() throws Exception {
+    void testConsumerAfterShutdown() throws Exception {
         DefaultLitePullConsumer defaultLitePullConsumer = createSubscribeLitePullConsumer();
 
         new AsyncConsumer().executeAsync(defaultLitePullConsumer);

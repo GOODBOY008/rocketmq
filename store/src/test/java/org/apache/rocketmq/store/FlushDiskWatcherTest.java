@@ -29,7 +29,7 @@ public class FlushDiskWatcherTest {
     private final long timeoutMill = 5000;
 
     @Test
-    public void testTimeout() throws Exception {
+    void testTimeout() throws Exception {
         FlushDiskWatcher flushDiskWatcher = new FlushDiskWatcher();
         flushDiskWatcher.setDaemon(true);
         flushDiskWatcher.start();
@@ -57,7 +57,7 @@ public class FlushDiskWatcherTest {
     }
 
     @Test
-    public void testWatcher() throws Exception {
+    void testWatcher() throws Exception {
         FlushDiskWatcher flushDiskWatcher = new FlushDiskWatcher();
         flushDiskWatcher.setDaemon(true);
         flushDiskWatcher.start();

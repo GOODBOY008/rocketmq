@@ -31,7 +31,7 @@ public class ConfigManagerTest {
     private static final String CONTENT_ENCODE = "Encode content for ConfigManager";
 
     @Test
-    public void testLoad() throws Exception {
+    void testLoad() throws Exception {
         ConfigManager testConfigManager = buildTestConfigManager();
         File file = createAndWriteFile(testConfigManager.configFilePath());
         Assertions.assertTrue(testConfigManager.load());
@@ -42,7 +42,7 @@ public class ConfigManagerTest {
     }
 
     @Test
-    public void testLoadBak() throws Exception {
+    void testLoadBak() throws Exception {
         ConfigManager testConfigManager = buildTestConfigManager();
         File file = createAndWriteFile(testConfigManager.configFilePath() + ".bak");
         // invoke private method "loadBak()"
@@ -58,7 +58,7 @@ public class ConfigManagerTest {
     }
 
     @Test
-    public void testPersist() throws Exception {
+    void testPersist() throws Exception {
         ConfigManager testConfigManager = buildTestConfigManager();
         testConfigManager.persist();
         File file = new File(testConfigManager.configFilePath());

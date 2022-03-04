@@ -33,7 +33,7 @@ public class KVConfigSerializeWrapperTest {
     }
 
     @Test
-    public void testEncodeAndDecode() {
+    void testEncodeAndDecode() {
         HashMap<String, HashMap<String, String>> result = new HashMap<>();
         HashMap<String, String> kvs = new HashMap<>();
         kvs.put("broker-name", "default-broker");

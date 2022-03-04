@@ -49,7 +49,7 @@ public class AsyncSendWithMessageQueueIT extends BaseConf {
     }
 
     @Test
-    public void testAsyncSendWithMQ() {
+    void testAsyncSendWithMQ() {
         int msgSize = 20;
         int queueId = 0;
         RMQNormalConsumer consumer = getConsumer(nsAddr, topic, "*", new RMQNormalListener());

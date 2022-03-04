@@ -24,24 +24,24 @@ import org.junit.jupiter.api.Test;
 public class MQVersionTest {
 
     @Test
-    public void testGetVersionDesc() throws Exception {
+    void testGetVersionDesc() throws Exception {
         String desc = "V3_0_0_SNAPSHOT";
         Assertions.assertEquals(MQVersion.getVersionDesc(0),desc);
     }
 
     @Test
-    public void testGetVersionDesc_higherVersion() throws Exception {
+    void testGetVersionDesc_higherVersion() throws Exception {
         String desc = "HIGHER_VERSION";
         Assertions.assertEquals(MQVersion.getVersionDesc(Integer.MAX_VALUE),desc);
     }
 
     @Test
-    public void testValue2Version() throws Exception {
+    void testValue2Version() throws Exception {
         Assertions.assertEquals(MQVersion.value2Version(0),MQVersion.Version.V3_0_0_SNAPSHOT);
     }
 
     @Test
-    public void testValue2Version_HigherVersion() throws Exception {
+    void testValue2Version_HigherVersion() throws Exception {
         Assertions.assertEquals(MQVersion.value2Version(Integer.MAX_VALUE),MQVersion.Version.HIGHER_VERSION);
     }
 }

@@ -33,7 +33,7 @@ public class KVConfigManagerTest extends NameServerInstanceTest {
     }
 
     @Test
-    public void testPutKVConfig() {
+    void testPutKVConfig() {
         kvConfigManager.putKVConfig(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG, "UnitTest", "test");
         byte[] kvConfig = kvConfigManager.getKVListByNamespace(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG);
         Assertions.assertNotNull(kvConfig);
@@ -42,7 +42,7 @@ public class KVConfigManagerTest extends NameServerInstanceTest {
     }
 
     @Test
-    public void testDeleteKVConfig() {
+    void testDeleteKVConfig() {
         kvConfigManager.deleteKVConfig(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG, "UnitTest");
         byte[] kvConfig = kvConfigManager.getKVListByNamespace(NamesrvUtil.NAMESPACE_ORDER_TOPIC_CONFIG);
         Assertions.assertNull(kvConfig);

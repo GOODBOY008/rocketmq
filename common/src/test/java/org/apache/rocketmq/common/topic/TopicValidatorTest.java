@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 public class TopicValidatorTest {
 
     @Test
-    public void testTopicValidator_NotPass() {
+    void testTopicValidator_NotPass() {
         RemotingCommand response = RemotingCommand.createResponseCommand(-1, "");
 
         Boolean res = TopicValidator.validateTopic("", response);
@@ -49,7 +49,7 @@ public class TopicValidatorTest {
     }
 
     @Test
-    public void testTopicValidator_Pass() {
+    void testTopicValidator_Pass() {
         RemotingCommand response = RemotingCommand.createResponseCommand(-1, "");
 
         Boolean res = TopicValidator.validateTopic("TestTopic", response);
@@ -59,14 +59,14 @@ public class TopicValidatorTest {
     }
 
     @Test
-    public void testAddSystemTopic() {
+    void testAddSystemTopic() {
         String topic = "SYSTEM_TOPIC_TEST";
         TopicValidator.addSystemTopic(topic);
         Assertions.assertEquals(TopicValidator.getSystemTopicSet()).contains(topic);
     }
 
     @Test
-    public void testIsSystemTopic() {
+    void testIsSystemTopic() {
         boolean res;
         for (String topic : TopicValidator.getSystemTopicSet()) {
             res = TopicValidator.isSystemTopic(topic);
@@ -83,7 +83,7 @@ public class TopicValidatorTest {
     }
 
     @Test
-    public void testIsSystemTopicWithResponse() {
+    void testIsSystemTopicWithResponse() {
         RemotingCommand response = RemotingCommand.createResponseCommand(-1, "");
         boolean res;
         for (String topic : TopicValidator.getSystemTopicSet()) {
@@ -99,7 +99,7 @@ public class TopicValidatorTest {
     }
 
     @Test
-    public void testIsNotAllowedSendTopic() {
+    void testIsNotAllowedSendTopic() {
         boolean res;
         for (String topic : TopicValidator.getNotAllowedSendTopicSet()) {
             res = TopicValidator.isNotAllowedSendTopic(topic);
@@ -112,7 +112,7 @@ public class TopicValidatorTest {
     }
 
     @Test
-    public void testIsNotAllowedSendTopicWithResponse() {
+    void testIsNotAllowedSendTopicWithResponse() {
         RemotingCommand response = RemotingCommand.createResponseCommand(-1, "");
 
         boolean res;

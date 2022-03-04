@@ -32,14 +32,14 @@ import org.junit.jupiter.api.Assertions;
 public class UtilAllTest {
 
     @Test
-    public void testCurrentStackTrace() {
+    void testCurrentStackTrace() {
         String currentStackTrace = UtilAll.currentStackTrace();
         Assertions.assertEquals(currentStackTrace).contains("UtilAll.currentStackTrace");
         Assertions.assertEquals(currentStackTrace).contains("UtilAllTest.testCurrentStackTrace(");
     }
 
     @Test
-    public void testProperties2Object() {
+    void testProperties2Object() {
         DemoConfig demoConfig = new DemoConfig();
         Properties properties = new Properties();
         properties.setProperty("demoWidth", "123");
@@ -54,7 +54,7 @@ public class UtilAllTest {
     }
 
     @Test
-    public void testProperties2String() {
+    void testProperties2String() {
         DemoConfig demoConfig = new DemoConfig();
         demoConfig.setDemoLength(123);
         demoConfig.setDemoWidth(456);
@@ -68,7 +68,7 @@ public class UtilAllTest {
     }
 
     @Test
-    public void testIsPropertiesEqual() {
+    void testIsPropertiesEqual() {
         final Properties p1 = new Properties();
         final Properties p2 = new Properties();
 
@@ -81,12 +81,12 @@ public class UtilAllTest {
     }
 
     @Test
-    public void testGetPid() {
+    void testGetPid() {
         Assertions.assertEquals(UtilAll.getPid()).isGreaterThan(0);
     }
 
     @Test
-    public void testGetDiskPartitionSpaceUsedPercent() {
+    void testGetDiskPartitionSpaceUsedPercent() {
         String tmpDir = System.getProperty("java.io.tmpdir");
 
         Assertions.assertEquals(UtilAll.getDiskPartitionSpaceUsedPercent(null)).isCloseTo(-1, within(0.000001));
@@ -96,7 +96,7 @@ public class UtilAllTest {
     }
 
     @Test
-    public void testIsBlank() {
+    void testIsBlank() {
         Assertions.assertFalse(UtilAll.isBlank("Hello "));
         Assertions.assertFalse(UtilAll.isBlank(" Hello"));
         Assertions.assertFalse(UtilAll.isBlank("He llo"));
@@ -105,7 +105,7 @@ public class UtilAllTest {
     }
 
     @Test
-    public void testIPv6Check() throws UnknownHostException {
+    void testIPv6Check() throws UnknownHostException {
         InetAddress nonInternal = InetAddress.getByName("2408:4004:0180:8100:3FAA:1DDE:2B3F:898A");
         InetAddress internal = InetAddress.getByName("FE80:0000:0000:0000:0000:0000:0000:FFFF");
         Assertions.assertFalse(UtilAll.isInternalV6IP(nonInternal));
@@ -114,7 +114,7 @@ public class UtilAllTest {
     }
 
     @Test
-    public void testJoin() {
+    void testJoin() {
         List<String> list = Arrays.asList("groupA=DENY", "groupB=PUB|SUB", "groupC=SUB");
         String comma = ",";
         Assertions.assertEquals("groupA=DENY,groupB=PUB|SUB,groupC=SUB", UtilAll.join(list, comma));

@@ -49,7 +49,7 @@ public class GetNamesrvConfigCommandTest {
     }
 
     @Test
-    public void testExecute() throws Exception {
+    void testExecute() throws Exception {
         GetNamesrvConfigCommand cmd = new GetNamesrvConfigCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {};

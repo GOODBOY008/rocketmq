@@ -24,14 +24,14 @@ import org.junit.jupiter.api.Test;
 public class LayoutTest extends BasicLoggerTest {
 
     @Test
-    public void testSimpleLayout() {
+    void testSimpleLayout() {
         Layout layout = LoggingBuilder.newLayoutBuilder().withSimpleLayout().build();
         String format = layout.format(loggingEvent);
         Assertions.assertTrue(format.contains("junit"));
     }
 
     @Test
-    public void testDefaultLayout() {
+    void testDefaultLayout() {
         Layout layout = LoggingBuilder.newLayoutBuilder().withDefaultLayout().build();
         String format = layout.format(loggingEvent);
         String contentType = layout.getContentType();
@@ -42,7 +42,7 @@ public class LayoutTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testLogFormat() {
+    void testLogFormat() {
         Layout innerLayout = LoggingBuilder.newLayoutBuilder().withDefaultLayout().build();
 
         LoggingEvent loggingEvent = new LoggingEvent(Logger.class.getName(), logger, org.apache.rocketmq.logging.inner.Level.INFO,

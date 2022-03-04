@@ -53,7 +53,7 @@ public class MulTagSubIT extends BaseConf {
     }
 
     @Test
-    public void testSubTwoTabMessageOnsTag() {
+    void testSubTwoTabMessageOnsTag() {
         String tag = "jueyin1";
         String subExpress = String.format("%s||jueyin2", tag);
         int msgSize = 10;
@@ -69,7 +69,7 @@ public class MulTagSubIT extends BaseConf {
     }
 
     @Test
-    public void testSubTwoTabAndMatchOne() {
+    void testSubTwoTabAndMatchOne() {
         String tag1 = "jueyin1";
         String tag2 = "jueyin2";
         String subExpress = String.format("%s||noExistTag", tag2);
@@ -91,7 +91,7 @@ public class MulTagSubIT extends BaseConf {
     }
 
     @Test
-    public void testSubTwoTabAndMatchTwo() {
+    void testSubTwoTabAndMatchTwo() {
         String[] tags = {"jueyin1", "jueyin2"};
         String subExpress = String.format("%s||%s", tags[0], tags[1]);
         int msgSize = 10;
@@ -112,7 +112,7 @@ public class MulTagSubIT extends BaseConf {
     }
 
     @Test
-    public void testSubThreeTabAndMatchTwo() {
+    void testSubThreeTabAndMatchTwo() {
         String[] tags = {"jueyin1", "jueyin2", "jueyin3"};
         String subExpress = String.format("%s||%s", tags[0], tags[1]);
         int msgSize = 10;
@@ -134,7 +134,7 @@ public class MulTagSubIT extends BaseConf {
     }
 
     @Test
-    public void testNoMatch() {
+    void testNoMatch() {
         String[] tags = {"jueyin1", "jueyin2", "jueyin3"};
         String subExpress = "no_match";
         int msgSize = 10;

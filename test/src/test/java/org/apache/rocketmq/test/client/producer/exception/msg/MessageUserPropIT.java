@@ -53,7 +53,7 @@ public class MessageUserPropIT extends BaseConf {
      * @since version3.4.6
      */
     @Test
-    public void testSendEnglishUserProp() {
+    void testSendEnglishUserProp() {
         Message msg = MessageFactory.getRandomMessage(topic);
         String msgKey = "jueyinKey";
         String msgValue = "jueyinValue";
@@ -75,7 +75,7 @@ public class MessageUserPropIT extends BaseConf {
      * @since version3.4.6
      */
     @Test
-    public void testSendChinaUserProp() {
+    void testSendChinaUserProp() {
         Message msg = MessageFactory.getRandomMessage(topic);
         String msgKey = "jueyinKey";
         String msgValue = "jueyinzhi";

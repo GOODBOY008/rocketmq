@@ -49,7 +49,7 @@ public class BroadCastTwoConsumerSubTagIT extends BaseBroadCastIT {
     }
 
     @Test
-    public void testTwoConsumerSubTag() {
+    void testTwoConsumerSubTag() {
         int msgSize = 20;
         String tag = "jueyin_tag";
 

@@ -24,7 +24,7 @@ import java.util.Properties;
 public class SessionCredentialsTest {
 
     @Test
-    public void equalsTest(){
+    void equalsTest(){
         SessionCredentials sessionCredentials=new SessionCredentials("RocketMQ","12345678");
         sessionCredentials.setSecurityToken("abcd");
         SessionCredentials other=new SessionCredentials("RocketMQ","12345678","abcd");
@@ -32,7 +32,7 @@ public class SessionCredentialsTest {
     }
 
     @Test
-    public void updateContentTest(){
+    void updateContentTest(){
         SessionCredentials sessionCredentials=new SessionCredentials();
         Properties properties=new Properties();
         properties.setProperty(SessionCredentials.ACCESS_KEY,"RocketMQ");
@@ -42,7 +42,7 @@ public class SessionCredentialsTest {
     }
 
     @Test
-    public void SessionCredentialHashCodeTest(){
+    void SessionCredentialHashCodeTest(){
         SessionCredentials sessionCredentials=new SessionCredentials();
         Properties properties=new Properties();
         properties.setProperty(SessionCredentials.ACCESS_KEY,"RocketMQ");
@@ -53,7 +53,7 @@ public class SessionCredentialsTest {
     }
 
     @Test
-    public void SessionCredentialEqualsTest(){
+    void SessionCredentialEqualsTest(){
         SessionCredentials sessionCredential1 =new SessionCredentials();
         Properties properties1=new Properties();
         properties1.setProperty(SessionCredentials.ACCESS_KEY,"RocketMQ");
@@ -75,7 +75,7 @@ public class SessionCredentialsTest {
     }
 
     @Test
-    public void SessionCredentialToStringTest(){
+    void SessionCredentialToStringTest(){
         SessionCredentials sessionCredential1 =new SessionCredentials();
         Properties properties1=new Properties();
         properties1.setProperty(SessionCredentials.ACCESS_KEY,"RocketMQ");

@@ -57,12 +57,12 @@ public class BrokerStatsManagerTest {
     }
 
     @Test
-    public void testGetStatsItem() {
+    void testGetStatsItem() {
         Assertions.assertNull(brokerStatsManager.getStatsItem("TEST", "TEST"));
     }
 
     @Test
-    public void testIncQueuePutNums() {
+    void testIncQueuePutNums() {
         brokerStatsManager.incQueuePutNums(TOPIC, QUEUE_ID);
         String statsKey = brokerStatsManager.buildStatsKey(TOPIC, String.valueOf(QUEUE_ID));
         Assertions.assertEquals(brokerStatsManager.getStatsItem(QUEUE_PUT_NUMS, statsKey).getTimes().doubleValue(),1L);
@@ -71,28 +71,28 @@ public class BrokerStatsManagerTest {
     }
 
     @Test
-    public void testIncQueuePutSize() {
+    void testIncQueuePutSize() {
         brokerStatsManager.incQueuePutSize(TOPIC, QUEUE_ID, 2);
         String statsKey = brokerStatsManager.buildStatsKey(TOPIC, String.valueOf(QUEUE_ID));
         Assertions.assertEquals(brokerStatsManager.getStatsItem(QUEUE_PUT_SIZE, statsKey).getValue().doubleValue(),2L);
     }
 
     @Test
-    public void testIncQueueGetNums() {
+    void testIncQueueGetNums() {
         brokerStatsManager.incQueueGetNums(GROUP_NAME, TOPIC, QUEUE_ID, 1);
         final String statsKey = brokerStatsManager.buildStatsKey(brokerStatsManager.buildStatsKey(TOPIC, String.valueOf(QUEUE_ID)), GROUP_NAME);
         Assertions.assertEquals(brokerStatsManager.getStatsItem(QUEUE_GET_NUMS, statsKey).getValue().doubleValue(),1L);
     }
 
     @Test
-    public void testIncQueueGetSize() {
+    void testIncQueueGetSize() {
         brokerStatsManager.incQueueGetSize(GROUP_NAME, TOPIC, QUEUE_ID, 1);
         final String statsKey = brokerStatsManager.buildStatsKey(brokerStatsManager.buildStatsKey(TOPIC, String.valueOf(QUEUE_ID)), GROUP_NAME);
         Assertions.assertEquals(brokerStatsManager.getStatsItem(QUEUE_GET_SIZE, statsKey).getValue().doubleValue(),1L);
     }
 
     @Test
-    public void testIncTopicPutNums() {
+    void testIncTopicPutNums() {
         brokerStatsManager.incTopicPutNums(TOPIC);
         Assertions.assertEquals(brokerStatsManager.getStatsItem(TOPIC_PUT_NUMS, TOPIC).getTimes().doubleValue(),1L);
         brokerStatsManager.incTopicPutNums(TOPIC, 2, 2);
@@ -100,40 +100,40 @@ public class BrokerStatsManagerTest {
     }
 
     @Test
-    public void testIncTopicPutSize() {
+    void testIncTopicPutSize() {
         brokerStatsManager.incTopicPutSize(TOPIC, 2);
         Assertions.assertEquals(brokerStatsManager.getStatsItem(TOPIC_PUT_SIZE, TOPIC).getValue().doubleValue(),2L);
     }
 
     @Test
-    public void testIncGroupGetNums() {
+    void testIncGroupGetNums() {
         brokerStatsManager.incGroupGetNums(GROUP_NAME, TOPIC, 1);
         String statsKey = brokerStatsManager.buildStatsKey(TOPIC, GROUP_NAME);
         Assertions.assertEquals(brokerStatsManager.getStatsItem(GROUP_GET_NUMS, statsKey).getValue().doubleValue(),1L);
     }
 
     @Test
-    public void testIncGroupGetSize() {
+    void testIncGroupGetSize() {
         brokerStatsManager.incGroupGetSize(GROUP_NAME, TOPIC, 1);
         String statsKey = brokerStatsManager.buildStatsKey(TOPIC, GROUP_NAME);
         Assertions.assertEquals(brokerStatsManager.getStatsItem(GROUP_GET_SIZE, statsKey).getValue().doubleValue(),1L);
     }
 
     @Test
-    public void testIncGroupGetLatency() {
+    void testIncGroupGetLatency() {
         brokerStatsManager.incGroupGetLatency(GROUP_NAME, TOPIC, 1, 1);
         String statsKey = String.format("%d@%s@%s", 1, TOPIC, GROUP_NAME);
         Assertions.assertEquals(brokerStatsManager.getStatsItem(GROUP_GET_LATENCY, statsKey).getValue().doubleValue(),1L);
     }
 
     @Test
-    public void testIncBrokerPutNums() {
+    void testIncBrokerPutNums() {
         brokerStatsManager.incBrokerPutNums();
         Assertions.assertEquals(brokerStatsManager.getStatsItem(BROKER_PUT_NUMS, "DefaultCluster").getValue().doubleValue(),1L);
     }
 
     @Test
-    public void testOnTopicDeleted() {
+    void testOnTopicDeleted() {
         brokerStatsManager.incTopicPutNums(TOPIC);
         brokerStatsManager.incTopicPutSize(TOPIC, 100);
         brokerStatsManager.incQueuePutNums(TOPIC, QUEUE_ID);
@@ -164,7 +164,7 @@ public class BrokerStatsManagerTest {
     }
 
     @Test
-    public void testOnGroupDeleted(){
+    void testOnGroupDeleted(){
         brokerStatsManager.incGroupGetNums(GROUP_NAME, TOPIC, 1);
         brokerStatsManager.incGroupGetSize(GROUP_NAME, TOPIC, 100);
         brokerStatsManager.incQueueGetNums(GROUP_NAME, TOPIC, QUEUE_ID, 1);

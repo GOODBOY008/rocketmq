@@ -53,7 +53,7 @@ public class AllocateMachineRoomNearByTest {
 
 
     @Test
-    public void test1() {
+    void test1() {
         testWhenIDCSizeEquals(5,20,10, false);
         testWhenIDCSizeEquals(5,20,20, false);
         testWhenIDCSizeEquals(5,20,30, false);
@@ -61,7 +61,7 @@ public class AllocateMachineRoomNearByTest {
     }
 
     @Test
-    public void test2() {
+    void test2() {
         testWhenConsumerIDCIsMore(5,1,10, 10, false);
         testWhenConsumerIDCIsMore(5,1,10, 5, false);
         testWhenConsumerIDCIsMore(5,1,10, 20, false);
@@ -69,7 +69,7 @@ public class AllocateMachineRoomNearByTest {
     }
 
     @Test
-    public void test3() {
+    void test3() {
         testWhenConsumerIDCIsLess(5,2,10, 10, false);
         testWhenConsumerIDCIsLess(5,2,10, 5, false);
         testWhenConsumerIDCIsLess(5,2,10, 20, false);
@@ -78,7 +78,7 @@ public class AllocateMachineRoomNearByTest {
 
 
     @Test
-    public void testRun10RandomCase(){
+    void testRun10RandomCase(){
         for(int i=0;i<10;i++){
             int consumerSize = new Random().nextInt(200)+1;//1-200
             int queueSize = new Random().nextInt(100)+1;//1-100

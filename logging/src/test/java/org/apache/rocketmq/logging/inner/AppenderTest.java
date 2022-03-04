@@ -28,7 +28,7 @@ import java.io.PrintStream;
 public class AppenderTest extends BasicLoggerTest {
 
     @Test
-    public void testConsole() {
+    void testConsole() {
         SysLogger.setQuietMode(false);
         SysLogger.setInternalDebugging(true);
         PrintStream out = System.out;
@@ -69,7 +69,7 @@ public class AppenderTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testInnerFile() throws IOException {
+    void testInnerFile() throws IOException {
         String file = loggingDir + "/logger.log";
 
         Logger fileLogger = Logger.getLogger("fileLogger");
@@ -101,7 +101,7 @@ public class AppenderTest extends BasicLoggerTest {
 
 
     @Test
-    public void asyncAppenderTest() {
+    void asyncAppenderTest() {
         Appender appender = LoggingBuilder.newAppenderBuilder().withAsync(false, 1024)
             .withConsoleAppender(LoggingBuilder.SYSTEM_OUT)
             .withLayout(LoggingBuilder.newLayoutBuilder().withDefaultLayout().build()).build();
@@ -112,14 +112,14 @@ public class AppenderTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testWriteAppender() {
+    void testWriteAppender() {
         LoggingBuilder.WriterAppender writerAppender = new LoggingBuilder.WriterAppender();
         writerAppender.setImmediateFlush(true);
         Assertions.assertTrue(writerAppender.getImmediateFlush());
     }
 
     @Test
-    public void testFileAppender() throws IOException {
+    void testFileAppender() throws IOException {
         LoggingBuilder.FileAppender fileAppender = new LoggingBuilder.FileAppender(
             new LoggingBuilder.SimpleLayout(), loggingDir + "/simple.log", true);
         fileAppender.setBufferSize(1024);
@@ -144,7 +144,7 @@ public class AppenderTest extends BasicLoggerTest {
     }
 
     @Test
-    public void testDailyRollingAppender() {
+    void testDailyRollingAppender() {
         LoggingBuilder.DailyRollingFileAppender dailyRollingFileAppender = new LoggingBuilder.DailyRollingFileAppender();
         dailyRollingFileAppender.setFile(loggingDir + "/daily.log");
         dailyRollingFileAppender.setName("dailyAppender");

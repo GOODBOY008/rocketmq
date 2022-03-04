@@ -34,14 +34,14 @@ public class LatencyFaultToleranceImplTest {
     }
 
     @Test
-    public void testUpdateFaultItem() throws Exception {
+    void testUpdateFaultItem() throws Exception {
         latencyFaultTolerance.updateFaultItem(brokerName, 3000, 3000);
         Assertions.assertFalse(latencyFaultTolerance.isAvailable(brokerName));
         Assertions.assertTrue(latencyFaultTolerance.isAvailable(anotherBrokerName));
     }
 
     @Test
-    public void testIsAvailable() throws Exception {
+    void testIsAvailable() throws Exception {
         latencyFaultTolerance.updateFaultItem(brokerName, 3000, 50);
         Assertions.assertFalse(latencyFaultTolerance.isAvailable(brokerName));
 
@@ -50,7 +50,7 @@ public class LatencyFaultToleranceImplTest {
     }
 
     @Test
-    public void testRemove() throws Exception {
+    void testRemove() throws Exception {
         latencyFaultTolerance.updateFaultItem(brokerName, 3000, 3000);
         Assertions.assertFalse(latencyFaultTolerance.isAvailable(brokerName));
         latencyFaultTolerance.remove(brokerName);
@@ -58,7 +58,7 @@ public class LatencyFaultToleranceImplTest {
     }
 
     @Test
-    public void testPickOneAtLeast() throws Exception {
+    void testPickOneAtLeast() throws Exception {
         latencyFaultTolerance.updateFaultItem(brokerName, 1000, 3000);
         Assertions.assertEquals(latencyFaultTolerance.pickOneAtLeast(),brokerName);
 

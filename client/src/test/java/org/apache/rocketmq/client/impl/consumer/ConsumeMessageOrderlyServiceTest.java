@@ -159,7 +159,7 @@ public class ConsumeMessageOrderlyServiceTest {
     }
 
     @Test
-    public void testConsumeMessageDirectly_WithNoException() {
+    void testConsumeMessageDirectly_WithNoException() {
         Map<ConsumeOrderlyStatus, CMResult> map = new HashMap();
         map.put(ConsumeOrderlyStatus.SUCCESS, CMResult.CR_SUCCESS);
         map.put(ConsumeOrderlyStatus.SUSPEND_CURRENT_QUEUE_A_MOMENT, CMResult.CR_LATER);
@@ -185,7 +185,7 @@ public class ConsumeMessageOrderlyServiceTest {
     }
 
     @Test
-    public void testConsumeMessageDirectly_WithException() {
+    void testConsumeMessageDirectly_WithException() {
         MessageListenerOrderly listenerOrderly = new MessageListenerOrderly() {
             @Override
             public ConsumeOrderlyStatus consumeMessage(List<MessageExt> msgs, ConsumeOrderlyContext context) {
@@ -200,7 +200,7 @@ public class ConsumeMessageOrderlyServiceTest {
     }
 
     @Test
-    public void testConsumeThreadName() throws Exception {
+    void testConsumeThreadName() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final AtomicReference<String> consumeThreadName = new AtomicReference<String>();
 

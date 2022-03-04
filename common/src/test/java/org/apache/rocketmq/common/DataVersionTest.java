@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class DataVersionTest {
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         DataVersion dataVersion = new DataVersion();
         DataVersion other = new DataVersion();
         other.setTimestamp(dataVersion.getTimestamp());
@@ -32,7 +32,7 @@ public class DataVersionTest {
     }
 
     @Test
-    public void testEquals_falseWhenCounterDifferent() {
+    void testEquals_falseWhenCounterDifferent() {
         DataVersion dataVersion = new DataVersion();
         DataVersion other = new DataVersion();
         other.setCounter(new AtomicLong(1L));
@@ -41,7 +41,7 @@ public class DataVersionTest {
     }
 
     @Test
-    public void testEquals_falseWhenCounterDifferent2() {
+    void testEquals_falseWhenCounterDifferent2() {
         DataVersion dataVersion = new DataVersion();
         DataVersion other = new DataVersion();
         other.setCounter(null);
@@ -50,7 +50,7 @@ public class DataVersionTest {
     }
 
     @Test
-    public void testEquals_falseWhenCounterDifferent3() {
+    void testEquals_falseWhenCounterDifferent3() {
         DataVersion dataVersion = new DataVersion();
         dataVersion.setCounter(null);
         DataVersion other = new DataVersion();
@@ -59,7 +59,7 @@ public class DataVersionTest {
     }
 
     @Test
-    public void testEquals_trueWhenCountersBothNull() {
+    void testEquals_trueWhenCountersBothNull() {
         DataVersion dataVersion = new DataVersion();
         dataVersion.setCounter(null);
         DataVersion other = new DataVersion();

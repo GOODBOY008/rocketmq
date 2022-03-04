@@ -82,7 +82,7 @@ public class BrokerOuterAPITest {
     }
 
     @Test
-    public void test_needRegister_normal() throws Exception {
+    void test_needRegister_normal() throws Exception {
         init();
         brokerOuterAPI.start();
         final RemotingCommand response = buildResponse(Boolean.TRUE);
@@ -97,7 +97,7 @@ public class BrokerOuterAPITest {
     }
 
     @Test
-    public void test_needRegister_timeout() throws Exception {
+    void test_needRegister_timeout() throws Exception {
         init();
         brokerOuterAPI.start();
 
@@ -133,7 +133,7 @@ public class BrokerOuterAPITest {
     }
 
     @Test
-    public void test_register_normal() throws Exception {
+    void test_register_normal() throws Exception {
         init();
         brokerOuterAPI.start();
 
@@ -152,7 +152,7 @@ public class BrokerOuterAPITest {
     }
 
     @Test
-    public void test_register_timeout() throws Exception {
+    void test_register_timeout() throws Exception {
         init();
         brokerOuterAPI.start();
 

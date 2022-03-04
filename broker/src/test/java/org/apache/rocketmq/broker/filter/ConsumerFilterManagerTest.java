@@ -56,7 +56,7 @@ public class ConsumerFilterManagerTest {
     }
 
     @Test
-    public void testRegister_newExpressionCompileErrorAndRemoveOld() {
+    void testRegister_newExpressionCompileErrorAndRemoveOld() {
         ConsumerFilterManager filterManager = gen(10, 10);
 
         Assertions.assertNotNull(filterManager.get("topic9", "CID_9"));
@@ -79,7 +79,7 @@ public class ConsumerFilterManagerTest {
     }
 
     @Test
-    public void testRegister_change() {
+    void testRegister_change() {
         ConsumerFilterManager filterManager = gen(10, 10);
 
         ConsumerFilterData filterData = filterManager.get("topic9", "CID_9");
@@ -98,7 +98,7 @@ public class ConsumerFilterManagerTest {
     }
 
     @Test
-    public void testRegister() {
+    void testRegister() {
         ConsumerFilterManager filterManager = gen(10, 10);
 
         ConsumerFilterData filterData = filterManager.get("topic9", "CID_9");
@@ -126,7 +126,7 @@ public class ConsumerFilterManagerTest {
     }
 
     @Test
-    public void testRegister_reAlive() {
+    void testRegister_reAlive() {
         ConsumerFilterManager filterManager = gen(10, 10);
 
         ConsumerFilterData filterData = filterManager.get("topic9", "CID_9");
@@ -153,7 +153,7 @@ public class ConsumerFilterManagerTest {
     }
 
     @Test
-    public void testRegister_bySubscriptionData() {
+    void testRegister_bySubscriptionData() {
         ConsumerFilterManager filterManager = new ConsumerFilterManager();
         List<SubscriptionData> subscriptionDatas = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -188,7 +188,7 @@ public class ConsumerFilterManagerTest {
     }
 
     @Test
-    public void testRegister_tag() {
+    void testRegister_tag() {
         ConsumerFilterManager filterManager = new ConsumerFilterManager();
 
         Assertions.assertFalse(filterManager.register("topic0", "CID_0", "*", null, System.currentTimeMillis()));
@@ -199,7 +199,7 @@ public class ConsumerFilterManagerTest {
     }
 
     @Test
-    public void testUnregister() {
+    void testUnregister() {
         ConsumerFilterManager filterManager = gen(10, 10);
 
         ConsumerFilterData filterData = filterManager.get("topic9", "CID_9");
@@ -213,7 +213,7 @@ public class ConsumerFilterManagerTest {
     }
 
     @Test
-    public void testPersist() {
+    void testPersist() {
         ConsumerFilterManager filterManager = gen(10, 10);
 
         try {
@@ -239,7 +239,7 @@ public class ConsumerFilterManagerTest {
     }
 
     @Test
-    public void testPersist_clean() {
+    void testPersist_clean() {
         ConsumerFilterManager filterManager = gen(10, 10);
 
         String topic = "topic9";

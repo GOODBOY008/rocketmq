@@ -44,7 +44,7 @@ public class BitsArrayTest {
     int bitLength = Byte.SIZE;
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         BitsArray bitsArray = BitsArray.create(8);
 
         Assertions.assertTrue(bitsArray.byteLength() == 1 && bitsArray.bitLength() == 8);
@@ -59,7 +59,7 @@ public class BitsArrayTest {
     }
 
     @Test
-    public void testSet() {
+    void testSet() {
         BitsArray bitsArray = gen(bitLength);
         BitsArray backUp = bitsArray.clone();
 
@@ -73,7 +73,7 @@ public class BitsArrayTest {
     }
 
     @Test
-    public void testAndOr() {
+    void testAndOr() {
         BitsArray bitsArray = gen(bitLength);
 
         boolean val = bitsArray.getBit(2);
@@ -88,7 +88,7 @@ public class BitsArrayTest {
     }
 
     @Test
-    public void testXor() {
+    void testXor() {
         BitsArray bitsArray = gen(bitLength);
 
         boolean val = bitsArray.getBit(2);
@@ -99,7 +99,7 @@ public class BitsArrayTest {
     }
 
     @Test
-    public void testNot() {
+    void testNot() {
         BitsArray bitsArray = gen(bitLength);
         BitsArray backUp = bitsArray.clone();
 
@@ -111,7 +111,7 @@ public class BitsArrayTest {
     }
 
     @Test
-    public void testOr() {
+    void testOr() {
         BitsArray b1 = BitsArray.create(new byte[] {(byte) 0xff, 0x00});
         BitsArray b2 = BitsArray.create(new byte[] {0x00, (byte) 0xff});
 

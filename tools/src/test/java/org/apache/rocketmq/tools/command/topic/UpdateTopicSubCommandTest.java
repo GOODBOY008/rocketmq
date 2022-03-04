@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class UpdateTopicSubCommandTest {
     @Test
-    public void testExecute() {
+    void testExecute() {
         UpdateTopicSubCommand cmd = new UpdateTopicSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {

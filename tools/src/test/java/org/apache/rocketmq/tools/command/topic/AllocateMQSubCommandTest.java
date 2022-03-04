@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class AllocateMQSubCommandTest {
     @Test
-    public void testExecute() {
+    void testExecute() {
         AllocateMQSubCommand cmd = new AllocateMQSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-t unit-test", "-i 127.0.0.1:10911"};

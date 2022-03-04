@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.within;
 
 public class TopicRouteDataTest {
     @Test
-    public void testTopicRouteDataClone() throws Exception {
+    void testTopicRouteDataClone() throws Exception {
 
         TopicRouteData topicRouteData = new TopicRouteData();
 
@@ -70,7 +70,7 @@ public class TopicRouteDataTest {
     }
 
     @Test
-    public void testTopicRouteDataJsonSerialize() throws Exception {
+    void testTopicRouteDataJsonSerialize() throws Exception {
 
         TopicRouteData topicRouteData = new TopicRouteData();
 

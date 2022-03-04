@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 
 public class MappedFileQueueTest {
     @Test
-    public void testGetLastMappedFile() {
+    void testGetLastMappedFile() {
         final String fixedMsg = "0123456789abcdef";
 
         MappedFileQueue mappedFileQueue =
@@ -46,7 +46,7 @@ public class MappedFileQueueTest {
     }
 
     @Test
-    public void testFindMappedFileByOffset() {
+    void testFindMappedFileByOffset() {
         // four-byte string.
         final String fixedMsg = "abcd";
 
@@ -97,7 +97,7 @@ public class MappedFileQueueTest {
     }
 
     @Test
-    public void testFindMappedFileByOffset_StartOffsetIsNonZero() {
+    void testFindMappedFileByOffset_StartOffsetIsNonZero() {
         MappedFileQueue mappedFileQueue =
             new MappedFileQueue("target/unit_test_store/b/", 1024, null);
 
@@ -119,7 +119,7 @@ public class MappedFileQueueTest {
     }
 
     @Test
-    public void testAppendMessage() {
+    void testAppendMessage() {
         final String fixedMsg = "0123456789abcdef";
 
         MappedFileQueue mappedFileQueue =
@@ -154,7 +154,7 @@ public class MappedFileQueueTest {
     }
 
     @Test
-    public void testGetMappedMemorySize() {
+    void testGetMappedMemorySize() {
         final String fixedMsg = "abcd";
 
         MappedFileQueue mappedFileQueue =
@@ -172,7 +172,7 @@ public class MappedFileQueueTest {
     }
 
     @Test
-    public void testDeleteExpiredFileByOffset() {
+    void testDeleteExpiredFileByOffset() {
         MappedFileQueue mappedFileQueue =
             new MappedFileQueue("target/unit_test_store/e", 5120, null);
 
@@ -204,7 +204,7 @@ public class MappedFileQueueTest {
     }
 
     @Test
-    public void testDeleteExpiredFileByTime() throws Exception {
+    void testDeleteExpiredFileByTime() throws Exception {
         MappedFileQueue mappedFileQueue =
             new MappedFileQueue("target/unit_test_store/f/", 1024, null);
 
@@ -231,7 +231,7 @@ public class MappedFileQueueTest {
     }
 
     @Test
-    public void testFindMappedFile_ByIteration() {
+    void testFindMappedFile_ByIteration() {
         MappedFileQueue mappedFileQueue =
             new MappedFileQueue("target/unit_test_store/g/", 1024, null);
         for (int i =0 ; i < 3; i++) {

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public class TopicClusterSubCommandTest {
     @Test
-    public void testExecute() {
+    void testExecute() {
         TopicClusterSubCommand cmd = new TopicClusterSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-t unit-test"};

@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 public class UpdateGlobalWhiteAddrSubCommandTest {
 
     @Test
-    public void testExecute() {
+    void testExecute() {
         UpdateGlobalWhiteAddrSubCommand cmd = new UpdateGlobalWhiteAddrSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-g 10.10.103.*,192.168.0.*", "-c default-cluster"};

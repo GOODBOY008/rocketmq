@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 public class AbstractSendMessageProcessorTest {
     @Test
-    public void testDecodeSendMessageHeaderV2() throws Exception {
+    void testDecodeSendMessageHeaderV2() throws Exception {
         Field[] declaredFields = SendMessageRequestHeaderV2.class.getDeclaredFields();
         List<Field> declaredFieldsList = new ArrayList<>();
         for (Field f : declaredFields) {

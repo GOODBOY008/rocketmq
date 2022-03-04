@@ -155,12 +155,12 @@ public class TlsTest {
      * communicate with each other.
      */
     @Test
-    public void basicClientServerIntegrationTest() throws Exception {
+    void basicClientServerIntegrationTest() throws Exception {
         requestThenAssertResponse();
     }
 
     @Test
-    public void reloadSslContextForServer() throws Exception {
+    void reloadSslContextForServer() throws Exception {
         requestThenAssertResponse();
 
         //Use new cert and private key
@@ -180,22 +180,22 @@ public class TlsTest {
     }
 
     @Test
-    public void serverNotNeedClientAuth() throws Exception {
+    void serverNotNeedClientAuth() throws Exception {
         requestThenAssertResponse();
     }
 
     @Test
-    public void serverWantClientAuth_ButClientNoCert() throws Exception {
+    void serverWantClientAuth_ButClientNoCert() throws Exception {
         requestThenAssertResponse();
     }
 
     @Test
-    public void serverAcceptsUnAuthClient() throws Exception {
+    void serverAcceptsUnAuthClient() throws Exception {
         requestThenAssertResponse();
     }
 
     @Test
-    public void serverRejectsSSLClient() throws Exception {
+    void serverRejectsSSLClient() throws Exception {
         try {
             RemotingCommand response = remotingClient.invokeSync("localhost:8888", createRequest(), 1000 * 5);
             failBecauseExceptionWasNotThrown(RemotingSendRequestException.class);
@@ -208,7 +208,7 @@ public class TlsTest {
      * from a client that has an untrusted certificate.
      */
     @Test
-    public void serverRejectsUntrustedClientCert() throws Exception {
+    void serverRejectsUntrustedClientCert() throws Exception {
         try {
             RemotingCommand response = remotingClient.invokeSync("localhost:8888", createRequest(), 1000 * 5);
             failBecauseExceptionWasNotThrown(RemotingSendRequestException.class);
@@ -217,7 +217,7 @@ public class TlsTest {
     }
 
     @Test
-    public void serverAcceptsUntrustedClientCert() throws Exception {
+    void serverAcceptsUntrustedClientCert() throws Exception {
         requestThenAssertResponse();
     }
 
@@ -226,7 +226,7 @@ public class TlsTest {
      * authentication.
      */
     @Test
-    public void noClientAuthFailure() throws Exception {
+    void noClientAuthFailure() throws Exception {
         try {
             RemotingCommand response = remotingClient.invokeSync("localhost:8888", createRequest(), 1000 * 3);
             failBecauseExceptionWasNotThrown(RemotingSendRequestException.class);
@@ -239,7 +239,7 @@ public class TlsTest {
      * an untrusted certificate.
      */
     @Test
-    public void clientRejectsUntrustedServerCert() throws Exception {
+    void clientRejectsUntrustedServerCert() throws Exception {
         try {
             RemotingCommand response = remotingClient.invokeSync("localhost:8888", createRequest(), 1000 * 3);
             failBecauseExceptionWasNotThrown(RemotingSendRequestException.class);
@@ -248,12 +248,12 @@ public class TlsTest {
     }
 
     @Test
-    public void clientAcceptsUntrustedServerCert() throws Exception {
+    void clientAcceptsUntrustedServerCert() throws Exception {
         requestThenAssertResponse();
     }
 
     @Test
-    public void testTlsConfigThroughFile() throws Exception {
+    void testTlsConfigThroughFile() throws Exception {
         File file = tempFolder.newFile("tls.config");
         tlsTestModeEnable = true;
 

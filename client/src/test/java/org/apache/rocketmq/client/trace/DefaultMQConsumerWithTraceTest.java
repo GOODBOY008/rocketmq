@@ -216,7 +216,7 @@ public class DefaultMQConsumerWithTraceTest {
     }
 
     @Test
-    public void testPullMessage_WithTrace_Success() throws InterruptedException, RemotingException, MQBrokerException, MQClientException {
+    void testPullMessage_WithTrace_Success() throws InterruptedException, RemotingException, MQBrokerException, MQClientException {
         traceProducer.getDefaultMQProducerImpl().getmQClientFactory().registerProducer(producerGroupTraceTemp, traceProducer.getDefaultMQProducerImpl());
 
         final CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -241,7 +241,7 @@ public class DefaultMQConsumerWithTraceTest {
     }
     
     @Test
-    public void testPushConsumerWithTraceTLS() {
+    void testPushConsumerWithTraceTLS() {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("consumerGroup", true);
         consumer.setUseTLS(true);
         AsyncTraceDispatcher asyncTraceDispatcher = (AsyncTraceDispatcher) consumer.getTraceDispatcher();

@@ -56,7 +56,7 @@ public class ConsumerConnectionSubCommandTest {
     }
 
     @Test
-    public void testExecute() throws SubCommandException {
+    void testExecute() throws SubCommandException {
         ConsumerConnectionSubCommand cmd = new ConsumerConnectionSubCommand();
         Options options = ServerUtil.buildCommandlineOptions(new Options());
         String[] subargs = new String[] {"-g default-consumer-group"};
