@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import org.apache.rocketmq.remoting.protocol.LanguageCode;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

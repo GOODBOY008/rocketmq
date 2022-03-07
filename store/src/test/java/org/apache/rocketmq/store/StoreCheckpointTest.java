@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import org.apache.rocketmq.common.UtilAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 

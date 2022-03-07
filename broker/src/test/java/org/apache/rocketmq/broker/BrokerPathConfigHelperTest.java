@@ -19,7 +19,7 @@ package org.apache.rocketmq.broker;
 
 import org.junit.jupiter.api.Test;
 
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BrokerPathConfigHelperTest {
 

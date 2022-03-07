@@ -18,7 +18,7 @@ package org.apache.rocketmq.client.consumer.rebalance;
 
 import junit.framework.TestCase;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;

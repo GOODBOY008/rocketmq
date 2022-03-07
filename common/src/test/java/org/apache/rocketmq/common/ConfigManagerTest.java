@@ -23,8 +23,8 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConfigManagerTest {
     private static final String PATH_FILE = System.getProperty("java.io.tmpdir") + File.separator + "org.apache.rocketmq.common.ConfigManagerTest";

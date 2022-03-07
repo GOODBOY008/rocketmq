@@ -31,7 +31,7 @@ import org.apache.rocketmq.common.message.MessageConst;
 import org.apache.rocketmq.common.message.MessageDecoder;
 import org.apache.rocketmq.store.config.MessageStoreConfig;
 import org.apache.rocketmq.store.stats.BrokerStatsManager;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 
@@ -262,7 +262,7 @@ public class ConsumeQueueTest {
             Object dispatchResult = method.invoke(cq, dispatchRequest.getCommitLogOffset(),
                 dispatchRequest.getMsgSize(), dispatchRequest.getTagsCode(), dispatchRequest.getConsumeQueueOffset());
 
-            Assertions.assertTrue(Boolean.parseBoolean(dispatchResult.toString()));
+            assertThat(Boolean.parseBoolean(dispatchResult.toString())).isTrue();
 
         } finally {
             if (messageStore != null) {

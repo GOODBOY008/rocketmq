@@ -17,7 +17,7 @@
 
 package org.apache.rocketmq.store.ha;
 
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assertions.*;

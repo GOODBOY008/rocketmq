@@ -29,7 +29,7 @@ import org.apache.rocketmq.common.ThreadFactoryImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class StatsItemSetTest {
 

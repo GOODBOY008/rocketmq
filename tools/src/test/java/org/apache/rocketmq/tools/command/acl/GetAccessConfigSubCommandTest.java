@@ -18,7 +18,7 @@ package org.apache.rocketmq.tools.command.acl;
 
 import org.apache.commons.cli.*;
 import org.apache.rocketmq.srvutil.ServerUtil;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 

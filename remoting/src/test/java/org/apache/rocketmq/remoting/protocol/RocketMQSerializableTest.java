@@ -18,7 +18,7 @@ package org.apache.rocketmq.remoting.protocol;
 
 import java.util.HashMap;
 import org.apache.rocketmq.remoting.exception.RemotingCommandException;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 

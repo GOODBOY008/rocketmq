@@ -18,7 +18,7 @@
 package org.apache.rocketmq.common.filter;
 
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

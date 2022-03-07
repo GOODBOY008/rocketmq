@@ -40,7 +40,7 @@ import java.util.Map;
 
 import static org.apache.rocketmq.common.message.MessageDecoder.messageProperties2String;
 
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BatchPutMessageTest {
 

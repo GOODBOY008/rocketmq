@@ -18,7 +18,7 @@
 package org.apache.rocketmq.filter;
 
 import org.apache.rocketmq.filter.util.BitsArray;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.apache.rocketmq.common.message.MessageQueue;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AllocateMessageQueueAveragelyByCircleTest extends TestCase {
 

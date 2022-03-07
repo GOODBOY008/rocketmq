@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 
 import org.apache.rocketmq.common.protocol.header.SendMessageRequestHeaderV2;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 public class AbstractSendMessageProcessorTest {

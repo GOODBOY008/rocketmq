@@ -20,7 +20,7 @@ import io.openmessaging.Future;
 import io.openmessaging.FutureListener;
 import io.openmessaging.Promise;
 import io.openmessaging.exception.OMSRuntimeException;
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
